@@ -1,10 +1,15 @@
-import './App.css';
+import "./App.css";
+import { ThemeProvider } from "@mui/material";
+import theme from "./theme/theme";
+import Typography from "@mui/material/Typography";
 
 function App() {
   return (
-    <div className="App">
-     hello world
-    </div>
+    <ThemeProvider theme={theme}>
+      <Typography variant="h1" sx={{ color: theme.palette.primary.main }}>
+        hello world
+      </Typography>
+    </ThemeProvider>
   );
 }
 
