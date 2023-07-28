@@ -1,21 +1,16 @@
 import { createTheme } from "@mui/material/styles";
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#ACADFF", // Колір для основного елемента, наприклад, кнопок або акцентів
+const createCommonTheme = (theme) =>
+  createTheme({
+    palette: {
+      primary: {
+        white: "#FFFFFF",
+        light: "#ACADFF",
+        main: "#8686DC",
+        dark: "#353535",
+        contrastText: "#6261AF",
+      },
     },
-    secondary: {
-      main: "#8686DC", // Другорядний колір для інших елементів
-    },
-    text: {
-      primary: "#353535", // Колір для тексту
-      secondary: "#6261AF", // Другорядний колір для деяких текстових елементів
-    },
-    background: {
-      default: "#FFFFFF", // Колір фону за замовчуванням
-    },
-
     typography: {
       h1: {
         fontFamily: "Inter",
@@ -47,8 +42,12 @@ const theme = createTheme({
         fontSize: "14px",
         fontWeight: "regular",
       },
+      myCustomVariant: {
+        fontSize: "100px",
+        fontWeight: "bold",
+        color: "#FF0000",
+      },
     },
-  },
-});
+  });
 
-export default theme;
+export default createCommonTheme;

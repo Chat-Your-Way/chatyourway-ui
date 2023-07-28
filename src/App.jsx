@@ -6,8 +6,8 @@ import Typography from "@mui/material/Typography";
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Typography variant="h1" sx={{ color: theme.palette.primary.main }}>
-        hello world
+      <Typography variant="myCustomVariant">
+        hello world!
       </Typography>
     </ThemeProvider>
   );
