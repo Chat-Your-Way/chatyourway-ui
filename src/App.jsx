@@ -1,8 +1,8 @@
-import './App.css';
 import React from 'react';
+import Typography from '@mui/material/Typography';
 import {ThemeProvider} from '@mui/material';
 import lightTheme from './theme/theme';
-import Typography from '@mui/material/Typography';
+import './App.css';
 
 function App() {
     return (
