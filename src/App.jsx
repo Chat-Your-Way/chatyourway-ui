@@ -1,9 +1,15 @@
 import React from 'react';
-
+import Typography from '@mui/material/Typography';
+import {ThemeProvider} from '@mui/material';
+import lightTheme from './theme/theme';
 import './App.css';
 
-const App = () => {
-    return <div className="App">hello world</div>;
-};
+function App() {
+    return (
+        <ThemeProvider theme={lightTheme}>
+            <Typography variant="h1">hello world!</Typography>
+        </ThemeProvider>
+    );
+}
 
 export default App;
