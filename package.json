@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "eslint": "^8.47.0",
+    "eslint": "^8.4.0",
     "eslint-config-prettier": "^8.10.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.3",
-    "lint-staged": "^14.0.0",
+    "lint-staged": "^10.5.4",
     "prettier": "^2.8.8"
   },
   "dependencies": {
@@ -33,19 +33,16 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write \"src/**/*.{js,jsx,json,css,scss}\"",
-    "lint": "eslint src",
-    "prepare": "husky install"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "lint": "eslint src --ext .js,.jsx",
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css,scss}": [
-      "npm run format",
-      "npm run lint",
-      "git add"
+      "prettier --write"
+    ],
+    "src/**/*.{js,jsx,json}": [
+      "eslint --fix --max-warnings 0"
     ]
   },
   "browserslist": {
