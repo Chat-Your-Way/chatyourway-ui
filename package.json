@@ -3,13 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "eslint": "^8.33.0",
-    "eslint-config-prettier": "^8.6.0",
+    "eslint": "^8.47.0",
+    "eslint-config-prettier": "^8.10.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "prettier": "^2.8.3"
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.0",
+    "prettier": "^2.8.8"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -29,7 +31,20 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier --write \"src/**/*.{js,jsx,json,css,scss}\"",
+    "lint": "eslint src --ext .js,.jsx",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx}": [
+      "eslint --fix --max-warnings 0",
+      "git add"
+    ],
+    "src/**/*.{json,css,scss}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "browserslist": {
     "production": [
