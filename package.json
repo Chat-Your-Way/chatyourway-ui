@@ -10,7 +10,7 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.3",
-    "lint-staged": "^10.5.4",
+    "lint-staged": "^14.0.0",
     "prettier": "^2.8.8"
   },
   "dependencies": {
@@ -37,11 +37,13 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,json,css,scss}": [
-      "prettier --write"
+    "src/**/*.{js,jsx}": [
+      "eslint --fix --max-warnings 0",
+      "git add"
     ],
-    "src/**/*.{js,jsx,json}": [
-      "eslint --fix --max-warnings 0"
+    "src/**/*.{json,css,scss}": [
+      "prettier --write",
+      "git add"
     ]
   },
   "browserslist": {

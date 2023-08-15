@@ -1,78 +1,112 @@
-# README #
+# README
 
 ### Prepare for running app local
 
-* Run `npm install`<br />
-* Run `npm start` <br />
+- Run `npm install`<br />
+- Run `npm prepare`<br />
+- Run `npm start` <br />
 
 ## React Component code styleguide
 
 ### Component structure
 
-    import React, { useEffect, useState, useMemo, useCallback } from 'react';
+    import React, { useEffect, useState, useMemo, useCallback, memo } from 'react';
     import { useSelector, useDispatch } from 'react-redux';
     import lib from 'lib';
-    
-    import { fetchData } from '../fetchData'
-    import { selectList, selectLoading } from '../selectors'
-    import hooks from './hooks';
-    import utils from './utils';
-    import helper from './helper';
-    import config from './config';
-    import constants from './constants';
-    import Component from './Component';
-    import Button from '../common/Button';
-    import Spinner from '../common/Spinner';
+
+    import { fetchData } from '../redux/mySlice/operations'
+
+    import { useMyHook } from '../hooks';
+    import { totalSum } from '../utils';
+    import constants from '../constants';
+
+    import { CustomList } from './conponents';
+    import { Input, Button } from '../ui-kit';
 
     const MyComponent = () => {
         const [editMode, setEditMode] = useState(false);
         const [values, setValues] = useState([]);
 
+        const list = useSelector(selectList);
+
         const dispatch = useDispatch();
-        const list = useSelector(selectList)
-        const isLoading = useSelector(selectLoading(slicesName, thunksName || thunksNames[]));
 
         const valuesIds = useMemo(() => values.map(value => value.id), [values]);
 
-        ...hooks, ...localStorage, ...constants;
-
-        const getData = useCallback(() => {}, []);
-        
         const handleClick = useCallback((item) => setValues(item),[]);
- 
+
         useEffect(() => {
             dispatch(fetchData());
         }, [dispatch]);
-        
+
         return (
             <>
-                {isLoading && <Spinner />}
-                <Component getData={getData} />
+                <CustomList valuesIds={valuesIds}/>
+                <Input />
                 <Button onClick={handleClick}>Click</Button>
             </>
         );
     };
 
-    export default MyComponent;
+    export default memo(MyComponent);
 
 ### Project folder/file structure
 
     components
+        LoginPageComponent
+            conponents(optional)
+                CustomList
+                    CustomList.jsx
+                    index.js
+                    styles.js
+                ...otherFiles
+            LoginPageComponent.jsx
+            index.js
+            styles.js
         common
-            Button
+            ReusedElement
                 index.js
-                Button.jsx
-                ...otherFiles
-            Modal
-            ...
-        pages
-            Login
-                Login.jsx
-                index.js
-                ...otherFiles
-
+                ReusedElement.jsx
+                styles.js
+    pages
+        Login
+            Login.jsx
+            index.js
+        ...otherFiles
+    redux
+        mySlice
+            mySlice.js
+            operations.js
+        ...otherFiles
+        store.js
+    helpers
+        axiosConfig.js
+        ...otherFiles
+    ui-kit
+         Button
+            index.js
+            Button.jsx
+            styles.js
+        Input
+            index.js
+            Input.jsx
+            styles.js
+        ...otherFiles
+        index.js
+    constants
+        index.js
+        PATH.js
+    hooks
+        useMyHook.js
+        ...otherFiles
+        index.js
+    utils
+        totalSum.js
+        ...otherFiles
+        index.js
 
 ### Branch naming
 
-* Use git-flow for naming branch https://danielkummer.github.io/git-flow-cheatsheet/
-* Commit message should include branch name.
+* Branch name JiraCardId-My-jira-card-name
+* Commit message https://www.conventionalcommits.org/en/v1.0.0/
+* PR must be named the same as branch
