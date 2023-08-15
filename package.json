@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "eslint": "^8.4.0",
+    "eslint": "^8.47.0",
     "eslint-config-prettier": "^8.10.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
@@ -34,8 +34,7 @@
     "eject": "react-scripts eject",
     "format": "prettier --write \"src/**/*.{js,jsx,json,css,scss}\"",
     "lint": "eslint src --ext .js,.jsx",
-    "prepare": "husky install",
-    "lint-staged": "lint-staged"
+    "prepare": "husky install"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css,scss}": [
