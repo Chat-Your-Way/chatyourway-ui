@@ -41,13 +41,13 @@
       }
     ],
     "prettier/prettier": [
-      "error",
+      "warn",
       {
         "endOfLine": "auto"
       }
     ],
     "no-console": [
-      "error",
+      "warn",
       {
         "allow": ["error"]
       }

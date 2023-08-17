@@ -1,7 +1,7 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import { ThemeProvider } from '@mui/material';
-import lightTheme from './theme/theme';
+import lightTheme from './ui-kit/theme/theme';
 import './App.css';
 
 function App() {
