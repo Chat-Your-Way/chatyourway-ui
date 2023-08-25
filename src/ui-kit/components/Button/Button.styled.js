@@ -14,7 +14,7 @@ export const buttonCss = css`
   &:hover,
   &:focus-visible {
     padding: 8px 12px;
-    background: ${lightTheme.palette.primary.light};
+    background: rgba(134, 134, 220, 0.8);
     box-shadow: 0px 1px 8px 4px rgba(134, 134, 220, 0.2);
     border: 1px solid transparent;
   }
@@ -26,21 +26,33 @@ export const buttonCss = css`
   }
 
   &:disabled {
-    background: #eeefff;
+    border: 1px solid ${lightTheme.palette.primary.light};
+    background: ${lightTheme.palette.primary.disabled};
   }
 `;
 
 export const iconButtonCss = css`
-  fill: ${lightTheme.palette.primary.dark};
   background: none;
 
-  &:hover,
-  &:focus-visible {
+  & svg {
+    fill: ${lightTheme.palette.primary.dark};
+  }
+
+  &:focus-visible svg {
+    background: none;
+  }
+
+  &:hover svg {
     background: none;
   }
 
   &:active {
     fill: ${lightTheme.palette.primary.contrastText};
     background: none;
+    box-shadow: none;
+  }
+
+  &:active svg {
+    fill: ${lightTheme.palette.primary.contrastText};
   }
 `;
