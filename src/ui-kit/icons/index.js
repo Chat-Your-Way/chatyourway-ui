@@ -1,3 +1,11 @@
+/* eslint-enable */
+// Some icons have abbreviated names due to
+// the limitations on the number of characters in imports.
+// Therefore, some words are
+// abbreviated to C - circle, S - square, T - triangle.
+// For example, here ARROW_LEFT_C, C stands for circle.
+/* eslint-enable */
+
 import { ReactComponent as TwoUser } from './svg-icons/2User.svg';
 import { ReactComponent as ThreeUser } from './svg-icons/3User.svg';
 import { ReactComponent as AddUser } from './svg-icons/AddUser.svg';
