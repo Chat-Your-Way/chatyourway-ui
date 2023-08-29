@@ -1,16 +1,17 @@
-import lightTheme from '../../theme/theme';
 import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
 
 export const StyledButton = styled(Button)`
   padding: 8px 12px;
   text-transform: none;
-  font-size: 16px;
+  font-size: ${(p) => (p.fontSize ? p.fontSize : '16px')};
   border-radius: 8px;
   border: 1px solid transparent;
-  color: ${lightTheme.palette.primary.dark};
-  background: ${lightTheme.palette.primary.light};
+  color: ${(p) => p.theme.palette.primary.dark};
+  background: ${(p) =>
+    p.withoutBackground ? `none` : p.theme.palette.primary.light};
   transition: 0.2s ease all;
+
   &:hover,
   &:focus-visible {
     padding: 8px 12px;
@@ -21,12 +22,17 @@ export const StyledButton = styled(Button)`
 
   &:active {
     box-shadow: none;
-    background: ${lightTheme.palette.primary.main};
-    border: 1px solid ${lightTheme.palette.primary.contrastText};
+    background: ${(p) => p.theme.palette.primary.main};
+    border: 1px solid ${(p) => p.theme.palette.primary.contrastText};
   }
 
   &:disabled {
-    border: 1px solid ${lightTheme.palette.primary.light};
-    background: ${lightTheme.palette.primary.disabled};
+    border: 1px solid ${(p) => p.theme.palette.primary.light};
+    background: ${(p) => p.theme.palette.primary.disabled};
+  }
+
+  .MuiButton-startIcon {
+    margin-left: 0;
+    margin-right: 8px;
   }
 `;
