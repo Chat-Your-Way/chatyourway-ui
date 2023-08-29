@@ -1,21 +1,26 @@
 /** @jsxImportSource @emotion/react */
 import { StyledButton } from './Button.styled';
+import { memo } from 'react';
 
-export function DefaultButton({
-  isStartIcon = false,
+function DefaultButton({
+  startIcon = null,
   isDisabled = false,
-  isEndIcon = false,
+  endIcon = false,
   label = 'Button',
   handleClick,
+  ...props
 }) {
   return (
     <StyledButton
       onClick={handleClick}
       disabled={isDisabled}
-      startIcon={isStartIcon}
-      endIcon={isEndIcon}
+      startIcon={startIcon}
+      endIcon={endIcon}
+      {...props}
     >
       {label}
     </StyledButton>
   );
 }
+
+export default memo(DefaultButton);
