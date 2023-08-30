@@ -8,7 +8,8 @@
     "plugin:prettier/recommended",
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:import/recommended"
+    "plugin:import/recommended",
+    "plugin:react/jsx-runtime"
   ],
   "settings": {
     "react": {
@@ -34,6 +35,7 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "max-len": ["warn", 80],
     "react/prop-types": "off",
+    "react/display-name": "off",
     "import/no-cycle": [
       "error",
       {
