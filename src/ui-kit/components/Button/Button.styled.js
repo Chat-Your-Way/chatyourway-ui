@@ -35,4 +35,15 @@ export const StyledButton = styled(Button)`
     margin-left: 0;
     margin-right: 8px;
   }
+
+  .MuiButton-endIcon {
+    margin-left: 8px;
+    margin-right: 0;
+  }
+
+  .MuiButton-endIcon svg,
+  .MuiButton-startIcon svg {
+    width: ${(p) => p.iconWidth};
+    height: ${(p) => p.iconHeight};
+  }
 `;
