@@ -6,13 +6,14 @@ function IconButton({
   ariaLabel,
   isDisabled = false,
   icon = null,
+  editPath = false,
   pLeft = '',
   pRight = '',
   pTop = '',
   pBottom = '',
-  activeStroke = '',
-  defaultStroke = '',
-  hoverStroke = '',
+  activeFill = '',
+  defaultFill = '',
+  hoverFill = '',
   ...props
 }) {
   return (
@@ -24,9 +25,10 @@ function IconButton({
       pRight={pRight}
       pTop={pTop}
       pBottom={pBottom}
-      activeStroke={activeStroke}
-      defaultStroke={defaultStroke}
-      hoverStroke={hoverStroke}
+      editPath={editPath}
+      activeFill={activeFill}
+      defaultFill={defaultFill}
+      hoverFill={hoverFill}
       {...props}
     >
       {icon}

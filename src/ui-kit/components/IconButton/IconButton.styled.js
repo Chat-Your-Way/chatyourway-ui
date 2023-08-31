@@ -6,10 +6,9 @@ export const StyledIconButton = styled(IconButton)`
   padding-right: ${(p) => (p.pRight ? p.pRight : '4.71px')};
   padding-top: ${(p) => (p.pTop ? p.pTop : '3.13px')};
   padding-bottom: ${(p) => (p.pBottom ? p.pBottom : '4.71px')};
-  stroke: ${(p) => (p.defaultStroke ? p.defaultStroke : 'none')};
-
-  &:disabled {
-    background: ${(p) => p.theme.palette.primary.disabled};
+  fill: ${(p) => (p.defaultFill && !p.editPath ? p.defaultFill : undefined)};
+  path {
+    fill: ${(p) => (p.defaultFill && p.editPath ? p.defaultFill : undefined)};
   }
 
   &:hover,
@@ -17,21 +16,44 @@ export const StyledIconButton = styled(IconButton)`
     background: none;
     filter: drop-shadow(-2px -2px 8px rgb(134 134 220 / 0.2))
       drop-shadow(2px 2px 8px rgb(134 134 220 / 0.2));
-    stroke: ${(p) =>
-      p.hoverStroke
-        ? p.hoverStroke
-        : p.defaultStroke
-        ? p.defaultStroke
-        : 'none'};
+
+    fill: ${(p) =>
+      p.hoverFill && !p.editPath
+        ? p.hoverFill
+        : p.defaultFill && !p.editPath
+        ? p.defaultFill
+        : undefined};
+
+    path {
+      fill: ${(p) =>
+        p.hoverFill && p.editPath
+          ? p.hoverFill
+          : p.defaultFill && p.editPath
+          ? p.defaultFill
+          : undefined};
+    }
   }
 
   &:active {
-    stroke: ${(p) =>
-      p.activeStroke
-        ? p.activeStroke
-        : p.defaultStroke
-        ? p.defaultStroke
-        : 'none'};
+    fill: ${(p) =>
+      p.activeFill && !p.editPath
+        ? p.activeFill
+        : p.defaultFill && !p.editPath
+        ? p.defaultFill
+        : undefined};
+
+    path {
+      fill: ${(p) =>
+        p.activeFill && p.editPath
+          ? p.activeFill
+          : p.defaultFill && p.editPath
+          ? p.defaultFill
+          : undefined};
+    }
+  }
+
+  &:disabled {
+    background: ${(p) => p.theme.palette.primary.disabled};
   }
 
   .MuiTouchRipple-ripple .MuiTouchRipple-child {
