@@ -1,9 +1,13 @@
 import { memo, useState } from 'react';
-import { InputBase } from '@mui/material';
+import { ICONS } from '../../../icons/index';
+import { SearchInputStyled } from './SearchInput.styled';
 
-import { ReactComponent as SearchIcon } from '../../icons/svg-icons/Search.svg';
-
-const SearchInput = ({ placeholderText = 'пошук' }) => {
+const SearchInput = ({
+  placeholderText = 'пошук',
+  inputWidth = '',
+  inputHeight = '',
+  ...props
+}) => {
   const [isFocused, setIsFocused] = useState(false);
   const handleFocus = () => {
     setIsFocused(true);
@@ -14,16 +18,16 @@ const SearchInput = ({ placeholderText = 'пошук' }) => {
   };
 
   return (
-    <InputBase
+    <SearchInputStyled
       placeholder={
         isFocused ? '| пошук по # або ключевим словам' : placeholderText
       }
+      inputWidth={inputWidth}
+      inputHeight={inputHeight}
+      {...props}
       onFocus={handleFocus}
       onBlur={handleBlur}
-      sx={{
-        opacity: '1',
-      }}
-      startAdornment={<SearchIcon />}
+      startAdornment={<ICONS.SEARCH />}
     />
   );
 };
