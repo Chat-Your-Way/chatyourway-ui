@@ -26,7 +26,12 @@ export const StyledIconButton = styled(IconButton)`
   }
 
   &:active {
-    stroke: ${(p) => (p.activeStroke ? p.activeStroke : 'none')};
+    stroke: ${(p) =>
+      p.activeStroke
+        ? p.activeStroke
+        : p.defaultStroke
+        ? p.defaultStroke
+        : 'none'};
   }
 
   .MuiTouchRipple-ripple .MuiTouchRipple-child {
