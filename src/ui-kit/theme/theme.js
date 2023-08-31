@@ -76,6 +76,7 @@ const lightPalette = createTheme({
       main: '#8686DC',
       dark: '#353535',
       contrastText: '#6261AF',
+      disabled: '#EEEFFF',
       errorColor: '#DA4444',
     },
   },
