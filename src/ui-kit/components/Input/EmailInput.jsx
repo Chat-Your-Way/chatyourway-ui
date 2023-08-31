@@ -1,5 +1,6 @@
-import React, { memo, useState } from 'react';
-import { Create as CreateIcon, Close as CloseIcon } from '@mui/icons-material';
+import { memo, useState } from 'react';
+import { Close as CloseIcon } from '@mui/icons-material';
+import { ReactComponent as CreateIcon } from '../../icons/svg-icons/Edit.svg';
 
 import InputBase from '@mui/material/InputBase';
 import { Box, Typography } from '@mui/material';
@@ -8,16 +9,6 @@ const EmailInput = ({
   placeholderText = 'example@gmail.com',
   error = false,
   errorText = 'Some data is incorrect',
-  errorIcon = (
-    <CloseIcon
-      sx={{
-        stroke: (theme) => theme.palette.primary.errorColor,
-        width: '16px',
-        height: '16px',
-        strokeWidth: '1.5px',
-      }}
-    />
-  ),
 }) => {
   const [inputValue, setInputValue] = useState('');
   // eslint-disable-next-line no-unused-vars
@@ -56,7 +47,14 @@ const EmailInput = ({
       />
       {isError && (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          {errorIcon}
+          <CloseIcon
+            sx={{
+              stroke: (theme) => theme.palette.primary.errorColor,
+              width: '16px',
+              height: '16px',
+              strokeWidth: '1.5px',
+            }}
+          />
           <Typography variant="errorText">{errorText}</Typography>
         </Box>
       )}
