@@ -1,7 +1,11 @@
 import { memo } from 'react';
 import { Typography } from '@mui/material';
 import {
-  EditIcon, EmailInputLabel, EmailInputStyled, ErrorIconInput, ErrorWrapper
+  EditIcon,
+  EmailInputLabel,
+  EmailInputStyled,
+  ErrorIconInput,
+  ErrorWrapper,
 } from './EmailInput.styled';
 
 const EmailInput = ({
@@ -13,15 +17,9 @@ const EmailInput = ({
   inputHeight = '',
   ...props
 }) => {
-  const handleInputChange = (e) => {
-    if (!e.target.value.trim()) return;
-  };
-
   return (
     <>
-      <EmailInputLabel variant="h5" component="label">
-        Email
-      </EmailInputLabel>
+      <EmailInputLabel>Email</EmailInputLabel>
       <EmailInputStyled
         type="email"
         sx={{
@@ -31,7 +29,7 @@ const EmailInput = ({
             : (theme) => theme.palette.primary.main,
         }}
         placeholder={placeholderText}
-        onChange={handleInputChange}
+        value={inputValue}
         endAdornment={inputValue ? null : <EditIcon />}
         inputWidth={inputWidth}
         inputHeight={inputHeight}

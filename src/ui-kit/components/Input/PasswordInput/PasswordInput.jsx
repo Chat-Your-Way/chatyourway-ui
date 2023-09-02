@@ -23,10 +23,6 @@ const PasswordInput = ({
 }) => {
   const [inputType, setInputType] = useState('password');
 
-  const handleInputChange = (e) => {
-    if (!e.target.value.trim()) return;
-  };
-
   const handleToggleVisibility = () => {
     setInputType(inputType === 'password' ? 'text' : 'password');
   };
@@ -34,9 +30,7 @@ const PasswordInput = ({
   return (
     <>
       <LabelLinkWrapper inputWidth={inputWidth}>
-        <PasswordLabel variant="h5" component="label">
-          Password
-        </PasswordLabel>
+        <PasswordLabel>Password</PasswordLabel>
         <ForgotPswLink href={linkTo}>Forgot your password?</ForgotPswLink>
       </LabelLinkWrapper>
       <PasswordInputStyled
@@ -48,10 +42,10 @@ const PasswordInput = ({
             : (theme) => theme.palette.primary.main,
         }}
         placeholder={placeholderText}
+        value={inputValue}
         inputWidth={inputWidth}
         inputHeight={inputHeight}
         {...props}
-        onChange={handleInputChange}
         endAdornment={
           inputType === 'text' ? (
             <IconVisible

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Box, InputBase, Link, Typography } from '@mui/material';
+import { Box, InputBase, InputLabel, Link } from '@mui/material';
 import { ICONS } from '../../../icons/index';
 
 export const LabelLinkWrapper = styled(Box)`
@@ -9,8 +9,10 @@ export const LabelLinkWrapper = styled(Box)`
   width: ${(p) => (p.inputWidth ? p.inputWidth : '400px')};
 `;
 
-export const PasswordLabel = styled(Typography)`
+export const PasswordLabel = styled(InputLabel)`
+  font-family: Inter;
   color: ${(p) => p.theme.palette.primary.dark};
+  line-height: 135%;
 `;
 
 export const ForgotPswLink = styled(Link)`

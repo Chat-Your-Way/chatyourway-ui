@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
-import { Box, InputBase, Typography } from '@mui/material';
+import { Box, InputBase, InputLabel } from '@mui/material';
 import { ICONS } from '../../../icons';
 
-export const EmailInputLabel = styled(Typography)`
+export const EmailInputLabel = styled(InputLabel)`
+  font-family: Inter;
   color: ${(p) => p.theme.palette.primary.dark};
+  line-height: 135%;
 `;
 
 export const EmailInputStyled = styled(InputBase)`
