@@ -16,6 +16,7 @@ const PasswordInput = ({
   error = false,
   errorText = 'Some data is incorrect',
   linkTo = '#',
+  inputHandler = () => {},
   inputValue = '',
   inputWidth = '',
   inputHeight = '',
@@ -35,25 +36,16 @@ const PasswordInput = ({
       </LabelLinkWrapper>
       <PasswordInputStyled
         type={inputType}
-        sx={{
-          opacity: inputValue ? '1' : '0.6',
-          borderColor: error
-            ? (theme) => theme.palette.primary.errorColor
-            : (theme) => theme.palette.primary.main,
-        }}
         placeholder={placeholderText}
         value={inputValue}
+        onChange={inputHandler}
+        error={error}
         inputWidth={inputWidth}
         inputHeight={inputHeight}
         {...props}
         endAdornment={
           inputType === 'text' ? (
-            <IconVisible
-              sx={{
-                opacity: error ? '0.6' : '1',
-              }}
-              onClick={handleToggleVisibility}
-            />
+            <IconVisible error={error} onClick={handleToggleVisibility} />
           ) : (
             <IconHide onClick={handleToggleVisibility} />
           )

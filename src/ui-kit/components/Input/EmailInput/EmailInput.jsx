@@ -13,6 +13,7 @@ const EmailInput = ({
   error = false,
   errorText = 'Some data is incorrect',
   inputValue = '',
+  inputHandler = () => {},
   inputWidth = '',
   inputHeight = '',
   ...props
@@ -22,14 +23,9 @@ const EmailInput = ({
       <EmailInputLabel>Email</EmailInputLabel>
       <EmailInputStyled
         type="email"
-        sx={{
-          opacity: inputValue ? '1' : '0.6',
-          borderColor: error
-            ? (theme) => theme.palette.primary.errorColor
-            : (theme) => theme.palette.primary.main,
-        }}
         placeholder={placeholderText}
         value={inputValue}
+        onChange={inputHandler}
         endAdornment={inputValue ? null : <EditIcon />}
         inputWidth={inputWidth}
         inputHeight={inputHeight}

@@ -11,6 +11,11 @@ export const EmailInputLabel = styled(InputLabel)`
 export const EmailInputStyled = styled(InputBase)`
   width: ${(p) => (p.inputWidth ? p.inputWidth : '400px')};
   height: ${(p) => (p.inputHeight ? p.inputHeight : '46px')};
+  opacity: ${(p) => (p.value ? '1' : '0.6')};
+  bordercolor: ${(p) =>
+    p.error
+      ? p.theme.palette.primary.errorColor
+      : p.theme.palette.primary.main};
 `;
 
 export const EditIcon = styled(ICONS.EDIT)`

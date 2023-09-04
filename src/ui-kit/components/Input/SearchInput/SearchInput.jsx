@@ -19,13 +19,6 @@ const SearchInput = ({
     setIsFocused(false);
   };
 
-  const handleOnKeyUp = (e) => {
-    if (e.key !== 'Enter' && !e.target.value.trim()) {
-      return;
-    }
-    handleInputValue();
-  };
-
   return (
     <SearchInputStyled
       placeholder={
@@ -37,7 +30,7 @@ const SearchInput = ({
       {...props}
       onFocus={handleFocus}
       onBlur={handleBlur}
-      onKeyUp={handleOnKeyUp}
+      onChange={handleInputValue}
       startAdornment={<ICONS.SEARCH />}
     />
   );

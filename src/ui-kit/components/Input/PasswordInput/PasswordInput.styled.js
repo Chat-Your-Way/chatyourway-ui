@@ -22,11 +22,17 @@ export const ForgotPswLink = styled(Link)`
 export const PasswordInputStyled = styled(InputBase)`
   width: ${(p) => (p.inputWidth ? p.inputWidth : '400px')};
   height: ${(p) => (p.inputHeight ? p.inputHeight : '46px')};
+  opacity: ${(p) => (p.value ? '1' : '0.6')};
+  bordercolor: ${(p) =>
+    p.error
+      ? p.theme.palette.primary.errorColor
+      : p.theme.palette.primary.main};
 `;
 
 export const IconVisible = styled(ICONS.SHOW)`
   position: absolute;
   right: 12px;
+  opacity: ${(p) => (p.error ? '1' : '0.6')};
   cursor: pointer;
 `;
 
