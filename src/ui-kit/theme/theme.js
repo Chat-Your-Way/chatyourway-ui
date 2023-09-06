@@ -78,10 +78,27 @@ const lightPalette = createTheme({
       contrastText: '#6261AF',
       disabled: '#EEEFFF',
       errorColor: '#DA4444',
+      lightDisabled: '#afb1b6',
+    },
+  },
+});
+
+const darkPalette = createTheme({
+  palette: {
+    primary: {
+      white: '#4E4D87',
+      light: '#ACADFF',
+      main: '#8686DC',
+      dark: '#FFFFFF',
+      contrastText: '#ACADFF',
+      disabled: '#EEEFFF',
+      errorColor: '#DA4444',
+      lightDisabled: '#afb1b6',
     },
   },
 });
 
 const lightTheme = createTheme(createCommonTheme(lightPalette));
+const darkTheme = createTheme(createCommonTheme(darkPalette));
 
-export default lightTheme;
+export { lightTheme, darkTheme };
