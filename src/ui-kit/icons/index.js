@@ -36,6 +36,7 @@ import { ReactComponent as Document } from './svg-icons/Document.svg';
 import { ReactComponent as Download } from './svg-icons/Download.svg';
 import { ReactComponent as Edit } from './svg-icons/Edit.svg';
 import { ReactComponent as EditSquare } from './svg-icons/EditSquare.svg';
+import { ReactComponent as ErrorIcon } from './svg-icons/InputError.svg';
 import { ReactComponent as Filter } from './svg-icons/Filter.svg';
 import { ReactComponent as Filter3 } from './svg-icons/Filter3.svg';
 import { ReactComponent as Heart } from './svg-icons/Heart.svg';
@@ -107,6 +108,7 @@ export const ICONS = {
   DOWNLOAD: Download,
   EDIT: Edit,
   EDIT_SQUARE: EditSquare,
+  ERROR: ErrorIcon,
   FILTER: Filter,
   FILTER3: Filter3,
   HEART: Heart,
