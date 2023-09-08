@@ -66,6 +66,44 @@ const createCommonTheme = (theme) =>
         },
       },
     },
+    typography: {
+      h1: {
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '48px',
+        lineHeight: '135%',
+        fontWeight: '400',
+      },
+      h2: {
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '40px',
+        lineHeight: '135%',
+        fontWeight: '400',
+      },
+      h3: {
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '32px',
+        lineHeight: '135%',
+        fontWeight: '400',
+      },
+      h4: {
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '24px',
+        lineHeight: '135%',
+        fontWeight: '400',
+      },
+      h5: {
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '16px',
+        lineHeight: '135%',
+        fontWeight: '400',
+      },
+      h6: {
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '14px',
+        lineHeight: '135%',
+        fontWeight: '400',
+      },
+    },
   });
 
 const lightPalette = createTheme({
