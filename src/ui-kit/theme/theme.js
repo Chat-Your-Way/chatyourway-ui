@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
-const createCommonTheme = (theme) =>
+export const createCommonTheme = (theme) =>
   createTheme({
     ...theme,
     components: {
@@ -68,37 +68,34 @@ const createCommonTheme = (theme) =>
     },
   });
 
-const lightPalette = createTheme({
+export const palette = (mode) => ({
   palette: {
-    primary: {
-      white: '#FFFFFF',
-      light: '#ACADFF',
-      main: '#8686DC',
-      dark: '#353535',
-      contrastText: '#6261AF',
-      disabled: '#EEEFFF',
-      errorColor: '#DA4444',
-      lightDisabled: '#afb1b6',
-    },
+    mode,
+    ...(mode === 'light'
+      ? {
+          primary: {
+            white: '#FFFFFF',
+            light: '#ACADFF',
+            main: '#8686DC',
+            dark: '#353535',
+            contrastText: '#6261AF',
+            disabled: '#EEEFFF',
+            errorColor: '#DA4444',
+            lightDisabled: '#afb1b6',
+          },
+        }
+      : {
+          primary: {
+            white: '#4E4D87',
+            light: '#ACADFF',
+            main: '#8686DC',
+            dark: '#FFFFFF',
+            contrastText: '#ACADFF',
+            disabled: '#EEEFFF',
+            errorColor: '#DA4444',
+            lightDisabled: '#afb1b6',
+          },
+        }),
   },
 });
 
-const darkPalette = createTheme({
-  palette: {
-    primary: {
-      white: '#4E4D87',
-      light: '#ACADFF',
-      main: '#8686DC',
-      dark: '#FFFFFF',
-      contrastText: '#ACADFF',
-      disabled: '#EEEFFF',
-      errorColor: '#DA4444',
-      lightDisabled: '#afb1b6',
-    },
-  },
-});
-
-const lightTheme = createTheme(createCommonTheme(lightPalette));
-const darkTheme = createTheme(createCommonTheme(darkPalette));
-
-export { lightTheme, darkTheme };

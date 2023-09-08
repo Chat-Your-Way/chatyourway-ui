@@ -8,7 +8,6 @@ const SearchInput = ({
   inputValue = '',
   inputWidth = '',
   inputHeight = '',
-  theme = 'light',
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -28,7 +27,6 @@ const SearchInput = ({
       value={inputValue}
       inputWidth={inputWidth}
       inputHeight={inputHeight}
-      theme={theme}
       {...props}
       onFocus={handleFocus}
       onBlur={handleBlur}
