@@ -1,26 +1,30 @@
 import styled from '@emotion/styled';
-import { Box, Typography } from '@mui/material';
+import { Avatar } from '@mui/material';
 
-export const AvatarWrapper = styled(Box)`
-  position: relative;
-  width: ${(p) => (p.width ? p.width : '80px')};
-  height: ${(p) => (p.height ? p.height : '80px')};
+const sizeController = (size = 'xl') => {
+  switch (size) {
+    case 'xs':
+      return '24px';
+    case 'sm':
+      return '40px';
+    case 'md':
+      return '48px';
+    case 'lg':
+      return '56px';
+    case 'xl':
+      return '80px';
+    default:
+      '80px';
+  }
+};
+
+export const AvatarStyled = styled(Avatar)`
+  width: ${(p) => sizeController(p.size)};
+  height: ${(p) => sizeController(p.size)};
   padding: 0;
-  border: ${(p) => (p.border ? p.border : 'none')};
-  backgroud-color: ${(p) =>
-    p.backgroudColor ? p.backgroundColor : 'transparent'};
-  border-radius: ${(p) => (p.borderRadius ? p.borderRadius : '80px')};
-`;
-
-export const AvatarText = styled(Typography)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  border: ${(p) => (p.current === 'true' ? '1px solid #353535' : 'none')};
+  background-color: ${(p) =>
+    p.backgroundcolor ? p.backgroundcolor : '#ACADFF'};
   color: #000;
   font-size: 24px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 135%;
-  text-transform: capitalize;
 `;

@@ -1,28 +1,20 @@
 import { memo } from 'react';
-import { AvatarText, AvatarWrapper } from './Avatar.styled';
+import { AvatarStyled } from './Avatar.styled';
 
 function Avatar({
-  AvatarComponent = 'AB',
-  avatarWidth = '80px',
-  avatarHight = '80px',
-  avatarBorder = '',
-  borderRadius = '80px',
+  children,
+  isCurrent = false,
+  size = 'xl',
   backgroundColor = '#ACADFF',
 }) {
   return (
-    <AvatarWrapper
-      width={avatarWidth}
-      height={avatarHight}
-      border={avatarBorder}
-      borderRadius={borderRadius}
-      backgroundColor={backgroundColor}
+    <AvatarStyled
+      current={isCurrent.toString()}
+      size={size}
+      backgroundcolor={backgroundColor}
     >
-      {typeof AvatarComponent === 'string' ? (
-        <AvatarText> {AvatarComponent} </AvatarText>
-      ) : (
-        <AvatarComponent />
-      )}
-    </AvatarWrapper>
+      {children}
+    </AvatarStyled>
   );
 }
 
