@@ -4,7 +4,7 @@ import { AvatarStyled } from './Avatar.styled';
 function Avatar({
   children,
   isCurrent = false,
-  size = 'xl',
+  size = 'md',
   backgroundColor = '#ACADFF',
 }) {
   return (
