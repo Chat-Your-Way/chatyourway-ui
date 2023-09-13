@@ -6,12 +6,14 @@ function Avatar({
   isCurrent = false,
   size = 'md',
   backgroundColor = '#ACADFF',
+  clickHandler = null,
 }) {
   return (
     <AvatarStyled
       current={isCurrent.toString()}
       size={size}
       backgroundcolor={backgroundColor}
+      onClick={clickHandler}
     >
       {children}
     </AvatarStyled>
