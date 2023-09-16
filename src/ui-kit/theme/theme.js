@@ -78,6 +78,7 @@ export const palette = (mode) => ({
             light: '#ACADFF',
             main: '#8686DC',
             dark: '#353535',
+            black: '#171717',
             contrastText: '#6261AF',
             disabled: '#EEEFFF',
             errorColor: '#DA4444',
@@ -86,16 +87,16 @@ export const palette = (mode) => ({
         }
       : {
           primary: {
-            white: '#4E4D87',
-            light: '#ACADFF',
-            main: '#8686DC',
-            dark: '#FFFFFF',
-            contrastText: '#ACADFF',
-            disabled: '#EEEFFF',
+            white: '#171717',
+            light: '#6261AF',
+            main: '#ACADFF',
+            dark: '#EEEFFF',
+            black: '#FFFFFF',
+            contrastText: '#8686DC',
+            disabled: '#353535',
             errorColor: '#DA4444',
             lightDisabled: '#afb1b6',
           },
         }),
   },
 });
-
