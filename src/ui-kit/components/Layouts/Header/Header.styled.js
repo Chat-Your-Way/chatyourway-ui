@@ -13,7 +13,7 @@ export const Logo = styled(ICONS.LOGO)`
   fill: ${(p) =>
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.contrastText
-      : p.theme.palette.primary.white};
+      : p.theme.palette.primary.dark};
 `;
 
 export const HeaderToogle = styled(Toogle)``;
@@ -33,10 +33,7 @@ export const NotificationIcon = styled(ICONS.NOTIFICATION)`
 `;
 
 export const NotificationCount = styled.div`
-  background-color: ${(p) =>
-    p.theme.palette.mode === 'light'
-      ? p.theme.palette.primary.disabled
-      : p.theme.palette.primary.dark};
+  background-color: ${(p) => p.theme.palette.primary.disabled};
   border-radius: 50%;
   width: 25px;
   height: 25px;
@@ -47,10 +44,7 @@ export const NotificationCount = styled.div`
   top: -20px;
   right: -15px;
   & > h6 {
-    color: ${(p) =>
-      p.theme.palette.mode === 'light'
-        ? p.theme.palette.primary.dark
-        : p.theme.palette.primary.disabled};
+    color: ${(p) => p.theme.palette.primary.dark};
   }
 `;
 
@@ -58,7 +52,7 @@ export const UserName = styled(Typography)`
   color: ${(p) =>
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.dark
-      : p.theme.palette.primary.disabled};
+      : p.theme.palette.primary.dark};
 `;
 
 export const AuthSection = styled.div`

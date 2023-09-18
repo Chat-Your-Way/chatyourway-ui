@@ -8,16 +8,10 @@ export const StyledFooter = styled.footer`
 
 export const LogOutButton = styled(Button)`
   background-color: transparent;
-  color: ${(p) =>
-    p.theme.palette.mode === 'light'
-      ? p.theme.palette.primary.dark
-      : p.theme.palette.primary.disabled};
+  color: ${(p) => p.theme.palette.primary.dark};
 `;
 
 export const LogOutIcon = styled(ICONS.LOGOUT)`
   transform: rotate(180deg);
-  fill: ${(p) =>
-    p.theme.palette.mode === 'light'
-      ? p.theme.palette.primary.dark
-      : p.theme.palette.primary.disabled};
+  fill: ${(p) => p.theme.palette.primary.dark};
 `;
