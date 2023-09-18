@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
-const createCommonTheme = (theme) =>
+export const createCommonTheme = (theme) =>
   createTheme({
     ...theme,
     components: {
@@ -106,20 +106,35 @@ const createCommonTheme = (theme) =>
     },
   });
 
-const lightPalette = createTheme({
+export const palette = (mode) => ({
   palette: {
-    primary: {
-      white: '#FFFFFF',
-      light: '#ACADFF',
-      main: '#8686DC',
-      dark: '#353535',
-      contrastText: '#6261AF',
-      disabled: '#EEEFFF',
-      errorColor: '#DA4444',
-    },
+    mode,
+    ...(mode === 'light'
+      ? {
+          primary: {
+            white: '#FFFFFF',
+            light: '#ACADFF',
+            main: '#8686DC',
+            dark: '#353535',
+            black: '#171717',
+            contrastText: '#6261AF',
+            disabled: '#EEEFFF',
+            errorColor: '#DA4444',
+            lightDisabled: '#afb1b6',
+          },
+        }
+      : {
+          primary: {
+            white: '#171717',
+            light: '#6261AF',
+            main: '#ACADFF',
+            dark: '#EEEFFF',
+            black: '#FFFFFF',
+            contrastText: '#8686DC',
+            disabled: '#353535',
+            errorColor: '#DA4444',
+            lightDisabled: '#afb1b6',
+          },
+        }),
   },
 });
-
-const lightTheme = createTheme(createCommonTheme(lightPalette));
-
-export default lightTheme;
