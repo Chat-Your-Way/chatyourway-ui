@@ -1,17 +1,10 @@
-import {
-  ButtonWrap,
-  LogOutButton,
-  LogOutIcon,
-  StyledFooter,
-} from './Footer.styled';
+import { LogOutButton, LogOutIcon, StyledFooter } from './Footer.styled';
 
 const Footer = () => {
   return (
     <>
       <StyledFooter>
-        <ButtonWrap>
-          <LogOutButton label="Вийти" startIcon={<LogOutIcon />} />
-        </ButtonWrap>
+        <LogOutButton label="Вийти" startIcon={<LogOutIcon />} />
       </StyledFooter>
     </>
   );

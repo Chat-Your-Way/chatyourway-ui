@@ -6,8 +6,6 @@ export const StyledFooter = styled.footer`
   background-color: transparent;
 `;
 
-export const ButtonWrap = styled.div``;
-
 export const LogOutButton = styled(Button)`
   background-color: transparent;
   color: ${(p) =>
