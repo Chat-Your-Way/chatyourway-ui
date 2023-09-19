@@ -23,10 +23,7 @@ export const NotificationIcon = styled(ICONS.NOTIFICATION)`
 
 export const NotificationCount = styled(Badge)`
   margin: 0 24px 0 8px;
-  color: ${(p) =>
-    p.theme.palette.mode === 'light'
-      ? p.theme.palette.primary.dark
-      : p.theme.palette.primary.dark};
+  color: ${(p) => p.theme.palette.primary.dark};
   .MuiBadge-badge {
     background-color: ${(p) => p.theme.palette.primary.disabled};
   }
