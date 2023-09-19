@@ -6,6 +6,7 @@ export const HeaderWrap = styled(Box)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 40px 0;
 `;
 
 export const Logo = styled(ICONS.LOGO)`
@@ -30,7 +31,7 @@ export const NotificationCount = styled(Badge)`
 `;
 
 export const UserName = styled(Typography)`
-  margin: 0 8px 0 0;
+  margin-right: 8px;
 `;
 
 export const AuthSection = styled(Box)`

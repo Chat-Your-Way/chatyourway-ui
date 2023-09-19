@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import Toogle from '../../../ui-kit/components/Toogle';
-// import Avater from '../../Avatar'
+import Avatar from '../../../ui-kit/components/Avatar';
 import {
   HeaderWrap,
   Logo,
@@ -9,24 +9,25 @@ import {
   NotificationCount,
   UserName,
 } from './Header.styled';
-// import { useContext } from 'react';
+import { useContext } from 'react';
+import { ThemeContext } from '../../../ui-kit/theme/ThemeProvider';
 
 const Header = () => {
-  // const { toggleTheme } = useContext(ThemeContext);
+  const { toggleTheme } = useContext(ThemeContext);
 
   return (
     <header>
       <HeaderWrap>
         <Logo />
         <AuthSection>
-          <Toogle />
+          <Toogle handleChange={toggleTheme} />
           <NotificationCount badgeContent={3}>
             <Typography level="h6">
               <NotificationIcon />
             </Typography>
           </NotificationCount>
           <UserName variant="h4">Твоє ім`я</UserName>
-          {/* <Avatar/> */}
+          <Avatar />
         </AuthSection>
       </HeaderWrap>
     </header>
