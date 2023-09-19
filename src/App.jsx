@@ -1,12 +1,26 @@
-import Typography from '@mui/material/Typography';
 import { ThemeProvider } from '@mui/material';
-import lightTheme from './ui-kit/theme/theme';
+import { createCommonTheme, palette } from './ui-kit/theme/theme';
 import './App.css';
+import { useMemo, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import SharedLayout from './ui-kit/components/SharedLayout/SharedLayout';
 
 function App() {
+  // eslint-disable-next-line no-unused-vars
+  const [currentTheme, setCurrentTheme] = useState('light');
+
+  const theme = useMemo(
+    () => createCommonTheme(palette(currentTheme)),
+    [currentTheme],
+  );
+
   return (
-    <ThemeProvider theme={lightTheme}>
-      <Typography variant="h1">hello world!</Typography>
+    <ThemeProvider theme={theme}>
+      <Routes>
+        <Route path="/" element={<SharedLayout />}>
+          <Route index />
+        </Route>
+      </Routes>
     </ThemeProvider>
   );
 }
