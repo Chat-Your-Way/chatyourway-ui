@@ -2,7 +2,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import styled from '@emotion/styled';
 
-export const StyledCheckbox = styled(Checkbox)`
+export const StyledCheckbox = styled(Checkbox, {
+  shouldForwardProp: (p) => p !== 'inputColor' && p !== 'labelColor',
+})`
   padding: 8px;
   color: ${(p) => (p.inputColor ? p.inputColor : p.theme.palette.primary.main)};
   fill: ${(p) => (p.inputColor ? p.inputColor : p.theme.palette.primary.main)};

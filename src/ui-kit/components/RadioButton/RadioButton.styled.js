@@ -2,7 +2,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import styled from '@emotion/styled';
 
-export const StyledRadioButton = styled(Radio)`
+export const StyledRadioButton = styled(Radio, {
+  shouldForwardProp: (p) => p !== 'radioColor' && p !== 'labelColor',
+})`
   padding: 8px;
   color: ${(p) => (p.radioColor ? p.radioColor : p.theme.palette.primary.main)};
   fill: ${(p) => (p.radioColor ? p.radioColor : p.theme.palette.primary.main)};

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { StyledCheckbox, StyledFormControlLabel } from './CheckBox.styled';
 
 function CheckBox({
@@ -28,4 +29,4 @@ function CheckBox({
   );
 }
 
-export default CheckBox;
+export default memo(CheckBox);

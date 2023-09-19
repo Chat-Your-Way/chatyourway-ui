@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { StyledFormControlLabel, StyledSwitch } from './Toogle.styled';
 
 function Toogle({
@@ -5,12 +6,12 @@ function Toogle({
   isChecked,
   handleChange,
   labelColor,
-  labelPosition,
+  labelPosition = 'end',
   borderColor,
   borderColorChecked,
   backgroundColor,
   backgroundColorChecked,
-  ariaLabel = 'end',
+  ariaLabel = '',
   ...props
 }) {
   return (
@@ -34,4 +35,4 @@ function Toogle({
   );
 }
 
-export default Toogle;
+export default memo(Toogle);

@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import Stack from '@mui/material/Stack';
 import Slider from '@mui/material/Slider';
+import Box from '@mui/material/Box';
 
 export const StyledStack = styled(Stack)`
   width: 184px;
@@ -12,7 +13,7 @@ export const StyledStack = styled(Stack)`
   gap: 8px;
 `;
 
-export const StyledStartDiv = styled.div`
+export const StyledStartDiv = styled(Box)`
   width: 24px;
   box-sizing: border-box;
   padding-left: 3px;
@@ -21,7 +22,7 @@ export const StyledStartDiv = styled.div`
   padding-bottom: 3.5px;
 `;
 
-export const StyledEndDiv = styled.div`
+export const StyledEndDiv = styled(Box)`
   width: 24px;
   box-sizing: border-box;
   padding-left: 2px;
@@ -31,7 +32,7 @@ export const StyledEndDiv = styled.div`
 `;
 
 export const StyledSlider = styled(Slider)`
-  color: #afb1b6;
+  color: ${(p) => p.theme.palette.primary.lightDisabled};
   height: 4px;
 
   .MuiSlider-thumb {

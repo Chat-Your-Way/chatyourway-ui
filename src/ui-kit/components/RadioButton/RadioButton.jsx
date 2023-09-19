@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import {
   StyledRadioButton,
   StyledFormControlLabel,
@@ -35,4 +36,4 @@ function RadioButton({
   );
 }
 
-export default RadioButton;
+export default memo(RadioButton);

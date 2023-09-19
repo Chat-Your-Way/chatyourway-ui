@@ -2,7 +2,15 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import styled from '@emotion/styled';
 
-export const StyledSwitch = styled(Switch)`
+export const StyledSwitch = styled(Switch, {
+  shouldForwardProp: (p) =>
+    p !== 'labelColor' &&
+    p !== 'labelPosition' &&
+    p !== 'borderColor' &&
+    p !== 'borderColorChecked' &&
+    p !== 'backgroundColor' &&
+    p !== 'backgroundColorChecked',
+})`
   padding: 8px;
   display: flex;
   align-items: center;
@@ -22,7 +30,7 @@ export const StyledSwitch = styled(Switch)`
         : `1px solid ${p.theme.palette.primary.main}`};
 
     background: ${(p) =>
-      p.backgroundColor ? p.backgroundColor : p.theme.palette.primary.dark};
+      p.backgroundColor ? p.backgroundColor : p.theme.palette.primary.disabled};
   }
 
   .Mui-checked + .MuiSwitch-track {
