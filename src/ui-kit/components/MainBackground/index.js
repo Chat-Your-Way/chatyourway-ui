@@ -1,3 +1,1 @@
-import MainBackground from './MainBackground';
-
-export default MainBackground;
+export { default } from './MainBackground';
