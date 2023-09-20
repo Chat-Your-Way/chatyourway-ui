@@ -2,7 +2,9 @@ import styled from '@emotion/styled';
 import { Box, InputBase, InputLabel, Link } from '@mui/material';
 import { ICONS } from '../../../icons/index';
 
-export const LabelLinkWrapper = styled(Box)`
+export const LabelLinkWrapper = styled(Box, {
+  shouldForwardProp: (p) => p !== 'inputWidth',
+})`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -19,7 +21,9 @@ export const ForgotPswLink = styled(Link)`
   text-decoration: none;
 `;
 
-export const PasswordInputStyled = styled(InputBase)`
+export const PasswordInputStyled = styled(InputBase, {
+  shouldForwardProp: (p) => p !== 'inputWidth' && p !== 'inputHeight',
+})`
   width: ${(p) => (p.inputWidth ? p.inputWidth : '400px')};
   height: ${(p) => (p.inputHeight ? p.inputHeight : '46px')};
   opacity: ${(p) => (p.value ? '1' : '0.6')};
