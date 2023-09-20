@@ -1,10 +1,13 @@
 import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
 
-export const StyledButton = styled(Button)`
+export const StyledButton = styled(Button, {
+  shouldForwardProp: (p) =>
+    p !== 'withoutBackground' && p !== 'iconWidth' && p !== 'iconHeight',
+})`
+  ${(p) => p.theme.typography.h5};
   padding: 8px 12px;
   text-transform: none;
-  font-size: ${(p) => (p.fontSize ? p.fontSize : '16px')};
   border-radius: 8px;
   border: 1px solid transparent;
   color: ${(p) => p.theme.palette.primary.dark};

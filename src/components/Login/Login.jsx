@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import { InputWrapper, LoginButton, LoginWrapper } from './Login.styled.js';
 import EmailInput from '../../ui-kit/components/Input/EmailInput/EmailInput';
 // eslint-disable-next-line max-len
@@ -16,4 +15,4 @@ function Login() {
   );
 }
 
-export default memo(Login);
+export default Login;

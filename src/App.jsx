@@ -1,17 +1,17 @@
-import Typography from '@mui/material/Typography';
-import { ThemeProvider } from '@mui/material';
-import lightTheme from './ui-kit/theme/theme';
 import './App.css';
-import Login from './pages/Login';
-import SuccessSignup from './pages/SuccessSignup';
+import { Routes, Route } from 'react-router-dom';
+import SharedLayout from './ui-kit/components/SharedLayout/SharedLayout';
+import { CombinedThemeProvider } from './ui-kit/theme/ThemeProvider';
 
 function App() {
   return (
-    <ThemeProvider theme={lightTheme}>
-      <Typography variant="h1">hello world!</Typography>
-      <Login />
-      <SuccessSignup />
-    </ThemeProvider>
+    <CombinedThemeProvider>
+      <Routes>
+        <Route path="/" element={<SharedLayout />}>
+          <Route index />
+        </Route>
+      </Routes>
+    </CombinedThemeProvider>
   );
 }
 

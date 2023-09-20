@@ -10,9 +10,9 @@ export const LoginWrapper = styled(Box)`
 `;
 
 export const InputWrapper = styled(Box)`
-display: flex;
-flex-direction:column;
-margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
 `;
 
 export const LoginButton = styled(DefaultButton)`

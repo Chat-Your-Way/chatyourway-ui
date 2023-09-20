@@ -1,11 +1,10 @@
+import { memo } from 'react';
 import { StyledCheckbox, StyledFormControlLabel } from './CheckBox.styled';
 
 function CheckBox({
   label = '',
   isChecked = false,
   handleChange,
-  inputColor,
-  labelColor,
   ariaLabel = '',
   ...props
 }) {
@@ -14,8 +13,6 @@ function CheckBox({
       control={
         <StyledCheckbox
           checked={isChecked}
-          inputColor={inputColor}
-          labelColor={labelColor}
           onChange={handleChange}
           inputProps={{
             'aria-label': ariaLabel,
@@ -28,4 +25,4 @@ function CheckBox({
   );
 }
 
-export default CheckBox;
+export default memo(CheckBox);

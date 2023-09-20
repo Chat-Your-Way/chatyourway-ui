@@ -2,8 +2,8 @@ import { memo } from 'react';
 import { WhiteLayoutStyled } from './WhiteLayout.styled';
 
 function WhiteLayout({
-  width = 'auto',
-  height = 'auto',
+  width = '800px',
+  height = '600px',
   padding = '',
   children,
 }) {
