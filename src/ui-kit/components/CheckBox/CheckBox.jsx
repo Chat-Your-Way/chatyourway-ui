@@ -5,8 +5,6 @@ function CheckBox({
   label = '',
   isChecked = false,
   handleChange,
-  inputColor,
-  labelColor,
   ariaLabel = '',
   ...props
 }) {
@@ -15,8 +13,6 @@ function CheckBox({
       control={
         <StyledCheckbox
           checked={isChecked}
-          inputColor={inputColor}
-          labelColor={labelColor}
           onChange={handleChange}
           inputProps={{
             'aria-label': ariaLabel,

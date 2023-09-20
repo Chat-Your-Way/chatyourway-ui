@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
-import Stack from '@mui/material/Stack';
-import Slider from '@mui/material/Slider';
-import Box from '@mui/material/Box';
+import { Stack, Slider, Box } from '@mui/material';
 
 export const StyledStack = styled(Stack)`
   width: 184px;
