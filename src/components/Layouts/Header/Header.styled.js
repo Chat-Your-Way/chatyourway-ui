@@ -32,6 +32,7 @@ export const NotificationCount = styled(Badge)`
 `;
 
 export const UserName = styled(Typography)`
+  color: ${(p) => p.theme.palette.primary.dark};
   margin-right: 8px;
 `;
 
