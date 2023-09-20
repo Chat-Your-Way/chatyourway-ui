@@ -76,6 +76,7 @@ import { ReactComponent as Upload } from './svg-icons/Upload.svg';
 import { ReactComponent as VolumeDown } from './svg-icons/VolumeDown.svg';
 import { ReactComponent as VolumeOff } from './svg-icons/VolumeOff.svg';
 import { ReactComponent as VolumeUp } from './svg-icons/VolumeUp.svg';
+import { ReactComponent as Logo } from './logo/Logo.svg';
 
 export const ICONS = {
   TWO_USER: TwoUser,
@@ -121,6 +122,7 @@ export const ICONS = {
   INFO_SQUARE: InfoSquare,
   LOCK: Lock,
   LOGIN: Login,
+  LOGO: Logo,
   LOGOUT: Logout,
   MESSAGE: Message,
   MORE_CIRCLE: MoreCircle,
