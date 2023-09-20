@@ -6,7 +6,7 @@ export const ThemeContext = createContext();
 
 export const CombinedThemeProvider = ({ children }) => {
   const [currentTheme, setCurrentTheme] = useState(
-    localStorage.getItem('theme') || 'light',
+    () => localStorage.getItem('theme') || 'light',
   );
 
   const toggleTheme = () => {

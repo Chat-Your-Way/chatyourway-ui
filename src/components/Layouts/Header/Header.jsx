@@ -13,14 +13,17 @@ import { useContext } from 'react';
 import { ThemeContext } from '../../../ui-kit/theme/ThemeProvider';
 
 const Header = () => {
-  const { toggleTheme } = useContext(ThemeContext);
+  const { toggleTheme, currentTheme } = useContext(ThemeContext);
 
   return (
     <header>
       <HeaderWrap>
         <Logo />
         <AuthSection>
-          <Toogle handleChange={toggleTheme} />
+          <Toogle
+            handleChange={toggleTheme}
+            isChecked={currentTheme === 'dark'}
+          />
           <NotificationCount badgeContent={3}>
             <Typography level="h6">
               <NotificationIcon />
