@@ -8,7 +8,9 @@ export const EmailInputLabel = styled(InputLabel)`
   line-height: 135%;
 `;
 
-export const EmailInputStyled = styled(InputBase)`
+export const EmailInputStyled = styled(InputBase, {
+  shouldForwardProp: (p) => p !== 'inputWidth' && p !== 'inputHeight',
+})`
   width: ${(p) => (p.inputWidth ? p.inputWidth : '400px')};
   height: ${(p) => (p.inputHeight ? p.inputHeight : '46px')};
   opacity: ${(p) => (p.value ? '1' : '0.6')};

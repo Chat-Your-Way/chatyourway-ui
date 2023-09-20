@@ -120,7 +120,7 @@ export const palette = (mode) => ({
             contrastText: '#6261AF',
             disabled: '#EEEFFF',
             errorColor: '#DA4444',
-            lightDisabled: '#afb1b6',
+            lightDisabled: '#999999',
           },
         }
       : {
@@ -133,7 +133,7 @@ export const palette = (mode) => ({
             contrastText: '#8686DC',
             disabled: '#353535',
             errorColor: '#DA4444',
-            lightDisabled: '#afb1b6',
+            lightDisabled: '#999999',
           },
         }),
   },

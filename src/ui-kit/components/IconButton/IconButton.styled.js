@@ -1,7 +1,17 @@
 import IconButton from '@mui/material/IconButton';
 import styled from '@emotion/styled';
 
-export const StyledIconButton = styled(IconButton)`
+export const StyledIconButton = styled(IconButton, {
+  shouldForwardProp: (p) =>
+    p !== 'pLeft' &&
+    p !== 'pRight' &&
+    p !== 'pTop' &&
+    p !== 'pBottom' &&
+    p !== 'editPath' &&
+    p !== 'activeFill' &&
+    p !== 'defaultFill' &&
+    p !== 'hoverFill',
+})`
   padding-left: ${(p) => (p.pLeft ? p.pLeft : '3.13px')};
   padding-right: ${(p) => (p.pRight ? p.pRight : '4.71px')};
   padding-top: ${(p) => (p.pTop ? p.pTop : '3.13px')};

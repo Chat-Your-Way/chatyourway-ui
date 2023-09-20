@@ -1,16 +1,12 @@
+import { memo } from 'react';
 import { StyledFormControlLabel, StyledSwitch } from './Toogle.styled';
 
 function Toogle({
   label = '',
   isChecked,
   handleChange,
-  labelColor,
-  labelPosition,
-  borderColor,
-  borderColorChecked,
-  backgroundColor,
-  backgroundColorChecked,
-  ariaLabel = 'end',
+  labelPosition = 'end',
+  ariaLabel = '',
   ...props
 }) {
   return (
@@ -19,12 +15,7 @@ function Toogle({
         <StyledSwitch
           onChange={handleChange}
           checked={isChecked}
-          labelColor={labelColor}
           labelPosition={labelPosition}
-          borderColor={borderColor}
-          borderColorChecked={borderColorChecked}
-          backgroundColor={backgroundColor}
-          backgroundColorChecked={backgroundColorChecked}
           inputProps={{ 'aria-label': ariaLabel }}
           {...props}
         />
@@ -34,4 +25,4 @@ function Toogle({
   );
 }
 
-export default Toogle;
+export default memo(Toogle);
