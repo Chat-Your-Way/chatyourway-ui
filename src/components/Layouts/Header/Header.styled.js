@@ -6,7 +6,8 @@ export const HeaderWrap = styled(Box)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 40px 0;
+  padding-top: 30px;
+  padding-bottom: 40px;
 `;
 
 export const Logo = styled(ICONS.LOGO)`
