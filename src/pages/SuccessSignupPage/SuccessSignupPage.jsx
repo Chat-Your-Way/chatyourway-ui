@@ -2,11 +2,7 @@
 import SuccessSignupPageComponent from '../../components/SuccessSignupPageComponent';
 
 function SuccessSignupPage() {
-  return (
-    <>
-      <SuccessSignupPageComponent />
-    </>
-  );
+  return <SuccessSignupPageComponent />;
 }
 
 export default SuccessSignupPage;

@@ -2,11 +2,7 @@
 import AuthorizationPageComponent from '../../components/AuthorizationPageComponent';
 
 function AuthorizationPage() {
-  return (
-    <>
-      <AuthorizationPageComponent />
-    </>
-  );
+  return <AuthorizationPageComponent />;
 }
 
 export default AuthorizationPage;
