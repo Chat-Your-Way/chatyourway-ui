@@ -6,44 +6,38 @@ import {
 } from './Sidebar.styled';
 import { ICONS } from '../../ui-kit/icons';
 import { useSidebarContext } from './SidebarContext';
+import { routes } from '../../constans/routes';
 
 const Sidebar = () => {
   const { showText } = useSidebarContext();
 
+  const setIcon = (name) => {
+    switch (name) {
+      case 'CHAT':
+        return <ICONS.CHAT />;
+      case 'MESSAGE':
+        return <ICONS.MESSAGE />;
+      case 'SETTING':
+        return <ICONS.SETTING />;
+      case 'INFO_SQUARE':
+        return <ICONS.INFO_SQUARE />;
+      default:
+        break;
+    }
+  };
+
   return (
     <StyledBox showText={showText}>
-      <StyledNavLink to="/">
-        {({ isActive }) => (
-          <StyledItem showText={showText} isActive={isActive}>
-            <ICONS.CHAT />
-            <StyledText isActive={isActive}>Чати</StyledText>
-          </StyledItem>
-        )}
-      </StyledNavLink>
-      <StyledNavLink to="/notification">
-        {({ isActive }) => (
-          <StyledItem showText={showText} isActive={isActive}>
-            <ICONS.MESSAGE />
-            <StyledText isActive={isActive}>Повідомлення</StyledText>
-          </StyledItem>
-        )}
-      </StyledNavLink>
-      <StyledNavLink to="/settings">
-        {({ isActive }) => (
-          <StyledItem showText={showText} isActive={isActive}>
-            <ICONS.SETTING />
-            <StyledText isActive={isActive}>Налаштування</StyledText>
-          </StyledItem>
-        )}
-      </StyledNavLink>
-      <StyledNavLink to="/info">
-        {({ isActive }) => (
-          <StyledItem showText={showText} isActive={isActive}>
-            <ICONS.INFO_SQUARE />
-            <StyledText isActive={isActive}>FAQ</StyledText>
-          </StyledItem>
-        )}
-      </StyledNavLink>
+      {Object.values(routes).map((route) => (
+        <StyledNavLink to={route.path} key={route.name}>
+          {({ isActive }) => (
+            <StyledItem showText={showText} isActive={isActive}>
+              {setIcon(route.icon)}
+              <StyledText isActive={isActive}>{route.name}</StyledText>
+            </StyledItem>
+          )}
+        </StyledNavLink>
+      ))}
     </StyledBox>
   );
 };

@@ -1,6 +1,6 @@
-import Box from '@mui/material/Box';
 import styled from '@emotion/styled';
 import { NavLink } from 'react-router-dom';
+import { Typography, Box } from '@mui/material';
 
 export const StyledBox = styled(Box, {
   shouldForwardProp: (p) => p !== 'showText',
@@ -12,7 +12,7 @@ export const StyledBox = styled(Box, {
 `;
 
 export const StyledItem = styled(Box, {
-  shouldForwardProp: (p) => p !== 'showText',
+  shouldForwardProp: (p) => p !== 'showText' && p !== 'isActive',
 })`
   ${(p) => p.theme.typography.h5}
   padding: 16px;
@@ -58,7 +58,9 @@ export const StyledItem = styled(Box, {
   }
 `;
 
-export const StyledText = styled(Box)`
+export const StyledText = styled(Typography, {
+  shouldForwardProp: (p) => p !== 'isActive',
+})`
   color: ${(p) =>
     p.isActive ? p.theme.palette.primary.main : p.theme.palette.primary.dark};
 
