@@ -3,10 +3,10 @@ import {
   AuthorizationTitle,
   AuthorizationWrapper,
   ButtonWrapper,
-} from './Authorization.styled.js';
+} from './AuthorizationPageComponent.styled.js';
 import WhiteLayout from '../../ui-kit/components/WhiteLayout/WhiteLayout.jsx';
 
-function Authorization() {
+function AuthorizationPageComponent() {
   return (
     <WhiteLayout padding="205px 221px">
       <AuthorizationWrapper>
@@ -20,4 +20,4 @@ function Authorization() {
   );
 }
 
-export default Authorization;
+export default AuthorizationPageComponent;

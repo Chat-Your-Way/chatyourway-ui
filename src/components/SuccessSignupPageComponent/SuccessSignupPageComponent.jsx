@@ -3,9 +3,9 @@ import {
   LoginAccountButton,
   SuccessSignupTitle,
   SuccessSignupWrapper,
-} from './SuccessSignup.styled';
+} from './SuccessSignupPageComponent.styled';
 
-function SuccessSingup() {
+function SuccessSignupPageComponent() {
   return (
     <WhiteLayout padding="225px 157px">
       <SuccessSignupWrapper>
@@ -18,4 +18,4 @@ function SuccessSingup() {
   );
 }
 
-export default SuccessSingup;
+export default SuccessSignupPageComponent;
