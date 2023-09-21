@@ -1,3 +1,4 @@
+import { memo, useState } from 'react';
 import Avatar from '../../ui-kit/components/Avatar';
 import IconButton from '../../ui-kit/components/IconButton/IconButton';
 import { ICONS } from '../../ui-kit/icons';
@@ -17,6 +18,7 @@ import {
   IndicatorBox,
   InfoBox,
   InfoMoreBox,
+  InputBox,
   MessageContainer,
   TextMessage,
   TextMessageBlock,
@@ -28,6 +30,12 @@ import {
 } from './Chat.styled';
 
 const Chat = ({ props }) => {
+  const [messageValue, setMessageValue] = useState('');
+
+  const handleMessageChange = (message) => {
+    setMessageValue(message);
+  };
+
   const messages = [
     {
       id: 1,
@@ -74,7 +82,7 @@ const Chat = ({ props }) => {
                       {item.time}
                     </TimeIndicator>
                     <IconActivity isMyMessage={item.isMyMessage}>
-                      {item.isOnline === true ? (
+                      {item.isOnline ? (
                         <ICONS.PROPERTY_ACTIVITY />
                       ) : (
                         <ICONS.NO_ACTIVITY />
@@ -86,7 +94,7 @@ const Chat = ({ props }) => {
                     <TextMessage isMyMessage={item.isMyMessage}>
                       {item.text}
                     </TextMessage>
-                    {item.isMyMessage === false && (
+                    {!item.isMyMessage && (
                       <IconButton icon={<IconMoreChat />} />
                     )}
                   </TextMessageBlock>
@@ -96,18 +104,21 @@ const Chat = ({ props }) => {
             </ChatSection>
           ))}
         </ChatSection>
-        <ChatInputStyled
-          placeholder="Введіть повідомлення..."
-          endAdornment={
-            <ChatInputIconBox>
-              <IconButton icon={<IconSmile />} />
-              <IconButton icon={<IconSend />} />
-            </ChatInputIconBox>
-          }
-        />
+        <InputBox>
+          <ChatInputStyled
+            value={messageValue}
+            maxRows={3}
+            placeholder="Введіть повідомлення..."
+            onChange={(e) => handleMessageChange(e.target.value)}
+          />
+          <ChatInputIconBox>
+            <IconButton icon={<IconSmile />} />
+            <IconButton icon={<IconSend />} />
+          </ChatInputIconBox>
+        </InputBox>
       </ChatSectionWrap>
     </ChatWrap>
   );
 };
 
-export default Chat;
+export default memo(Chat);

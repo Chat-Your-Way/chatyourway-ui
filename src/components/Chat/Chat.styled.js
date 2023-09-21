@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Box, InputBase, Typography } from '@mui/material';
+import { Box, TextareaAutosize, Typography } from '@mui/material';
 import { ICONS } from '../../ui-kit/icons';
 
 export const ChatWrap = styled(Box)`
@@ -120,18 +120,28 @@ export const IconMoreChat = styled(ICONS.MORE_CIRCLE)`
   fill: ${(p) => p.theme.palette.primary.lightDisabled};
 `;
 
-export const ChatInputStyled = styled(InputBase, {
-  shouldForwardProp: (p) => p !== 'inputWidth' && p !== 'inputHeight',
-})`
-  width: ${(p) => (p.inputWidth ? p.inputWidth : '100%')};
-  height: ${(p) => (p.inputHeight ? p.inputHeight : '42px')};
+export const InputBox = styled(Box)`
+  display: flex;
+  position: relative;
+`;
+
+export const ChatInputStyled = styled(TextareaAutosize)`
+  width: 100%;
+  color: ${(p) => p.theme.palette.primary.dark};
+  border-color: ${(p) => p.theme.palette.primary.contrastText};
   border-radius: 100px;
-  padding: 12px 20px 12px 12px;
-  margin-bottom: 15px;
+  padding: 12px 98px 12px 22px;
+
+  background-color: ${(p) => p.theme.palette.primary.white};
+  outline: 0;
+  box-sizing: border-box;
 `;
 
 export const ChatInputIconBox = styled(Box)`
   display: flex;
+  position: absolute;
+  bottom: 4px;
+  right: 20px;
   gap: 10px;
 `;
 
