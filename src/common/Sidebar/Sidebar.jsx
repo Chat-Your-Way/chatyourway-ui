@@ -8,41 +8,40 @@ import { ICONS } from '../../ui-kit/icons';
 import { useSidebarContext } from './SidebarContext';
 import { PATH } from '../../constans/routes';
 
+const menuRoutes = [
+  {
+    path: PATH.MAIN,
+    name: 'Чати',
+    icon: <ICONS.CHAT />,
+  },
+  {
+    path: PATH.NOTIFICATION,
+    name: 'Повідомлення',
+    icon: <ICONS.MESSAGE />,
+  },
+  {
+    path: PATH.SETTINGS,
+    name: 'Налаштування',
+    icon: <ICONS.SETTING />,
+  },
+  {
+    path: PATH.INFO,
+    name: 'FAQ',
+    icon: <ICONS.INFO_SQUARE />,
+  },
+];
+
 const Sidebar = () => {
   const { showText } = useSidebarContext();
-
-  const menuRoutes = [
-    {
-      path: PATH.main,
-      name: 'Чати',
-      icon: 'CHAT',
-    },
-    {
-      path: PATH.notification,
-      name: 'Повідомлення',
-      icon: 'MESSAGE',
-    },
-    {
-      path: PATH.settings,
-      name: 'Налаштування',
-      icon: 'SETTING',
-    },
-    {
-      path: PATH.info,
-      name: 'FAQ',
-      icon: 'INFO_SQUARE',
-    },
-  ];
 
   return (
     <StyledBox showText={showText}>
       {menuRoutes.map((route) => {
-        const IconComponent = ICONS[route.icon];
         return (
           <StyledNavLink to={route.path} key={route.name}>
             {({ isActive }) => (
               <StyledItem showText={showText} isActive={isActive}>
-                <IconComponent />
+                {route.icon}
                 {showText && (
                   <StyledText isActive={isActive}>{route.name}</StyledText>
                 )}

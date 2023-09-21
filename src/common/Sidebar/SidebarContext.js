@@ -14,7 +14,7 @@ export function useSidebarContext() {
 }
 
 export const useCreateSidebarContext = function (props) {
-  const [showText, setShowText] = useState(props.showText || false);
+  const [showText, setShowText] = useState(props.showText || true);
 
   return {
     showText,
