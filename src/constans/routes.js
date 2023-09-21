@@ -1,6 +1,6 @@
-export const routes = {
-  main: '/',
-  notification: '/notification',
-  settings: '/settings',
-  info: '/info',
+export const PATH = {
+  MAIN: '/',
+  NOTIFICATION: '/notification',
+  SETTINGS: '/settings',
+  INFO: '/info',
 };

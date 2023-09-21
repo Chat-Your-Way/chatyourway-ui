@@ -6,29 +6,29 @@ import {
 } from './Sidebar.styled';
 import { ICONS } from '../../ui-kit/icons';
 import { useSidebarContext } from './SidebarContext';
-import { routes } from '../../constans/routes';
+import { PATH } from '../../constans/routes';
 
 const Sidebar = () => {
   const { showText } = useSidebarContext();
 
   const menuRoutes = [
     {
-      path: routes.main,
+      path: PATH.main,
       name: 'Чати',
       icon: 'CHAT',
     },
     {
-      path: routes.notification,
+      path: PATH.notification,
       name: 'Повідомлення',
       icon: 'MESSAGE',
     },
     {
-      path: routes.settings,
+      path: PATH.settings,
       name: 'Налаштування',
       icon: 'SETTING',
     },
     {
-      path: routes.info,
+      path: PATH.info,
       name: 'FAQ',
       icon: 'INFO_SQUARE',
     },
