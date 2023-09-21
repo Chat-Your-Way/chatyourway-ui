@@ -29,7 +29,7 @@ import {
   UserName,
 } from './Chat.styled';
 
-const Chat = ({ props }) => {
+const Chat = ({ children }) => {
   const [messageValue, setMessageValue] = useState('');
 
   const handleMessageChange = (message) => {
@@ -67,7 +67,7 @@ const Chat = ({ props }) => {
           </InfoBox>
         </UserBox>
         <InfoMoreBox>
-          {props}
+          {children}
           <IconButton icon={<IconMore />} />
         </InfoMoreBox>
       </ChatHeader>
