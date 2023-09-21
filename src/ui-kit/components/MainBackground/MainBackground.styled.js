@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { Box } from '@mui/material';
-
 import firstLight from '../../images/mainBg/1-layer-light.png';
 import firstDark from '../../images/mainBg/1-layer-dark.png';
 import second from '../../images/mainBg/2-layer.png';
@@ -14,6 +13,7 @@ import seventh from '../../images/mainBg/7-layer.png';
 
 export const SharedLayoutWrapper = styled(Box)`
   width: 100%;
+  bottom / 50% no-repeat;
   min-height: 100vh;
   position: relative;
   overflow: hidden;
