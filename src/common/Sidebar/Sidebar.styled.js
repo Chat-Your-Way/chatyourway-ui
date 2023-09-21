@@ -7,6 +7,7 @@ export const StyledBox = styled(Box, {
 })`
   display: flex;
   flex-direction: column;
+  width: ${(p) => (p.showText ? '290px' : '75px')};
   gap: ${(p) => (p.showText ? '8px' : '24px')};
   box-sizing: border-box;
 `;
@@ -15,9 +16,8 @@ export const StyledItem = styled(Box, {
   shouldForwardProp: (p) => p !== 'showText' && p !== 'isActive',
 })`
   ${(p) => p.theme.typography.h5}
-  padding: 16px;
+  padding: ${(p) => (p.showText ? '16px' : '0')};
   cursor: ${(p) => (p.isActive ? 'default' : 'pointer')};
-  width: ${(p) => (p.showText ? '290px' : '75px')};
   display: flex;
   align-items: center;
   text-decoration: none;
