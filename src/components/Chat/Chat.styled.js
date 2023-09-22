@@ -126,8 +126,7 @@ export const InputBox = styled(Box)`
 `;
 
 export const ChatInputStyled = styled(TextareaAutosize)`
-  font-family: 'Inter, sans-serif';
-  font-size: 16px;
+  ${(p) => p.theme.typography.h5};
   width: 100%;
   color: ${(p) => p.theme.palette.primary.dark};
   border-color: ${(p) => p.theme.palette.primary.contrastText};
