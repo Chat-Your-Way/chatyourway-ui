@@ -114,6 +114,7 @@ export const palette = (mode) => ({
           primary: {
             white: '#FFFFFF',
             light: '#ACADFF',
+            green: '#48A87A',
             main: '#8686DC',
             dark: '#353535',
             black: '#171717',
@@ -127,6 +128,7 @@ export const palette = (mode) => ({
           primary: {
             white: '#171717',
             light: '#6261AF',
+            green: '#48A87A',
             main: '#ACADFF',
             dark: '#EEEFFF',
             black: '#FFFFFF',
