@@ -4,11 +4,17 @@ import { ICONS } from '../../../ui-kit/icons';
 import { Box } from '@mui/material';
 
 export const FooterWrap = styled(Box)`
-  padding-top: 24px;
-  padding-bottom: 40px;
+  display: none;
+
+  @media screen and (min-width: calc(845px - 0.02px)) {
+    display: block;
+    padding-top: 24px;
+    padding-bottom: 40px;
+  }
 `;
 
 export const LogOutButton = styled(Button)`
+  ${(p) => p.theme.typography.h4};
   text-transform: uppercase;
   background-color: transparent;
   color: ${(p) => p.theme.palette.primary.dark};

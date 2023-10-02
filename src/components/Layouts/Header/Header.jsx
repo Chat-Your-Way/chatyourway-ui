@@ -1,5 +1,4 @@
 import { Typography } from '@mui/material';
-import Toogle from '../../../ui-kit/components/Toogle';
 import Avatar from '../../../ui-kit/components/Avatar';
 import {
   HeaderWrap,
@@ -8,6 +7,9 @@ import {
   AuthSection,
   NotificationCount,
   UserName,
+  StyledToogle,
+  CategoryIcon,
+  StyledIconButton,
 } from './Header.styled';
 import { useContext } from 'react';
 import { ThemeContext } from '../../../ui-kit/theme/ThemeProvider';
@@ -20,7 +22,7 @@ const Header = () => {
       <HeaderWrap>
         <Logo />
         <AuthSection>
-          <Toogle
+          <StyledToogle
             handleChange={toggleTheme}
             isChecked={currentTheme === 'dark'}
           />
@@ -32,6 +34,7 @@ const Header = () => {
           <UserName variant="h4">Твоє ім`я</UserName>
           <Avatar />
         </AuthSection>
+        <StyledIconButton icon={<CategoryIcon />} />
       </HeaderWrap>
     </header>
   );
