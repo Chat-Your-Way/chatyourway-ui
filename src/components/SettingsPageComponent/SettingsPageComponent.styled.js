@@ -21,7 +21,7 @@ export const SettingsPageWarp = styled(Box)`
     padding: 40px 24px;
   }
 
-  @media screen and (min-width: calc(1440px - 0.02px)) {
+  @media screen and (min-width: calc(1200px - 0.02px)) {
     height: 760px;
     max-width: 840px;
     margin-left: 40px;
