@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
-import Toogle from '../../ui-kit/components/Toogle';
 import {
   AvatarList,
+  AvatarListItem,
   ChangeInputStyled,
   NewSettingsWrap,
   SaveChangeButton,
@@ -14,8 +14,8 @@ import {
   SettingsWrap,
 } from './SettingsPageComponent.styled';
 import { ThemeContext } from '../../ui-kit/theme/ThemeProvider';
-import { ListItem } from '@mui/material';
 import Avatar from '../../ui-kit/components/Avatar';
+import Toogle from '../../ui-kit/components/Toogle';
 
 const SettingsPageComponent = () => {
   const { toggleTheme, currentTheme } = useContext(ThemeContext);
@@ -75,30 +75,30 @@ const SettingsPageComponent = () => {
       {isChangeAvatarVisible && (
         <NewSettingsWrap>
           <AvatarList>
-            <ListItem>
+            <AvatarListItem>
               <Avatar />
-            </ListItem>
-            <ListItem>
+            </AvatarListItem>
+            <AvatarListItem>
               <Avatar />
-            </ListItem>
-            <ListItem>
+            </AvatarListItem>
+            <AvatarListItem>
               <Avatar />
-            </ListItem>
-            <ListItem>
+            </AvatarListItem>
+            <AvatarListItem>
               <Avatar />
-            </ListItem>
-            <ListItem>
+            </AvatarListItem>
+            <AvatarListItem>
               <Avatar />
-            </ListItem>
-            <ListItem>
+            </AvatarListItem>
+            <AvatarListItem>
               <Avatar />
-            </ListItem>
-            <ListItem>
+            </AvatarListItem>
+            <AvatarListItem>
               <Avatar />
-            </ListItem>
-            <ListItem>
+            </AvatarListItem>
+            <AvatarListItem>
               <Avatar />
-            </ListItem>
+            </AvatarListItem>
           </AvatarList>
           <SaveChangeButton label="Підтвердити" />
         </NewSettingsWrap>
