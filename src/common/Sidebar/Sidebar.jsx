@@ -3,6 +3,11 @@ import {
   StyledNavLink,
   StyledItem,
   StyledText,
+  StyledItemsBox,
+  StyledContentBox,
+  Logo,
+  LogOutButton,
+  LogOutIcon,
 } from './Sidebar.styled';
 import { ICONS } from '../../ui-kit/icons';
 import { useSidebarContext } from './SidebarContext';
@@ -32,25 +37,38 @@ const menuRoutes = [
 ];
 
 const Sidebar = () => {
-  const { showText } = useSidebarContext();
+  const { showText, showMenu } = useSidebarContext();
 
   return (
-    <StyledBox showText={showText}>
-      {menuRoutes.map((route) => {
-        return (
-          <StyledNavLink to={route.path} key={route.name}>
-            {({ isActive }) => (
-              <StyledItem showText={showText} isActive={isActive}>
-                {route.icon}
-                {showText && (
-                  <StyledText isActive={isActive}>{route.name}</StyledText>
-                )}
-              </StyledItem>
-            )}
-          </StyledNavLink>
-        );
-      })}
-    </StyledBox>
+    <>
+      {showMenu && (
+        <StyledBox showText={showText}>
+          <StyledContentBox>
+            <Logo />
+            <StyledItemsBox>
+              {menuRoutes.map((route) => {
+                return (
+                  <StyledNavLink to={route.path} key={route.name}>
+                    {({ isActive }) => (
+                      <StyledItem showText={showText} isActive={isActive}>
+                        {route.icon}
+                        {showText && (
+                          <StyledText isActive={isActive}>
+                            {route.name}
+                          </StyledText>
+                        )}
+                      </StyledItem>
+                    )}
+                  </StyledNavLink>
+                );
+              })}
+
+              <LogOutButton label="Вийти" startIcon={<LogOutIcon />} />
+            </StyledItemsBox>
+          </StyledContentBox>
+        </StyledBox>
+      )}
+    </>
   );
 };
 

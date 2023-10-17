@@ -15,9 +15,12 @@ export function useSidebarContext() {
 
 export const useCreateSidebarContext = function (props) {
   const [showText, setShowText] = useState(props.showText || true);
+  const [showMenu, setShowMenu] = useState(props.showText || true);
 
   return {
     showText,
     setShowText,
+    showMenu,
+    setShowMenu,
   };
 };
