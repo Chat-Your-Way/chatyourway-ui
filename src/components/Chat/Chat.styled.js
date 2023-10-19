@@ -8,20 +8,18 @@ export const ChatWrap = styled(Box)`
   justify-content: space-between;
   width: 100%;
   max-width: 342px;
-  height: 707px;
+  height: 100vh;
   padding: 6px 6px 21px;
   border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
-
+  overflow-y: auto;
   @media screen and (min-width: calc(845px - 0.02px)) {
     max-width: 648px;
-    height: 864px;
     padding: 8px 8px 16px;
   }
 
   @media screen and (min-width: calc(1200px - 0.02px)) {
     max-width: 730px;
-    height: 761px;
   }
 `;
 
