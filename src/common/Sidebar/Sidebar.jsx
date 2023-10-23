@@ -1,4 +1,5 @@
 import {
+  MainBox,
   StyledBox,
   StyledNavLink,
   StyledItem,
@@ -40,7 +41,7 @@ const Sidebar = () => {
   const { showText, showMenu } = useSidebarContext();
 
   return (
-    <>
+    <MainBox>
       {showMenu && (
         <StyledBox showText={showText}>
           <StyledContentBox>
@@ -62,13 +63,12 @@ const Sidebar = () => {
                   </StyledNavLink>
                 );
               })}
-
               <LogOutButton label="Вийти" startIcon={<LogOutIcon />} />
             </StyledItemsBox>
           </StyledContentBox>
         </StyledBox>
       )}
-    </>
+    </MainBox>
   );
 };
 

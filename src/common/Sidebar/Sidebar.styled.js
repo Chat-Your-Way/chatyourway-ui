@@ -4,6 +4,10 @@ import { Typography, Box } from '@mui/material';
 import { ICONS } from '../../ui-kit/icons';
 import Button from '../../ui-kit/components/Button';
 
+export const MainBox = styled(Box)`
+  display: flex;
+`;
+
 export const StyledBox = styled(Box, {
   shouldForwardProp: (p) => p !== 'showText',
 })`
@@ -79,10 +83,6 @@ export const StyledItem = styled(Box, {
   border: none;
   transition: 0.2s ease all;
 
-  path {
-    fill: ${(p) => p.theme.palette.primary.dark};
-  }
-
   .MuiTypography-root {
     ${(p) => p.theme.typography.h4}
   }
@@ -97,6 +97,7 @@ export const StyledItem = styled(Box, {
         p.showText && p.isActive
           ? p.theme.palette.primary.main
           : 'transparent'};
+
     background: ${(p) =>
       p.showText && p.isActive ? p.theme.palette.primary.white : 'transparent'};
 
@@ -118,8 +119,10 @@ export const StyledItem = styled(Box, {
   &:hover {
     border: 1px solid
       ${(p) => (p.showText ? p.theme.palette.primary.main : 'transparent')};
-
     color: ${(p) => p.theme.palette.primary.main};
+    p {
+      color: ${(p) => p.theme.palette.primary.main};
+    }
 
     svg {
       filter: drop-shadow(-2px -2px 8px rgb(134 134 220 / 0.2))
@@ -162,8 +165,11 @@ export const StyledText = styled(Typography, {
       p.isActive ? p.theme.palette.primary.main : p.theme.palette.primary.dark};
 
     &:hover {
-      color: ${(p) =>
-        p.isActive ? 'transparent' : p.theme.palette.primary.main};
+      color: ${(p) => p.theme.palette.primary.main};
+    }
+
+    &:active {
+      color: ${(p) => p.theme.palette.primary.main};
     }
   }
 `;
