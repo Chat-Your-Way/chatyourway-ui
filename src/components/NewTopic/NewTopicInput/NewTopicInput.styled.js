@@ -18,6 +18,10 @@ export const StyledInputLabel = styled(InputLabel)`
 
 export const StyledTextField = styled(TextField)`
   box-sizing: border-box;
+  border-color: ${(p) =>
+    p.error
+      ? p.theme.palette.primary.errorColor
+      : p.theme.palette.primary.main};
 
   & .MuiInputBase-input {
     padding: 12px;
@@ -28,5 +32,5 @@ export const StyledTextField = styled(TextField)`
 export const StyledErrorText = styled(Typography)`
   width: 100%;
   ${(p) => p.theme.typography.h5}
-  color: red
+  color: ${(p) => p.theme.palette.primary.errorColor};
 `;

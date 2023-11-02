@@ -14,7 +14,7 @@ export const StyledModalBox = styled(Box)`
   padding: 0 1.5rem;
   font-size: 1.2rem;
   border-radius: 1rem;
-  background-color: #fff;
+  background-color: ${(p) => p.theme.palette.primary.white};
   margin: auto;
   z-index: 999;
 `;
