@@ -6,13 +6,18 @@ const ThemeBlock = ({
   isOpenChat = false,
   isOpenContacts = false,
   isTopics,
+  handleBTNFunc,
 }) => {
   const title = isTopics ? 'Теми' : 'Повідомлення';
   return (
     <StyledBox isOpenChat={isOpenChat} isOpenContacts={isOpenContacts}>
       {title}
       {isTopics && (
-        <DefaultButton label="Нова" endIcon={<ICONS.EDIT_SQUARE />} />
+        <DefaultButton
+          label="Нова"
+          endIcon={<ICONS.EDIT_SQUARE />}
+          handleClick={handleBTNFunc}
+        />
       )}
     </StyledBox>
   );

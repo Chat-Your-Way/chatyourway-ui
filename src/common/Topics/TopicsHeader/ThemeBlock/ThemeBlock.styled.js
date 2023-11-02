@@ -5,8 +5,7 @@ export const StyledBox = styled(Box, {
   shouldForwardProp: (p) => p !== 'isOpenChat' && p !== 'isOpenContacts',
 })`
   ${(p) => p.theme.typography.h1};
-  width: ${(p) =>
-    p.isOpenChat ? '360px' : p.isOpenContacts ? '300px' : '400px'};
+  width: 330px;
   height: 65px;
   display: flex;
   align-items: center;
@@ -23,5 +22,14 @@ export const StyledBox = styled(Box, {
         ? p.theme.palette.primary.disabled
         : p.theme.palette.primary.dark};
     fill: ${(p) => p.theme.palette.primary.dark};
+  }
+
+  @media screen and (min-width: calc(834px - 0.02px)) {
+    width: 400px;
+  }
+
+  @media screen and (min-width: calc(1200px - 0.02px)) {
+    width: ${(p) =>
+      p.isOpenChat ? '360px' : p.isOpenContacts ? '300px' : '400px'};
   }
 `;
