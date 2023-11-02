@@ -39,18 +39,21 @@ const TabsBlock = ({
           tabWith={firstTabWidth}
           firstTabPaddingX
           borderRight
+          tabNumber={1}
           isActive
         />
         <StyledTab
           label="улюблене"
           {...a11yProps(1)}
           tabWith={secondTabWidth}
+          tabNumber={2}
         />
         <StyledTab
           label="популярне"
           {...a11yProps(2)}
           tabWith={thirdTabWidth}
           borderLeft
+          tabNumber={3}
         />
       </StyledTabs>
     </StyledBox>

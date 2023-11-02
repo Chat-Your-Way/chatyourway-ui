@@ -41,7 +41,6 @@ const ChatItem = ({
               lastMessageTime={data.lastMessageTime}
             />
           )}
-
           <LastMessages
             isOpenChat={isOpenChat}
             isOpenContacts={isOpenContacts}

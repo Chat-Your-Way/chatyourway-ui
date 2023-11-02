@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import ChatItem from './ChatItem';
 import { ChatBlockDataHelper } from './ChatBlockDataHelper';
+import { StyledNavLink } from './ChatsBlock.styled';
 
 const ChatsBlock = ({
   isOpenChat = false,
@@ -12,13 +13,14 @@ const ChatsBlock = ({
     <>
       {ChatItems.map((item, index) => {
         return (
-          <ChatItem
-            isOpenChat={isOpenChat}
-            isOpenContacts={isOpenContacts}
-            key={index}
-            data={item}
-            isTopics={isTopics}
-          />
+          <StyledNavLink to={`/topics/chat/${item.title}`} key={index}>
+            <ChatItem
+              isOpenChat={isOpenChat}
+              isOpenContacts={isOpenContacts}
+              data={item}
+              isTopics={isTopics}
+            />
+          </StyledNavLink>
         );
       })}
     </>
