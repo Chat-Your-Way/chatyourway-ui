@@ -19,9 +19,9 @@ export const SharedLayoutWrapper = styled(Box)`
   overflow: hidden;
   transition: background 0.6s ease;
   background: ${(p) =>
-      p.theme.palette.mode === 'light'
-        ? `url(${firstLight}) left top / 50% no-repeat`
-        : `url(${firstDark}) left top / 50% no-repeat`},
+    p.theme.palette.mode === 'light'
+      ? `url(${firstLight}) left top / 50% no-repeat`
+      : `url(${firstDark}) left top / 50% no-repeat`},
     url(${second}) left bottom / 50% no-repeat,
     url(${third}) right bottom / 50% no-repeat,
     url(${fourth}) right top / 50% no-repeat,
