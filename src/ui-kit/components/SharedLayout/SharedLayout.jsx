@@ -10,7 +10,7 @@ const SharedLayout = () => {
       <Header />
       <main>
         <Outlet />
-        <TextNavLinkButton to={'/'} label={'to main'} />
+        <TextNavLinkButton to={'/'} label={'To main'} />
       </main>
       <Footer />
     </MainBackground>

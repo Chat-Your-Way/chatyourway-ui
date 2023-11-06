@@ -5,10 +5,10 @@ function TextNavLinkButton({
   to,
   label = 'Button',
   isDisabled = false,
+  withoutBackground = false,
   startIcon = null,
   endIcon = null,
   fontSize = '',
-  withoutBackground = false,
   iconWidth = '',
   iconHeight = '',
   ...props
