@@ -65,6 +65,7 @@ import { ReactComponent as Setting } from './svg-icons/Setting.svg';
 import { ReactComponent as ShieldDone } from './svg-icons/ShieldDone.svg';
 import { ReactComponent as ShieldFail } from './svg-icons/ShieldFail.svg';
 import { ReactComponent as Show } from './svg-icons/Show.svg';
+import { ReactComponent as Smile } from './svg-icons/Smile.svg';
 import { ReactComponent as Star } from './svg-icons/Star.svg';
 import { ReactComponent as Swap } from './svg-icons/Swap.svg';
 import { ReactComponent as TickSquare } from './svg-icons/TickSquare.svg';
@@ -77,6 +78,8 @@ import { ReactComponent as VolumeDown } from './svg-icons/VolumeDown.svg';
 import { ReactComponent as VolumeOff } from './svg-icons/VolumeOff.svg';
 import { ReactComponent as VolumeUp } from './svg-icons/VolumeUp.svg';
 import { ReactComponent as Logo } from './logo/Logo.svg';
+import { ReactComponent as Confirm } from './svg-icons/Confirm.svg';
+import { ReactComponent as Close } from './svg-icons/CloseSquare.svg';
 
 export const ICONS = {
   TWO_USER: TwoUser,
@@ -101,7 +104,9 @@ export const ICONS = {
   BAN_NOTIFICATION: BanNotific,
   BOOKMARK: Bookmark,
   CATEGORY: Category,
+  CONFIRM: Confirm,
   CHAT: Chat,
+  CLOSE_SQUARE: Close,
   DANGER_CIRCLE: DangerCircle,
   DANGER_TRIANGLE: DangerT,
   DELETE: Delete,
@@ -139,6 +144,7 @@ export const ICONS = {
   SHIELD_DONE: ShieldDone,
   SHIELD_FAIL: ShieldFail,
   SHOW: Show,
+  SMILE: Smile,
   STAR: Star,
   SWAP: Swap,
   TICK_SQUARE: TickSquare,

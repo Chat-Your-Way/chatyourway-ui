@@ -11,16 +11,17 @@ import {
 const EmailInput = ({
   placeholderText = 'example@gmail.com',
   error = false,
-  errorText = 'Some data is incorrect',
+  errorText = 'Дані не вірні',
   inputValue = '',
   inputHandler = () => {},
   inputWidth = '',
   inputHeight = '',
+  labelText = 'Email',
   ...props
 }) => {
   return (
     <>
-      <EmailInputLabel>Email</EmailInputLabel>
+      <EmailInputLabel>{labelText}</EmailInputLabel>
       <EmailInputStyled
         type="email"
         placeholder={placeholderText}

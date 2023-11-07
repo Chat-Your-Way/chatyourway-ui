@@ -12,14 +12,16 @@ import {
 } from './PasswordInput.styled';
 
 const PasswordInput = ({
-  placeholderText = 'Minimum of 8 characters',
+  placeholderText = 'Мінімум 8 символів',
   error = false,
-  errorText = 'Some data is incorrect',
+  errorText = 'Дані не вірні',
   linkTo = '#',
   inputHandler = () => {},
   inputValue = '',
   inputWidth = '',
   inputHeight = '',
+  inputText = 'Пароль',
+  linkText = 'Забули пароль?',
   ...props
 }) => {
   const [inputType, setInputType] = useState('password');
@@ -31,8 +33,8 @@ const PasswordInput = ({
   return (
     <>
       <LabelLinkWrapper inputWidth={inputWidth}>
-        <PasswordLabel>Password</PasswordLabel>
-        <ForgotPswLink href={linkTo}>Forgot your password?</ForgotPswLink>
+        <PasswordLabel>{inputText}</PasswordLabel>
+        <ForgotPswLink href={linkTo}>{linkText}</ForgotPswLink>
       </LabelLinkWrapper>
       <PasswordInputStyled
         type={inputType}

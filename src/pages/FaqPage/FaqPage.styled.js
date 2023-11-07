@@ -10,7 +10,6 @@ import { ICONS } from '../../ui-kit/icons';
 
 export const FaqPageWrapper = styled(Box)`
   max-width: 730px;
-  height: 760px;
   padding: 40px 55px;
   margin: 0 auto;
   border-radius: 16px;
@@ -18,12 +17,10 @@ export const FaqPageWrapper = styled(Box)`
 
   @media screen and (max-width: calc(1195px - 0.02px)) {
     max-width: 600px;
-    height: 840px;
     padding: 40px 24px;
   }
   @media screen and (max-width: calc(845px - 0.02px)) {
     min-width: 330px;
-    height: 600px;
     padding: 0 6px;
   }
 `;

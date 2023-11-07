@@ -18,7 +18,7 @@ const titlesAndTexts = [
   },
   {
     title: 'How to complain to the chat',
-    text: 'How to complain to the chat - fatsADTASDTATSDTASD',
+    text: 'sad very sad',
   },
   {
     title:

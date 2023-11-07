@@ -65,6 +65,7 @@ export const StyledFormControlLabel = styled(FormControlLabel)`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: 0;
   flex-direction: ${(p) =>
     p.control.props.labelPosition === 'start' ? 'row-reverse' : 'row'};
 
