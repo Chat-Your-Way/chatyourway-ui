@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
+import { Box } from '@mui/material';
 
-export const RadioGroup = styled.div`
+export const RadioGroup = styled(Box)`
   list-style: none;
-  margin: 0 auto;
+  margin: 0 auto 12px auto;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);

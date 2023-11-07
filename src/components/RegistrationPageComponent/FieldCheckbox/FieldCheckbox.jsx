@@ -1,11 +1,7 @@
 import { Controller } from 'react-hook-form';
 import { validationRules } from '../validationRules';
-import {
-  CheckboxLabel,
-  CheckboxTitle,
-  CheckboxLink,
-  CheckboxStyled,
-} from './FieldCheckbox.styled';
+import { CheckboxTitle, CheckboxLink } from './FieldCheckbox.styled';
+import CheckBox from '../../../ui-kit/components/CheckBox/CheckBox';
 
 export const FieldCheckbox = ({ id, control }) => {
   return (
@@ -14,19 +10,14 @@ export const FieldCheckbox = ({ id, control }) => {
       name={id}
       rules={validationRules.agreement}
       render={({ field: { value, onChange } }) => (
-        <CheckboxLabel
+        <CheckBox
+          isChecked={value}
+          handleChange={onChange}
+          ariaLabel={{ 'aria-label': 'controlled' }}
           label={
             <CheckboxTitle>
               Я погоджуюсь із <CheckboxLink>правилами чату</CheckboxLink>
             </CheckboxTitle>
-          }
-          labelPlacement="end"
-          control={
-            <CheckboxStyled
-              checked={value}
-              onChange={onChange}
-              inputProps={{ 'aria-label': 'controlled' }}
-            />
           }
         />
       )}

@@ -35,11 +35,10 @@ function RegistrationPageComponent() {
     const { avatar, email, nickname, password } = values;
     const userData = {
       nickname,
-      email: email.toLowerCase(),
+      email: email.trim().toLowerCase(),
       avatarId: Number(avatar),
       password,
     };
-    // eslint-disable-next-line no-console
     console.log(userData);
   };
 

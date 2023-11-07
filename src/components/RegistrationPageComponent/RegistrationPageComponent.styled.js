@@ -6,7 +6,6 @@ export const RegistrationWrapper = styled(Box)`
   flex-direction: column;
   align-items: center;
   margin: auto;
-  outline: 1px solid red;
 `;
 
 export const RegistrationForm = styled.form`
@@ -16,7 +15,7 @@ export const RegistrationForm = styled.form`
 `;
 
 // ===== COMMON STYLES
-export const RegistrationInputWrapper = styled.div`
+export const RegistrationInputWrapper = styled(Box)`
   position: relative;
   margin: 0 0 22px 0;
 `;
@@ -36,6 +35,7 @@ export const RegistrationInput = styled(InputBase, {
   width: ${(p) => (p.inputWidth ? p.inputWidth : '300px')};
   height: ${(p) => (p.inputHeight ? p.inputHeight : '46px')};
   border: 1px solid ${(p) => (p.errors === 'true' ? '#DA4444' : '#6261AF')};
+  background-color: ${(p) => p.theme.palette.primary.white};
 
   @media screen and (min-width: calc(845px - 0.02px)) {
     width: ${(p) => (p.inputWidth ? p.inputWidth : '400px')};
