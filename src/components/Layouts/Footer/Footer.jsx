@@ -1,11 +1,14 @@
+import Wrapper from '../Wrapper';
 import { FooterWrap, LogOutButton, LogOutIcon } from './Footer.styled';
 
 const Footer = () => {
   return (
     <footer>
-      <FooterWrap>
-        <LogOutButton label="Вийти" startIcon={<LogOutIcon />} />
-      </FooterWrap>
+      <Wrapper>
+        <FooterWrap>
+          <LogOutButton label="Вийти" startIcon={<LogOutIcon />} />
+        </FooterWrap>
+      </Wrapper>
     </footer>
   );
 };

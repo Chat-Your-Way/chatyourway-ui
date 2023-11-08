@@ -8,8 +8,16 @@ export const HeaderWrap = styled(Box)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 30px;
-  padding-bottom: 40px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  @media screen and (min-width: calc(845px - 0.02px)) {
+    padding-top: 40px;
+    padding-bottom: 45px;
+  }
+  @media screen and (min-width: calc(1195px - 0.02px)) {
+    padding-top: 30px;
+    padding-bottom: 40px;
+  }
 `;
 
 export const Logo = styled(ICONS.LOGO)`
