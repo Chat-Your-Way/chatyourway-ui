@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { ICONS } from '../../ui-kit/icons';
+import { OpenIcon, CloseIcon } from './ExpandIcon.styled';
 
 const ExpandIcon = () => {
   return (
@@ -17,10 +17,10 @@ const ExpandIcon = () => {
       }}
     >
       <div className="expandIconWrapper">
-        <ICONS.CLOSE_SQUARE />
+        <CloseIcon />
       </div>
       <div className="collapsIconWrapper">
-        <ICONS.ARROW_DOWN2 />
+        <OpenIcon />
       </div>
     </Box>
   );

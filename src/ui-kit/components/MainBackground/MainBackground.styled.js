@@ -18,6 +18,8 @@ export const SharedLayoutWrapper = styled(Box)`
   position: relative;
   overflow: hidden;
   transition: background 0.6s ease;
+  z-index: 10;
+
   background: ${(p) =>
     p.theme.palette.mode === 'light'
       ? `url(${firstLight}) left top / 50% no-repeat`
