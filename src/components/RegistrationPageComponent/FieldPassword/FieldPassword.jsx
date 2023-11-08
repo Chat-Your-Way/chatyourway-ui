@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { validationRules } from '../validationRules';
 import { Controller } from 'react-hook-form';
 import { PasswordIconHide, PasswordIconShow } from './FieldPassword.styled';
 import {
@@ -7,7 +8,6 @@ import {
   RegistrationInput,
   RegistrationInputError,
 } from '../RegistrationPageComponent.styled';
-import { validationRules } from '../validationRules';
 
 export const FieldPassword = ({ title, id, control, errors, watch }) => {
   const [showPassword, setShowPassword] = useState(false);

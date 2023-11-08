@@ -2,6 +2,8 @@ import { Outlet } from 'react-router-dom';
 import MainBackground from '../MainBackground';
 import Header from '../../../components/Layouts/Header';
 import Footer from '../../../components/Layouts/Footer';
+// eslint-disable-next-line max-len
+import RegistrationPageComponent from '../../../components/RegistrationPageComponent/RegistrationPageComponent';
 
 const SharedLayout = () => {
   return (
@@ -9,6 +11,7 @@ const SharedLayout = () => {
       <Header />
       <main>
         <Outlet />
+        <RegistrationPageComponent />
       </main>
       <Footer />
     </MainBackground>

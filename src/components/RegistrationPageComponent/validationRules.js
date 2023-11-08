@@ -3,12 +3,10 @@ const validateName = (value) => {
   if (!isNonWhiteSpace.test(value)) {
     return 'must not contain whitespaces';
   }
-
   const allowedSymbols = /^[a-zA-ZА-Яа-я0-9!@#*+=$%^&_-~?]+$/;
   if (!allowedSymbols.test(value)) {
     return 'invalid characters or symbols';
   }
-
   return true;
 };
 
@@ -17,7 +15,6 @@ const validateEmail = (value) => {
   if (!isNonWhiteSpace.test(value)) {
     return 'must not contain whitespaces';
   }
-
   //eslint-disable-next-line
   const allowedSymbols = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   if (!allowedSymbols.test(value)) {
@@ -30,22 +27,18 @@ const validatePassword = (value) => {
   if (!isNonWhiteSpace.test(value)) {
     return 'must not contain whitespaces';
   }
-
   const isContainsSymbol = /[!@#$%^&-*_+=?]+/;
   if (!isContainsSymbol.test(value)) {
     return 'must have at least one symbol';
   }
-
   const isContainsUppercase = /^(?=.*[A-Z]).*$/;
   if (!isContainsUppercase.test(value)) {
     return 'must have at least one uppercase';
   }
-
   const isContainsNumber = /^(?=.*[0-9]).*$/;
   if (!isContainsNumber.test(value)) {
     return 'must have at least one digit';
   }
-
   return true;
 };
 

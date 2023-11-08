@@ -3,8 +3,8 @@ import { Box } from '@mui/material';
 
 export const RadioGroup = styled(Box)`
   list-style: none;
-  margin: 0 auto 12px auto;
-  padding: 0;
+  margin: 0 auto 8px auto;
+  padding: 24px 0 0 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(3, 1fr);

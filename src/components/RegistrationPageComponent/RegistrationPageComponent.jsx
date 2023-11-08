@@ -7,6 +7,7 @@ import { LoginButton } from '../LoginPageComponent/LoginPageComponent.styled';
 import {
   RegistrationWrapper,
   RegistrationForm,
+  LogoIcon,
 } from './RegistrationPageComponent.styled';
 
 const defaultValues = {
@@ -14,36 +15,36 @@ const defaultValues = {
   email: '',
   password: '',
   avatar: '3',
-  confirm: '',
+  confirm: false,
   agreement: false,
 };
 
 function RegistrationPageComponent() {
   const {
+    formState: { errors, isValid },
     handleSubmit,
     control,
     watch,
-    formState: { errors, isValid },
   } = useForm({
     defaultValues: defaultValues,
     mode: 'onChange',
   });
-
   const passwordValue = watch('password');
 
   const onSubmit = (values) => {
     const { avatar, email, nickname, password } = values;
+    // eslint-disable-next-line no-unused-vars
     const userData = {
       nickname,
       email: email.trim().toLowerCase(),
       avatarId: Number(avatar),
       password,
     };
-    console.log(userData);
   };
 
   return (
     <RegistrationWrapper>
+      <LogoIcon />
       <RegistrationForm onSubmit={handleSubmit(onSubmit)}>
         <FieldText
           title="Ім'я"
