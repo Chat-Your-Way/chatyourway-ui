@@ -33,7 +33,6 @@ function RegistrationPageComponent() {
 
   const onSubmit = (values) => {
     const { avatar, email, nickname, password } = values;
-    // eslint-disable-next-line no-unused-vars
     const userData = {
       nickname,
       email: email.trim().toLowerCase(),
