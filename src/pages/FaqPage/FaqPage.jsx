@@ -2,10 +2,11 @@ import {
   FaqPageTitle,
   FaqPageWrapper,
   FaqAccordion,
-  IconDown,
-  FaqAccordionSummary,
   FaqAccordionDetails,
 } from './FaqPage.styled';
+import AccordionSummary from '@mui/material/AccordionSummary';
+
+import ExpandIcon from '../../components/ExpandIcon';
 
 const titlesAndTexts = [
   {
@@ -31,12 +32,12 @@ const FaqPage = () => {
   return (
     <FaqPageWrapper>
       <FaqPageTitle variant="h1">The most common questions</FaqPageTitle>
-      {titlesAndTexts.map((item, index) => (
+      {titlesAndTexts.map(({ title, text }, index) => (
         <FaqAccordion key={index}>
-          <FaqAccordionSummary expandIcon={<IconDown />}>
-            {item.title}
-          </FaqAccordionSummary>
-          <FaqAccordionDetails>{item.text}</FaqAccordionDetails>
+          <AccordionSummary expandIcon={<ExpandIcon />}>
+            {title}
+          </AccordionSummary>
+          <FaqAccordionDetails>{text}</FaqAccordionDetails>
         </FaqAccordion>
       ))}
     </FaqPageWrapper>
