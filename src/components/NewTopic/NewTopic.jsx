@@ -5,15 +5,22 @@ import {
   StyledForm,
   CloseButton,
   ConfirmButton,
+  CloseIcon,
 } from './NewTopic.styled';
-import { ICONS } from '../../ui-kit/icons';
+// import { ICONS } from '../../ui-kit/icons';
 import NewTopicInput from './NewTopicInput';
 
 function NewTopic({ closeModal }) {
-  const { control, handleSubmit } = useForm({ mode: 'all' });
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: 'all' });
 
   const [inputName, setInputName] = useState();
   const [inputTag, setInputTag] = useState();
+
+  const isErrorsInForm = Object.keys(errors).length != 0;
 
   const onChangeInputTopicNameHandler = (event) => {
     setInputName(event.target.value);
@@ -23,7 +30,7 @@ function NewTopic({ closeModal }) {
     setInputTag(event.target.value);
   };
 
-  const onSubmit = () => {
+  const onSubmit = (/* data */) => {
     // after add data
     closeModal();
   };
@@ -42,10 +49,7 @@ function NewTopic({ closeModal }) {
 
   return (
     <StyledModalBox onClick={(e) => e.stopPropagation()}>
-      <CloseButton
-        icon={<ICONS.CLOSE_SQUARE width={24} height={24} />}
-        handleClick={closeModal}
-      />
+      <CloseButton icon={<CloseIcon />} handleClick={closeModal} />
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <Controller
           name="firstName"
@@ -109,7 +113,11 @@ function NewTopic({ closeModal }) {
             />
           )}
         />
-        <ConfirmButton label="Створити" type="submit" />
+        <ConfirmButton
+          label="Створити"
+          type="submit"
+          isError={isErrorsInForm}
+        />
       </StyledForm>
     </StyledModalBox>
   );
