@@ -13,7 +13,7 @@ export const FaqPageWrapper = styled(Box)`
   padding: 40px 55px;
   margin: 0 auto;
   border-radius: 16px;
-  background-color: ${(p) => p.theme.palette.primary.white};
+  background-color: ${(p) => p.theme.palette.primary.whiteRBGA};
 
   @media screen and (max-width: calc(1195px - 0.02px)) {
     max-width: 600px;
@@ -54,6 +54,9 @@ export const IconDown = styled(ICONS.ARROW_DOWN2)`
   fill: ${(p) => p.theme.palette.primary.light};
 `;
 
-export const FaqAccordionSummary = styled(AccordionSummary)``;
+export const FaqAccordionSummary = styled(AccordionSummary)`
+  display: flex;
+  align-items: center;
+`;
 
 export const FaqAccordionDetails = styled(AccordionDetails)``;
