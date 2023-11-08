@@ -8,6 +8,10 @@ export const FooterWrap = styled(Box)`
 
   @media screen and (min-width: calc(845px - 0.02px)) {
     display: block;
+    padding-top: 77px;
+    padding-bottom: 40px;
+  }
+  @media screen and (min-width: calc(1195px - 0.02px)) {
     padding-top: 24px;
     padding-bottom: 40px;
   }
