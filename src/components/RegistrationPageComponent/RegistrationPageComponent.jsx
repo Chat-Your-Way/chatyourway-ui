@@ -15,7 +15,7 @@ const defaultValues = {
   email: '',
   password: '',
   avatar: '3',
-  confirm: false,
+  confirm: '',
   agreement: false,
 };
 
