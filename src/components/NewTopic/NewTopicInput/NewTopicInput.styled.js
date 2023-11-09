@@ -41,7 +41,7 @@ export const StyledTextField = styled(TextField, {
   }
 
   & .MuiInputBase-input {
-    padding: 12px;
+    padding: 0;
     box-sizing: border-box;
   }
 `;

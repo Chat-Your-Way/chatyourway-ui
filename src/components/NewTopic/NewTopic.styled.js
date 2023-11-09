@@ -6,7 +6,7 @@ import { ICONS } from '../../ui-kit/icons';
 
 export const StyledModalBox = styled(Box)`
   margin: auto;
-  padding: 0 1.5rem;
+  padding: 24px;
   position: relative;
   box-sizing: border-box;
   width: min(87%, 800px);
@@ -26,12 +26,13 @@ export const StyledForm = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 24px;
+  gap: 4px;
 `;
 
 export const ConfirmButton = styled(Button, {
   shouldForwardProp: (p) => p !== 'isError',
 })`
+  margin-top: 20px;
   width: 180px;
   ${(p) => p.theme.typography.h4};
   background: ${(p) =>
@@ -42,17 +43,12 @@ export const ConfirmButton = styled(Button, {
 
 export const CloseButton = styled(IconButton)`
   position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 24px;
-  height: 24px;
+  top: 24px;
+  right: 24px;
   fill: ${(p) => p.theme.palette.primary.dark};
 `;
 
 export const CloseIcon = styled(ICONS.CLOSE_SQUARE)`
-  width: 24px;
-  height: 24px;
-
   path {
     fill: ${(p) =>
       p.theme.palette.mode === 'light'
