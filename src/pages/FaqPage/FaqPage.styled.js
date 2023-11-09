@@ -52,7 +52,7 @@ export const FaqAccordion = styled(Accordion)`
   word-wrap: break-word;
 
   & .Mui-expanded {
-    color: ${(p) => p.theme.palette.primary.main};
+    color: ${(p) => p.theme.palette.primary.lightPurple};
     font-weight: 600;
     margin: 0;
   }
