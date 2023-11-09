@@ -15,7 +15,7 @@ function TopicsPage() {
   const isTabletAndBelow = useTabletAndBelowMediaQuery();
 
   const [modalOpenNewTopic, setModalOpenNewTopic] = useState(false);
-  const [contactsOpen, setContactsOpen] = useState(true);
+  const [contactsOpen, setContactsOpen] = useState(false);
 
   const handleModal = () => {
     setModalOpenNewTopic(!modalOpenNewTopic);
