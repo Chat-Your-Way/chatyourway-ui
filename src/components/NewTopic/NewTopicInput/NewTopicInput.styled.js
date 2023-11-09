@@ -4,11 +4,13 @@ import { ICONS } from '../../../ui-kit/icons';
 
 export const StyledInputBox = styled(Box)`
   width: min(100%, 400px);
+  height: 87px;
   display: flex;
   flex-direction: column;
 `;
 
 export const StyledInputLabel = styled(InputLabel)`
+  margin-bottom: 0;
   width: 100%;
   ${(p) => p.theme.typography.h5}
   color: ${(p) => p.theme.palette.primary.dark};
@@ -34,6 +36,10 @@ export const StyledTextField = styled(TextField, {
     }
   }
 
+  & .MuiInputBase-root {
+    height: 46px;
+  }
+
   & .MuiInputBase-input {
     padding: 12px;
     box-sizing: border-box;
@@ -42,6 +48,7 @@ export const StyledTextField = styled(TextField, {
 
 export const StyledErrorText = styled(Typography)`
   width: 100%;
+  height: 19px;
   ${(p) => p.theme.typography.h5}
   color: ${(p) => p.theme.palette.primary.errorColor};
 `;

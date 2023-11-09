@@ -5,18 +5,18 @@ import IconButton from '../../ui-kit/components/IconButton';
 import { ICONS } from '../../ui-kit/icons';
 
 export const StyledModalBox = styled(Box)`
+  margin: auto;
+  padding: 0 1.5rem;
   position: relative;
-  width: min(55%, 800px);
+  box-sizing: border-box;
+  width: min(87%, 800px);
   height: min(71%, 600px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 1.5rem;
-  font-size: 1.2rem;
-  border-radius: 1rem;
+  border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
-  margin: auto;
   z-index: 999;
 `;
 
