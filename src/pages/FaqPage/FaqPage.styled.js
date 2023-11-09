@@ -6,7 +6,6 @@ import {
   AccordionDetails,
   AccordionSummary,
 } from '@mui/material';
-import { ICONS } from '../../ui-kit/icons';
 
 export const FaqPageWrapper = styled(Box)`
   max-width: 730px;
@@ -48,18 +47,18 @@ export const FaqAccordion = styled(Accordion)`
   ${(p) => p.theme.typography.h5};
   border: 1px solid ${(p) => p.theme.palette.primary.light};
   border-radius: 16px !important;
-  color: ${(p) => p.theme.palette.primary.dark};
-  background: ${(p) => p.theme.palette.primary.disabled};
+  color: ${(p) => p.theme.palette.primary.lightPurple};
+  background: ${(p) => p.theme.palette.primary.darkPurple};
   word-wrap: break-word;
-`;
 
-export const IconDown = styled(ICONS.ARROW_DOWN2)`
-  fill: ${(p) => p.theme.palette.primary.light};
+  & .Mui-expanded {
+    color: ${(p) => p.theme.palette.primary.main};
+    font-weight: 600;
+    margin: 0;
+  }
 `;
-
 export const FaqAccordionSummary = styled(AccordionSummary)`
-  display: flex;
-  align-items: center;
+  margin: 0;
 `;
 
 export const FaqAccordionDetails = styled(AccordionDetails)``;
