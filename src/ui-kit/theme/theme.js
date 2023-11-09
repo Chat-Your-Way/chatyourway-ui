@@ -123,9 +123,13 @@ export const palette = (mode) => ({
             disabled: '#EEEFFF',
             errorColor: '#DA4444',
             lightDisabled: '#999999',
+            darkPurple: 'FFFFFF',
+            lightPurple: '6261AF',
           },
         }
-      : {
+      : // eeefff
+        // 6261AF
+        {
           primary: {
             whiteRBGA: 'rgba(23, 23, 23, 0.7)',
             white: '#171717',
@@ -137,7 +141,9 @@ export const palette = (mode) => ({
             contrastText: '#8686DC',
             disabled: '#353535',
             errorColor: '#DA4444',
+            darkPurple: '#4E4D87',
             lightDisabled: '#999999',
+            lightPurple: 'EEEFFF',
           },
         }),
   },
