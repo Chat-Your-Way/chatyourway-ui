@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   MainBox,
   StyledBox,
@@ -38,7 +40,13 @@ const menuRoutes = [
 ];
 
 const Sidebar = () => {
-  const { showText, showMenu } = useSidebarContext();
+  const { showText, showMenu, setShowMenu } = useSidebarContext();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (pathname.includes('chat')) setShowMenu(false);
+    else setShowMenu(true);
+  }, [pathname, setShowMenu]);
 
   return (
     <MainBox>
