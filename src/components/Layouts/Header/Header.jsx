@@ -27,24 +27,19 @@ const Header = () => {
     <header>
       <HeaderWrap>
         <Logo />
-
         <AuthSection>
           <StyledToogle
             handleChange={toggleTheme}
             isChecked={currentTheme === 'dark'}
           />
-
           <NotificationCount badgeContent={3}>
             <Typography level="h6">
               <NotificationIcon />
             </Typography>
           </NotificationCount>
-
           <UserName variant="h4">Твоє ім`я</UserName>
-
           <Avatar />
         </AuthSection>
-
         <StyledIconButton
           icon={<CategoryIcon />}
           handleClick={onIconMenuClick}
