@@ -8,19 +8,19 @@ import {
 } from '@mui/material';
 
 export const FaqPageWrapper = styled(Box)`
-  max-width: 730px;
+  max-width: 280px;
   padding: 40px 55px;
   margin: 0 auto;
   border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.whiteRBGA};
 
+  @media screen and (max-width: calc(845px - 0.02px)) {
+    padding: 0 6px;
+  }
+
   @media screen and (max-width: calc(1195px - 0.02px)) {
     max-width: 600px;
     padding: 40px 24px;
-  }
-  @media screen and (max-width: calc(845px - 0.02px)) {
-    min-width: 330px;
-    padding: 0 6px;
   }
 `;
 
@@ -62,4 +62,5 @@ export const FaqAccordionSummary = styled(AccordionSummary)`
 
 export const FaqAccordionDetails = styled(AccordionDetails)`
   padding-top: 0;
+  color: ${(p) => p.theme.palette.primary.dark};
 `;
