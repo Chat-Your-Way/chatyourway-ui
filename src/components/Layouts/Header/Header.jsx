@@ -1,4 +1,4 @@
-import { Typography, Link } from '@mui/material';
+import { Typography } from '@mui/material';
 import Avatar from '../../../ui-kit/components/Avatar';
 import {
   HeaderWrap,
@@ -18,6 +18,7 @@ import { useSidebarContext } from '../../../common/Sidebar/SidebarContext';
 import Wrapper from '../Wrapper';
 import { useUser } from '../../../hooks/useUser';
 import { PATH } from '../../../constans/routes';
+import { NavLink } from 'react-router-dom';
 
 const Header = () => {
   const { toggleTheme, currentTheme } = useContext(ThemeContext);
@@ -32,9 +33,9 @@ const Header = () => {
     <header>
       <Wrapper>
         <HeaderWrap>
-          <Link href={PATH.MAIN}>
+          <NavLink to={PATH.MAIN}>
             <Logo />
-          </Link>
+          </NavLink>
           {isAuthenticated && (
             <AuthSection>
               <UserInfoBlock>
