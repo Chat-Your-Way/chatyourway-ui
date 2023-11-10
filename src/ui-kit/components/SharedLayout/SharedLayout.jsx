@@ -4,11 +4,9 @@ import Header from '../../../components/Layouts/Header';
 import Footer from '../../../components/Layouts/Footer';
 // eslint-disable-next-line max-len
 import VerificationEmail from '../../../components/VerificationEmailPageComponent';
-// import Wrapper from '../../../components/Layouts/Wrapper/Wrapper';
 
 const SharedLayout = () => {
   return (
-    // <Wrapper>
     <MainBackground>
       <Header />
       <main>
@@ -17,7 +15,6 @@ const SharedLayout = () => {
       </main>
       <Footer />
     </MainBackground>
-    // </Wrapper>
   );
 };
 
