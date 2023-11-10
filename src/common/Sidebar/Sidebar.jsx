@@ -18,7 +18,7 @@ import { PATH } from '../../constans/routes';
 
 const menuRoutes = [
   {
-    path: PATH.MAIN,
+    path: PATH.TOPICS,
     name: 'Чати',
     icon: <ICONS.CHAT />,
   },

@@ -5,5 +5,9 @@ import { PATH } from '../../constans/routes';
 export const PublicRoute = () => {
   const { isAuthenticated } = useUser();
 
-  return isAuthenticated ? <Navigate to={PATH.TOPICS} replace /> : <Outlet />;
+  return !isAuthenticated ? (
+    <Outlet />
+  ) : (
+    <Navigate to={PATH.HOMEPAGE} replace />
+  );
 };

@@ -39,6 +39,8 @@ function RegistrationPageComponent() {
       avatarId: Number(avatar),
       password,
     };
+    // eslint-disable-next-line
+    console.log(userData);
   };
 
   return (

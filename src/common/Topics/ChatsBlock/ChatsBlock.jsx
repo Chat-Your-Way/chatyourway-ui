@@ -17,7 +17,7 @@ const ChatsBlock = ({
     <>
       {ChatItems.map((item, index) => {
         return (
-          <StyledNavLink to={`/${path}/chat/${item.title}`} key={index}>
+          <StyledNavLink to={`../${path}/chat/${item.title}`} key={index}>
             <ChatItem
               isOpenChat={isOpenChat}
               isOpenContacts={isOpenContacts}
