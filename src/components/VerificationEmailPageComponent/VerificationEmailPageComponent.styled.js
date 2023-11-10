@@ -61,7 +61,6 @@ const VerificationEmailSubTitle = styled(BaseTypography)`
   text-align: center;
   margin-bottom: 4px;
   font-size: 24px;
-  text-transform: capitalize;
   color: ${(p) => p.theme.palette.primary.dark};
 
   @media screen and (max-width: 844px) {
