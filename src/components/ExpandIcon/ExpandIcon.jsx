@@ -1,28 +1,11 @@
-import { Box } from '@mui/material';
-import { OpenIcon, CloseIcon } from './ExpandIcon.styled';
+import { OpenIcon, CloseIcon, IconWrapper } from './ExpandIcon.styled';
 
 const ExpandIcon = () => {
   return (
-    <Box
-      sx={{
-        '.Mui-expanded & > .collapsIconWrapper': {
-          display: 'none',
-        },
-        '.expandIconWrapper': {
-          display: 'none',
-        },
-        '.Mui-expanded & > .expandIconWrapper': {
-          display: 'block',
-        },
-      }}
-    >
-      <div className="expandIconWrapper">
-        <CloseIcon />
-      </div>
-      <div className="collapsIconWrapper">
-        <OpenIcon />
-      </div>
-    </Box>
+    <IconWrapper>
+      <CloseIcon className="expandIconWrapper" />
+      <OpenIcon className="collapsIconWrapper" />
+    </IconWrapper>
   );
 };
 

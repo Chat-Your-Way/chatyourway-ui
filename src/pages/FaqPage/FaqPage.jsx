@@ -31,16 +31,9 @@ const titlesAndTexts = [
 const FaqPage = () => {
   return (
     <FaqPageWrapper>
-      <FaqPageTitle variant="h21">The most common questions</FaqPageTitle>
+      <FaqPageTitle variant="h2">The most common questions</FaqPageTitle>
       {titlesAndTexts.map(({ title, text }, index) => (
-        <FaqAccordion
-          key={index}
-          // sx={{
-          //   '.Mui-expanded': {
-          //     color: 'red',
-          //   },
-          // }}
-        >
+        <FaqAccordion key={index}>
           <AccordionSummary expandIcon={<ExpandIcon />}>
             {title}
           </AccordionSummary>

@@ -123,8 +123,8 @@ export const palette = (mode) => ({
             disabled: '#EEEFFF',
             errorColor: '#DA4444',
             lightDisabled: '#999999',
-            darkPurple: 'FFFFFF',
-            lightPurple: '6261AF',
+            darkPurple: '#FFFFFF',
+            lightPurple: '#6261AF',
           },
         }
       : // eeefff
@@ -143,7 +143,7 @@ export const palette = (mode) => ({
             errorColor: '#DA4444',
             darkPurple: '#4E4D87',
             lightDisabled: '#999999',
-            lightPurple: 'EEEFFF',
+            lightPurple: '#EEEFFF',
           },
         }),
   },

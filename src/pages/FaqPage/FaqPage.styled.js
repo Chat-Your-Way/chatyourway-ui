@@ -55,7 +55,11 @@ export const FaqAccordion = styled(Accordion)`
   }
 `;
 export const FaqAccordionSummary = styled(AccordionSummary)`
-  margin: 0;
+  line-height: 0;
+  min-height: 0;
+  margin-bottom: 0;
 `;
 
-export const FaqAccordionDetails = styled(AccordionDetails)``;
+export const FaqAccordionDetails = styled(AccordionDetails)`
+  padding-top: 0;
+`;
