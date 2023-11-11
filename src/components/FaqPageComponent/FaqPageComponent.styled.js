@@ -34,7 +34,7 @@ export const FaqPageWrapper = styled(Box)`
   }
   .MuiPaper-root {
     margin: 0;
-    padding: 5px 8px;
+    padding: 10px 15px;
   }
 `;
 
