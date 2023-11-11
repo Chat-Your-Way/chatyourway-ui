@@ -36,10 +36,7 @@ function FaqPageComponent() {
       <AccordionList>
         {titlesAndTexts.map(({ title, text }, index) => (
           <FaqAccordion key={index}>
-            <AccordionSummary
-              className="AccordionSummary"
-              expandIcon={<ExpandIcon />}
-            >
+            <AccordionSummary expandIcon={<ExpandIcon />}>
               {title}
             </AccordionSummary>
             <FaqAccordionDetails>{text}</FaqAccordionDetails>
