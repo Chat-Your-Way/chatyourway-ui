@@ -3,6 +3,7 @@ import {
   FaqPageWrapper,
   FaqAccordion,
   FaqAccordionDetails,
+  AccordionList,
 } from './FaqPageComponent.styled';
 import AccordionSummary from '@mui/material/AccordionSummary';
 
@@ -32,14 +33,19 @@ function FaqPageComponent() {
   return (
     <FaqPageWrapper>
       <FaqPageTitle variant="h2">The most common questions</FaqPageTitle>
-      {titlesAndTexts.map(({ title, text }, index) => (
-        <FaqAccordion key={index}>
-          <AccordionSummary expandIcon={<ExpandIcon />}>
-            {title}
-          </AccordionSummary>
-          <FaqAccordionDetails>{text}</FaqAccordionDetails>
-        </FaqAccordion>
-      ))}
+      <AccordionList>
+        {titlesAndTexts.map(({ title, text }, index) => (
+          <FaqAccordion key={index}>
+            <AccordionSummary
+              className="AccordionSummary"
+              expandIcon={<ExpandIcon />}
+            >
+              {title}
+            </AccordionSummary>
+            <FaqAccordionDetails>{text}</FaqAccordionDetails>
+          </FaqAccordion>
+        ))}
+      </AccordionList>
     </FaqPageWrapper>
   );
 }
