@@ -9,18 +9,19 @@ import {
 
 export const FaqPageWrapper = styled(Box)`
   max-width: 280px;
-  padding: 40px 55px;
+  padding: 4px 5px;
   margin: 0 auto;
   border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.whiteRBGA};
 
-  @media screen and (max-width: calc(845px - 0.02px)) {
-    padding: 0 6px;
+  @media screen and (min-width: calc(845px - 0.02px)) {
+    padding: 40px 20px;
+    max-width: 400px;
   }
 
-  @media screen and (max-width: calc(1195px - 0.02px)) {
+  @media screen and (min-width: calc(1195px - 0.02px)) {
     max-width: 600px;
-    padding: 40px 24px;
+    padding: 40px;
   }
 `;
 
@@ -29,7 +30,7 @@ export const FaqPageTitle = styled(Typography)`
   margin-bottom: 20px;
   color: ${(p) => p.theme.palette.primary.dark};
 
-  @media screen and (max-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: calc(845px - 0.02px)) {
     font-size: 32px;
     margin-bottom: 16px;
   }
@@ -44,7 +45,7 @@ export const FaqAccordion = styled(Accordion)`
   ${(p) => p.theme.typography.h5};
   border: 1px solid ${(p) => p.theme.palette.primary.light};
   border-radius: 16px !important;
-  color: ${(p) => p.theme.palette.primary.lightPurple};
+  color: ${(p) => p.theme.palette.primary.dark};
   background: ${(p) => p.theme.palette.primary.darkPurple};
   word-wrap: break-word;
 
