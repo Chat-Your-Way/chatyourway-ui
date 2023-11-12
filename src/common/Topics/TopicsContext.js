@@ -9,12 +9,12 @@ export const TopicsContextProvider = ({ children, ...props }) => {
 
 export function useTopicsContext() {
   const context = useContext(Context);
-  if (!context) throw new Error('Use Sidebar context within provider!');
+  if (!context) throw new Error('Use Topics context within provider!');
   return context;
 }
 
 export const useCreateTopicsContext = function (props) {
-  const [isTopics, setІsTopics] = useState(props.showText || true);
+  const [isTopics, setІsTopics] = useState(props.isTopics || true);
 
   return {
     isTopics,
