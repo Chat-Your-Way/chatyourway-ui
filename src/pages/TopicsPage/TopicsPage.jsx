@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { Outlet } from 'react-router-dom';
 import NewTopic from '../../components/NewTopic';
-import Sidebar from '../../common/Sidebar';
 import Topics from '../../common/Topics/Topics';
 import { StyledBox } from './TopicsPage.styled';
 import Contacts from '../../components/Contacts';
@@ -27,7 +26,6 @@ function TopicsPage() {
 
   return (
     <StyledBox>
-      <Sidebar />
       <Topics handleBTNFunc={handleModal} />
       {modalOpenNewTopic && (
         <Modal closeModal={() => setModalOpenNewTopic(false)}>

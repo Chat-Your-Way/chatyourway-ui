@@ -34,6 +34,15 @@ export const Logo = styled(ICONS.LOGO)`
 
 export const AuthSection = styled(Box)`
   display: flex;
+  justify-content: space-between;
+
+  @media screen and (max-width: calc(845px - 0.02px)) {
+    flex-grow: 1;
+  }
+`;
+
+export const UserInfoBlock = styled(Box)`
+  display: flex;
   align-items: center;
 `;
 
