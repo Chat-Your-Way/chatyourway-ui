@@ -23,19 +23,6 @@ export const FaqPageWrapper = styled(Box)`
     max-width: 600px;
     padding: 40px;
   }
-
-  .MuiAccordionSummary-content {
-    margin: 0;
-    height: auto;
-  }
-  .MuiButtonBase-root {
-    min-height: 0;
-    padding: 0;
-  }
-  .MuiPaper-root {
-    margin: 0;
-    padding: 10px 15px;
-  }
 `;
 
 export const FaqPageTitle = styled(Typography)`
@@ -65,7 +52,22 @@ export const FaqAccordion = styled(Accordion)`
   color: ${(p) => p.theme.palette.primary.dark};
   background: ${(p) => p.theme.palette.primary.darkPurple};
   word-wrap: break-word;
-  padding: 16px;
+  padding: 10px 16px;
+
+  .MuiAccordionSummary-content {
+    margin: 0;
+    height: auto;
+  }
+
+  .MuiButtonBase-root {
+    min-height: 0;
+    padding: 0;
+  }
+
+  .MuiPaper-root {
+    margin: 0;
+    padding: 10px 13px;
+  }
 
   & .Mui-expanded {
     color: ${(p) => p.theme.palette.primary.lightPurple};
