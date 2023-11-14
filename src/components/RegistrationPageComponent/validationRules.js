@@ -1,11 +1,11 @@
 const validateName = (value) => {
   const isNonWhiteSpace = /^\S*$/;
   if (!isNonWhiteSpace.test(value)) {
-    return 'must not contain whitespaces';
+    return 'Не повинно мати пробілів';
   }
   const allowedSymbols = /^[a-zA-ZА-Яа-я0-9!@#*+=$%^&_-~?]+$/;
   if (!allowedSymbols.test(value)) {
-    return 'invalid characters or symbols';
+    return 'Містить недозволені символи';
   }
   return true;
 };
@@ -13,31 +13,31 @@ const validateName = (value) => {
 const validateEmail = (value) => {
   const isNonWhiteSpace = /^\S*$/;
   if (!isNonWhiteSpace.test(value)) {
-    return 'must not contain whitespaces';
+    return 'Не повинна мати пробілів';
   }
   //eslint-disable-next-line
   const allowedSymbols = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   if (!allowedSymbols.test(value)) {
-    return 'invalid email';
+    return 'Невірний формат пошти';
   }
 };
 
 const validatePassword = (value) => {
   const isNonWhiteSpace = /^\S*$/;
   if (!isNonWhiteSpace.test(value)) {
-    return 'must not contain whitespaces';
+    return 'Не повинен мати пробілів';
   }
   const isContainsSymbol = /[!@#$%^&-*_+=?]+/;
   if (!isContainsSymbol.test(value)) {
-    return 'must have at least one symbol';
+    return 'Повинен мати хоча б 1 символ';
   }
   const isContainsUppercase = /^(?=.*[A-Z]).*$/;
   if (!isContainsUppercase.test(value)) {
-    return 'must have at least one uppercase';
+    return 'Повинен мати хоча б 1 велику літеру';
   }
   const isContainsNumber = /^(?=.*[0-9]).*$/;
   if (!isContainsNumber.test(value)) {
-    return 'must have at least one digit';
+    return 'Повинен мати хоча б 1 цифру';
   }
   return true;
 };
@@ -49,38 +49,38 @@ const validateAgreement = (value) => {
 
 export const validationRules = {
   nickname: {
-    required: 'Name is required',
+    required: "Ім'я - обов'язкове поле",
     minLength: {
       value: 4,
-      message: 'At least 4 characters long',
+      message: 'Мінімум - 4 символи',
     },
     maxLength: {
       value: 20,
-      message: 'Maximum 20 characters long',
+      message: 'Максимум - 20 символів',
     },
     validate: { validateName },
   },
   email: {
-    required: 'Email is required',
+    required: "Пошта - обов'язкове поле",
     minLength: {
       value: 6,
-      message: 'At least 6 characters long',
+      message: 'Мінімум - 6 символів',
     },
     maxLength: {
       value: 320,
-      message: 'Maximum 320 characters long',
+      message: 'Максимум - 320 символів',
     },
     validate: { validateEmail },
   },
   password: {
-    required: 'Password is required',
+    required: "Пароль - обов'язкове поле",
     minLength: {
       value: 4,
-      message: 'At least 4 characters long',
+      message: 'Мінімум - 4 символи',
     },
     maxLength: {
       value: 12,
-      message: 'Maximum 12 characters long',
+      message: 'Максимум - 12 символів',
     },
     validate: { validatePassword },
   },
