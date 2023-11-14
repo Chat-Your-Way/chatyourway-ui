@@ -4,12 +4,17 @@ import { ICONS } from '../../ui-kit/icons';
 import DefaultButton from '../../ui-kit/components/Button';
 
 export const LoginWrapper = styled(Box)`
-  min-height: 100vh;
+  height: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: auto;
+  @media screen and (min-width: calc(845px - 0.02px)) {
+    height: 800px;
+  }
+  @media screen and (min-width: calc(1200px - 0.02px)) {
+    height: 600px;
+  }
 `;
 
 export const LogoIcon = styled(ICONS.LOGO)`
