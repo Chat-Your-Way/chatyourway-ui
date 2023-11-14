@@ -5,8 +5,6 @@ import { ICONS } from '../../ui-kit/icons';
 
 const VerificationEmailWrapper = styled(Box)`
   gap: 4px;
-  margin: auto;
-  justify-content: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,7 +24,6 @@ const TextBox = styled(Box)`
 export const Logo = styled(ICONS.LOGO)`
   display: block;
   justify-content: center;
-  margin: auto;
   fill: ${(p) =>
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.contrastText
@@ -41,7 +38,6 @@ const VerificationEmailTitle = styled(Typography)`
   text-align: center;
   color: ${(p) => p.theme.palette.primary.dark};
   ${(p) => p.theme.typography.h3}
-  margin: auto;
   min-width: 300px;
   @media screen and (min-width: calc(845px - 0.02px)) {
     min-width: 457px;
@@ -49,7 +45,6 @@ const VerificationEmailTitle = styled(Typography)`
 `;
 
 const VerificationEmailSubTitle = styled(Typography)`
-  margin-bottom: 4px;
   ${(p) => p.theme.typography.h4}
   color: ${(p) => p.theme.palette.primary.dark};
 `;
@@ -57,7 +52,6 @@ const VerificationEmailSubTitle = styled(Typography)`
 const VerificationEmailParagraph = styled(Typography)`
   color: ${(p) => p.theme.palette.primary.dark};
   display: flex;
-  margin-bottom: 4px;
   ${(p) => p.theme.typography.h5}
   @media screen and (min-width: calc(845px - 0.02px)) {
     min-width: 389px;
@@ -67,7 +61,6 @@ const VerificationEmailParagraph = styled(Typography)`
 const VerificationEmailSubParagraph = styled(Typography)`
   color: ${(p) => p.theme.palette.primary.dark};
   display: flex;
-  margin-bottom: 4px;
   ${(p) => p.theme.typography.h5}
   @media screen and (min-width: calc(845px - 0.02px)) {
     min-width: 389px;
@@ -78,7 +71,6 @@ const LoginAccountButton = styled(DefaultButton)`
   ${(p) => p.theme.typography.h5}
   padding: 8px 12px;
   margin-top: 24px;
-  margin-bottom: 126px;
   @media screen and (min-width: calc(845px - 0.02px)) {
     display: flex;
     ${(p) => p.theme.typography.h5}
