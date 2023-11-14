@@ -44,7 +44,6 @@ const VerificationEmailTitle = styled(Typography)`
   margin: auto;
   min-width: 300px;
   @media screen and (min-width: calc(845px - 0.02px)) {
-    ${(p) => p.theme.typography.h3}
     min-width: 457px;
   }
 `;
@@ -53,10 +52,6 @@ const VerificationEmailSubTitle = styled(Typography)`
   margin-bottom: 4px;
   ${(p) => p.theme.typography.h4}
   color: ${(p) => p.theme.palette.primary.dark};
-
-  @media screen and (min-width: calc(845px - 0.02px)) {
-    ${(p) => p.theme.typography.h4}
-  }
 `;
 
 const VerificationEmailParagraph = styled(Typography)`
@@ -66,7 +61,6 @@ const VerificationEmailParagraph = styled(Typography)`
   ${(p) => p.theme.typography.h5}
   @media screen and (min-width: calc(845px - 0.02px)) {
     min-width: 389px;
-    ${(p) => p.theme.typography.h5}
   }
 `;
 
@@ -77,7 +71,6 @@ const VerificationEmailSubParagraph = styled(Typography)`
   ${(p) => p.theme.typography.h5}
   @media screen and (min-width: calc(845px - 0.02px)) {
     min-width: 389px;
-    ${(p) => p.theme.typography.h5}
   }
 `;
 
@@ -85,7 +78,7 @@ const LoginAccountButton = styled(DefaultButton)`
   ${(p) => p.theme.typography.h5}
   padding: 8px 12px;
   margin-top: 24px;
-  margin-bottom: 124px;
+  margin-bottom: 126px;
   @media screen and (min-width: calc(845px - 0.02px)) {
     display: flex;
     ${(p) => p.theme.typography.h5}
