@@ -4,18 +4,16 @@ import { ICONS } from '../../ui-kit/icons';
 import DefaultButton from '../../ui-kit/components/Button';
 
 export const LoginWrapper = styled(Box)`
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: auto;
   padding: 147px 0;
   @media screen and (min-width: calc(845px - 0.02px)) {
-    padding: 40px;
-    align-items: flex-start;
+    padding: 170px 0 0 0;
   }
   @media screen and (min-width: calc(1200px - 0.02px)) {
-    padding: 32px 80px;
+    padding: 240px 0 0 0;
   }
 `;
 
@@ -26,19 +24,7 @@ export const LogoIcon = styled(ICONS.LOGO)`
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.dark};
   @media screen and (min-width: calc(845px - 0.02px)) {
-    margin: 0 0 350px 0;
-  }
-  @media screen and (min-width: calc(1200px - 0.02px)) {
-    margin: 0 0 272px 0;
-  }
-`;
-
-export const LoginContainer = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  @media screen and (min-width: calc(845px - 0.02px)) {
-    margin: 0 auto;
+    display: none;
   }
 `;
 

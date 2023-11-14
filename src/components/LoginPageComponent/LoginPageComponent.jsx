@@ -1,6 +1,6 @@
+import { useMediaQuery } from 'react-responsive';
 import {
   InputWrapper,
-  LoginContainer,
   LoginButton,
   LoginWrapper,
   LogoIcon,
@@ -9,16 +9,16 @@ import EmailInput from '../../ui-kit/components/Input/EmailInput/EmailInput.jsx'
 import PasswordInput from '../../ui-kit/components/Input/PasswordInput/PasswordInput.jsx';
 
 function LoginPageComponent() {
+  const isTablet = useMediaQuery({ query: '(min-width: calc(845px - 0.02px)' });
+
   return (
     <LoginWrapper>
       <LogoIcon />
-      <LoginContainer>
-        <InputWrapper>
-          <EmailInput />
-          <PasswordInput />
-        </InputWrapper>
-        <LoginButton label="Увійти в акаунт" />
-      </LoginContainer>
+      <InputWrapper>
+        <EmailInput inputWidth={isTablet ? '400px' : '300px'} />
+        <PasswordInput inputWidth={isTablet ? '400px' : '300px'} />
+      </InputWrapper>
+      <LoginButton label="Увійти в акаунт" />
     </LoginWrapper>
   );
 }
