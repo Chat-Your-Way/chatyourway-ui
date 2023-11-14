@@ -18,8 +18,8 @@ export const FieldPassword = ({ title, id, control, errors, watch }) => {
     return id === 'password'
       ? validationRules.password
       : {
-          required: 'Confirm password is required',
-          validate: (value) => value === watch || 'The passwords do not match',
+          required: "Підтвердження - обов'язкове",
+          validate: (value) => value === watch || 'Не ідентично паролю',
         };
   };
 
