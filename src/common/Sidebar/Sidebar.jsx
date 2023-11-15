@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
   MainBox,
@@ -51,6 +51,7 @@ const Sidebar = () => {
   const { pathname } = useLocation();
   const isTabletAndBelow = useTabletAndBelowMediaQuery();
   const isMobile = useMobileMediaQuery();
+  const [isShowText, setIsShowText] = useState();
 
   useEffect(() => {
     const isHome = pathname.includes('home');
@@ -65,10 +66,14 @@ const Sidebar = () => {
     else if (isMobile && isHome) setShowMenu(true);
   }, [pathname, setShowText, setShowMenu, isTabletAndBelow, isMobile]);
 
+  useEffect(() => {
+    setIsShowText(showText);
+  }, [showText]);
+
   return (
     <MainBox>
       {showMenu && (
-        <StyledBox showText={showText}>
+        <StyledBox showText={isShowText}>
           <StyledContentBox>
             <Logo />
             <StyledItemsBox>
