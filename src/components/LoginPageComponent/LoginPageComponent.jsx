@@ -1,24 +1,67 @@
-import { useMediaQuery } from 'react-responsive';
+import { useForm } from 'react-hook-form';
+import { PATH } from '../../constans/routes.js';
+import { FieldText } from '../RegistrationPageComponent/FieldText/FieldText.jsx';
+import { FieldPassword } from '../RegistrationPageComponent/FieldPassword/FieldPassword.jsx';
 import {
-  InputWrapper,
-  LoginButton,
   LoginWrapper,
+  LoginForm,
+  LoginLink,
+  ButtonWrapper,
+  LoginButton,
   LogoIcon,
 } from './LoginPageComponent.styled.js';
-import EmailInput from '../../ui-kit/components/Input/EmailInput/EmailInput.jsx';
-import PasswordInput from '../../ui-kit/components/Input/PasswordInput/PasswordInput.jsx';
 
 function LoginPageComponent() {
-  const isTablet = useMediaQuery({ query: '(min-width: calc(845px - 0.02px)' });
+  const {
+    formState: { errors, isValid },
+    handleSubmit,
+    control,
+  } = useForm({
+    defaultValues: { email: '', password: '' },
+    mode: 'onChange',
+  });
+
+  const onSubmit = (values) => {
+    const { email, password } = values;
+    const userData = {
+      email: email.trim().toLowerCase(),
+      password,
+    };
+    // eslint-disable-next-line
+    console.log(userData);
+  };
 
   return (
     <LoginWrapper>
       <LogoIcon />
-      <InputWrapper>
-        <EmailInput inputWidth={isTablet ? '400px' : '300px'} />
-        <PasswordInput inputWidth={isTablet ? '400px' : '300px'} />
-      </InputWrapper>
-      <LoginButton label="Увійти в акаунт" />
+
+      <LoginForm onSubmit={handleSubmit(onSubmit)}>
+        <FieldText
+          title="Email"
+          id="email"
+          control={control}
+          errors={errors.email}
+          placeholder="example@gmail.com"
+        />
+
+        <FieldPassword
+          title="Пароль"
+          id="password"
+          control={control}
+          errors={errors.password}
+          navlink={
+            <LoginLink to={PATH.FORGOT_PASSWORD}>Забули пароль?</LoginLink>
+          }
+        />
+
+        <ButtonWrapper>
+          <LoginButton
+            type="submit"
+            label="Увійти в акаунт"
+            disabled={!isValid}
+          />
+        </ButtonWrapper>
+      </LoginForm>
     </LoginWrapper>
   );
 }
