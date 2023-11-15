@@ -46,6 +46,9 @@ export const RegistrationInputWrapper = styled(Box)`
 `;
 
 export const RegistrationLabel = styled(Typography)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   @media screen and (max-width: calc(845px - 0.02px)) {
     ${(p) => p.theme.typography.h5};
   }

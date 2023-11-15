@@ -23,9 +23,6 @@ function ForgotPasswordPageComponent() {
     control,
   } = useForm({ defaultValues: { email: '' }, mode: 'onChange' });
   const isTablet = useMediaQuery({ query: '(min-width: calc(845px - 0.02px)' });
-  const isDesktop = useMediaQuery({
-    query: '(min-width: calc(1200px - 0.02px)',
-  });
 
   const onSubmit = (values) => {
     const email = values.email.trim().toLowerCase();
@@ -33,22 +30,8 @@ function ForgotPasswordPageComponent() {
     console.log(email);
   };
 
-  const getWrapperSize = () => {
-    if (isDesktop) {
-      return { width: '800px', height: '600px' };
-    }
-    if (isTablet) {
-      return { width: '624px', height: '800px' };
-    }
-    return { width: '342px', height: '600px' };
-  };
-
   return (
-    <WhiteLayout
-      width={getWrapperSize().width}
-      height={getWrapperSize().height}
-      padding={isTablet ? '40px 112px' : '40px 20px'}
-    >
+    <WhiteLayout padding={isTablet ? '40px 112px' : '40px 20px'}>
       <ForgotPasswordWrapper>
         <LinkIcon to={PATH.LOGIN}>
           <CloseIcon />
@@ -67,6 +50,7 @@ function ForgotPasswordPageComponent() {
             id="email"
             control={control}
             errors={errors.email}
+            placeholder="example@gmail.com"
           />
           <ButtonWrapper>
             <LoginButton type="submit" label="Надіслати" disabled={!isValid} />
