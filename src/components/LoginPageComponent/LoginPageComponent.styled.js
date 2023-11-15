@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Box } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { ICONS } from '../../ui-kit/icons';
 import DefaultButton from '../../ui-kit/components/Button';
 
@@ -36,9 +36,9 @@ export const LoginForm = styled.form`
   align-items: center;
 `;
 
-export const LoginLink = styled(Link)`
+export const LoginLink = styled(NavLink)`
   text-decoration: none;
-  font-size: 14px;
+  font-size: ${(p) => p.theme.typography.h6};
   color: ${(p) =>
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.contrastText
