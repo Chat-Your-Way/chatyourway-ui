@@ -37,7 +37,7 @@ function ForgotPasswordPageComponent() {
           <CloseIcon />
         </LinkIcon>
         <LogoIcon />
-        <ForgotPasswordTitle variant="h2">
+        <ForgotPasswordTitle variant={isTablet ? 'h2' : 'h4'}>
           Забули свій пароль?
         </ForgotPasswordTitle>
         <ForgotPasswordText variant="h6">
