@@ -81,6 +81,15 @@ export const StyledItem = styled(Box, {
   border: none;
   transition: 0.2s ease all;
 
+  path {
+    fill: ${(p) =>
+      p.isActive
+        ? p.theme.palette.primary.main
+        : p.theme.palette.mode === 'light'
+        ? undefined
+        : p.theme.palette.primary.dark};
+  }
+
   .MuiTypography-root {
     ${(p) => p.theme.typography.h4}
   }
@@ -98,15 +107,6 @@ export const StyledItem = styled(Box, {
 
     background: ${(p) =>
       p.showText && p.isActive ? p.theme.palette.primary.white : 'transparent'};
-
-    path {
-      fill: ${(p) =>
-        p.isActive
-          ? p.theme.palette.primary.main
-          : p.theme.palette.mode === 'light'
-          ? undefined
-          : p.theme.palette.primary.dark};
-    }
   }
 
   svg {
