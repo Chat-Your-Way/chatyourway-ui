@@ -15,6 +15,7 @@ import {
 import { ICONS } from '../../ui-kit/icons';
 import { useSidebarContext } from './SidebarContext';
 import { PATH } from '../../constans/routes';
+import { useMediaQuery } from 'react-responsive';
 
 const menuRoutes = [
   {
@@ -39,14 +40,30 @@ const menuRoutes = [
   },
 ];
 
+const useTabletAndBelowMediaQuery = () =>
+  useMediaQuery({ query: '(max-width: 1200px)' });
+
+const useMobileMediaQuery = () =>
+  useMediaQuery({ query: '(max-width: 834px)' });
+
 const Sidebar = () => {
-  const { showText, showMenu, setShowMenu } = useSidebarContext();
+  const { showText, showMenu, setShowText, setShowMenu } = useSidebarContext();
   const { pathname } = useLocation();
+  const isTabletAndBelow = useTabletAndBelowMediaQuery();
+  const isMobile = useMobileMediaQuery();
 
   useEffect(() => {
-    if (pathname.includes('chat')) setShowMenu(false);
-    else setShowMenu(true);
-  }, [pathname, setShowMenu]);
+    const isHome = pathname.includes('home');
+    const isTopicsOrNotification = pathname.includes('topics')
+      ? true
+      : pathname.includes('notification')
+      ? true
+      : false;
+    if (pathname.includes('chat')) setShowText(false);
+    else setShowText(true);
+    if (isMobile && isTopicsOrNotification) setShowMenu(false);
+    else if (isMobile && isHome) setShowMenu(true);
+  }, [pathname, setShowText, setShowMenu, isTabletAndBelow, isMobile]);
 
   return (
     <MainBox>

@@ -15,9 +15,12 @@ export function useTopicsContext() {
 
 export const useCreateTopicsContext = function (props) {
   const [isTopics, setІsTopics] = useState(props.isTopics || true);
+  const [showTopics, setShowTopics] = useState(props.showText || true);
 
   return {
     isTopics,
     setІsTopics,
+    showTopics,
+    setShowTopics,
   };
 };

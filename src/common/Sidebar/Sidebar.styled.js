@@ -30,8 +30,6 @@ export const StyledBox = styled(Box, {
 export const StyledContentBox = styled(Box, {
   shouldForwardProp: (p) => p !== 'showText',
 })`
-  padding-left: 16px;
-  padding-top: 40px;
   padding-bottom: 83px;
   display: flex;
   flex-direction: column;
