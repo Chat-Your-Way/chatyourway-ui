@@ -6,7 +6,6 @@ import TopicsHeader from './TopicsHeader';
 const Topics = ({
   isOpenChat = false,
   isOpenContacts = false,
-  isTopics = true, // замінити на context
   handleBTNTopicFunc,
   handleBTNFunc,
 }) => {
@@ -15,13 +14,11 @@ const Topics = ({
       <TopicsHeader
         isOpenChat={isOpenChat}
         isOpenContacts={isOpenContacts}
-        isTopics={isTopics}
         handleBTNFunc={handleBTNFunc}
       />
       <ChatsBlock
         isOpenChat={isOpenChat}
         isOpenContacts={isOpenContacts}
-        isTopics={isTopics}
         handleBTNTopicFunc={handleBTNTopicFunc}
       />
     </StyledBox>
