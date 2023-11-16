@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import NewTopic from '../../components/NewTopic';
 import Topics from '../../common/Topics/Topics';
 import { StyledBox } from './TopicsPage.styled';
@@ -20,10 +20,11 @@ function TopicsPage() {
   const isMobile = useMobileMediaQuery();
 
   const { pathname } = useLocation();
+  let { title } = useParams();
 
   const [modalOpenNewTopic, setModalOpenNewTopic] = useState(false);
-  const { contactsOpen, setContactsOpen } = useTopicsPageContext();
 
+  const { contactsOpen, setContactsOpen } = useTopicsPageContext();
   const { setІsTopics, setShowTopics, showTopics } = useTopicsContext();
 
   useEffect(() => {
@@ -51,10 +52,10 @@ function TopicsPage() {
       {<Outlet />}
       {contactsOpen && isTabletAndBelow ? (
         <Modal closeModal={() => setContactsOpen(false)} location="right">
-          <Contacts title="Культурна мозаїка: автентичний досвід" />
+          <Contacts title={title} />
         </Modal>
       ) : contactsOpen ? (
-        <Contacts title="Культурна мозаїка: автентичний досвід" />
+        <Contacts title={title} />
       ) : null}
     </StyledBox>
   );
