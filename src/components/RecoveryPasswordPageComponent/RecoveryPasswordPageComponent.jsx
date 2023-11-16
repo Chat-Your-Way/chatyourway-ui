@@ -1,29 +1,75 @@
-// eslint-disable-next-line max-len
-import PasswordInput from '../../ui-kit/components/Input/PasswordInput/PasswordInput';
+import WhiteLayout from '../../ui-kit/components/WhiteLayout/WhiteLayout';
+import { FieldPassword } from '../RegistrationPageComponent/FieldPassword/FieldPassword';
+import { LoginButton } from '../LoginPageComponent/LoginPageComponent.styled';
+import { useMediaQuery } from 'react-responsive';
+import { useForm } from 'react-hook-form';
+import { PATH } from '../../constans/routes';
 import {
-  CloseIcon,
-  InputWrapper,
-  RecoveryPasswordTitle,
   RecoveryPasswordWrapper,
-  ResetButton,
-  WhiteBox,
+  RecoveryPasswordForm,
+  RecoveryPasswordTitle,
+  ButtonWrapper,
+  LinkIcon,
+  CloseIcon,
+  LogoIcon,
 } from './RecoveryPasswordPageComponent.styled';
 
 function RecoveryPasswordPageComponent() {
+  const isTablet = useMediaQuery({ query: '(min-width: calc(845px - 0.02px)' });
+  const {
+    formState: { errors, isValid },
+    handleSubmit,
+    control,
+    watch,
+  } = useForm({
+    defaultValues: { password: '', confirm: '' },
+    mode: 'onChange',
+  });
+  const passwordValue = watch('password');
+
+  const onSubmit = (values) => {
+    const { password } = values;
+    // eslint-disable-next-line no-console
+    console.log(password);
+  };
+
   return (
-    <WhiteBox padding="156px 200px">
-      <CloseIcon />
+    <WhiteLayout padding={isTablet ? '40px 112px' : '40px 20px'}>
       <RecoveryPasswordWrapper>
-        <RecoveryPasswordTitle variant="h2">
+        <LinkIcon to={PATH.FORGOT_PASSWORD}>
+          <CloseIcon />
+        </LinkIcon>
+
+        <LogoIcon />
+
+        <RecoveryPasswordTitle variant={isTablet ? 'h2' : 'h4'}>
           Відновлення пароля
         </RecoveryPasswordTitle>
-        <InputWrapper>
-          <PasswordInput linkText="" />
-          <PasswordInput inputText="Підтвердити пароль" linkText="" />
-        </InputWrapper>
-        <ResetButton label="Скинути пароль" />
+
+        <RecoveryPasswordForm onSubmit={handleSubmit(onSubmit)}>
+          <FieldPassword
+            title="Пароль"
+            id="password"
+            control={control}
+            errors={errors.password}
+          />
+          <FieldPassword
+            title="Підтвердити пароль"
+            id="confirm"
+            control={control}
+            errors={errors.confirm}
+            watch={passwordValue}
+          />
+          <ButtonWrapper>
+            <LoginButton
+              type="submit"
+              label="Скинути пароль"
+              disabled={!isValid}
+            />
+          </ButtonWrapper>
+        </RecoveryPasswordForm>
       </RecoveryPasswordWrapper>
-    </WhiteBox>
+    </WhiteLayout>
   );
 }
 
