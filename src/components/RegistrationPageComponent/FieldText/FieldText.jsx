@@ -8,7 +8,7 @@ import {
   RegistrationInputError,
 } from '../RegistrationPageComponent.styled';
 
-export const FieldText = ({ title, id, control, errors }) => {
+export const FieldText = ({ title, id, control, errors, placeholder }) => {
   const getRules = () => {
     return id === 'nickname' ? validationRules.nickname : validationRules.email;
   };
@@ -27,6 +27,7 @@ export const FieldText = ({ title, id, control, errors }) => {
             onChange={onChange}
             value={value}
             endAdornment={<TextInputIcon />}
+            placeholder={placeholder}
           />
         )}
       />

@@ -1,3 +1,4 @@
+import { PATH } from '../../constans/routes';
 import WhiteLayout from '../../ui-kit/components/WhiteLayout/WhiteLayout';
 import {
   LoginAccountButton,
@@ -12,7 +13,7 @@ function SuccessSignupPageComponent() {
         <SuccessSignupTitle variant="h2">
           Ви успішно зареєструвались у ChatYourWay
         </SuccessSignupTitle>
-        <LoginAccountButton label="Увійти в акаунт" />
+        <LoginAccountButton label="Увійти в акаунт" to={PATH.LOGIN} />
       </SuccessSignupWrapper>
     </WhiteLayout>
   );

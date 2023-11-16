@@ -8,7 +8,7 @@ export const RegistrationWrapper = styled(Box)`
   align-items: center;
   margin: auto;
   padding: 47px 0 81px 0;
-  outline: 1px solid red;
+
   @media screen and (min-width: calc(845px - 0.02px)) {
     align-items: flex-start;
     padding: 40px 40px 250px 40px;
@@ -24,6 +24,7 @@ export const LogoIcon = styled(ICONS.LOGO)`
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.dark};
   @media screen and (min-width: calc(845px - 0.02px)) {
+    display: none;
     margin: 0 0 122px 0;
   }
   @media screen and (min-width: calc(1200px - 0.02px)) {
@@ -45,6 +46,9 @@ export const RegistrationInputWrapper = styled(Box)`
 `;
 
 export const RegistrationLabel = styled(Typography)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   @media screen and (max-width: calc(845px - 0.02px)) {
     ${(p) => p.theme.typography.h5};
   }

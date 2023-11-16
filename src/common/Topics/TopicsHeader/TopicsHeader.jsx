@@ -2,13 +2,14 @@ import { memo } from 'react';
 import ThemeBlock from './ThemeBlock';
 import TabsBlock from './TabsBlock';
 import { StyledBox, StyledSearchInput } from './TopicsHeader.styled';
+import { useTopicsContext } from '../TopicsContext';
 
 const TopicsHeader = ({
   isOpenChat = false,
   isOpenContacts = false,
-  isTopics,
   handleBTNFunc,
 }) => {
+  const { isTopics } = useTopicsContext();
   return (
     <>
       <ThemeBlock

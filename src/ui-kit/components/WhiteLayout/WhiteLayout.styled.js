@@ -4,6 +4,7 @@ import { Box } from '@mui/system';
 export const WhiteLayoutStyled = styled(Box, {
   shouldForwardProp: (p) => p !== 'width' && p !== 'height' && p !== 'padding',
 })`
+  position: relative;
   display: flex;
   justify-content: center;
 

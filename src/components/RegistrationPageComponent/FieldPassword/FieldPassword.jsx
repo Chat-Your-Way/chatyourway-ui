@@ -9,7 +9,14 @@ import {
   RegistrationInputError,
 } from '../RegistrationPageComponent.styled';
 
-export const FieldPassword = ({ title, id, control, errors, watch }) => {
+export const FieldPassword = ({
+  title,
+  id,
+  control,
+  errors,
+  watch,
+  navlink,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const toggleShowPassword = () => setShowPassword((prev) => !prev);
@@ -18,14 +25,17 @@ export const FieldPassword = ({ title, id, control, errors, watch }) => {
     return id === 'password'
       ? validationRules.password
       : {
-          required: 'Confirm password is required',
-          validate: (value) => value === watch || 'The passwords do not match',
+          required: "Підтвердження - обов'язкове",
+          validate: (value) => value === watch || 'Не ідентично паролю',
         };
   };
 
   return (
     <RegistrationInputWrapper>
-      <RegistrationLabel variant="h5">{title}</RegistrationLabel>
+      <RegistrationLabel variant="h5">
+        <span>{title}</span>
+        {navlink}
+      </RegistrationLabel>
       <Controller
         control={control}
         name={id}
