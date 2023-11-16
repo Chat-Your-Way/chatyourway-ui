@@ -34,7 +34,7 @@ export const FieldPassword = ({
     <RegistrationInputWrapper>
       <RegistrationLabel variant="h5">
         <span>{title}</span>
-       {navlink}
+        {navlink}
       </RegistrationLabel>
       <Controller
         control={control}

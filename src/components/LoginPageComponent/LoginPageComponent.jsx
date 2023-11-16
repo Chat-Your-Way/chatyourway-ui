@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useForm } from 'react-hook-form';
 import { PATH } from '../../constans/routes.js';
 import { FieldText } from '../RegistrationPageComponent/FieldText/FieldText.jsx';
