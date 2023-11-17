@@ -52,6 +52,7 @@ function RecoveryPasswordPageComponent() {
             id="password"
             control={control}
             errors={errors.password}
+            placeholder="Мінімум 4 символи"
           />
           <FieldPassword
             title="Підтвердити пароль"
@@ -59,6 +60,7 @@ function RecoveryPasswordPageComponent() {
             control={control}
             errors={errors.confirm}
             watch={passwordValue}
+            placeholder="Мінімум 4 символи"
           />
           <ButtonWrapper>
             <LoginButton
