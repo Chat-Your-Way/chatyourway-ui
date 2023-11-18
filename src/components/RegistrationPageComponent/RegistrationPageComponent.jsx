@@ -47,10 +47,13 @@ function RegistrationPageComponent() {
     try {
       const { error, data } = await registration(userData);
 
-      if (error) {
-        alert(error.data.message);
+      if (
+        error.data.message.includes(`Email ${userData.email} already in use`)
+      ) {
+        alert(`Електронна пошта ${userData.email} вже використовується`);
         return;
       }
+
       // eslint-disable-next-line
       console.log(data);
       window.location.href = PATH.VERIFICATION_EMAIL;
