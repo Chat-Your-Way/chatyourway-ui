@@ -9,6 +9,7 @@ export const PATH = {
   LOGIN: '/login',
   REGISTER: '/register',
   SUCCESS_SIGNUP: '/success-signup',
+  VERIFICATION_EMAIL: '/verification-email',
   FORGOT_PASSWORD: '/forgot-password',
   RECOVERY_PASSWORD: '/recovery-password',
 };

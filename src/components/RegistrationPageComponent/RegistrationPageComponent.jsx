@@ -9,6 +9,8 @@ import {
   RegistrationForm,
   LogoIcon,
 } from './RegistrationPageComponent.styled';
+import { useRegistrationMutation } from '../../redux/auth-operations';
+import { PATH } from '../../constans/routes';
 
 const defaultValues = {
   nickname: '',
@@ -20,6 +22,7 @@ const defaultValues = {
 };
 
 function RegistrationPageComponent() {
+  const [registration] = useRegistrationMutation();
   const {
     formState: { errors, isValid },
     handleSubmit,
@@ -31,7 +34,7 @@ function RegistrationPageComponent() {
   });
   const passwordValue = watch('password');
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     const { avatar, email, nickname, password } = values;
     const userData = {
       nickname,
@@ -41,6 +44,19 @@ function RegistrationPageComponent() {
     };
     // eslint-disable-next-line
     console.log(userData);
+    try {
+      const { error, data } = await registration(userData);
+
+      if (error) {
+        alert(error.data.message);
+        return;
+      }
+      // eslint-disable-next-line
+      console.log(data);
+      window.location.href = PATH.VERIFICATION_EMAIL;
+    } catch (error) {
+      console.error('Виникла помилка під час заповнення форми:', error);
+    }
   };
 
   return (

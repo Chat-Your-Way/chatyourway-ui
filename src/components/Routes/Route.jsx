@@ -9,6 +9,7 @@ import LoginPage from '../../pages/LoginPage/LoginPage';
 import RegistrationPage from '../../pages/RegistrationPage';
 import ForgotPasswordPage from '../../pages/ForgotPasswordPage';
 import RecoveryPasswordPage from '../../pages/RecoveryPasswordPage';
+import VerificationEmailPage from '../../pages/VerificationEmailPage';
 import SuccessSignupPage from '../../pages/SuccessSignupPage';
 import SettingsPage from '../../pages/Settings/Settings';
 import TopicsPage from '../../pages/TopicsPage';
@@ -33,6 +34,10 @@ const Router = () => {
             <Route
               path={PATH.RECOVERY_PASSWORD}
               element={<RecoveryPasswordPage />}
+            />
+            <Route
+              path={PATH.VERIFICATION_EMAIL}
+              element={<VerificationEmailPage />}
             />
             <Route path={PATH.SUCCESS_SIGNUP} element={<SuccessSignupPage />} />
           </Route>
