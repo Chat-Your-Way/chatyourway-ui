@@ -47,10 +47,14 @@ function RegistrationPageComponent() {
     try {
       const { error, data } = await registration(userData);
 
-      if (
-        error.data.message.includes(`Email ${userData.email} already in use`)
-      ) {
-        alert(`Електронна пошта ${userData.email} вже використовується`);
+      if (error) {
+        if (
+          error.data.message.includes(`Email ${userData.email} already in use`)
+        ) {
+          alert(`Електронна пошта ${userData.email} вже використовується`);
+        } else {
+          alert(error.data.message);
+        }
         return;
       }
 
