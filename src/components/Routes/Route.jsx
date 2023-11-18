@@ -13,6 +13,7 @@ import SuccessSignupPage from '../../pages/SuccessSignupPage';
 import SettingsPage from '../../pages/Settings/Settings';
 import TopicsPage from '../../pages/TopicsPage';
 import NotificationPage from '../../pages/NotificationPage';
+import NotFoundPage from '../../pages/NotFoundPage';
 // import FaqPage from '../../pages/FaqPage';
 import Chat from '../Chat';
 
@@ -50,6 +51,10 @@ const Router = () => {
             <Route path={PATH.SETTINGS} element={<SettingsPage />} />
             {/* <Route path={PATH.INFO} element={<FaqPage />} /> */}
           </Route>
+        </Route>
+
+        <Route path={PATH.NOT_FOUND} element={<SharedLayout />}>
+          <Route path={PATH.NOT_FOUND} element={<NotFoundPage />} />
         </Route>
       </Routes>
     </Suspense>
