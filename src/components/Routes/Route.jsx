@@ -14,6 +14,7 @@ import SettingsPage from '../../pages/Settings/Settings';
 import TopicsPage from '../../pages/TopicsPage';
 import NotificationPage from '../../pages/NotificationPage';
 import NotFoundPage from '../../pages/NotFoundPage';
+import VerificationEmailPage from '../../pages/VerificationEmailPage';
 // import FaqPage from '../../pages/FaqPage';
 import Chat from '../Chat';
 
@@ -36,6 +37,10 @@ const Router = () => {
               element={<RecoveryPasswordPage />}
             />
             <Route path={PATH.SUCCESS_SIGNUP} element={<SuccessSignupPage />} />
+            <Route
+              path={PATH.VERIFICATION_EMAIL}
+              element={<VerificationEmailPage />}
+            />
           </Route>
         </Route>
 

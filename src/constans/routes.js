@@ -12,4 +12,5 @@ export const PATH = {
   SETTINGS: 'settings',
   SUCCESS_SIGNUP: '/success-signup',
   TOPICS: 'topics',
+  VERIFICATION_EMAIL: '/verification-email',
 };
