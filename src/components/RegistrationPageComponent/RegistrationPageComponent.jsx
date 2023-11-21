@@ -9,6 +9,9 @@ import {
   RegistrationForm,
   LogoIcon,
 } from './RegistrationPageComponent.styled';
+import { useRegistrationMutation } from '../../redux/auth-operations';
+import { PATH } from '../../constans/routes';
+import { useNavigate } from 'react-router-dom';
 
 const defaultValues = {
   nickname: '',
@@ -20,6 +23,8 @@ const defaultValues = {
 };
 
 function RegistrationPageComponent() {
+  const [registration] = useRegistrationMutation();
+  const navigate = useNavigate();
   const {
     formState: { errors, isValid },
     handleSubmit,
@@ -31,7 +36,7 @@ function RegistrationPageComponent() {
   });
   const passwordValue = watch('password');
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     const { avatar, email, nickname, password } = values;
     const userData = {
       nickname,
@@ -39,8 +44,25 @@ function RegistrationPageComponent() {
       avatarId: Number(avatar),
       password,
     };
-    // eslint-disable-next-line
-    console.log(userData);
+
+    try {
+      const { error } = await registration(userData);
+
+      if (error) {
+        if (
+          error.data.message.includes(`Email ${userData.email} already in use`)
+        ) {
+          alert(`Електронна пошта ${userData.email} вже використовується`);
+        } else {
+          alert(error.data.message);
+        }
+        return;
+      }
+
+      navigate(PATH.VERIFICATION_EMAIL);
+    } catch (error) {
+      console.error('Виникла помилка під час заповнення форми:', error);
+    }
   };
 
   return (
