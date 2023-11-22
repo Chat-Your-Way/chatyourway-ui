@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import { useForm } from 'react-hook-form';
 import { useLoginMutation } from '../../redux/auth-operations';
+import { useUser } from '../../hooks/useUser';
 import { PATH } from '../../constans/routes';
 import { useNavigate } from 'react-router-dom';
 import { FieldText } from '../RegistrationPageComponent/FieldText/FieldText.jsx';
@@ -17,6 +18,7 @@ import {
 function LoginPageComponent() {
   const [login] = useLoginMutation();
   const navigate = useNavigate();
+  const { logIn } = useUser();
   const {
     formState: { errors, isValid },
     handleSubmit,
@@ -38,7 +40,7 @@ function LoginPageComponent() {
 
       if (error) {
         if (error.status === 401) {
-          alert(`invalid email or password`);
+          alert(`Неправильна пошта чи пароль`);
         } else {
           alert(error.data.message);
         }
@@ -46,8 +48,10 @@ function LoginPageComponent() {
       }
 
       if (data) {
-        localStorage.setItem('accessToken', JSON.stringify(data.accessToken));
-        localStorage.setItem('refreshToken', JSON.stringify(data.refreshToken));
+        logIn(
+          JSON.stringify(data.accessToken),
+          JSON.stringify(data.refreshToken),
+        );
         navigate(PATH.MAIN / PATH.HOMEPAGE);
       }
     } catch (error) {
