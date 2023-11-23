@@ -40,15 +40,31 @@ export const StyledPopUpNotification = styled(Box, {
 `;
 
 export const CloseButton = styled(ICONS.CLOSE_SQUARE)`
-  fill: transparent;
   position: absolute;
   top: 8px;
   right: 8px;
   cursor: pointer;
+  path {
+    fill: ${(p) =>
+      p.theme.palette.mode === 'light'
+        ? p.theme.palette.primary.dark
+        : p.theme.palette.primary.main};
+  }
+
+  circle {
+    stroke: ${(p) =>
+      p.theme.palette.mode === 'light'
+        ? p.theme.palette.primary.dark
+        : p.theme.palette.primary.main};
+  }
 
   &:hover {
     path {
       fill: ${(p) => p.theme.palette.primary.light};
+    }
+
+    circle {
+      stroke: ${(p) => p.theme.palette.primary.light};
     }
   }
 `;
