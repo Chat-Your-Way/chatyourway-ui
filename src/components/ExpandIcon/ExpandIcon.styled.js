@@ -16,14 +16,19 @@ export const IconWrapper = styled(Box)`
   }
 
   path {
-    fill: ${(p) => p.theme.palette.primary.main};
+    fill: ${(p) => p.theme.palette.primary.contrastText};
   }
 
   circle {
-    stroke: ${(p) => p.theme.palette.primary.main};
+    stroke: ${(p) => p.theme.palette.primary.contrastText};
   }
 `;
 
 export const OpenIcon = styled(ICONS.ARROW_DOWN2)``;
 
-export const CloseIcon = styled(ICONS.CLOSE_SQUARE)``;
+export const CloseIcon = styled(ICONS.CLOSE_SQUARE)`
+  transition: scale 0.2s ease;
+  &:hover {
+    scale: 1.1;
+  }
+`;

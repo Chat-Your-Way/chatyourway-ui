@@ -1,1 +1,1 @@
-export { default } from './FaqPageComponent';
+export { default } from './FaqPageComponent.jsx';

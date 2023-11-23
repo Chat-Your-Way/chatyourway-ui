@@ -4,42 +4,44 @@ import {
   FaqAccordion,
   FaqAccordionDetails,
   AccordionList,
+  FaqAccordionTitle,
+  FaqAccordionText,
+  FaqAccordionSummary,
 } from './FaqPageComponent.styled';
-import AccordionSummary from '@mui/material/AccordionSummary';
-
 import ExpandIcon from '../../components/ExpandIcon';
 
 const titlesAndTexts = [
   {
-    title: 'How to block a message',
-    text: 'How to block a message - asdfsdafagfasg',
+    title: 'Як заблокувати повідомлення?',
+    text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
   },
   {
-    title: 'How to ban a user',
-    text: 'How to ban a user - ffffffffffffff',
+    title: 'Як забанити користувача?',
+    text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
   },
   {
-    title: 'How to complain to the chat',
-    text: 'sad very sad',
+    title: 'Як поскаржитися в чаті?',
+    text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
   },
   {
-    title:
-      'Lorem ipsum dolor sii in ex eleifend, faucibus libero ac, lobortis leo.',
-    text: 'Lorem ipsum dolor sit amet, conseckskdfksdf - sasdfsdsdfdsf',
+    title: 'Lorem ipsum dolor',
+    text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
   },
 ];
 
 function FaqPageComponent() {
   return (
     <FaqPageWrapper>
-      <FaqPageTitle variant="h2">The most common questions</FaqPageTitle>
+      <FaqPageTitle variant="h2">Найпоширеніші питання</FaqPageTitle>
       <AccordionList>
         {titlesAndTexts.map(({ title, text }, index) => (
           <FaqAccordion key={index}>
-            <AccordionSummary expandIcon={<ExpandIcon />}>
-              {title}
-            </AccordionSummary>
-            <FaqAccordionDetails>{text}</FaqAccordionDetails>
+            <FaqAccordionSummary expandIcon={<ExpandIcon />}>
+              <FaqAccordionTitle variant="h5">{title}</FaqAccordionTitle>
+            </FaqAccordionSummary>
+            <FaqAccordionDetails>
+              <FaqAccordionText variant="h5">{text}</FaqAccordionText>
+            </FaqAccordionDetails>
           </FaqAccordion>
         ))}
       </AccordionList>

@@ -112,7 +112,6 @@ export const palette = (mode) => ({
     ...(mode === 'light'
       ? {
           primary: {
-            whiteRBGA: '#FFFFFF',
             white: '#FFFFFF',
             light: '#ACADFF',
             green: '#48A87A',
@@ -123,13 +122,10 @@ export const palette = (mode) => ({
             disabled: '#EEEFFF',
             errorColor: '#DA4444',
             lightDisabled: '#999999',
-            darkPurple: '#FFFFFF',
-            lightPurple: '#6261AF',
           },
         }
       : {
           primary: {
-            whiteRBGA: 'rgba(23, 23, 23, 0.7)',
             white: '#171717',
             light: '#6261AF',
             green: '#48A87A',
@@ -140,8 +136,6 @@ export const palette = (mode) => ({
             disabled: '#353535',
             errorColor: '#DA4444',
             lightDisabled: '#999999',
-            darkPurple: '#4E4D87',
-            lightPurple: '#FFFFFF',
           },
         }),
   },
