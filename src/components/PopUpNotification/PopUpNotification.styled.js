@@ -3,8 +3,8 @@ import { Box, Typography } from '@mui/material';
 import { ICONS } from '../../ui-kit/icons';
 
 export const StyledPopUpNotification = styled(Box)`
-  position: relative;
-  display: flex;
+  display: ${(p) => (p.isVisible ? 'flex' : 'none')};
+  flex-direction: column;
   width: 350px;
   padding: 12px;
   justify-content: space-between;
@@ -21,10 +21,8 @@ export const StyledPopUpNotification = styled(Box)`
   right: 0;
   left: 0;
   margin: auto;
-  display: flex;
   @media screen and (min-width: calc(845px - 0.02px)) {
     min-width: 454px;
-    position: fixed;
     top: 0;
     right: 0;
     margin-top: 40px;
@@ -32,7 +30,6 @@ export const StyledPopUpNotification = styled(Box)`
   }
   @media screen and (min-width: calc(1200px - 0.02px)) {
     min-width: 528px;
-    position: fixed;
     top: 0;
     right: 0;
     margin-top: 32px;
@@ -41,8 +38,6 @@ export const StyledPopUpNotification = styled(Box)`
 `;
 
 export const CloseButton = styled(ICONS.CLOSE_SQUARE)`
-  display: block;
-  justify-content: center;
   fill: transparent;
   position: absolute;
   top: 8px;
@@ -51,7 +46,7 @@ export const CloseButton = styled(ICONS.CLOSE_SQUARE)`
 
   &:hover {
     path {
-      fill: #353535;
+      fill: ${(p) => p.theme.palette.primary.light};
     }
   }
 `;
@@ -61,6 +56,7 @@ export const NotificationWrapper = styled(Box)`
   align-items: flex-start;
   gap: 8px;
   align-self: stretch;
+  margin-bottom: 7px;
   width: 278px;
   @media screen and (min-width: calc(845px - 0.02px)) {
     min-width: 372px;
@@ -72,19 +68,14 @@ export const NotificationWrapper = styled(Box)`
 
 export const NotificationIcon = styled(ICONS.NOTIFICATION)`
   display: flex;
+  min-width: 20px;
+  min-height: 20px;
   width: 20px;
   height: 20px;
-  justify-content: center;
-  align-items: center;
-  fill: #6261af;
+  fill: ${(p) => p.theme.palette.primary.light};
 `;
 
 export const NotificationText = styled(Typography)`
   color: ${(p) => p.theme.palette.primary.dark};
   ${(p) => p.theme.typography.p}
-  font-family: Inter;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 135%; /* 21.6px */
 `;

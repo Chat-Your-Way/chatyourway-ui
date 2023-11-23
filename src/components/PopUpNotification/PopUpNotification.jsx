@@ -7,24 +7,34 @@ import {
   NotificationText,
 } from './PopUpNotification.styled';
 
-const PopUpNotification = ({ message }) => {
+const PopUpNotification = ({ messages }) => {
   const [visible, setVisible] = useState(true);
+
+  const closeNotification = () => {
+    setVisible(false);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setVisible(false);
+      closeNotification();
     }, 5000);
 
     return () => clearTimeout(timer);
   }, []);
 
+  const handleIconClick = () => {
+    closeNotification();
+  };
+
   return (
-    <StyledPopUpNotification visible={visible}>
-      <NotificationWrapper>
-        <NotificationIcon />
-        <NotificationText>{message}</NotificationText>
-      </NotificationWrapper>
-      <CloseButton />
+    <StyledPopUpNotification isVisible={visible}>
+      {messages.map((message, index) => (
+        <NotificationWrapper key={index}>
+          <NotificationIcon onClick={handleIconClick} />
+          <NotificationText variant="p">{message}</NotificationText>
+        </NotificationWrapper>
+      ))}
+      <CloseButton onClick={handleIconClick} />
     </StyledPopUpNotification>
   );
 };
