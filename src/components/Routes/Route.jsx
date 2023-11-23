@@ -15,7 +15,7 @@ import TopicsPage from '../../pages/TopicsPage';
 import NotificationPage from '../../pages/NotificationPage';
 import NotFoundPage from '../../pages/NotFoundPage';
 import VerificationEmailPage from '../../pages/VerificationEmailPage';
-// import FaqPage from '../../pages/FaqPage';
+import FaqPage from '../../pages/FaqPage';
 import Chat from '../Chat';
 
 const Router = () => {
@@ -54,7 +54,7 @@ const Router = () => {
               <Route path={PATH.CHAT} element={<Chat />} />
             </Route>
             <Route path={PATH.SETTINGS} element={<SettingsPage />} />
-            {/* <Route path={PATH.INFO} element={<FaqPage />} /> */}
+            <Route path={PATH.INFO} element={<FaqPage />} />
           </Route>
         </Route>
 
