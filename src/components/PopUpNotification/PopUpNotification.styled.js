@@ -2,7 +2,9 @@ import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
 import { ICONS } from '../../ui-kit/icons';
 
-export const StyledPopUpNotification = styled(Box)`
+export const StyledPopUpNotification = styled(Box, {
+  shouldForwardProp: (p) => p !== 'isVisible',
+})`
   display: ${(p) => (p.isVisible ? 'flex' : 'none')};
   flex-direction: column;
   width: 350px;
@@ -77,5 +79,4 @@ export const NotificationIcon = styled(ICONS.NOTIFICATION)`
 
 export const NotificationText = styled(Typography)`
   color: ${(p) => p.theme.palette.primary.dark};
-  ${(p) => p.theme.typography.p}
 `;

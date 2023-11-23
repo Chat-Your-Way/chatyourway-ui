@@ -31,7 +31,7 @@ const PopUpNotification = ({ messages }) => {
       {messages.map((message, index) => (
         <NotificationWrapper key={index}>
           <NotificationIcon onClick={handleIconClick} />
-          <NotificationText variant="p">{message}</NotificationText>
+          <NotificationText variant="h5">{message}</NotificationText>
         </NotificationWrapper>
       ))}
       <CloseButton onClick={handleIconClick} />
