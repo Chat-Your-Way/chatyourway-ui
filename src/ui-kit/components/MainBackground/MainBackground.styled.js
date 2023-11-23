@@ -13,12 +13,13 @@ import seventh from '../../images/mainBg/7-layer.png';
 
 export const SharedLayoutWrapper = styled(Box)`
   width: 100%;
-  bottom / 50% no-repeat;
   min-height: 100vh;
   position: relative;
   overflow: hidden;
   transition: background 0.6s ease;
-  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   background: ${(p) =>
     p.theme.palette.mode === 'light'

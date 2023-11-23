@@ -2,20 +2,21 @@ import styled from '@emotion/styled';
 import { Box } from '@mui/material';
 import Button from '../../ui-kit/components/Button';
 import IconButton from '../../ui-kit/components/IconButton';
+import { ICONS } from '../../ui-kit/icons';
 
 export const StyledModalBox = styled(Box)`
+  margin: auto;
+  padding: 24px;
   position: relative;
-  width: min(55%, 800px);
+  box-sizing: border-box;
+  width: min(87%, 800px);
   height: min(71%, 600px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 1.5rem;
-  font-size: 1.2rem;
-  border-radius: 1rem;
+  border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
-  margin: auto;
   z-index: 999;
 `;
 
@@ -25,19 +26,40 @@ export const StyledForm = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 24px;
+  gap: 4px;
 `;
 
-export const ConfirmButton = styled(Button)`
+export const ConfirmButton = styled(Button, {
+  shouldForwardProp: (p) => p !== 'isError',
+})`
+  margin-top: 20px;
   width: 180px;
   ${(p) => p.theme.typography.h4};
-  background-color: ${(p) => p.theme.palette.primary.main};
+  background: ${(p) =>
+    p.isError
+      ? p.theme.palette.primary.disabled
+      : p.theme.palette.primary.main};
 `;
 
 export const CloseButton = styled(IconButton)`
   position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 24px;
-  height: 24px;
+  top: 24px;
+  right: 24px;
+  fill: ${(p) => p.theme.palette.primary.dark};
+`;
+
+export const CloseIcon = styled(ICONS.CLOSE_SQUARE)`
+  path {
+    fill: ${(p) =>
+      p.theme.palette.mode === 'light'
+        ? p.theme.palette.primary.dark
+        : p.theme.palette.primary.main};
+  }
+
+  circle {
+    stroke: ${(p) =>
+      p.theme.palette.mode === 'light'
+        ? p.theme.palette.primary.dark
+        : p.theme.palette.primary.main};
+  }
 `;

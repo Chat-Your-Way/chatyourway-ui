@@ -80,6 +80,7 @@ import { ReactComponent as VolumeUp } from './svg-icons/VolumeUp.svg';
 import { ReactComponent as Logo } from './logo/Logo.svg';
 import { ReactComponent as Confirm } from './svg-icons/Confirm.svg';
 import { ReactComponent as Close } from './svg-icons/CloseSquare.svg';
+import { ReactComponent as Cross } from './svg-icons/Cross.svg';
 
 export const ICONS = {
   TWO_USER: TwoUser,
@@ -107,6 +108,7 @@ export const ICONS = {
   CONFIRM: Confirm,
   CHAT: Chat,
   CLOSE_SQUARE: Close,
+  CROSS: Cross,
   DANGER_CIRCLE: DangerCircle,
   DANGER_TRIANGLE: DangerT,
   DELETE: Delete,

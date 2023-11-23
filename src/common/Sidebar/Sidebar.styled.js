@@ -14,7 +14,7 @@ export const StyledBox = styled(Box, {
   display: flex;
   flex-direction: column;
   width: 342px;
-  gap: ${(p) => (p.showText ? '8px' : '24px')};
+  gap: ${(p) => (p.showText === true ? '8px' : '24px')};
   box-sizing: border-box;
   background: ${(p) => p.theme.palette.primary.white};
   border: 1px solid transparent;
@@ -30,8 +30,6 @@ export const StyledBox = styled(Box, {
 export const StyledContentBox = styled(Box, {
   shouldForwardProp: (p) => p !== 'showText',
 })`
-  padding-left: 16px;
-  padding-top: 40px;
   padding-bottom: 83px;
   display: flex;
   flex-direction: column;
@@ -83,6 +81,15 @@ export const StyledItem = styled(Box, {
   border: none;
   transition: 0.2s ease all;
 
+  path {
+    fill: ${(p) =>
+      p.isActive
+        ? p.theme.palette.primary.main
+        : p.theme.palette.mode === 'light'
+        ? undefined
+        : p.theme.palette.primary.dark};
+  }
+
   .MuiTypography-root {
     ${(p) => p.theme.typography.h4}
   }
@@ -100,15 +107,6 @@ export const StyledItem = styled(Box, {
 
     background: ${(p) =>
       p.showText && p.isActive ? p.theme.palette.primary.white : 'transparent'};
-
-    path {
-      fill: ${(p) =>
-        p.isActive
-          ? p.theme.palette.primary.main
-          : p.theme.palette.mode === 'light'
-          ? undefined
-          : p.theme.palette.primary.dark};
-    }
   }
 
   svg {

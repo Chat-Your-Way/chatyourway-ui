@@ -4,8 +4,10 @@ import { Box } from '@mui/material';
 export const StyledBox = styled(Box)`
   padding: 16px;
   width: 227px;
-  display: flex;
+  min-height: 72%;
   box-sizing: border-box;
+  border-radius: 16px;
+  display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;

@@ -4,14 +4,15 @@ import TopicDesc from './TopicDesc';
 import LastMessages from './LastMessages';
 import { getAvatar } from './getAvatar';
 import { StyledBox, StyledChildrenBox } from './ChatItem.styled';
+import { useTopicsContext } from '../../TopicsContext';
 
 const ChatItem = ({
   isOpenChat = false,
   isOpenContacts = false,
   isActive,
-  isTopics,
   data,
 }) => {
+  const { isTopics } = useTopicsContext();
   const avatarContent = getAvatar(isTopics, data);
 
   return (

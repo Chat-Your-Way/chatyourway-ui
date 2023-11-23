@@ -28,9 +28,16 @@ import {
   UserMassageWrap,
   UserName,
 } from './Chat.styled';
+import { useTopicsPageContext } from '../../pages/TopicsPage/TopicsPageContext';
 
 const Chat = ({ children }) => {
   const [messageValue, setMessageValue] = useState('');
+
+  const { contactsOpen, setContactsOpen } = useTopicsPageContext();
+
+  const handleContacts = () => {
+    setContactsOpen(!contactsOpen);
+  };
 
   const handleMessageChange = (message) => {
     setMessageValue(message);
@@ -68,7 +75,7 @@ const Chat = ({ children }) => {
         </UserBox>
         <InfoMoreBox>
           {children}
-          <IconButton icon={<IconMore />} />
+          <IconButton icon={<IconMore />} onClick={handleContacts} />
         </InfoMoreBox>
       </ChatHeader>
       <ChatSectionWrap>
