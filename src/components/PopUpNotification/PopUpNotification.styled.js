@@ -95,4 +95,5 @@ export const NotificationIcon = styled(ICONS.NOTIFICATION)`
 
 export const NotificationText = styled(Typography)`
   color: ${(p) => p.theme.palette.primary.dark};
+  ${(p) => p.theme.typography.h5}
 `;

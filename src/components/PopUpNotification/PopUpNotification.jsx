@@ -7,12 +7,18 @@ import {
   NotificationText,
 } from './PopUpNotification.styled';
 
-const PopUpNotification = ({ messages }) => {
+const PopUpNotification = () => {
   const [visible, setVisible] = useState(true);
 
   const closeNotification = () => {
     setVisible(false);
   };
+
+  const messages = [
+    'Вітаємо! Лист відправлений повторно.',
+    'Ще одне повідомлення.',
+    'І ще одне повідомлення. Воно дуже довге те що треба для переносу строки.',
+  ];
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -22,19 +28,15 @@ const PopUpNotification = ({ messages }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleIconClick = () => {
-    closeNotification();
-  };
-
   return (
     <StyledPopUpNotification isVisible={visible}>
       {messages.map((message, index) => (
         <NotificationWrapper key={index}>
-          <NotificationIcon onClick={handleIconClick} />
+          <NotificationIcon onClick={closeNotification} />
           <NotificationText variant="h5">{message}</NotificationText>
         </NotificationWrapper>
       ))}
-      <CloseButton onClick={handleIconClick} />
+      <CloseButton onClick={closeNotification} />
     </StyledPopUpNotification>
   );
 };
