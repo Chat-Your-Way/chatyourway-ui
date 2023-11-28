@@ -16,6 +16,7 @@ export const FieldPassword = ({
   errors,
   watch,
   navlink,
+  placeholder,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -34,7 +35,7 @@ export const FieldPassword = ({
     <RegistrationInputWrapper>
       <RegistrationLabel variant="h5">
         <span>{title}</span>
-       {navlink}
+        {navlink}
       </RegistrationLabel>
       <Controller
         control={control}
@@ -46,6 +47,7 @@ export const FieldPassword = ({
             type={showPassword ? 'text' : 'password'}
             onChange={onChange}
             value={value}
+            placeholder={placeholder}
             endAdornment={
               showPassword ? (
                 <PasswordIconShow onClick={toggleShowPassword} />

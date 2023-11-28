@@ -16,6 +16,10 @@ export const LinkIcon = styled(Link)`
 `;
 
 export const CloseIcon = styled(ICONS.CLOSE_SQUARE)`
+  stroke: ${(p) =>
+    p.theme.palette.mode === 'light'
+      ? p.theme.palette.primary.dark
+      : p.theme.palette.primary.contrastText};
   transition: all 250ms ease-in-out;
   &:hover {
     transform: scale(1.1);
