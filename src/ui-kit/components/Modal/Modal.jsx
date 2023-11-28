@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import { memo, useEffect, useCallback } from 'react';
 import { StyledBackdropBox } from './Modal.styled';
 
-function Modal({ children, closeModal }) {
+function Modal({ children, closeModal, location }) {
   const handleKeyDown = useCallback(
     (event) => {
       if (event.key === 'Escape') {
@@ -24,7 +24,9 @@ function Modal({ children, closeModal }) {
   }, [handleKeyDown]);
 
   return ReactDOM.createPortal(
-    <StyledBackdropBox onClick={closeModal}>{children}</StyledBackdropBox>,
+    <StyledBackdropBox onClick={closeModal} location={location}>
+      {children}
+    </StyledBackdropBox>,
     document.getElementById('modal-root'),
   );
 }
