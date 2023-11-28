@@ -94,6 +94,6 @@ export const NotificationIcon = styled(ICONS.NOTIFICATION)`
 `;
 
 export const NotificationText = styled(Typography)`
-  color: ${(p) => p.theme.palette.primary.dark};
+  color: ${(p) => (p.theme.palette.type === 'dark' ? '#ACADFF' : '#353535')};
   ${(p) => p.theme.typography.h5}
 `;
