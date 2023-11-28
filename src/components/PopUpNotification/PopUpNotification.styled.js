@@ -12,12 +12,11 @@ export const StyledPopUpNotification = styled(Box, {
   justify-content: space-between;
   align-items: flex-start;
   border-radius: 16px;
-  background: linear-gradient(
-    178deg,
-    #fff 1.3%,
-    rgba(255, 255, 255, 0.94) 46.28%,
-    #ceceed 98.27%
-  );
+  background: ${(p) =>
+    /* eslint-disable */
+    p.theme.palette.mode === 'light'
+      ? `linear-gradient(178deg, ${p.theme.palette.primary.white} 1.3%, rgba(255, 255, 255, 0.94) 46.28%, #ceceed 98.27%)`
+      : `linear-gradient(180deg, #434285 1.35%, #525192 45.62%, rgba(91, 91, 149, 0.95) 100%) !important`};
   position: fixed;
   top: 0;
   right: 0;
@@ -94,6 +93,9 @@ export const NotificationIcon = styled(ICONS.NOTIFICATION)`
 `;
 
 export const NotificationText = styled(Typography)`
-  color: ${(p) => (p.theme.palette.type === 'dark' ? '#ACADFF' : '#353535')};
+  color: ${(p) =>
+    p.theme.palette.mode === 'light'
+      ? p.theme.palette.primary.dark
+      : p.theme.palette.primary.main};
   ${(p) => p.theme.typography.h5}
 `;
