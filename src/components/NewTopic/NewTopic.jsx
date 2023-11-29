@@ -7,43 +7,59 @@ import {
   ConfirmButton,
   CloseIcon,
 } from './NewTopic.styled';
-// import { ICONS } from '../../ui-kit/icons';
 import NewTopicInput from './NewTopicInput';
+import { useCreateNewTopicMutation } from '../../redux/topics-operations';
+
+const defaultValues = {
+  topicName: '',
+  tags: '',
+};
 
 function NewTopic({ closeModal }) {
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({ mode: 'all' });
-
-  const [inputName, setInputName] = useState();
-  const [inputTag, setInputTag] = useState();
+  } = useForm({ mode: 'all', defaultValues: defaultValues });
+  const [topicName, setTopicName] = useState();
+  const [tags, setTags] = useState();
+  const [createNewTopic] = useCreateNewTopicMutation();
 
   const isErrorsInForm = Object.keys(errors).length != 0;
 
   const onChangeInputTopicNameHandler = (event) => {
-    setInputName(event.target.value);
+    setTopicName(event.target.value);
   };
 
   const onChangeInputTopicTagHandler = (event) => {
-    setInputTag(event.target.value);
+    setTags(event.target.value);
   };
 
-  const onSubmit = (/* data */) => {
-    // after add data
-    closeModal();
+  const onSubmit = async (values) => {
+    const { topicName, tags } = values;
+    const formattedTags = tags
+      .trim()
+      .split(' ')
+      .filter((el) => (el !== '') & (el !== '#'));
+    const newTopic = { topicName: topicName.trim(), tags: formattedTags };
+    try {
+      await createNewTopic(newTopic);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const checkedValueInputName = (value) => {
+  const checkedValueTopicName = (value) => {
     const isValidTopicName = new RegExp(
-      '^[A-Za-zА-Яа-я0-9!%:_+=?.()s]{1,70}$',
+      '^[A-Za-zА-Яа-я0-9ії -!%:_+=?.()s]{1,70}$',
     ).test(value);
     return isValidTopicName || 'Using an inappropriate character';
   };
 
-  const checkedValueInputTag = (value) => {
-    const isValidTopicName = new RegExp('^[a-zA-Zа-яА-Я0-9#_]+$').test(value);
+  const checkedValueTags = (value) => {
+    const isValidTopicName = new RegExp('^[a-zA-Zа-яА-Я0-9ії #_]+$').test(
+      value,
+    );
     return isValidTopicName || 'Using an inappropriate character';
   };
 
@@ -52,7 +68,7 @@ function NewTopic({ closeModal }) {
       <CloseButton icon={<CloseIcon />} handleClick={closeModal} />
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <Controller
-          name="firstName"
+          name="topicName"
           control={control}
           rules={{
             required: {
@@ -67,7 +83,7 @@ function NewTopic({ closeModal }) {
               value: 70,
               message: 'Max length is 70',
             },
-            validate: { checkedValueInputName },
+            validate: { checkedValueTopicName },
           }}
           render={({ field, fieldState: { error } }) => (
             <NewTopicInput
@@ -75,7 +91,7 @@ function NewTopic({ closeModal }) {
               placeholder="Маршрут для подорожі з улюбленцем"
               error={!!error}
               errorMessage={error ? error.message : null}
-              value={inputName}
+              value={topicName}
               onChangeHandler={onChangeInputTopicNameHandler}
               {...field}
               ref={null}
@@ -83,7 +99,7 @@ function NewTopic({ closeModal }) {
           )}
         />
         <Controller
-          name="lastName"
+          name="tags"
           control={control}
           rules={{
             required: {
@@ -98,13 +114,13 @@ function NewTopic({ closeModal }) {
               value: 30,
               message: 'Max length is 30',
             },
-            validate: { checkedValueInputTag },
+            validate: { checkedValueTags },
           }}
           render={({ field, fieldState: { error } }) => (
             <NewTopicInput
               label=" Ключеві теги"
               placeholder="#подорожі #з_улюбленцем"
-              value={inputTag}
+              value={tags}
               onChangeHandler={onChangeInputTopicTagHandler}
               error={!!error}
               errorMessage={error ? error.message : null}
