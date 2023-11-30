@@ -1,4 +1,5 @@
 import WhiteLayout from '../../ui-kit/components/WhiteLayout/WhiteLayout';
+// eslint-disable-next-line max-len
 import { FieldPassword } from '../RegistrationPageComponent/FieldPassword/FieldPassword';
 import { LoginButton } from '../LoginPageComponent/LoginPageComponent.styled';
 import { useMediaQuery } from 'react-responsive';
