@@ -22,9 +22,9 @@ export const SharedLayoutWrapper = styled(Box)`
   justify-content: space-between;
 
   background: ${(p) =>
-    p.theme.palette.mode === 'light'
-      ? `url(${firstLight}) left top / 50% no-repeat`
-      : `url(${firstDark}) left top / 50% no-repeat`},
+      p.theme.palette.mode === 'light'
+        ? `url(${firstLight}) left top / 50% no-repeat`
+        : `url(${firstDark}) left top / 50% no-repeat`},
     url(${second}) left bottom / 50% no-repeat,
     url(${third}) right bottom / 50% no-repeat,
     url(${fourth}) right top / 50% no-repeat,
