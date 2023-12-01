@@ -13,7 +13,7 @@ export const StyledPopUpNotification = styled(Box, {
   align-items: flex-start;
   border-radius: 16px;
   background-image: ${({ theme }) =>
-    theme.palette.mode === 'light'
+    theme.palette.mode === 'dark'
       ? /* eslint-disable */
         'linear-gradient(180deg, rgba(255,255,255,1) 1.3%, rgba(255,255,255,0.94) 46.28%, rgba(206,206,237,1) 98.27%);'
       : 'linear-gradient(180deg, #434285 1.35%, #525192 45.62%, rgba(91, 91, 149, 0.95) 100%)'};
@@ -90,7 +90,10 @@ export const NotificationIcon = styled(ICONS.NOTIFICATION)`
   min-height: 20px;
   width: 20px;
   height: 20px;
-  fill: ${(p) => p.theme.palette.primary.light};
+  fill: ${(p) =>
+    p.theme.palette.mode === 'light'
+      ? p.theme.palette.primary.dark
+      : p.theme.palette.primary.main};
 `;
 
 export const NotificationText = styled(Typography)`
