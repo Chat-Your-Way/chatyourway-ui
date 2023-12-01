@@ -12,11 +12,12 @@ export const StyledPopUpNotification = styled(Box, {
   justify-content: space-between;
   align-items: flex-start;
   border-radius: 16px;
-  background: ${(p) =>
-    /* eslint-disable */
-    p.theme.palette.mode === 'light'
-      ? `linear-gradient(178deg, ${p.theme.palette.primary.white} 1.3%, rgba(255, 255, 255, 0.94) 46.28%, #ceceed 98.27%)`
-      : `linear-gradient(180deg, #434285 1.35%, #525192 45.62%, rgba(91, 91, 149, 0.95) 100%) !important`};
+  background-image: ${({ theme }) =>
+    theme.palette.mode === 'light'
+      ? /* eslint-disable */
+        'linear-gradient(180deg, rgba(255,255,255,1) 1.3%, rgba(255,255,255,0.94) 46.28%, rgba(206,206,237,1) 98.27%);'
+      : 'linear-gradient(180deg, #434285 1.35%, #525192 45.62%, rgba(91, 91, 149, 0.95) 100%)'};
+
   position: fixed;
   top: 0;
   right: 0;
