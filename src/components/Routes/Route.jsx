@@ -13,7 +13,9 @@ import SuccessSignupPage from '../../pages/SuccessSignupPage';
 import SettingsPage from '../../pages/Settings/Settings';
 import TopicsPage from '../../pages/TopicsPage';
 import NotificationPage from '../../pages/NotificationPage';
-// import FaqPage from '../../pages/FaqPage';
+import NotFoundPage from '../../pages/NotFoundPage';
+import VerificationEmailPage from '../../pages/VerificationEmailPage';
+import FaqPage from '../../pages/FaqPage';
 import Chat from '../Chat';
 import PopUpNotification from '../../components/PopUpNotification';
 
@@ -36,6 +38,10 @@ const Router = () => {
               element={<RecoveryPasswordPage />}
             />
             <Route path={PATH.SUCCESS_SIGNUP} element={<SuccessSignupPage />} />
+            <Route
+              path={PATH.VERIFICATION_EMAIL}
+              element={<VerificationEmailPage />}
+            />
           </Route>
         </Route>
 
@@ -49,8 +55,12 @@ const Router = () => {
               <Route path={PATH.CHAT} element={<Chat />} />
             </Route>
             <Route path={PATH.SETTINGS} element={<SettingsPage />} />
-            {/* <Route path={PATH.INFO} element={<FaqPage />} /> */}
+            <Route path={PATH.INFO} element={<FaqPage />} />
           </Route>
+        </Route>
+
+        <Route path={PATH.NOT_FOUND} element={<SharedLayout />}>
+          <Route path={PATH.NOT_FOUND} element={<NotFoundPage />} />
         </Route>
       </Routes>
     </Suspense>

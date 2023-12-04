@@ -5,12 +5,14 @@ export const useUser = () => {
 
   const localLogOut = () => {
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     setIsAuth('');
   };
 
-  const logIn = (token) => {
-    localStorage.setItem('accessToken', token);
-    setIsAuth(token);
+  const logIn = (accToken, refToken) => {
+    localStorage.setItem('accessToken', accToken);
+    localStorage.setItem('refreshToken', refToken);
+    setIsAuth(accToken);
   };
 
   return {

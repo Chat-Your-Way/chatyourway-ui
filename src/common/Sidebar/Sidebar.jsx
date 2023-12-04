@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   MainBox,
   StyledBox,
@@ -16,6 +16,8 @@ import { ICONS } from '../../ui-kit/icons';
 import { useSidebarContext } from './SidebarContext';
 import { PATH } from '../../constans/routes';
 import { useMediaQuery } from 'react-responsive';
+import { useUser } from '../../hooks/useUser';
+import { useLogoutMutation } from '../../redux/auth-operations';
 
 const menuRoutes = [
   {
@@ -52,6 +54,9 @@ const Sidebar = () => {
   const isTabletAndBelow = useTabletAndBelowMediaQuery();
   const isMobile = useMobileMediaQuery();
   const [isShowText, setIsShowText] = useState();
+  const { localLogOut } = useUser();
+  const [logout] = useLogoutMutation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const isHome = pathname.includes('home');
@@ -69,6 +74,23 @@ const Sidebar = () => {
   useEffect(() => {
     setIsShowText(showText);
   }, [showText]);
+
+  const LogOut = async () => {
+    try {
+      const { error } = await logout();
+
+      if (error) {
+        alert(error.data.message);
+        return;
+      }
+
+      localLogOut();
+      navigate(PATH.MAIN);
+    } catch (error) {
+      console.error('Виникла помилка:', error);
+      return;
+    }
+  };
 
   return (
     <MainBox>
@@ -93,7 +115,11 @@ const Sidebar = () => {
                   </StyledNavLink>
                 );
               })}
-              <LogOutButton label="Вийти" startIcon={<LogOutIcon />} />
+              <LogOutButton
+                label="Вийти"
+                startIcon={<LogOutIcon />}
+                handleClick={LogOut}
+              />
             </StyledItemsBox>
           </StyledContentBox>
         </StyledBox>
