@@ -12,7 +12,11 @@ const ChatsBlock = ({ isOpenChat = false, isOpenContacts = false }) => {
   const ChatItems = ChatBlockDataHelper(isTopics);
   const { pathname } = useLocation();
   const path = pathname.includes('topics') ? 'topics' : 'notification';
-  const { data } = useGetAllQuery();
+  const { data, isError } = useGetAllQuery();
+
+  if (isError) {
+    alert('Виникла помилка під час отримання тем');
+  }
 
   return (
     <>

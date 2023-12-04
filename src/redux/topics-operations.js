@@ -16,6 +16,7 @@ const topicsApi = createApi({
         },
         body: JSON.stringify(body),
       }),
+      invalidatesTags: ['Topics'],
     }),
     getAll: builder.query({
       query: () => ({
@@ -27,6 +28,7 @@ const topicsApi = createApi({
           Authorization: `Bearer ${ajwt}`,
         },
       }),
+      providesTags: ['Topics'],
     }),
   }),
 });
