@@ -13,27 +13,24 @@ export const StyledPopUpNotification = styled(Box, {
   align-items: flex-start;
   border-radius: 16px;
   background-image: ${({ theme }) =>
-    theme.palette.mode === 'dark'
+    theme.palette.mode === 'light'
       ? /* eslint-disable */
         'linear-gradient(180deg, rgba(255,255,255,1) 1.3%, rgba(255,255,255,0.94) 46.28%, rgba(206,206,237,1) 98.27%);'
       : 'linear-gradient(180deg, #434285 1.35%, #525192 45.62%, rgba(91, 91, 149, 0.95) 100%)'};
-
   position: fixed;
   top: 0;
   right: 0;
-  left: 0;
   margin: auto;
+  z-index: 1;
+  margin-top: 20px;
+  margin-right: 20px;
   @media screen and (min-width: calc(845px - 0.02px)) {
     min-width: 454px;
-    top: 0;
-    right: 0;
     margin-top: 40px;
     margin-right: 40px;
   }
   @media screen and (min-width: calc(1200px - 0.02px)) {
     min-width: 528px;
-    top: 0;
-    right: 0;
     margin-top: 32px;
     margin-right: 80px;
   }
@@ -44,6 +41,12 @@ export const CloseButton = styled(ICONS.CLOSE_SQUARE)`
   top: 8px;
   right: 8px;
   cursor: pointer;
+
+  & > path,
+  & > circle {
+    transition: all 0.2s ease;
+  }
+
   path {
     fill: ${(p) =>
       p.theme.palette.mode === 'light'
@@ -90,16 +93,10 @@ export const NotificationIcon = styled(ICONS.NOTIFICATION)`
   min-height: 20px;
   width: 20px;
   height: 20px;
-  fill: ${(p) =>
-    p.theme.palette.mode === 'light'
-      ? p.theme.palette.primary.dark
-      : p.theme.palette.primary.main};
+  fill: ${(p) => p.theme.palette.primary.contrastText};
 `;
 
 export const NotificationText = styled(Typography)`
-  color: ${(p) =>
-    p.theme.palette.mode === 'light'
-      ? p.theme.palette.primary.dark
-      : p.theme.palette.primary.disabled};
+  color: ${(p) => p.theme.palette.primary.dark};
   ${(p) => p.theme.typography.h5}
 `;
