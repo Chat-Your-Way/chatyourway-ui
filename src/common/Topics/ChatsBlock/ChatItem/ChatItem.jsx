@@ -31,24 +31,24 @@ const ChatItem = ({
             <TopicDesc
               isOpenChat={isOpenChat}
               isOpenContacts={isOpenContacts}
-              title={data.title}
-              lastMessageTime={data.lastMessageTime}
+              title={data.topicName}
+              // lastMessageTime={data.lastMessageTime}
             />
           ) : (
             <TopicDesc
               isOpenChat={isOpenChat}
               isOpenContacts={isOpenContacts}
               title={data.userName}
-              lastMessageTime={data.lastMessageTime}
+              // lastMessageTime={data.lastMessageTime}
             />
           )}
           <LastMessages
             isOpenChat={isOpenChat}
             isOpenContacts={isOpenContacts}
-            userName={data.userName}
-            message={data.message}
-            unreadedMessage={data.unreadedMessage}
-            isTyping={data.isTyping}
+            // userName={data.userName}
+            // message={data.message}
+            // unreadedMessage={data.unreadedMessage}
+            // isTyping={data.isTyping}
           />
         </StyledChildrenBox>
       )}

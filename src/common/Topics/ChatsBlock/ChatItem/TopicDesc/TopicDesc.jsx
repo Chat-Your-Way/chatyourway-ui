@@ -5,7 +5,7 @@ const TopicDesc = ({
   isOpenChat = false,
   isOpenContacts = false,
   title,
-  lastMessageTime,
+  lastMessageTime = '00:00',
 }) => {
   return (
     <StyledBox isOpenChat={isOpenChat} isOpenContacts={isOpenContacts}>

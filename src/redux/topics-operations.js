@@ -17,9 +17,20 @@ const topicsApi = createApi({
         body: JSON.stringify(body),
       }),
     }),
+    getAll: builder.query({
+      query: () => ({
+        url: '/topics/all',
+        method: 'GET',
+        headers: {
+          Referer: Referer,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${ajwt}`,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useCreateMutation } = topicsApi;
+export const { useCreateMutation, useGetAllQuery } = topicsApi;
 
 export default topicsApi;

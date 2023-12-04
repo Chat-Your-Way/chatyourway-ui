@@ -1,28 +1,33 @@
+/* eslint-disable no-unused-vars */
 import { memo } from 'react';
 import ChatItem from './ChatItem';
 import { ChatBlockDataHelper } from './ChatBlockDataHelper';
 import { StyledNavLink } from './ChatsBlock.styled';
 import { useLocation } from 'react-router-dom';
 import { useTopicsContext } from '../TopicsContext';
+import { useGetAllQuery } from '../../../redux/topics-operations';
 
 const ChatsBlock = ({ isOpenChat = false, isOpenContacts = false }) => {
   const { isTopics } = useTopicsContext();
   const ChatItems = ChatBlockDataHelper(isTopics);
   const { pathname } = useLocation();
   const path = pathname.includes('topics') ? 'topics' : 'notification';
+  const { data } = useGetAllQuery();
+
   return (
     <>
-      {ChatItems.map((item, index) => {
-        return (
-          <StyledNavLink to={`../${path}/chat/${item.title}`} key={index}>
-            <ChatItem
-              isOpenChat={isOpenChat}
-              isOpenContacts={isOpenContacts}
-              data={item}
-            />
-          </StyledNavLink>
-        );
-      })}
+      {data &&
+        data.map((item) => {
+          return (
+            <StyledNavLink to={`../${path}/chat/${item.id}`} key={item.id}>
+              <ChatItem
+                isOpenChat={isOpenChat}
+                isOpenContacts={isOpenContacts}
+                data={item}
+              />
+            </StyledNavLink>
+          );
+        })}
     </>
   );
 };
