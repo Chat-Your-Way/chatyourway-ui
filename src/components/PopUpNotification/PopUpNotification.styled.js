@@ -100,6 +100,6 @@ export const NotificationText = styled(Typography)`
   color: ${(p) =>
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.dark
-      : p.theme.palette.primary.main};
+      : p.theme.palette.primary.disabled};
   ${(p) => p.theme.typography.h5}
 `;

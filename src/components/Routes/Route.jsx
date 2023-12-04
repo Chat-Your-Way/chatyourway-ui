@@ -5,7 +5,7 @@ import { PublicRoute } from './PublicRoute';
 import { PATH } from '../../constans/routes';
 import SharedLayout from '../../ui-kit/components/SharedLayout/SharedLayout';
 import AuthorizationPage from '../../pages/AuthorizationPage';
-// import LoginPage from '../../pages/LoginPage/LoginPage';
+import LoginPage from '../../pages/LoginPage/LoginPage';
 import RegistrationPage from '../../pages/RegistrationPage';
 import ForgotPasswordPage from '../../pages/ForgotPasswordPage';
 import RecoveryPasswordPage from '../../pages/RecoveryPasswordPage';
@@ -17,7 +17,6 @@ import NotFoundPage from '../../pages/NotFoundPage';
 import VerificationEmailPage from '../../pages/VerificationEmailPage';
 import FaqPage from '../../pages/FaqPage';
 import Chat from '../Chat';
-import PopUpNotification from '../../components/PopUpNotification';
 
 const Router = () => {
   return (
@@ -27,7 +26,7 @@ const Router = () => {
         <Route path={PATH.MAIN} element={<PublicRoute />}>
           <Route path={PATH.MAIN} element={<SharedLayout />}>
             <Route index element={<AuthorizationPage />} />
-            <Route path={PATH.LOGIN} element={<PopUpNotification />} />
+            <Route path={PATH.LOGIN} element={<LoginPage />} />
             <Route path={PATH.REGISTER} element={<RegistrationPage />} />
             <Route
               path={PATH.FORGOT_PASSWORD}
