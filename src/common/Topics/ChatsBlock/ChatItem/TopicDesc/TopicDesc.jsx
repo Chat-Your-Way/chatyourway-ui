@@ -4,7 +4,7 @@ import { StyledBox, StyledThemeText, StyledTimeText } from './TopicDesc.styled';
 const TopicDesc = ({
   isOpenChat = false,
   isOpenContacts = false,
-  title,
+  title = 'name',
   lastMessageTime = '00:00',
 }) => {
   return (
