@@ -52,7 +52,7 @@ function NewTopic({ closeModal }) {
         alert('Виникла помилка під час створення теми');
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
