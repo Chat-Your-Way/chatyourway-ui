@@ -13,11 +13,7 @@ const ChatsBlock = ({ isOpenChat = false, isOpenContacts = false, filter }) => {
   const { pathname } = useLocation();
   const path = pathname.includes('topics') ? 'topics' : 'notification';
 
-  const filterHandler = () => {
-    return filter === 'favourite' ? 'favourite' : 'all';
-  };
-
-  const { data, isError } = useGetAllQuery(filterHandler());
+  const { data, isError } = useGetAllQuery(filter);
 
   if (isError) {
     alert('Виникла помилка під час отримання тем');

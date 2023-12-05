@@ -57,7 +57,7 @@ const TabsBlock = ({
           tabWith={thirdTabWidth}
           borderLeft
           isActive={active === 'popular'}
-          value={'popular'}
+          value={'popular/public'}
         />
       </StyledTabs>
     </StyledBox>

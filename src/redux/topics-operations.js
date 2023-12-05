@@ -30,6 +30,32 @@ const topicsApi = createApi({
       }),
       providesTags: ['Topics'],
     }),
+
+    update: builder.mutation({}),
+
+    subscribe: builder.mutation({}),
+
+    createPrivate: builder.mutation({}),
+
+    removeFavourite: builder.mutation({}),
+
+    addFavourite: builder.mutation({}),
+
+    unsubscribe: builder.mutation({}),
+
+    messageProhibit: builder.query({}),
+
+    messagePermit: builder.query({}),
+
+    getById: builder.query({}),
+
+    delete: builder.mutation({}),
+
+    getSubscribers: builder.query({}),
+
+    search: builder.query({}),
+
+    getByTag: builder.query({}),
   }),
 });
 
