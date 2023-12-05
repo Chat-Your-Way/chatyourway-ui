@@ -12,7 +12,6 @@ import {
   ChatWrap,
   IconActivity,
   IconMore,
-  IconMoreChat,
   IconSend,
   IconSmile,
   IndicatorBox,
@@ -29,6 +28,7 @@ import {
   UserName,
 } from './Chat.styled';
 import { useTopicsPageContext } from '../../pages/TopicsPage/TopicsPageContext';
+import DropDownMenu from './DropDownMenu/DropDownMenu';
 
 const Chat = ({ children }) => {
   const [messageValue, setMessageValue] = useState('');
@@ -101,9 +101,7 @@ const Chat = ({ children }) => {
                     <TextMessage isMyMessage={item.isMyMessage}>
                       {item.text}
                     </TextMessage>
-                    {!item.isMyMessage && (
-                      <IconButton icon={<IconMoreChat />} />
-                    )}
+                    {!item.isMyMessage && <DropDownMenu />}
                   </TextMessageBlock>
                 </UserMassageWrap>
                 <Avatar />
