@@ -8,6 +8,8 @@ const TopicsHeader = ({
   isOpenChat = false,
   isOpenContacts = false,
   handleBTNFunc,
+  active,
+  setFilter,
 }) => {
   const { isTopics } = useTopicsContext();
   return (
@@ -19,7 +21,12 @@ const TopicsHeader = ({
         handleBTNFunc={handleBTNFunc}
       />
       {isTopics && (
-        <TabsBlock isOpenChat={isOpenChat} isOpenContacts={isOpenContacts} />
+        <TabsBlock
+          isOpenChat={isOpenChat}
+          isOpenContacts={isOpenContacts}
+          active={active}
+          setFilter={setFilter}
+        />
       )}
       <StyledBox>
         <StyledSearchInput />

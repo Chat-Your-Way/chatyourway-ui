@@ -19,8 +19,8 @@ const topicsApi = createApi({
       invalidatesTags: ['Topics'],
     }),
     getAll: builder.query({
-      query: () => ({
-        url: '/topics/all',
+      query: (value) => ({
+        url: `/topics/${value}`,
         method: 'GET',
         headers: {
           Referer: Referer,

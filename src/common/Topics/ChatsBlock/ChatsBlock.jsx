@@ -7,12 +7,17 @@ import { useLocation } from 'react-router-dom';
 import { useTopicsContext } from '../TopicsContext';
 import { useGetAllQuery } from '../../../redux/topics-operations';
 
-const ChatsBlock = ({ isOpenChat = false, isOpenContacts = false }) => {
+const ChatsBlock = ({ isOpenChat = false, isOpenContacts = false, filter }) => {
   const { isTopics } = useTopicsContext();
   const ChatItems = ChatBlockDataHelper(isTopics);
   const { pathname } = useLocation();
   const path = pathname.includes('topics') ? 'topics' : 'notification';
-  const { data, isError } = useGetAllQuery();
+
+  const filterHandler = () => {
+    return filter === 'favourite' ? 'favourite' : 'all';
+  };
+
+  const { data, isError } = useGetAllQuery(filterHandler());
 
   if (isError) {
     alert('Виникла помилка під час отримання тем');
