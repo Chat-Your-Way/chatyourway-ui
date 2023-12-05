@@ -143,12 +143,6 @@ export const TextMessage = styled(Box)`
   background-color: ${(p) => p.theme.palette.primary.disabled};
 `;
 
-export const IconMoreChat = styled(ICONS.MORE_CIRCLE)`
-  min-width: 20px;
-  min-height: 20px;
-  fill: ${(p) => p.theme.palette.primary.lightDisabled};
-`;
-
 export const InputBox = styled(Box)`
   display: flex;
   position: relative;
