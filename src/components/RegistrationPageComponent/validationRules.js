@@ -27,7 +27,7 @@ const validatePassword = (value) => {
   if (!isNonWhiteSpace.test(value)) {
     return 'Не повинен мати пробілів';
   }
-  const isContainsSymbol = /[!@#$%^&-*_+=?]+/;
+  const isContainsSymbol = /[-!@#$%^&*_+=?]+/;
   if (!isContainsSymbol.test(value)) {
     return 'Повинен мати хоча б 1 символ';
   }
