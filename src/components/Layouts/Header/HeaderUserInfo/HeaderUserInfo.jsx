@@ -51,7 +51,11 @@ const HeaderUserInfo = () => {
       {avatarsArray.map(
         (Logo, index) =>
           avatarId - 1 === index && (
-            <Avatar size={isTablet ? 'lg' : 'md'} key={index}>
+            <Avatar
+              size={isTablet ? 'lg' : 'md'}
+              key={index}
+              isCurrent={'true'}
+            >
               <Logo />
             </Avatar>
           ),
