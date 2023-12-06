@@ -1,1 +1,1 @@
-export { default } from './SettingsPageComponent';
+export { default } from './SettingsPageComponent.jsx';
