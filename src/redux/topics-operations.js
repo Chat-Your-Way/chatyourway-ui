@@ -43,10 +43,6 @@ const topicsApi = createApi({
 
     unsubscribe: builder.mutation({}),
 
-    messageProhibit: builder.query({}),
-
-    messagePermit: builder.query({}),
-
     getById: builder.query({}),
 
     delete: builder.mutation({}),
