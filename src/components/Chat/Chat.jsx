@@ -74,7 +74,6 @@ const Chat = ({ children }) => {
             <TypingIndicator variant="h5">Ти/Пишеш...</TypingIndicator>
           </InfoBox>
         </UserBox>
-        <TopicSettingsMenu />
         <InfoMoreBox>
           {children}
           <TopicSettingsMenu />

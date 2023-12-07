@@ -32,11 +32,7 @@ const TopicSettingsMenu = () => {
 
   return (
     <Box>
-      <IconButton
-        icon={<IconOpenStyled />}
-        onClick={handleOpen}
-        disableElevation
-      />
+      <IconButton icon={<IconOpenStyled />} onClick={handleOpen} />
       <SettingsMenuStyled
         elevation={0}
         anchorOrigin={{

@@ -33,16 +33,12 @@ export const IconCloseStyled = styled(ICONS.CLOSE_SQUARE)`
 export const SettingsMenuStyled = styled(Menu)`
   .MuiMenu-paper {
     box-sizing: border-box;
-    width: 190px;
     display: inline-flex;
     padding: 12px;
     align-items: flex-start;
     border-radius: 16px;
     background: ${(p) => p.theme.palette.primary.disabled} !important;
     box-shadow: 0px 2px 9px 4px rgba(102, 102, 146, 0.15);
-    @media screen and (min-width: calc(845px - 0.02px)) {
-      width: auto;
-    }
   }
   .MuiMenuItem-root {
     padding: 0;
@@ -73,11 +69,12 @@ export const SettingsItemStyled = styled(MenuItem)`
 
 export const SettingsTextStyled = styled(ListItemText)`
   & > span {
+    width: 113px;
     white-space: wrap;
     color: inherit;
     ${(p) => p.theme.typography.h5}
     @media screen and (min-width: calc(845px - 0.02px)) {
-      ${(p) => p.theme.typography.h5};
+      width: 210px;
     }
   }
 `;
