@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { memo, useState } from 'react';
 import Avatar from '../../ui-kit/components/Avatar';
 import IconButton from '../../ui-kit/components/IconButton/IconButton';
@@ -11,7 +12,6 @@ import {
   ChatUserName,
   ChatWrap,
   IconActivity,
-  IconMore,
   IconSend,
   IconSmile,
   IndicatorBox,
@@ -29,6 +29,7 @@ import {
 } from './Chat.styled';
 import { useTopicsPageContext } from '../../pages/TopicsPage/TopicsPageContext';
 import DropDownMenu from './DropDownMenu/DropDownMenu';
+import TopicSettingsMenu from './TopicSettingsMenu/TopicSettingsMenu';
 
 const Chat = ({ children }) => {
   const [messageValue, setMessageValue] = useState('');
@@ -75,7 +76,7 @@ const Chat = ({ children }) => {
         </UserBox>
         <InfoMoreBox>
           {children}
-          <IconButton icon={<IconMore />} onClick={handleContacts} />
+          <TopicSettingsMenu />
         </InfoMoreBox>
       </ChatHeader>
       <ChatSectionWrap>
