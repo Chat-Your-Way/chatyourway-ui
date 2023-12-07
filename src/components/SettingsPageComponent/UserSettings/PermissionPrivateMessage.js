@@ -3,10 +3,13 @@ import {
   usePermitPrivateMessageMutation,
   useProhibitPrivateMessageMutation,
 } from '../../../redux/user-operations';
+import { useSelector } from 'react-redux';
+import { getUserInfo } from '../../../redux/userSlice';
 
 export const PermissionPrivateMessage = () => {
+  const { hasPermissionSendingPrivateMessage } = useSelector(getUserInfo);
   const [isPermission, setIsPermission] = useState(
-    localStorage.getItem('permission') || 'true',
+    hasPermissionSendingPrivateMessage || 'true',
   );
 
   const [permitPrivateMessage] = usePermitPrivateMessageMutation();
@@ -30,8 +33,8 @@ export const PermissionPrivateMessage = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem('permission', isPermission);
-  }, [isPermission]);
+    setIsPermission(String(hasPermissionSendingPrivateMessage) || 'true');
+  }, [hasPermissionSendingPrivateMessage]);
 
   return { isPermission, togglePermission };
 };
