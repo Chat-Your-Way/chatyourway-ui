@@ -5,7 +5,7 @@ import { PublicRoute } from './PublicRoute';
 import { PATH } from '../../constans/routes';
 import SharedLayout from '../../ui-kit/components/SharedLayout/SharedLayout';
 import AuthorizationPage from '../../pages/AuthorizationPage';
-import LoginPage from '../../pages/LoginPage/LoginPage';
+// import LoginPage from '../../pages/LoginPage/LoginPage';
 import RegistrationPage from '../../pages/RegistrationPage';
 import ForgotPasswordPage from '../../pages/ForgotPasswordPage';
 import RecoveryPasswordPage from '../../pages/RecoveryPasswordPage';
@@ -26,12 +26,12 @@ const Router = () => {
         <Route path={PATH.MAIN} element={<PublicRoute />}>
           <Route path={PATH.MAIN} element={<SharedLayout />}>
             <Route index element={<AuthorizationPage />} />
-            <Route path={PATH.LOGIN} element={<LoginPage />} />
+            <Route path={PATH.LOGIN} element={<ForgotPasswordPage />} />
             <Route path={PATH.REGISTER} element={<RegistrationPage />} />
-            <Route
+            {/* <Route
               path={PATH.FORGOT_PASSWORD}
               element={<ForgotPasswordPage />}
-            />
+            /> */}
             <Route
               path={PATH.RECOVERY_PASSWORD}
               element={<RecoveryPasswordPage />}

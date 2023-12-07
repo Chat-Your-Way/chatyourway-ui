@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { ICONS } from '../../ui-kit/icons';
 import { Link } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
+import TextNavLinkButton from '../../ui-kit/components/TextNavLinkButton';
 
 export const LinkIcon = styled(Link)`
   display: none;
@@ -16,13 +17,38 @@ export const LinkIcon = styled(Link)`
 `;
 
 export const CloseIcon = styled(ICONS.CLOSE_SQUARE)`
-  stroke: ${(p) =>
-    p.theme.palette.mode === 'light'
-      ? p.theme.palette.primary.dark
-      : p.theme.palette.primary.contrastText};
-  transition: all 250ms ease-in-out;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  cursor: pointer;
+
+  & > path,
+  & > circle {
+    transition: all 0.2s ease;
+  }
+
+  path {
+    fill: ${(p) =>
+      p.theme.palette.mode === 'light'
+        ? p.theme.palette.primary.dark
+        : p.theme.palette.primary.main};
+  }
+
+  circle {
+    stroke: ${(p) =>
+      p.theme.palette.mode === 'light'
+        ? p.theme.palette.primary.dark
+        : p.theme.palette.primary.main};
+  }
+
   &:hover {
-    transform: scale(1.1);
+    path {
+      fill: ${(p) => p.theme.palette.primary.light};
+    }
+
+    circle {
+      stroke: ${(p) => p.theme.palette.primary.light};
+    }
   }
 `;
 
@@ -65,4 +91,13 @@ export const ForgotPasswordForm = styled.form`
 export const ButtonWrapper = styled(Box)`
   margin: 24px 0 0 0;
   text-align: center;
+`;
+
+export const ForgotPasswordButton = styled(TextNavLinkButton)`
+  display: flex;
+  width: 180px;
+  padding: 8px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 `;

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Box } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { ICONS } from '../../ui-kit/icons';
-import DefaultButton from '../../ui-kit/components/Button';
+import TextNavLinkButton from '../../ui-kit/components/TextNavLinkButton';
 
 export const LoginWrapper = styled(Box)`
   display: flex;
@@ -43,7 +43,7 @@ export const ButtonWrapper = styled(Box)`
   text-align: center;
 `;
 
-export const LoginButton = styled(DefaultButton)`
+export const LoginButton = styled(TextNavLinkButton)`
   height: 40px;
   padding: 8px 12px;
   width: 180px;

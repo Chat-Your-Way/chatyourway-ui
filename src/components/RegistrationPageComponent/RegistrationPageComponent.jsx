@@ -3,11 +3,11 @@ import { FieldText } from './FieldText/FieldText';
 import { FieldPassword } from './FieldPassword/FieldPassword';
 import { FieldRadio } from './FieldRadio/FieldRadio';
 import { FieldCheckbox } from './FieldCheckbox/FieldCheckbox';
-import { LoginButton } from '../LoginPageComponent/LoginPageComponent.styled';
 import {
   RegistrationWrapper,
   RegistrationForm,
   LogoIcon,
+  RegistrationButton,
 } from './RegistrationPageComponent.styled';
 import { useRegistrationMutation } from '../../redux/auth-operations';
 import { PATH } from '../../constans/routes';
@@ -74,6 +74,7 @@ function RegistrationPageComponent() {
           id="nickname"
           control={control}
           errors={errors.nickname}
+          placeholder={'Nickname'}
         />
 
         <FieldText
@@ -81,6 +82,7 @@ function RegistrationPageComponent() {
           id="email"
           control={control}
           errors={errors.email}
+          placeholder={'Email'}
         />
 
         <FieldPassword
@@ -88,6 +90,7 @@ function RegistrationPageComponent() {
           id="password"
           control={control}
           errors={errors.password}
+          placeholder={'Пароль'}
         />
 
         <FieldPassword
@@ -96,13 +99,14 @@ function RegistrationPageComponent() {
           control={control}
           errors={errors.confirm}
           watch={passwordValue}
+          placeholder={'Підтвердити пароль'}
         />
 
         <FieldRadio id="avatar" control={control} />
 
         <FieldCheckbox id="agreement" control={control} />
 
-        <LoginButton
+        <RegistrationButton
           type="submit"
           label="Створити акаунт"
           disabled={!isValid}
