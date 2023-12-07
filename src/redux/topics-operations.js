@@ -45,13 +45,24 @@ const topicsApi = createApi({
       invalidatesTags: ['Topics'],
     }),
 
+    removeFavourite: builder.mutation({
+      query: (id) => ({
+        url: `/topics/${id}/favourite/remove`,
+        method: 'PATCH',
+        headers: {
+          Referer: Referer,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${ajwt}`,
+        },
+      }),
+      invalidatesTags: ['Topics'],
+    }),
+
     update: builder.mutation({}),
 
     subscribe: builder.mutation({}),
 
     createPrivate: builder.mutation({}),
-
-    removeFavourite: builder.mutation({}),
 
     unsubscribe: builder.mutation({}),
 
@@ -67,6 +78,11 @@ const topicsApi = createApi({
   }),
 });
 
-export const { useCreateMutation, useGetAllQuery, useAddFavouriteMutation } = topicsApi;
+export const {
+  useCreateMutation,
+  useGetAllQuery,
+  useAddFavouriteMutation,
+  useRemoveFavouriteMutation,
+} = topicsApi;
 
 export default topicsApi;

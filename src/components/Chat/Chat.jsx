@@ -31,12 +31,14 @@ import { useTopicsPageContext } from '../../pages/TopicsPage/TopicsPageContext';
 import DropDownMenu from './DropDownMenu/DropDownMenu';
 import TopicSettingsMenu from './TopicSettingsMenu/TopicSettingsMenu';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { getUserInfo } from '../../redux/userSlice';
 
 const Chat = ({ children }) => {
-  const [messageValue, setMessageValue] = useState('');
-  const { title: topicId } = useParams();
-
   const { contactsOpen, setContactsOpen } = useTopicsPageContext();
+  const [messageValue, setMessageValue] = useState('');
+  const { email } = useSelector(getUserInfo);
+  const { title: topicId } = useParams();
 
   const handleContacts = () => {
     setContactsOpen(!contactsOpen);
@@ -67,6 +69,26 @@ const Chat = ({ children }) => {
     },
   ];
 
+  const mockTopicData = {
+    topicSubscribers: [
+      {
+        contact: {
+          email: 'nickname@gmail.com',
+        },
+      },
+    ],
+  };
+
+  const mockFavouriteData = [{ id: 4 }, { id: 6 }];
+
+  const subscribeStatus = mockTopicData.topicSubscribers.find(
+    (el) => el.contact.email === email,
+  );
+
+  const favouriteStatus = mockFavouriteData.find(
+    (el) => el.id === Number(topicId),
+  );
+
   return (
     <ChatWrap>
       <ChatHeader>
@@ -79,7 +101,11 @@ const Chat = ({ children }) => {
         </UserBox>
         <InfoMoreBox>
           {children}
-          <TopicSettingsMenu topicId={topicId} />
+          <TopicSettingsMenu
+            topicId={topicId}
+            subscribeStatus={subscribeStatus}
+            favouriteStatus={favouriteStatus}
+          />
         </InfoMoreBox>
       </ChatHeader>
       <ChatSectionWrap>

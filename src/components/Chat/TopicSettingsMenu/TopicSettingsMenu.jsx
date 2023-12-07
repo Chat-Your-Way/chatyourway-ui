@@ -12,22 +12,40 @@ import {
   MenuIconHeart,
   MenuIconComplain,
 } from './TopicSettings.styled';
-import { useAddFavouriteMutation } from '../../../redux/topics-operations';
+import {
+  useAddFavouriteMutation,
+  useRemoveFavouriteMutation,
+} from '../../../redux/topics-operations';
 
-const TopicSettingsMenu = ({ topicId }) => {
+const TopicSettingsMenu = ({ topicId, subscribeStatus, favouriteStatus }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [addFavourite] = useAddFavouriteMutation();
+  const [removeFavourite] = useRemoveFavouriteMutation();
 
   const handleOpen = (e) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
-  const handleFavourite = async () => {
+  const handleAddFavourite = async () => {
     try {
       const { error } = await addFavourite(topicId);
       if (error) {
         alert(error.data.message);
       } else {
         alert('Додано до улюблених тем');
+      }
+      handleClose();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleRemoveFavourite = async () => {
+    try {
+      const { error } = await removeFavourite(topicId);
+      if (error) {
+        alert(error.data.message);
+      } else {
+        alert('Видалено з улюблених тем');
       }
       handleClose();
     } catch (error) {
@@ -72,17 +90,32 @@ const TopicSettingsMenu = ({ topicId }) => {
           <IconButton onClick={handleClose} icon={<IconCloseStyled />} />
         </SettingsItemStyled>
 
-        <SettingsItemStyled onClick={handleSubscribe} disableRipple>
-          <ListItemIcon>
-            {<IconButton icon={<MenuIconSubscribe />} />}
-          </ListItemIcon>
-          <SettingsTextStyled primary="підписатися" />
-        </SettingsItemStyled>
+        {!subscribeStatus && (
+          <SettingsItemStyled onClick={handleSubscribe} disableRipple>
+            <ListItemIcon>
+              {<IconButton icon={<MenuIconSubscribe />} />}
+            </ListItemIcon>
+            <SettingsTextStyled primary="підписатися" />
+          </SettingsItemStyled>
+        )}
 
-        <SettingsItemStyled onClick={handleFavourite} disableRipple>
-          <ListItemIcon>{<IconButton icon={<MenuIconHeart />} />}</ListItemIcon>
-          <SettingsTextStyled primary="додати чат до улюбленого" />
-        </SettingsItemStyled>
+        {!favouriteStatus && (
+          <SettingsItemStyled onClick={handleAddFavourite} disableRipple>
+            <ListItemIcon>
+              {<IconButton icon={<MenuIconHeart />} />}
+            </ListItemIcon>
+            <SettingsTextStyled primary="додати чат до улюбленого" />
+          </SettingsItemStyled>
+        )}
+
+        {favouriteStatus && (
+          <SettingsItemStyled onClick={handleRemoveFavourite} disableRipple>
+            <ListItemIcon>
+              {<IconButton icon={<MenuIconHeart />} />}
+            </ListItemIcon>
+            <SettingsTextStyled primary="Забрати із улюбленого" />
+          </SettingsItemStyled>
+        )}
 
         <SettingsItemStyled onClick={handleComplain} disableRipple>
           <ListItemIcon>
