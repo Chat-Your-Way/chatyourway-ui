@@ -16,9 +16,11 @@ import {
 import { ThemeContext } from '../../ui-kit/theme/ThemeProvider';
 import Avatar from '../../ui-kit/components/Avatar';
 import Toogle from '../../ui-kit/components/Toogle';
+import { PermissionPrivateMessage } from './UserSettings/PermissionPrivateMessage';
 
 const SettingsPageComponent = () => {
   const { toggleTheme, currentTheme } = useContext(ThemeContext);
+  const { isPermission, togglePermission } = PermissionPrivateMessage();
 
   const [isChangeNameVisible, setIsNameChangeVisible] = useState(false);
   const [isChangeAvatarVisible, setIsAvatarChangeVisible] = useState(false);
@@ -45,7 +47,10 @@ const SettingsPageComponent = () => {
         <SettingsLabel variant="h4">
           Дозвіл на отримання приватних повідомлень
         </SettingsLabel>
-        <Toogle />
+        <Toogle
+          handleChange={togglePermission}
+          isChecked={isPermission === 'true'}
+        />
       </SettingsWrap>
       <SettingsWrap>
         <SettingsLabel variant="h4">Звукове сповіщення</SettingsLabel>
