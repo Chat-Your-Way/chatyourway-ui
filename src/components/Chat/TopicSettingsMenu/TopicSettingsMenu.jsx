@@ -8,25 +8,42 @@ import {
   SettingsItemStyled,
   SettingsTextStyled,
   MenuIconSearch,
+  MenuIconSubscribe,
   MenuIconHeart,
   MenuIconComplain,
 } from './TopicSettings.styled';
+import { useAddFavouriteMutation } from '../../../redux/topics-operations';
 
-const TopicSettingsMenu = () => {
+const TopicSettingsMenu = ({ topicId }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [addFavourite] = useAddFavouriteMutation();
 
   const handleOpen = (e) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
-  const handleSearch = () => {
-    handleClose();
+  const handleFavourite = async () => {
+    try {
+      const { error } = await addFavourite(topicId);
+      if (error) {
+        alert(error.data.message);
+      } else {
+        alert('Додано до улюблених тем');
+      }
+      handleClose();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleFavourite = () => {
+  const handleSubscribe = () => {
     handleClose();
   };
 
   const handleComplain = () => {
+    handleClose();
+  };
+
+  const handleSearch = () => {
     handleClose();
   };
 
@@ -53,6 +70,13 @@ const TopicSettingsMenu = () => {
           </ListItemIcon>
           <SettingsTextStyled primary="пошук" />
           <IconButton onClick={handleClose} icon={<IconCloseStyled />} />
+        </SettingsItemStyled>
+
+        <SettingsItemStyled onClick={handleSubscribe} disableRipple>
+          <ListItemIcon>
+            {<IconButton icon={<MenuIconSubscribe />} />}
+          </ListItemIcon>
+          <SettingsTextStyled primary="підписатися" />
         </SettingsItemStyled>
 
         <SettingsItemStyled onClick={handleFavourite} disableRipple>

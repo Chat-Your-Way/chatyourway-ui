@@ -30,9 +30,11 @@ import {
 import { useTopicsPageContext } from '../../pages/TopicsPage/TopicsPageContext';
 import DropDownMenu from './DropDownMenu/DropDownMenu';
 import TopicSettingsMenu from './TopicSettingsMenu/TopicSettingsMenu';
+import { useParams } from 'react-router-dom';
 
 const Chat = ({ children }) => {
   const [messageValue, setMessageValue] = useState('');
+  const { title: topicId } = useParams();
 
   const { contactsOpen, setContactsOpen } = useTopicsPageContext();
 
@@ -64,6 +66,7 @@ const Chat = ({ children }) => {
       isOnline: false,
     },
   ];
+
   return (
     <ChatWrap>
       <ChatHeader>
@@ -76,7 +79,7 @@ const Chat = ({ children }) => {
         </UserBox>
         <InfoMoreBox>
           {children}
-          <TopicSettingsMenu />
+          <TopicSettingsMenu topicId={topicId} />
         </InfoMoreBox>
       </ChatHeader>
       <ChatSectionWrap>

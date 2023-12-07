@@ -18,6 +18,7 @@ const topicsApi = createApi({
       }),
       invalidatesTags: ['Topics'],
     }),
+
     getAll: builder.query({
       query: (value) => ({
         url: `/topics/${value}`,
@@ -31,6 +32,19 @@ const topicsApi = createApi({
       providesTags: ['Topics'],
     }),
 
+    addFavourite: builder.mutation({
+      query: (id) => ({
+        url: `/topics/${id}/favourite/add`,
+        method: 'PATCH',
+        headers: {
+          Referer: Referer,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${ajwt}`,
+        },
+      }),
+      invalidatesTags: ['Topics'],
+    }),
+
     update: builder.mutation({}),
 
     subscribe: builder.mutation({}),
@@ -38,8 +52,6 @@ const topicsApi = createApi({
     createPrivate: builder.mutation({}),
 
     removeFavourite: builder.mutation({}),
-
-    addFavourite: builder.mutation({}),
 
     unsubscribe: builder.mutation({}),
 
@@ -55,6 +67,6 @@ const topicsApi = createApi({
   }),
 });
 
-export const { useCreateMutation, useGetAllQuery } = topicsApi;
+export const { useCreateMutation, useGetAllQuery, useAddFavouriteMutation } = topicsApi;
 
 export default topicsApi;
