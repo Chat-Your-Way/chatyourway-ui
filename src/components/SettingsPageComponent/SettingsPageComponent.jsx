@@ -2,12 +2,8 @@ import { useContext, useState } from 'react';
 import {
   AvatarList,
   AvatarListItem,
-  ChangeInputStyled,
-  NewSettingsWrap,
-  SaveChangeButton,
   SettingsIcon,
   SettingsIconButton,
-  SettingsIconEdit,
   SettingsLabel,
   SettingsPageMainTitle,
   SettingsPageWarp,
@@ -17,6 +13,11 @@ import { ThemeContext } from '../../ui-kit/theme/ThemeProvider';
 import Avatar from '../../ui-kit/components/Avatar';
 import Toogle from '../../ui-kit/components/Toogle';
 import { PermissionPrivateMessage } from './UserSettings/PermissionPrivateMessage';
+import ChangeNameInput from './ChangeNameInput';
+import {
+  NewSettingsWrap,
+  SaveChangeButton,
+} from './ChangeNameInput/ChangeNameInput.styled';
 
 const SettingsPageComponent = () => {
   const { toggleTheme, currentTheme } = useContext(ThemeContext);
@@ -63,13 +64,7 @@ const SettingsPageComponent = () => {
           handleClick={handleChangeNameClick}
         />
       </SettingsWrap>
-      {isChangeNameVisible && (
-        <NewSettingsWrap>
-          <SettingsLabel variant="h5">Нове ім`я</SettingsLabel>
-          <ChangeInputStyled endAdornment={<SettingsIconEdit />} />
-          <SaveChangeButton label="Підтвердити" />
-        </NewSettingsWrap>
-      )}
+      {isChangeNameVisible && <ChangeNameInput />}
       <SettingsWrap>
         <SettingsLabel variant="h4">Змінити аватар</SettingsLabel>
         <SettingsIconButton
