@@ -82,7 +82,7 @@ export const SettingsTextStyled = styled(ListItemText)`
 export const MenuIconSearch = styled(ICONS.SEARCH)`
   min-width: 20px;
   min-height: 20px;
-  fill: ${(p) =>
+  stroke: ${(p) =>
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.main};
