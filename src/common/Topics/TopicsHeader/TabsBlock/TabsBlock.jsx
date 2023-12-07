@@ -11,7 +11,8 @@ function a11yProps(index) {
 const TabsBlock = ({
   isOpenChat = false,
   isOpenContacts = false,
-  handleChange,
+  active,
+  setFilter,
 }) => {
   const firstTabWidth = isOpenChat ? '89px' : isOpenContacts ? '66px' : '115px';
   const secondTabWidth = isOpenChat
@@ -31,7 +32,8 @@ const TabsBlock = ({
         aria-label="chat tabs"
         isOpenChat={isOpenChat}
         isOpenContacts={isOpenContacts}
-        onChange={handleChange}
+        value={active}
+        onChange={(_, value) => setFilter(value)}
       >
         <StyledTab
           label="все"
@@ -39,21 +41,23 @@ const TabsBlock = ({
           tabWith={firstTabWidth}
           firstTabPaddingX
           borderRight
-          tabNumber={1}
-          isActive
+          isActive={active === 'all'}
+          value={'all'}
         />
         <StyledTab
           label="улюблене"
           {...a11yProps(1)}
           tabWith={secondTabWidth}
-          tabNumber={2}
+          isActive={active === 'favourite'}
+          value={'favourite'}
         />
         <StyledTab
           label="популярне"
           {...a11yProps(2)}
           tabWith={thirdTabWidth}
           borderLeft
-          tabNumber={3}
+          isActive={active === 'popular'}
+          value={'popular/public'}
         />
       </StyledTabs>
     </StyledBox>

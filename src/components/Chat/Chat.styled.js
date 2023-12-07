@@ -62,11 +62,6 @@ export const InfoMoreBox = styled(Box)`
   gap: 4px;
 `;
 
-export const IconMore = styled(ICONS.MORE_CIRCLE)`
-  width: 40px;
-  height: 40px;
-  fill: ${(p) => p.theme.palette.primary.contrastText};
-`;
 export const ChatSectionWrap = styled(Box)`
   display: flex;
   flex-direction: column;
@@ -141,12 +136,6 @@ export const TextMessage = styled(Box)`
     isMyMessage ? '16px 0px 16px 16px' : '0px 16px 16px 16px'};
   color: ${(p) => p.theme.palette.primary.dark};
   background-color: ${(p) => p.theme.palette.primary.disabled};
-`;
-
-export const IconMoreChat = styled(ICONS.MORE_CIRCLE)`
-  min-width: 20px;
-  min-height: 20px;
-  fill: ${(p) => p.theme.palette.primary.lightDisabled};
 `;
 
 export const InputBox = styled(Box)`

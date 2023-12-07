@@ -4,7 +4,7 @@ import SearchInput from '../../../ui-kit/components/Input/SearchInput';
 
 export const StyledBox = styled(Box)`
   path {
-    fill: ${(p) =>
+    stroke: ${(p) =>
       p.theme.palette.mode === 'light'
         ? p.theme.palette.primary.dark
         : p.theme.palette.primary.contrastText};

@@ -31,7 +31,7 @@ const ChatItem = ({
             <TopicDesc
               isOpenChat={isOpenChat}
               isOpenContacts={isOpenContacts}
-              title={data.title}
+              title={data.topicName}
               lastMessageTime={data.lastMessageTime}
             />
           ) : (

@@ -27,7 +27,7 @@ const authenticationApi = createApi({
       query: (body) => ({
         url: '/auth/login',
         method: 'POST',
-        body: JSON.stringify(body),
+        body: body,
       }),
     }),
     activate: builder.mutation({
