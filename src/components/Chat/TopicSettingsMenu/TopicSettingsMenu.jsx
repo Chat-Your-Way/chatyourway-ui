@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import { Box, ListItemIcon } from '@mui/material';
 import IconButton from '../../../ui-kit/components/IconButton/IconButton';
@@ -15,12 +16,29 @@ import {
 import {
   useAddFavouriteMutation,
   useRemoveFavouriteMutation,
+  useSubscribeMutation,
+  useUnsubscribeMutation,
+  useGetAllQuery,
 } from '../../../redux/topics-operations';
 
-const TopicSettingsMenu = ({ topicId, subscribeStatus, favouriteStatus }) => {
+const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const { data, isError } = useGetAllQuery('favourite');
   const [addFavourite] = useAddFavouriteMutation();
   const [removeFavourite] = useRemoveFavouriteMutation();
+  const [subscribe] = useSubscribeMutation();
+  const [unsubscribe] = useUnsubscribeMutation();
+
+  if (isError) {
+    alert('Виникла помилка під час отримання тем');
+  }
+
+  const favouriteStatus = () => {
+    if (data) {
+      const result = data.find((el) => el.id === Number(topicId));
+      return result ? true : false;
+    }
+  };
 
   const handleOpen = (e) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
@@ -53,8 +71,32 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus, favouriteStatus }) => {
     }
   };
 
-  const handleSubscribe = () => {
-    handleClose();
+  const handleSubscribe = async () => {
+    try {
+      const { error } = await subscribe(topicId);
+      if (error) {
+        alert(error.data.message);
+      } else {
+        alert('Підписка успішна');
+      }
+      handleClose();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUnsubscribe = async () => {
+    try {
+      const { error } = await unsubscribe(topicId);
+      if (error) {
+        alert(error.data.message);
+      } else {
+        alert('Відписка успішна');
+      }
+      handleClose();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleComplain = () => {
@@ -90,30 +132,39 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus, favouriteStatus }) => {
           <IconButton onClick={handleClose} icon={<IconCloseStyled />} />
         </SettingsItemStyled>
 
-        {!subscribeStatus && (
+        {!subscribeStatus ? (
           <SettingsItemStyled onClick={handleSubscribe} disableRipple>
             <ListItemIcon>
               {<IconButton icon={<MenuIconSubscribe />} />}
             </ListItemIcon>
             <SettingsTextStyled primary="підписатися" />
           </SettingsItemStyled>
-        )}
-
-        {!favouriteStatus && (
-          <SettingsItemStyled onClick={handleAddFavourite} disableRipple>
+        ) : (
+          <SettingsItemStyled onClick={handleUnsubscribe} disableRipple>
             <ListItemIcon>
-              {<IconButton icon={<MenuIconHeart />} />}
+              {<IconButton icon={<MenuIconSubscribe />} />}
             </ListItemIcon>
-            <SettingsTextStyled primary="додати чат до улюбленого" />
+            <SettingsTextStyled primary="відписатися" />
           </SettingsItemStyled>
         )}
 
-        {favouriteStatus && (
+        {favouriteStatus() ? (
           <SettingsItemStyled onClick={handleRemoveFavourite} disableRipple>
             <ListItemIcon>
               {<IconButton icon={<MenuIconHeart />} />}
             </ListItemIcon>
             <SettingsTextStyled primary="Забрати із улюбленого" />
+          </SettingsItemStyled>
+        ) : (
+          <SettingsItemStyled
+            onClick={handleAddFavourite}
+            disableRipple
+            disabled={!subscribeStatus}
+          >
+            <ListItemIcon>
+              {<IconButton icon={<MenuIconHeart />} />}
+            </ListItemIcon>
+            <SettingsTextStyled primary="додати чат до улюбленого" />
           </SettingsItemStyled>
         )}
 

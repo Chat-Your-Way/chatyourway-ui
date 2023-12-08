@@ -33,12 +33,18 @@ import TopicSettingsMenu from './TopicSettingsMenu/TopicSettingsMenu';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getUserInfo } from '../../redux/userSlice';
+import { useGetByIdQuery } from '../../redux/topics-operations';
 
 const Chat = ({ children }) => {
   const { contactsOpen, setContactsOpen } = useTopicsPageContext();
   const [messageValue, setMessageValue] = useState('');
   const { email } = useSelector(getUserInfo);
   const { title: topicId } = useParams();
+  const { data, isError } = useGetByIdQuery(topicId);
+
+  if (isError) {
+    alert('Виникла помилка під час отримання теми');
+  }
 
   const handleContacts = () => {
     setContactsOpen(!contactsOpen);
@@ -69,25 +75,14 @@ const Chat = ({ children }) => {
     },
   ];
 
-  const mockTopicData = {
-    topicSubscribers: [
-      {
-        contact: {
-          email: 'nickname@gmail.com',
-        },
-      },
-    ],
+  const subscribeStatus = () => {
+    if (data) {
+      const status = data.topicSubscribers.find(
+        (el) => el.contact.email === email && el.unsubscribeAt === null,
+      );
+      return status ? true : false;
+    }
   };
-
-  const mockFavouriteData = [{ id: 4 }, { id: 6 }];
-
-  const subscribeStatus = mockTopicData.topicSubscribers.find(
-    (el) => el.contact.email === email,
-  );
-
-  const favouriteStatus = mockFavouriteData.find(
-    (el) => el.id === Number(topicId),
-  );
 
   return (
     <ChatWrap>
@@ -95,7 +90,9 @@ const Chat = ({ children }) => {
         <UserBox>
           <Avatar />
           <InfoBox>
-            <ChatUserName variant="h5">Ім`я користувача</ChatUserName>
+            <ChatUserName variant="h5">
+              {data ? data.topicName : 'імя користувача'}
+            </ChatUserName>
             <TypingIndicator variant="h5">Ти/Пишеш...</TypingIndicator>
           </InfoBox>
         </UserBox>
@@ -103,8 +100,7 @@ const Chat = ({ children }) => {
           {children}
           <TopicSettingsMenu
             topicId={topicId}
-            subscribeStatus={subscribeStatus}
-            favouriteStatus={favouriteStatus}
+            subscribeStatus={subscribeStatus()}
           />
         </InfoMoreBox>
       </ChatHeader>

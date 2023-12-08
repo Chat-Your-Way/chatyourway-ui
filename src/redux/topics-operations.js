@@ -58,15 +58,48 @@ const topicsApi = createApi({
       invalidatesTags: ['Topics'],
     }),
 
+    getById: builder.query({
+      query: (id) => ({
+        url: `/topics/${id}`,
+        method: 'GET',
+        headers: {
+          Referer: Referer,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${ajwt}`,
+        },
+      }),
+      providesTags: ['Topics'],
+    }),
+
+    subscribe: builder.mutation({
+      query: (id) => ({
+        url: `/topics/subscribe/${id}`,
+        method: 'POST',
+        headers: {
+          Referer: Referer,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${ajwt}`,
+        },
+      }),
+      invalidatesTags: ['Topics'],
+    }),
+
+    unsubscribe: builder.mutation({
+      query: (id) => ({
+        url: `/topics/unsubscribe/${id}`,
+        method: 'PATCH',
+        headers: {
+          Referer: Referer,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${ajwt}`,
+        },
+      }),
+      invalidatesTags: ['Topics'],
+    }),
+
     update: builder.mutation({}),
 
-    subscribe: builder.mutation({}),
-
     createPrivate: builder.mutation({}),
-
-    unsubscribe: builder.mutation({}),
-
-    getById: builder.query({}),
 
     delete: builder.mutation({}),
 
@@ -83,6 +116,9 @@ export const {
   useGetAllQuery,
   useAddFavouriteMutation,
   useRemoveFavouriteMutation,
+  useGetByIdQuery,
+  useSubscribeMutation,
+  useUnsubscribeMutation,
 } = topicsApi;
 
 export default topicsApi;
