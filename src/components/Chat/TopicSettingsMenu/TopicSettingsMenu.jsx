@@ -47,7 +47,7 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
     try {
       const { error } = await addFavourite(topicId);
       if (error) {
-        alert(error.data.message);
+        alert('Виникла помилка під час додання теми до улюблених');
       } else {
         alert('Додано до улюблених тем');
       }
@@ -61,7 +61,7 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
     try {
       const { error } = await removeFavourite(topicId);
       if (error) {
-        alert(error.data.message);
+        alert('Виникла помилка під час видалення теми з улюблених');
       } else {
         alert('Видалено з улюблених тем');
       }
@@ -75,7 +75,7 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
     try {
       const { error } = await subscribe(topicId);
       if (error) {
-        alert(error.data.message);
+        alert('Виникла помилка під час підписки на тему');
       } else {
         alert('Підписка успішна');
       }
@@ -89,7 +89,7 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
     try {
       const { error } = await unsubscribe(topicId);
       if (error) {
-        alert(error.data.message);
+        alert('Виникла помилка під час відписки від теми');
       } else {
         alert('Відписка успішна');
       }
