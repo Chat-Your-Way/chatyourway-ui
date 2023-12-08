@@ -6,7 +6,7 @@ import TextNavLinkButton from '../../ui-kit/components/TextNavLinkButton';
 
 export const LinkIcon = styled(Link)`
   display: none;
-  @media screen and (min-width: calc(1200px - 0.02px)) {
+  @media screen and (min-width: calc(845px - 0.02px)) {
     display: flex;
     align-items: center;
     justify-content: center;

@@ -28,10 +28,10 @@ const Router = () => {
             <Route index element={<AuthorizationPage />} />
             <Route path={PATH.LOGIN} element={<ForgotPasswordPage />} />
             <Route path={PATH.REGISTER} element={<RegistrationPage />} />
-            {/* <Route
+            <Route
               path={PATH.FORGOT_PASSWORD}
               element={<ForgotPasswordPage />}
-            /> */}
+            />
             <Route
               path={PATH.RECOVERY_PASSWORD}
               element={<RecoveryPasswordPage />}
