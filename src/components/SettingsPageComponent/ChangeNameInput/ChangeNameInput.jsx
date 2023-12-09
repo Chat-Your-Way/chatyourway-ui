@@ -17,7 +17,7 @@ const ChangeNameInput = () => {
   };
 
   const {
-    formState: { errors, isValid },
+    formState: { errors, isValid, isDirty },
     handleSubmit,
     control,
   } = useForm({ defaultValues: defaultValues, mode: 'onChange' });
@@ -29,10 +29,6 @@ const ChangeNameInput = () => {
     };
 
     try {
-      if (value.nickname === nickname) {
-        alert('Ім`я не змінилося. Введіть нове ім`я для збереження');
-        return;
-      }
       const { isError } = await editUserInfo(value);
 
       if (isError) {
@@ -58,7 +54,7 @@ const ChangeNameInput = () => {
         type="submit"
         label="Підтвердити"
         onSubmit={handleInputNameChange}
-        disabled={!isValid}
+        disabled={!isValid || !isDirty}
       />
     </NewSettingsWrap>
   );

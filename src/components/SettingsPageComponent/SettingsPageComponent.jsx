@@ -1,7 +1,5 @@
 import { useContext, useState } from 'react';
 import {
-  AvatarList,
-  AvatarListItem,
   SettingsIcon,
   SettingsIconButton,
   SettingsLabel,
@@ -10,14 +8,10 @@ import {
   SettingsWrap,
 } from './SettingsPageComponent.styled';
 import { ThemeContext } from '../../ui-kit/theme/ThemeProvider';
-import Avatar from '../../ui-kit/components/Avatar';
 import Toogle from '../../ui-kit/components/Toogle';
 import { PermissionPrivateMessage } from './UserSettings/PermissionPrivateMessage';
 import ChangeNameInput from './ChangeNameInput';
-import {
-  NewSettingsWrap,
-  SaveChangeButton,
-} from './ChangeNameInput/ChangeNameInput.styled';
+import ChangeUserAvatar from './ChangeUserAvatar/ChangeUserAvatar';
 
 const SettingsPageComponent = () => {
   const { toggleTheme, currentTheme } = useContext(ThemeContext);
@@ -72,37 +66,7 @@ const SettingsPageComponent = () => {
           handleClick={handleChangeAvatarClick}
         />
       </SettingsWrap>
-      {isChangeAvatarVisible && (
-        <NewSettingsWrap>
-          <AvatarList>
-            <AvatarListItem>
-              <Avatar />
-            </AvatarListItem>
-            <AvatarListItem>
-              <Avatar />
-            </AvatarListItem>
-            <AvatarListItem>
-              <Avatar />
-            </AvatarListItem>
-            <AvatarListItem>
-              <Avatar />
-            </AvatarListItem>
-            <AvatarListItem>
-              <Avatar />
-            </AvatarListItem>
-            <AvatarListItem>
-              <Avatar />
-            </AvatarListItem>
-            <AvatarListItem>
-              <Avatar />
-            </AvatarListItem>
-            <AvatarListItem>
-              <Avatar />
-            </AvatarListItem>
-          </AvatarList>
-          <SaveChangeButton label="Підтвердити" />
-        </NewSettingsWrap>
-      )}
+      {isChangeAvatarVisible && <ChangeUserAvatar />}
     </SettingsPageWarp>
   );
 };
