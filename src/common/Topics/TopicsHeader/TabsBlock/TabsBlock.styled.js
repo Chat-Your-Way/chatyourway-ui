@@ -57,6 +57,10 @@ export const StyledTab = styled(Tab, {
 })`
   ${(p) => p.theme.typography.h5};
   text-transform: lowercase;
+  color: ${(p) =>
+    p.isActive
+      ? p.theme.palette.primary.contrastText
+      : p.theme.palette.primary.dark};
   border-right: 1px solid ${(p) => p.theme.palette.primary.contrastText};
   width: ${(p) =>
     p.tabNumber == 1 ? '81px' : p.tabNumber == 2 ? '113px' : '127px'};

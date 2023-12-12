@@ -13,6 +13,7 @@ export const SettingsPageWarp = styled(Box)`
   max-width: 342px;
   height: 100vh;
   padding: 12px 6px;
+  border-radius: 16px;
 
   @media screen and (min-width: calc(845px - 0.02px)) {
     height: 840px;

@@ -26,7 +26,7 @@ const Router = () => {
         <Route path={PATH.MAIN} element={<PublicRoute />}>
           <Route path={PATH.MAIN} element={<SharedLayout />}>
             <Route index element={<AuthorizationPage />} />
-            <Route path={PATH.LOGIN} element={<ForgotPasswordPage />} />
+            <Route path={PATH.LOGIN} element={<FaqPage />} />
             <Route path={PATH.REGISTER} element={<RegistrationPage />} />
             <Route
               path={PATH.FORGOT_PASSWORD}
