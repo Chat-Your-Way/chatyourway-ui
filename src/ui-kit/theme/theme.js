@@ -109,7 +109,7 @@ export const createCommonTheme = (theme) =>
 export const palette = (mode) => ({
   palette: {
     mode,
-    ...(mode === 'dark'
+    ...(mode === 'light'
       ? {
           primary: {
             white: '#FFFFFF',

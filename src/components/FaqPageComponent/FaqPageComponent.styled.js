@@ -22,8 +22,8 @@ export const FaqPageWrapper = styled(Box)`
   }
 
   @media screen and (min-width: calc(1195px - 0.02px)) {
-    max-width: 840px;
-    height: 760px;
+    width: 840px;
+    height: 761px;
     padding: 40px;
   }
 `;
@@ -35,6 +35,7 @@ export const FaqPageTitle = styled(Typography)`
 
   @media screen and (min-width: calc(845px - 0.02px)) {
     ${(p) => p.theme.typography.h1};
+    justify-content: start;
   }
 `;
 
@@ -43,6 +44,27 @@ export const AccordionList = styled(Box)`
   flex-direction: column;
   gap: 16px;
   margin: 0;
+  max-width: 730px;
+  max-height: 700px;
+  background: ${(p) => p.theme.palette.primary.darkPurple};
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: ${(p) =>
+    /* eslint-disable */
+    `${p.theme.palette.primary.lightPurple} ${p.theme.palette.primary.darkPurple}`};
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb,
+  &::-webkit-scrollbar-track {
+    background-color: ${(p) => p.theme.palette.primary.darkPurple};
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${(p) => p.theme.palette.primary.lightPurple};
+  }
 `;
 
 export const FaqAccordion = styled(Accordion)`
