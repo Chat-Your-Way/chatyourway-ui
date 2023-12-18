@@ -105,3 +105,12 @@ export const MenuIconComplain = styled(ICONS.DANGER_CIRCLE)`
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.main};
 `;
+
+export const MenuIconSubscribe = styled(ICONS.BOOKMARK)`
+  min-width: 20px;
+  min-height: 20px;
+  fill: ${(p) =>
+    p.theme.palette.mode === 'light'
+      ? p.theme.palette.primary.contrastText
+      : p.theme.palette.primary.main};
+`;

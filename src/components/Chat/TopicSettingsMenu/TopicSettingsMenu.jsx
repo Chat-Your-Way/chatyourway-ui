@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import { Box, ListItemIcon } from '@mui/material';
 import IconButton from '../../../ui-kit/components/IconButton/IconButton';
@@ -8,25 +9,101 @@ import {
   SettingsItemStyled,
   SettingsTextStyled,
   MenuIconSearch,
+  MenuIconSubscribe,
   MenuIconHeart,
   MenuIconComplain,
 } from './TopicSettings.styled';
+import {
+  useAddFavouriteMutation,
+  useRemoveFavouriteMutation,
+  useSubscribeMutation,
+  useUnsubscribeMutation,
+  useGetAllQuery,
+} from '../../../redux/topics-operations';
 
-const TopicSettingsMenu = () => {
+const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const { data, isError } = useGetAllQuery('favourite');
+  const [addFavourite] = useAddFavouriteMutation();
+  const [removeFavourite] = useRemoveFavouriteMutation();
+  const [subscribe] = useSubscribeMutation();
+  const [unsubscribe] = useUnsubscribeMutation();
+
+  if (isError) {
+    alert('Виникла помилка під час отримання тем');
+  }
+
+  const favouriteStatus = () => {
+    if (data) {
+      const result = data.find((el) => el.id === Number(topicId));
+      return result ? true : false;
+    }
+  };
 
   const handleOpen = (e) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
-  const handleSearch = () => {
-    handleClose();
+  const handleAddFavourite = async () => {
+    try {
+      const { error } = await addFavourite(topicId);
+      if (error) {
+        alert('Виникла помилка під час додання теми до улюблених');
+      } else {
+        alert('Додано до улюблених тем');
+      }
+      handleClose();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleFavourite = () => {
-    handleClose();
+  const handleRemoveFavourite = async () => {
+    try {
+      const { error } = await removeFavourite(topicId);
+      if (error) {
+        alert('Виникла помилка під час видалення теми з улюблених');
+      } else {
+        alert('Видалено з улюблених тем');
+      }
+      handleClose();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSubscribe = async () => {
+    try {
+      const { error } = await subscribe(topicId);
+      if (error) {
+        alert('Виникла помилка під час підписки на тему');
+      } else {
+        alert('Підписка успішна');
+      }
+      handleClose();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUnsubscribe = async () => {
+    try {
+      const { error } = await unsubscribe(topicId);
+      if (error) {
+        alert('Виникла помилка під час відписки від теми');
+      } else {
+        alert('Відписка успішна');
+      }
+      handleClose();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleComplain = () => {
+    handleClose();
+  };
+
+  const handleSearch = () => {
     handleClose();
   };
 
@@ -55,10 +132,41 @@ const TopicSettingsMenu = () => {
           <IconButton onClick={handleClose} icon={<IconCloseStyled />} />
         </SettingsItemStyled>
 
-        <SettingsItemStyled onClick={handleFavourite} disableRipple>
-          <ListItemIcon>{<IconButton icon={<MenuIconHeart />} />}</ListItemIcon>
-          <SettingsTextStyled primary="додати чат до улюбленого" />
-        </SettingsItemStyled>
+        {!subscribeStatus ? (
+          <SettingsItemStyled onClick={handleSubscribe} disableRipple>
+            <ListItemIcon>
+              {<IconButton icon={<MenuIconSubscribe />} />}
+            </ListItemIcon>
+            <SettingsTextStyled primary="підписатися" />
+          </SettingsItemStyled>
+        ) : (
+          <SettingsItemStyled onClick={handleUnsubscribe} disableRipple>
+            <ListItemIcon>
+              {<IconButton icon={<MenuIconSubscribe />} />}
+            </ListItemIcon>
+            <SettingsTextStyled primary="відписатися" />
+          </SettingsItemStyled>
+        )}
+
+        {favouriteStatus() ? (
+          <SettingsItemStyled onClick={handleRemoveFavourite} disableRipple>
+            <ListItemIcon>
+              {<IconButton icon={<MenuIconHeart />} />}
+            </ListItemIcon>
+            <SettingsTextStyled primary="Забрати із улюбленого" />
+          </SettingsItemStyled>
+        ) : (
+          <SettingsItemStyled
+            onClick={handleAddFavourite}
+            disableRipple
+            disabled={!subscribeStatus}
+          >
+            <ListItemIcon>
+              {<IconButton icon={<MenuIconHeart />} />}
+            </ListItemIcon>
+            <SettingsTextStyled primary="додати чат до улюбленого" />
+          </SettingsItemStyled>
+        )}
 
         <SettingsItemStyled onClick={handleComplain} disableRipple>
           <ListItemIcon>
