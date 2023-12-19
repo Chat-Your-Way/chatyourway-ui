@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable no-unused-vars */
 import { memo, useState } from 'react';
 import Avatar from '../../ui-kit/components/Avatar';
@@ -34,6 +35,8 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getUserInfo } from '../../redux/userSlice';
 import { useGetByIdQuery } from '../../redux/topics-operations';
+import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { Stomp } from '@stomp/stompjs';
 
 const Chat = ({ children }) => {
   const { contactsOpen, setContactsOpen } = useTopicsPageContext();
@@ -83,6 +86,26 @@ const Chat = ({ children }) => {
       return status ? true : false;
     }
   };
+
+  // // ======= URLS
+  const URL_CHAT = 'ws://chat.eu-central-1.elasticbeanstalk.com:5000/chat';
+  const URL_FOR_TEST = 'wss://ws-feed.exchange.coinbase.com';
+
+  // // ======= METHOD 1 - using library 'react-use-websocket'
+  // const { readyState, getWebSocket } = useWebSocket(URL_CHAT);
+
+  // console.log({
+  //   connectionState: ReadyState[readyState],
+  // });
+
+  // // ======= METHOD 2 - using Stomp
+  // const client = Stomp.over(function () {
+  //   return new WebSocket(URL_CHAT);
+  // });
+
+  // client.connect({}, function (frame) {
+  //   console.log('Connected: ' + frame);
+  // });
 
   return (
     <ChatWrap>
