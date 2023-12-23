@@ -45,11 +45,10 @@ const authenticationApi = createApi({
       }),
     }),
     resetPassword: builder.mutation({
-      query: (body) => ({
-        url: 'change/password/restore',
+      query: ({ newPassword, token }) => ({
+        url: `/change/password/restore?newPassword=${newPassword}&token=${token}`,
         method: 'PATCH',
         headers: { Authorization: `Bearer ${ajwt}` },
-        body: JSON.stringify(body),
       }),
     }),
   }),
