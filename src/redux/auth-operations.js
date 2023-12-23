@@ -48,7 +48,6 @@ const authenticationApi = createApi({
       query: ({ newPassword, token }) => ({
         url: `/change/password/restore?newPassword=${newPassword}&token=${token}`,
         method: 'PATCH',
-        headers: { Authorization: `Bearer ${ajwt}` },
       }),
     }),
   }),
