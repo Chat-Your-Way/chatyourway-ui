@@ -44,6 +44,12 @@ const authenticationApi = createApi({
         headers: { Authorization: `Bearer ${ajwt}` },
       }),
     }),
+    resetPassword: builder.mutation({
+      query: ({ newPassword, token }) => ({
+        url: `/change/password/restore?newPassword=${newPassword}&token=${token}`,
+        method: 'PATCH',
+      }),
+    }),
   }),
 });
 
@@ -53,6 +59,7 @@ export const {
   useLoginMutation,
   useActivateMutation,
   useLogoutMutation,
+  useResetPasswordMutation,
 } = authenticationApi;
 
 export default authenticationApi;
