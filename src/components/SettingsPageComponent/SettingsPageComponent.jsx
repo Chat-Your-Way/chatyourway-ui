@@ -1,24 +1,21 @@
 import { useContext, useState } from 'react';
 import {
-  AvatarList,
-  AvatarListItem,
-  ChangeInputStyled,
-  NewSettingsWrap,
-  SaveChangeButton,
   SettingsIcon,
   SettingsIconButton,
-  SettingsIconEdit,
   SettingsLabel,
   SettingsPageMainTitle,
   SettingsPageWarp,
   SettingsWrap,
 } from './SettingsPageComponent.styled';
 import { ThemeContext } from '../../ui-kit/theme/ThemeProvider';
-import Avatar from '../../ui-kit/components/Avatar';
 import Toogle from '../../ui-kit/components/Toogle';
+import { PermissionPrivateMessage } from './UserSettings/PermissionPrivateMessage';
+import ChangeNameInput from './ChangeNameInput';
+import ChangeUserAvatar from './ChangeUserAvatar/ChangeUserAvatar';
 
 const SettingsPageComponent = () => {
   const { toggleTheme, currentTheme } = useContext(ThemeContext);
+  const { isPermission, togglePermission } = PermissionPrivateMessage();
 
   const [isChangeNameVisible, setIsNameChangeVisible] = useState(false);
   const [isChangeAvatarVisible, setIsAvatarChangeVisible] = useState(false);
@@ -45,7 +42,10 @@ const SettingsPageComponent = () => {
         <SettingsLabel variant="h4">
           Дозвіл на отримання приватних повідомлень
         </SettingsLabel>
-        <Toogle />
+        <Toogle
+          handleChange={togglePermission}
+          isChecked={isPermission === 'true'}
+        />
       </SettingsWrap>
       <SettingsWrap>
         <SettingsLabel variant="h4">Звукове сповіщення</SettingsLabel>
@@ -58,13 +58,7 @@ const SettingsPageComponent = () => {
           handleClick={handleChangeNameClick}
         />
       </SettingsWrap>
-      {isChangeNameVisible && (
-        <NewSettingsWrap>
-          <SettingsLabel variant="h5">Нове ім`я</SettingsLabel>
-          <ChangeInputStyled endAdornment={<SettingsIconEdit />} />
-          <SaveChangeButton label="Підтвердити" />
-        </NewSettingsWrap>
-      )}
+      {isChangeNameVisible && <ChangeNameInput />}
       <SettingsWrap>
         <SettingsLabel variant="h4">Змінити аватар</SettingsLabel>
         <SettingsIconButton
@@ -72,37 +66,7 @@ const SettingsPageComponent = () => {
           handleClick={handleChangeAvatarClick}
         />
       </SettingsWrap>
-      {isChangeAvatarVisible && (
-        <NewSettingsWrap>
-          <AvatarList>
-            <AvatarListItem>
-              <Avatar />
-            </AvatarListItem>
-            <AvatarListItem>
-              <Avatar />
-            </AvatarListItem>
-            <AvatarListItem>
-              <Avatar />
-            </AvatarListItem>
-            <AvatarListItem>
-              <Avatar />
-            </AvatarListItem>
-            <AvatarListItem>
-              <Avatar />
-            </AvatarListItem>
-            <AvatarListItem>
-              <Avatar />
-            </AvatarListItem>
-            <AvatarListItem>
-              <Avatar />
-            </AvatarListItem>
-            <AvatarListItem>
-              <Avatar />
-            </AvatarListItem>
-          </AvatarList>
-          <SaveChangeButton label="Підтвердити" />
-        </NewSettingsWrap>
-      )}
+      {isChangeAvatarVisible && <ChangeUserAvatar />}
     </SettingsPageWarp>
   );
 };

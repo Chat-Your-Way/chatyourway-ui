@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { Box, InputBase, List, Typography, ListItem } from '@mui/material';
 import { ICONS } from '../../ui-kit/icons';
 import IconButton from '../../ui-kit/components/IconButton/IconButton';
-import DefaultButton from '../../ui-kit/components/Button';
 
 export const SettingsPageWarp = styled(Box)`
   display: flex;
@@ -37,7 +36,7 @@ export const SettingsPageMainTitle = styled(Typography)`
   color: ${(p) => p.theme.palette.primary.dark};
 `;
 
-export const SettingsWrap = styled(Box)`
+export const SettingsWrap = styled.form`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -58,10 +57,6 @@ export const SettingsIcon = styled(ICONS.EDIT)`
   fill: ${(p) => p.theme.palette.primary.main};
 `;
 
-export const NewSettingsWrap = styled(Box)`
-  margin: 0 auto;
-`;
-
 export const ChangeInputStyled = styled(InputBase, {
   shouldForwardProp: (p) => p !== 'inputWidth' && p !== 'inputHeight',
 })`
@@ -77,14 +72,6 @@ export const ChangeInputStyled = styled(InputBase, {
 
 export const SettingsIconEdit = styled(ICONS.EDIT)`
   fill: ${(p) => p.theme.palette.primary.black};
-`;
-
-export const SaveChangeButton = styled(DefaultButton)`
-  display: block;
-  margin: 0 auto;
-  width: 180px;
-  height: 40px;
-  color: ${(p) => p.theme.palette.primary.dark};
 `;
 
 export const AvatarList = styled(List)`

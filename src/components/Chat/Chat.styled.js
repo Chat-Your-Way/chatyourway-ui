@@ -62,11 +62,6 @@ export const InfoMoreBox = styled(Box)`
   gap: 4px;
 `;
 
-export const IconMore = styled(ICONS.MORE_CIRCLE)`
-  width: 40px;
-  height: 40px;
-  fill: ${(p) => p.theme.palette.primary.contrastText};
-`;
 export const ChatSectionWrap = styled(Box)`
   display: flex;
   flex-direction: column;
