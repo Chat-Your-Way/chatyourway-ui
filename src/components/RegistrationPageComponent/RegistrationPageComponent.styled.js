@@ -88,10 +88,13 @@ export const RegistrationButton = styled(TextNavLinkButton)`
   cursor: pointer;
   gap: 8px;
   opacity: 1;
+
+  ${(p) => p.theme.typography.h5}
+
   &:hover {
     box-shadow: 0px 1px 8px 4px rgba(134, 134, 220, 0.2);
   }
-  ${(p) => p.theme.typography.h5}
+
   ${(p) => {
     return (
       p.isDisabled &&
