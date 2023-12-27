@@ -5,6 +5,8 @@ import { LoginButton } from '../LoginPageComponent/LoginPageComponent.styled';
 import { useMediaQuery } from 'react-responsive';
 import { useForm } from 'react-hook-form';
 import { PATH } from '../../constans/routes';
+import { useParams } from 'react-router-dom';
+import { useResetPasswordMutation } from '../../redux/auth-operations';
 import {
   RecoveryPasswordWrapper,
   RecoveryPasswordForm,
@@ -17,6 +19,8 @@ import {
 
 function RecoveryPasswordPageComponent() {
   const isTablet = useMediaQuery({ query: '(min-width: calc(845px - 0.02px)' });
+  const { token } = useParams();
+  const [resetPassword] = useResetPasswordMutation();
   const {
     formState: { errors, isValid },
     handleSubmit,
@@ -30,8 +34,10 @@ function RecoveryPasswordPageComponent() {
 
   const onSubmit = (values) => {
     const { password } = values;
-    // eslint-disable-next-line no-console
-    console.log(password);
+    resetPassword({
+      newPassword: password,
+      token,
+    });
   };
 
   return (
