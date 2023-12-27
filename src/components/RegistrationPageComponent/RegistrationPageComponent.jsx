@@ -17,7 +17,7 @@ const defaultValues = {
   nickname: '',
   email: '',
   password: '',
-  avatar: '3',
+  avatar: '1',
   confirm: '',
   agreement: false,
 };
@@ -25,6 +25,7 @@ const defaultValues = {
 function RegistrationPageComponent() {
   const [registration] = useRegistrationMutation();
   const navigate = useNavigate();
+
   const {
     formState: { errors, isValid },
     handleSubmit,
@@ -36,8 +37,7 @@ function RegistrationPageComponent() {
   });
   const passwordValue = watch('password');
 
-  const onSubmit = async (values) => {
-    const { avatar, email, nickname, password } = values;
+  const onSubmit = async ({ avatar, email, nickname, password }) => {
     const userData = {
       nickname,
       email: email.trim().toLowerCase(),
@@ -109,7 +109,7 @@ function RegistrationPageComponent() {
         <RegistrationButton
           type="submit"
           label="Створити акаунт"
-          disabled={!isValid}
+          isDisabled={!isValid}
         />
       </RegistrationForm>
     </RegistrationWrapper>
