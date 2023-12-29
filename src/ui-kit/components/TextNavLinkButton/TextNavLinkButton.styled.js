@@ -3,17 +3,35 @@ import { NavLink } from 'react-router-dom';
 
 export const TextNavLinkButtonStyled = styled(NavLink, {
   shouldForwardProp: (p) =>
-    p !== 'withoutBackground' && p !== 'iconWidth' && p !== 'iconHeight',
+    p !== 'withoutBackground' &&
+    p !== 'filled' &&
+    p !== 'endIcon' &&
+    p !== 'iconWidth' &&
+    p !== 'startIcon' &&
+    p !== 'iconHeight',
 })`
   ${(p) => p.theme.typography.h5};
   padding: 8px 12px;
   text-transform: none;
   text-decoration: none;
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 1px solid ${(p) => p.theme.palette.primary.main};
+  width: 180px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: ${(p) => p.theme.palette.primary.dark};
-  background: ${(p) =>
-    p.withoutBackground ? `none` : p.theme.palette.primary.light};
+  ${(p) => {
+    return (
+      p.withoutBackground &&
+      `
+      background: none;
+      border: none;
+      `
+    );
+  }}
+
   transition: 0.2s ease all;
 
   &:hover,
@@ -26,13 +44,8 @@ export const TextNavLinkButtonStyled = styled(NavLink, {
 
   &:active {
     box-shadow: none;
-    background: ${(p) => p.theme.palette.primary.main};
+    background-color: ${(p) => p.theme.palette.primary.main};
     border: 1px solid ${(p) => p.theme.palette.primary.contrastText};
-  }
-
-  &:disabled {
-    border: 1px solid ${(p) => p.theme.palette.primary.light};
-    background: ${(p) => p.theme.palette.primary.disabled};
   }
 
   .MuiButton-startIcon {
@@ -50,4 +63,16 @@ export const TextNavLinkButtonStyled = styled(NavLink, {
     width: ${(p) => p.iconWidth};
     height: ${(p) => p.iconHeight};
   }
+
+  ${(p) => {
+    return (
+      p.disabled &&
+      `
+      opacity: 0.9;
+      color: ${p.theme.palette.primary.dark};
+      background-color: ${p.theme.palette.primary.disabled};
+      border: 1px solid ${p.theme.palette.primary.light};
+      `
+    );
+  }}
 `;

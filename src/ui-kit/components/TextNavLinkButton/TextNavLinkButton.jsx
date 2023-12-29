@@ -11,6 +11,7 @@ function TextNavLinkButton({
   fontSize = '',
   iconWidth = '',
   iconHeight = '',
+  filled = true,
   ...props
 }) {
   return (
@@ -23,6 +24,7 @@ function TextNavLinkButton({
       withoutBackground={withoutBackground}
       iconWidth={iconWidth}
       iconHeight={iconHeight}
+      filled={filled}
       {...props}
     >
       {label}
