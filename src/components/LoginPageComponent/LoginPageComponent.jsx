@@ -77,6 +77,7 @@ function LoginPageComponent() {
           id="password"
           control={control}
           errors={errors.password}
+          placeholder="Мінімум 8 символів"
           navlink={
             <LoginLink to={PATH.FORGOT_PASSWORD}>Забули пароль?</LoginLink>
           }

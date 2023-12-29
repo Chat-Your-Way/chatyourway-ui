@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { useMediaQuery } from 'react-responsive';
 // eslint-disable-next-line max-len
 import { FieldText } from '../RegistrationPageComponent/FieldText/FieldText.jsx';
-import { LoginButton } from '../LoginPageComponent/LoginPageComponent.styled';
 import {
   LinkIcon,
   CloseIcon,
@@ -14,6 +13,7 @@ import {
   ForgotPasswordText,
   ForgotPasswordForm,
   ButtonWrapper,
+  ForgotPasswordButton,
 } from './ForgotPasswordPageComponent.styled.js';
 
 function ForgotPasswordPageComponent() {
@@ -53,7 +53,11 @@ function ForgotPasswordPageComponent() {
             placeholder="example@gmail.com"
           />
           <ButtonWrapper>
-            <LoginButton type="submit" label="Надіслати" disabled={!isValid} />
+            <ForgotPasswordButton
+              type="submit"
+              label="Надіслати"
+              disabled={!isValid}
+            />
           </ButtonWrapper>
         </ForgotPasswordForm>
       </ForgotPasswordWrapper>

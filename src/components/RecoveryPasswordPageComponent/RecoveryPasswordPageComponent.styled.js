@@ -23,13 +23,38 @@ export const LinkIcon = styled(Link)`
 `;
 
 export const CloseIcon = styled(ICONS.CLOSE_SQUARE)`
-  stroke: ${(p) =>
-    p.theme.palette.mode === 'light'
-      ? p.theme.palette.primary.dark
-      : p.theme.palette.primary.contrastText};
-  transition: all 250ms ease-in-out;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  cursor: pointer;
+
+  & > path,
+  & > circle {
+    transition: all 0.2s ease;
+  }
+
+  path {
+    fill: ${(p) =>
+      p.theme.palette.mode === 'light'
+        ? p.theme.palette.primary.dark
+        : p.theme.palette.primary.main};
+  }
+
+  circle {
+    stroke: ${(p) =>
+      p.theme.palette.mode === 'light'
+        ? p.theme.palette.primary.dark
+        : p.theme.palette.primary.main};
+  }
+
   &:hover {
-    transform: scale(1.1);
+    path {
+      fill: ${(p) => p.theme.palette.primary.light};
+    }
+
+    circle {
+      stroke: ${(p) => p.theme.palette.primary.light};
+    }
   }
 `;
 

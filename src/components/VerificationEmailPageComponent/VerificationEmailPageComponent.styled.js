@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
-import DefaultButton from '../../ui-kit/components/Button';
+import TextNavLinkButton from '../../ui-kit/components/Button';
 import { ICONS } from '../../ui-kit/icons';
 
 const VerificationEmailWrapper = styled(Box)`
@@ -67,7 +67,7 @@ const VerificationEmailSubParagraph = styled(Typography)`
   }
 `;
 
-const LoginAccountButton = styled(DefaultButton)`
+const LoginAccountButton = styled(TextNavLinkButton)`
   ${(p) => p.theme.typography.h5}
   padding: 8px 12px;
   margin-top: 24px;
