@@ -74,7 +74,7 @@ function RegistrationPageComponent() {
           id="nickname"
           control={control}
           errors={errors.nickname}
-          placeholder={'Nickname'}
+          placeholder={``}
         />
 
         <FieldText
