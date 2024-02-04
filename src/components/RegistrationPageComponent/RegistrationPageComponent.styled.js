@@ -85,25 +85,10 @@ export const RegistrationButton = styled(DefaultButton)`
   padding: 8px 12px;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
   gap: 8px;
-  opacity: 1;
-
   ${(p) => p.theme.typography.h5}
 
   &:hover {
     box-shadow: 0px 1px 8px 4px rgba(134, 134, 220, 0.2);
   }
-
-  ${(p) => {
-    return (
-      p.isDisabled &&
-      `
-      opacity: 0.8;
-      color: ${p.theme.palette.primary.dark};
-      background-color: ${p.theme.palette.primary.disabled};
-      border: 1px solid ${p.theme.palette.primary.light};
-      `
-    );
-  }}
 `;
