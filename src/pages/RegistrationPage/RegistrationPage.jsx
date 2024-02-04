@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-len
 import RegistrationPageComponent from '../../components/RegistrationPageComponent';
 
 function RegistrationPage() {

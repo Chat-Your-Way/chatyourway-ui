@@ -1,1 +1,1 @@
-export { default } from './RegistrationPageComponent';
+export { default } from './RegistrationPageComponent.jsx';

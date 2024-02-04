@@ -17,7 +17,7 @@ const defaultValues = {
   nickname: '',
   email: '',
   password: '',
-  avatar: '1',
+  avatar: '3',
   confirm: '',
   agreement: false,
 };
@@ -109,7 +109,7 @@ function RegistrationPageComponent() {
         <RegistrationButton
           type="submit"
           label="Створити акаунт"
-          isDisabled={!isValid}
+          disabled={!isValid}
         />
       </RegistrationForm>
     </RegistrationWrapper>
