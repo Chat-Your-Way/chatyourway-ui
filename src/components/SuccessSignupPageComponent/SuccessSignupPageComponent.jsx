@@ -4,12 +4,14 @@ import {
   LoginAccountButton,
   SuccessSignupTitle,
   SuccessSignupWrapper,
+  Logo,
 } from './SuccessSignupPageComponent.styled';
 
 function SuccessSignupPageComponent() {
   return (
-    <WhiteLayout padding="225px 157px">
+    <WhiteLayout>
       <SuccessSignupWrapper>
+        <Logo />
         <SuccessSignupTitle variant="h2">
           Ви успішно зареєструвались у ChatYourWay
         </SuccessSignupTitle>

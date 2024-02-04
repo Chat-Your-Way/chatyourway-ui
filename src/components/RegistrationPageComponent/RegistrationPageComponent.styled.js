@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { ICONS } from '../../ui-kit/icons';
 import { Box, Typography, InputBase } from '@mui/material';
+import DefaultButton from '../../ui-kit/components/Button';
 
 export const RegistrationWrapper = styled(Box)`
   display: flex;
@@ -75,4 +76,34 @@ export const RegistrationInputError = styled.span`
   left: 0;
   bottom: -20px;
   color: ${(p) => p.theme.palette.primary.errorColor};
+`;
+
+export const RegistrationButton = styled(DefaultButton)`
+  display: flex;
+  width: 180px;
+  height: 40px;
+  padding: 8px 12px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  gap: 8px;
+  opacity: 1;
+
+  ${(p) => p.theme.typography.h5}
+
+  &:hover {
+    box-shadow: 0px 1px 8px 4px rgba(134, 134, 220, 0.2);
+  }
+
+  ${(p) => {
+    return (
+      p.isDisabled &&
+      `
+      opacity: 0.8;
+      color: ${p.theme.palette.primary.dark};
+      background-color: ${p.theme.palette.primary.disabled};
+      border: 1px solid ${p.theme.palette.primary.light};
+      `
+    );
+  }}
 `;

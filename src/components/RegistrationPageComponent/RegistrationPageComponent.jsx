@@ -3,11 +3,11 @@ import { FieldText } from './FieldText/FieldText';
 import { FieldPassword } from './FieldPassword/FieldPassword';
 import { FieldRadio } from './FieldRadio/FieldRadio';
 import { FieldCheckbox } from './FieldCheckbox/FieldCheckbox';
-import { LoginButton } from '../LoginPageComponent/LoginPageComponent.styled';
 import {
   RegistrationWrapper,
   RegistrationForm,
   LogoIcon,
+  RegistrationButton,
 } from './RegistrationPageComponent.styled';
 import { useRegistrationMutation } from '../../redux/auth-operations';
 import { PATH } from '../../constans/routes';
@@ -17,7 +17,7 @@ const defaultValues = {
   nickname: '',
   email: '',
   password: '',
-  avatar: '3',
+  avatar: '1',
   confirm: '',
   agreement: false,
 };
@@ -25,6 +25,7 @@ const defaultValues = {
 function RegistrationPageComponent() {
   const [registration] = useRegistrationMutation();
   const navigate = useNavigate();
+
   const {
     formState: { errors, isValid },
     handleSubmit,
@@ -36,8 +37,7 @@ function RegistrationPageComponent() {
   });
   const passwordValue = watch('password');
 
-  const onSubmit = async (values) => {
-    const { avatar, email, nickname, password } = values;
+  const onSubmit = async ({ avatar, email, nickname, password }) => {
     const userData = {
       nickname,
       email: email.trim().toLowerCase(),
@@ -74,6 +74,7 @@ function RegistrationPageComponent() {
           id="nickname"
           control={control}
           errors={errors.nickname}
+          placeholder={``}
         />
 
         <FieldText
@@ -81,6 +82,7 @@ function RegistrationPageComponent() {
           id="email"
           control={control}
           errors={errors.email}
+          placeholder={'Email'}
         />
 
         <FieldPassword
@@ -88,6 +90,7 @@ function RegistrationPageComponent() {
           id="password"
           control={control}
           errors={errors.password}
+          placeholder={'Пароль'}
         />
 
         <FieldPassword
@@ -96,16 +99,17 @@ function RegistrationPageComponent() {
           control={control}
           errors={errors.confirm}
           watch={passwordValue}
+          placeholder={'Підтвердити пароль'}
         />
 
         <FieldRadio id="avatar" control={control} />
 
         <FieldCheckbox id="agreement" control={control} />
 
-        <LoginButton
+        <RegistrationButton
           type="submit"
           label="Створити акаунт"
-          disabled={!isValid}
+          isDisabled={!isValid}
         />
       </RegistrationForm>
     </RegistrationWrapper>
