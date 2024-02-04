@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { ICONS } from '../../ui-kit/icons';
 import { Link } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
-import TextNavLinkButton from '../../ui-kit/components/TextNavLinkButton';
+import DefaultButton from '../../ui-kit/components/Button';
 
 export const LinkIcon = styled(Link)`
   display: none;
@@ -93,7 +93,7 @@ export const ButtonWrapper = styled(Box)`
   text-align: center;
 `;
 
-export const ForgotPasswordButton = styled(TextNavLinkButton)`
+export const ForgotPasswordButton = styled(DefaultButton)`
   display: flex;
   width: 180px;
   padding: 8px 12px;

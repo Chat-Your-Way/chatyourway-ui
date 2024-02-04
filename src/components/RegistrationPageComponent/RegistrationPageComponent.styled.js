@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { ICONS } from '../../ui-kit/icons';
 import { Box, Typography, InputBase } from '@mui/material';
-import TextNavLinkButton from '../../ui-kit/components/TextNavLinkButton';
+import DefaultButton from '../../ui-kit/components/Button';
 
 export const RegistrationWrapper = styled(Box)`
   display: flex;
@@ -78,7 +78,7 @@ export const RegistrationInputError = styled.span`
   color: ${(p) => p.theme.palette.primary.errorColor};
 `;
 
-export const RegistrationButton = styled(TextNavLinkButton)`
+export const RegistrationButton = styled(DefaultButton)`
   display: flex;
   width: 180px;
   height: 40px;

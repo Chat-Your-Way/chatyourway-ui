@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
-import TextNavLinkButton from '../../ui-kit/components/TextNavLinkButton';
+import DefaultButton from '../../ui-kit/components/Button';
 import { ICONS } from '../../ui-kit/icons';
 
 export const SuccessSignupWrapper = styled(Box)`
@@ -37,7 +37,7 @@ export const SuccessSignupTitle = styled(Typography)`
   }
 `;
 
-export const LoginAccountButton = styled(TextNavLinkButton)`
+export const LoginAccountButton = styled(DefaultButton)`
   ${(p) => p.theme.typography.h5}
   padding: 8px 12px;
   width: 180px;
