@@ -34,6 +34,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getUserInfo } from '../../redux/userSlice';
 import { useGetByIdQuery } from '../../redux/topics-operations';
+import ChatComponent from '../ChatComponent/ChatComponent'; //!
 
 const Chat = ({ children }) => {
   const { contactsOpen, setContactsOpen } = useTopicsPageContext();
@@ -134,6 +135,7 @@ const Chat = ({ children }) => {
               </MessageContainer>
             </ChatSection>
           ))}
+          <ChatComponent />
         </ChatSection>
         <InputBox>
           <ChatInputStyled
