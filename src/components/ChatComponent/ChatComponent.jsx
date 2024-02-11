@@ -1,83 +1,35 @@
-import { useState, useEffect } from 'react';
-import { Client } from '@stomp/stompjs';
+import { useState, useEffect } from "react";
+import { over } from "stompjs";
+import SockJS from "sockjs-client";
 
 const ChatComponent = () => {
-  const [messages, setMessages] = useState([]);
-  const [inputMessage, setInputMessage] = useState('');
   const [connected, setConnected] = useState(false);
-  const [stompClient, setStompClient] = useState(null);
 
   useEffect(() => {
-    const client = new Client({
-      brokerURL: 'ws://chat.eu-central-1.elasticbeanstalk.com:5000/chat',
-      debug: function (str) {
-        console.log(str);
-      },
-      reconnectDelay: 5000,
-    });
+    const connect = () => {
+      const socket = new SockJS(
+        "http://chat.eu-central-1.elasticbeanstalk.com:5000/chat");
+      const stompClient = over(socket);
 
-    client.onConnect = () => {
-      setStompClient(client);
-      setConnected(true);
-      console.log('Connected to WebSocket');
+      stompClient.connect({}, () => {
+        setConnected(true);
+      });
     };
 
-    client.onDisconnect = () => {
-      console.log('Disconnected from WebSocket');
-      setConnected(false);
-    };
-
-    client.activate();
+    connect();
 
     return () => {
-      if (stompClient) {
-        stompClient.deactivate();
-      }
+      // close
     };
   }, []);
 
-  const handleMessageSend = () => {
-    if (!stompClient || !connected || !inputMessage.trim()) return;
-    stompClient.publish({
-      destination: '/app/message',
-      body: JSON.stringify({ text: inputMessage }),
-    });
-    setInputMessage('');
-  };
-
-  const handleInputChange = (e) => {
-    setInputMessage(e.target.value);
-  };
-
-  useEffect(() => {
-    if (!stompClient) return;
-
-    const subscription = stompClient.subscribe('/topic/messages', (message) => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        JSON.parse(message.body),
-      ]);
-    });
-
-    return () => subscription.unsubscribe();
-  }, [stompClient]);
-
   return (
-    <div>
-      <h1>Chat Room</h1>
-      <div style={{ height: '300px', overflowY: 'scroll' }}>
-        {messages.map((message, index) => (
-          <div key={index}>{message.text}</div>
-        ))}
-      </div>
-      <input
-        type="text"
-        placeholder="Type your message..."
-        value={inputMessage}
-        onChange={handleInputChange}
-      />
-      <button onClick={handleMessageSend}>Send</button>
-      {!connected && <div>Connecting to chat...</div>}
+    <div className="container">
+      {connected ? (
+        <p>WebSocket connection successful!</p>
+      ) : (
+        <p>Connecting to WebSocket...</p>
+      )}
     </div>
   );
 };
