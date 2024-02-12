@@ -5,7 +5,8 @@ const Loader = () => {
   return (
     <LoaderWrap>
       <Oval
-        color="#40A2E3"
+        color="#ACADFF"
+        secondaryColor="#ACADFF"
         strokeWidth="2"
         animationDuration="1"
         width="96"
