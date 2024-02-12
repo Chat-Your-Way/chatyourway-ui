@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import SockJS from 'sockjs-client';
-import { Stomp } from '@stomp/stompjs';
+import { Client } from '@stomp/stompjs';
 
 const ChatComponent = () => {
   const [messages, setMessages] = useState([]);
@@ -9,38 +8,40 @@ const ChatComponent = () => {
   const [stompClient, setStompClient] = useState(null);
 
   useEffect(() => {
-    const connect = () => {
-      const socket = new SockJS(
-        'http://chat.eu-central-1.elasticbeanstalk.com:5000/chat',
-      );
-      // const client = Stomp.over(socket); //!
-      const client = Stomp.over(() => socket);
+    const client = new Client({
+      brokerURL: 'ws://chat.eu-central-1.elasticbeanstalk.com:5000/chat',
+      debug: function (str) {
+        console.log(str);
+      },
+      reconnectDelay: 5000,
+    });
 
-      client.connect({}, () => {
-        setStompClient(client);
-        setConnected(true);
-        console.log('Connected to WebSocket');
-      });
+    client.onConnect = () => {
+      setStompClient(client);
+      setConnected(true);
+      console.log('Connected to WebSocket');
     };
 
-    connect();
+    client.onDisconnect = () => {
+      console.log('Disconnected from WebSocket');
+      setConnected(false);
+    };
+
+    client.activate();
 
     return () => {
       if (stompClient) {
-        stompClient.disconnect();
-        console.log('Disconnected from WebSocket');
-        setConnected(false);
+        stompClient.deactivate();
       }
     };
   }, []);
 
   const handleMessageSend = () => {
     if (!stompClient || !connected || !inputMessage.trim()) return;
-    stompClient.send(
-      '/app/message',
-      {},
-      JSON.stringify({ text: inputMessage }),
-    );
+    stompClient.publish({
+      destination: '/app/message',
+      body: JSON.stringify({ text: inputMessage }),
+    });
     setInputMessage('');
   };
 
