@@ -17,7 +17,7 @@ import NotificationPage from '../../pages/NotificationPage';
 import NotFoundPage from '../../pages/NotFoundPage';
 import VerificationEmailPage from '../../pages/VerificationEmailPage';
 import FaqPage from '../../pages/FaqPage';
-import Chat from '../Chat';
+import Chat from '../Chat/Chat';
 
 const Router = () => {
   return (
