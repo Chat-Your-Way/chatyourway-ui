@@ -175,24 +175,6 @@ const ChatRoom = () => {
     };
   }, [stompClient]);
 
-  //! обробкa помилок //!
-  // useEffect(() => {
-  //   if (!stompClient) return;
-
-  //   const onError = (error) => {
-  //     console.error('WebSocket error:', error);
-  //     setError(error);
-  //     console.log('error', error);
-  //     // Додатковa обробкa помилок за потреби //!
-  //   };
-
-  //   stompClient.onWebSocketError = onError;
-
-  //   return () => {
-  //     stompClient.onWebSocketError = null;
-  //   };
-  // }, [stompClient]);
-
   const handleMessageSend = () => {
     // if (!stompClient || !connected || !inputMessage.trim()) return; //!
 
