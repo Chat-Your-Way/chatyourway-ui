@@ -160,6 +160,7 @@ export const ChatInputStyled = styled(TextareaAutosize)`
 export const ChatInputIconBox = styled(Box)`
   display: flex;
   position: absolute;
+  bottom: 8px;
   right: 20px;
   gap: 10px;
 `;
