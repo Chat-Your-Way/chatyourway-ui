@@ -26,7 +26,6 @@ import { ReactComponent as ArrowUp2 } from './svg-icons/ArrowUp2.svg';
 import { ReactComponent as ArrowUpC } from './svg-icons/ArrowUpC.svg';
 import { ReactComponent as ArrowUpS } from './svg-icons/ArrowUpS.svg';
 import { ReactComponent as BanNotific } from './svg-icons/BanNotific.svg';
-import { ReactComponent as Bookmark } from './svg-icons/Bookmark.svg';
 import { ReactComponent as Category } from './svg-icons/Category.svg';
 import { ReactComponent as Chat } from './svg-icons/Chat.svg';
 import { ReactComponent as DangerCircle } from './svg-icons/DangerCircle.svg';
@@ -67,6 +66,7 @@ import { ReactComponent as ShieldFail } from './svg-icons/ShieldFail.svg';
 import { ReactComponent as Show } from './svg-icons/Show.svg';
 import { ReactComponent as Smile } from './svg-icons/Smile.svg';
 import { ReactComponent as Star } from './svg-icons/Star.svg';
+import { ReactComponent as Subscribe } from './svg-icons/Subscribe.svg';
 import { ReactComponent as Swap } from './svg-icons/Swap.svg';
 import { ReactComponent as TickSquare } from './svg-icons/TickSquare.svg';
 import { ReactComponent as TimeCircle } from './svg-icons/TimeCircle.svg';
@@ -103,7 +103,6 @@ export const ICONS = {
   ARROW_UP_C: ArrowUpC,
   ARROW_UP_S: ArrowUpS,
   BAN_NOTIFICATION: BanNotific,
-  BOOKMARK: Bookmark,
   CATEGORY: Category,
   CONFIRM: Confirm,
   CHAT: Chat,
@@ -148,6 +147,7 @@ export const ICONS = {
   SHOW: Show,
   SMILE: Smile,
   STAR: Star,
+  SUBSCRIBE: Subscribe,
   SWAP: Swap,
   TICK_SQUARE: TickSquare,
   TIME_CIRCLE: TimeCircle,
