@@ -141,6 +141,7 @@ export const TextMessage = styled(Box)`
 export const InputBox = styled(Box)`
   display: flex;
   position: relative;
+  align-items: center;
 `;
 
 export const ChatInputStyled = styled(TextareaAutosize)`
@@ -159,14 +160,14 @@ export const ChatInputStyled = styled(TextareaAutosize)`
 export const ChatInputIconBox = styled(Box)`
   display: flex;
   position: absolute;
-  bottom: 4px;
+  bottom: 8px;
   right: 20px;
   gap: 10px;
 `;
 
-export const IconSmile = styled(ICONS.SMILE)`
-  fill: ${(p) => p.theme.palette.primary.dark};
-`;
+// export const IconSmile = styled(ICONS.SMILE)`
+//   fill: ${(p) => p.theme.palette.primary.dark};
+// `; //! CHAT-220--smile-disable
 
 export const IconSend = styled(ICONS.SEND)`
   fill: ${(p) => p.theme.palette.primary.dark};

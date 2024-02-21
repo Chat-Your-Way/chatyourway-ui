@@ -64,7 +64,7 @@ import { ReactComponent as Setting } from './svg-icons/Setting.svg';
 import { ReactComponent as ShieldDone } from './svg-icons/ShieldDone.svg';
 import { ReactComponent as ShieldFail } from './svg-icons/ShieldFail.svg';
 import { ReactComponent as Show } from './svg-icons/Show.svg';
-import { ReactComponent as Smile } from './svg-icons/Smile.svg';
+// import { ReactComponent as Smile } from './svg-icons/Smile.svg'; //! CHAT-220--smile-disable
 import { ReactComponent as Star } from './svg-icons/Star.svg';
 import { ReactComponent as Subscribe } from './svg-icons/Subscribe.svg';
 import { ReactComponent as Swap } from './svg-icons/Swap.svg';
@@ -145,7 +145,7 @@ export const ICONS = {
   SHIELD_DONE: ShieldDone,
   SHIELD_FAIL: ShieldFail,
   SHOW: Show,
-  SMILE: Smile,
+  // SMILE: Smile, //! CHAT-220--smile-disable
   STAR: Star,
   SUBSCRIBE: Subscribe,
   SWAP: Swap,

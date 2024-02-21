@@ -13,7 +13,7 @@ import {
   ChatWrap,
   IconActivity,
   IconSend,
-  IconSmile,
+  // IconSmile, //! CHAT-220--smile-disable
   IndicatorBox,
   InfoBox,
   InfoMoreBox,
@@ -143,7 +143,7 @@ const Chat = ({ children }) => {
             onChange={(e) => handleMessageChange(e.target.value)}
           />
           <ChatInputIconBox>
-            <IconButton icon={<IconSmile />} />
+            {/* <IconButton icon={<IconSmile />} /> //! CHAT-220--smile-disable */}
             <IconButton icon={<IconSend />} />
           </ChatInputIconBox>
         </InputBox>
