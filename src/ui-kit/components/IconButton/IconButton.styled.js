@@ -15,7 +15,7 @@ export const StyledIconButton = styled(IconButton, {
   padding-left: ${(p) => (p.pLeft ? p.pLeft : '3.13px')};
   padding-right: ${(p) => (p.pRight ? p.pRight : '4.71px')};
   padding-top: ${(p) => (p.pTop ? p.pTop : '3.13px')};
-  padding-bottom: ${(p) => (p.pBottom ? p.pBottom : '4.71px')};
+  padding-bottom: ${(p) => (p.pBottom ? p.pBottom : '3.13px')};
   fill: ${(p) => (p.defaultFill && !p.editPath ? p.defaultFill : undefined)};
   path {
     fill: ${(p) => (p.defaultFill && p.editPath ? p.defaultFill : undefined)};

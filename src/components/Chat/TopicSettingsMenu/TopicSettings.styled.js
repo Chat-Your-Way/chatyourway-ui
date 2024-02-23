@@ -106,7 +106,7 @@ export const MenuIconComplain = styled(ICONS.DANGER_CIRCLE)`
       : p.theme.palette.primary.main};
 `;
 
-export const MenuIconSubscribe = styled(ICONS.BOOKMARK)`
+export const MenuIconSubscribe = styled(ICONS.SUBSCRIBE)`
   min-width: 20px;
   min-height: 20px;
   fill: ${(p) =>
