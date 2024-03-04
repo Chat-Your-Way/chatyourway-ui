@@ -21,6 +21,7 @@ const HeaderUserInfo = () => {
   const { toggleTheme, currentTheme } = useContext(ThemeContext);
 
   const { data, isError, isLoading } = useGetUserInfoQuery();
+
   const { avatarId } = useSelector(getUserInfo);
 
   const avatarsArray = Object.values(Avatars);
