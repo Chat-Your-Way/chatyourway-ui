@@ -7,7 +7,7 @@ const chatSlice = createSlice({
     historyMessages: [],
     newMessage: [],
     notifications: [],
-    stompClient: null,
+    // stompClient: null,
     connected: false,
     subscriptions: [],
   },
@@ -53,7 +53,9 @@ export const {
   clearSubscriptions,
 } = chatSlice.actions;
 
-export default chatSlice.reducer;
+export default chatSlice;
+// export default chatSlice.reducer;
+
 export const getMessages = (state) => state.messages;
 export const getHistoryMessages = (state) => state.historyMessages;
 export const getNewMessage = (state) => state.newMessage;

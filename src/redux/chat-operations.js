@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { BASE_URL, ajwt } from './apiParams';
@@ -20,19 +22,23 @@ const sendToPublicTopicDest = '/app/topic/public/';
 // const sendToPrivateTopicDest = '/app/topic/private/'; //?!!!!!!!!!!!!!!!!!!!!
 
 let client = null;
-// Дія для підключення до WebSocket
+
 export const connectWebSocket = () => {
   return async (dispatch) => {
     const socket = new SockJS(`${BASE_URL}/chat?Authorization=Bearer ${ajwt}`);
     client = Stomp.over(() => socket);
 
-    console.log('client', client);
+    console.log('client connectWebSocket', client); //!
+    console.log('client.connected 1 connectWebSocket', client.connected); //!
 
     client.connect(
       {},
       () => {
         // dispatch(setStompClient(client));
+
         dispatch(setConnected(true));
+
+        console.log('client.connected 2 connectWebSocket', client.connected); //!
 
         console.log('Connected to WebSocket'); //!
       },
@@ -43,31 +49,9 @@ export const connectWebSocket = () => {
   };
 };
 
-// export const connectWebSocket = () => {
-//   return async (dispatch) => {
-//     const socket = new SockJS(`${BASE_URL}/chat?Authorization=Bearer ${ajwt}`);
-//     client = Stomp.over(() => socket);
-
-//     console.log('client', client);
-
-//     try {
-//       await new Promise((resolve, reject) => {
-//         client.connect({}, resolve, reject);
-//       });
-
-//       // Після успішного підключення
-//       dispatch(setConnected(true));
-//       console.log('Connected to WebSocket'); //!
-//     } catch (error) {
-//       console.error('Error connecting to WebSocket:', error);
-//     }
-//   };
-// };
-
-// Дія для відключення від WebSocket
 export const disconnectWebSocket = () => {
   return async (dispatch, getState) => {
-    const { subscriptions } = getState().chat;
+    // const { subscriptions } = getState().chat; //!
     // const { stompClient } = getState().chat;
 
     if (client) {
@@ -75,13 +59,13 @@ export const disconnectWebSocket = () => {
         if (error) {
           console.error('Error disconnecting from WebSocket:', error);
         } else {
-          subscriptions.forEach((subscription) => {
-            const { subscriptionId } = subscription;
-            if (subscriptionId) {
-              client.unsubscribe(subscriptionId);
-            }
-          });
-          dispatch(clearSubscriptions());
+          // subscriptions.forEach((subscription) => {
+          //   const { subscriptionId } = subscription;
+          //   if (subscriptionId) {
+          //     client.unsubscribe(subscriptionId);
+          //   }
+          // }); //!
+          // dispatch(clearSubscriptions()); //!
           dispatch(setConnected(false));
         }
       });
@@ -91,12 +75,16 @@ export const disconnectWebSocket = () => {
   };
 };
 
-// Дія для підписки на повідомлення з WebSocket
 export const subscribeToMessages = (topicId) => {
   return async (dispatch) => {
     // const { stompClient } = getState().chat;
 
+    console.log('subscribeToMessages'); //!
+
     if (client && client.connected) {
+      console.log('client.connected subscribeToMessages', client.connected); //!
+      console.log('client subscribeToMessages', client); //!
+
       const subscriptionToHistory = client.subscribe(
         `/user${subToTopicDest}${topicId}`,
         (message) => {
@@ -151,41 +139,43 @@ export const subscribeToMessages = (topicId) => {
         },
       );
 
-      // Зберігаємо підписки для подальшого відключення
-      dispatch(
-        setSubscription({
-          type: 'history',
-          subscriptionId: subscriptionToHistory.id,
-        }),
-      );
-      dispatch(
-        setSubscription({
-          type: 'topic',
-          subscriptionId: subscriptionToTopic.id,
-        }),
-      );
-      dispatch(
-        setSubscription({
-          type: 'notify',
-          subscriptionId: subscriptionToNotify.id,
-        }),
-      );
-      dispatch(
-        setSubscription({
-          type: 'error',
-          subscriptionId: subscriptionToError.id,
-        }),
-      );
+      //! для подальшого відключення
+      // dispatch(
+      //   setSubscription({
+      //     type: "history",
+      //     subscriptionId: subscriptionToHistory.id,
+      //   })
+      // );
+      // dispatch(
+      //   setSubscription({
+      //     type: "topic",
+      //     subscriptionId: subscriptionToTopic.id,
+      //   })
+      // );
+      // dispatch(
+      //   setSubscription({
+      //     type: "notify",
+      //     subscriptionId: subscriptionToNotify.id,
+      //   })
+      // );
+      // dispatch(
+      //   setSubscription({
+      //     type: "error",
+      //     subscriptionId: subscriptionToError.id,
+      //   })
+      // );
     }
   };
 };
 
-// Дія для отримання історії повідомлень з WebSocket
 export const getTopicHistory = (topicId) => {
   return async () => {
     // const { stompClient } = getState().chat;
+    console.log('getTopicHistory redux 1'); //!
 
     if (client && client.connected) {
+      console.log('getTopicHistory redux client+ 2'); //!
+
       client.send(
         `${getTopicHistoryDest}${topicId}`,
         {},
@@ -199,7 +189,11 @@ export const sendMessage = (topicId, inputMessage) => {
   return async (getState) => {
     const { connected } = getState().chat;
 
+    console.log('connected', connected); //!
+
     if (!client || !client.connected || !connected) return;
+
+    console.log('sendMessage redux'); //!
 
     client.send(
       `${sendToPublicTopicDest}${topicId}`,

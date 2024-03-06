@@ -3,7 +3,7 @@ import authenticationApi from './auth-operations';
 import topicsApi from './topics-operations';
 import userApi from './user-operations';
 import userInfoSlice from './userSlice';
-import chatReducer from './chatSlice'; //!
+import chatSlice from './chatSlice'; //!
 
 const store = configureStore({
   reducer: {
@@ -11,14 +11,15 @@ const store = configureStore({
     [topicsApi.reducerPath]: topicsApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [userInfoSlice.name]: userInfoSlice.reducer,
-    chat: chatReducer, //!
+    [chatSlice.name]: chatSlice.reducer, //!
+
+    // chat: chatReducer, //!
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(authenticationApi.middleware)
       .concat(topicsApi.middleware)
       .concat(userApi.middleware),
-  // .concat(socketMiddleware(url)), //!
 });
 
 export default store;

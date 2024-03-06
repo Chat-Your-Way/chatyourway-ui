@@ -48,9 +48,7 @@ import {
   getMessages,
   getConnected,
 } from '../../redux/chatSlice';
-// import SockJS from 'sockjs-client';
-// import { Stomp } from '@stomp/stompjs';
-// import { ajwt } from '../../redux/apiParams'; //!
+
 import { nanoid } from 'nanoid'; //!
 import { useTopicsContext } from '../../common/Topics/TopicsContext';
 import { getAvatar } from '../../common/Topics/ChatsBlock/ChatItem/getAvatar';
@@ -70,186 +68,55 @@ const Chat = ({ children }) => {
   const { title: topicId } = useParams();
   const { data, isLoading, isError } = useGetByIdQuery(topicId);
   const { isTopics } = useTopicsContext();
+
+  console.log('isTopics', isTopics); //!
+  console.log('topicId', topicId); //!
+
   const dispatch = useDispatch();
-  const stompClient = useSelector(getStompClient);
   const historyMessages = useSelector(getHistoryMessages);
   const notifications = useSelector(getNotifications);
   const newMessage = useSelector(getNewMessage);
   const messages = useSelector(getMessages);
   const connected = useSelector(getConnected);
-
-  // const [messages, setMessages] = useState([]);
-  // const [historyMessages, setHistoryMessages] = useState([]);
-  // const [notifications, setNotifications] = useState([]);
-  // const [newMessage, setNewMessage] = useState([]);
-  // const [connected, setConnected] = useState(false);
-  // const [stompClient, setStompClient] = useState(null);
   const inputRef = useRef(null);
 
   //! Websockets START================================================
-  // const getTopicHistoryDest = '/app/history/topic/';
-  // const subToTopicDest = '/topic/';
-  // const subToNotificationDest = '/user/specific/notify/';
-  // const subToErrorDest = '/user/specific/error';
-  // const sendToPublicTopicDest = '/app/topic/public/';
-
-  // const sendToPrivateTopicDest = '/app/topic/private/'; //?!!!!!!!!!!!!!!!!!!!!
 
   useEffect(() => {
     dispatch(connectWebSocket());
 
     return () => {
       dispatch(disconnectWebSocket());
+
+      console.log('disconnectWebSocket useEffect'); //!
     };
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
+    console.log('connected useEffect react', connected); //!
+
+    if (!connected) return;
+
     dispatch(subscribeToMessages(topicId));
+
+    console.log('subscribeToMessages useEffect'); //!
+    console.log('historyMessages react', historyMessages); //!
+
     dispatch(getTopicHistory(topicId));
-  }, [dispatch, topicId]);
 
-  // useEffect(() => {
-  //   const connect = () => {
-  //     const socket = new SockJS(
-  //       `http://chat.eu-central-1.elasticbeanstalk.com/chat?Authorization=Bearer ${ajwt}`,
-  //     );
-
-  //     const client = Stomp.over(() => socket);
-
-  //     client.connect(
-  //       {},
-  //       () => {
-  //         dispatch(setStompClient(client));
-  //         dispatch(setConnected(true));
-
-  //         console.log('Connected to WebSocket'); //!
-  //       },
-  //       (error) => {
-  //         console.error('Error connecting to WebSocket:', error);
-  //       },
-  //     );
-  //   };
-
-  //   connect();
-
-  //   return () => {
-  //     if (stompClient) {
-  //       stompClient.disconnect((error) => {
-  //         if (error) {
-  //           console.error('Error disconnecting from WebSocket:', error);
-  //         } else {
-  //           setConnected(false);
-  //         }
-  //       });
-  //     }
-  //     console.log('Disconnected from WebSocket'); //!
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!stompClient) return;
-
-  //   let subscriptionToHistory;
-  //   let subscriptionToTopic;
-  //   let subscriptionToError;
-  //   let subscriptionToNotify;
-
-  //   const getTopicHistory = () => {
-  //     stompClient.send(
-  //       `${getTopicHistoryDest}${topicId}`,
-  //       {},
-  //       JSON.stringify({ page: 0, pageSize: 100 }),
-  //     );
-  //   };
-
-  //   getTopicHistory();
-
-  //   const subscribeToHistoryMessages = () => {
-  //     subscriptionToHistory = stompClient.subscribe(
-  //       `/user${subToTopicDest}${topicId}`,
-  //       (message) => {
-  //         let parsedhistoryMessages = JSON.parse(message.body);
-
-  //         console.log(
-  //           'Received message from subscribeToHistoryMessages:',
-  //           parsedhistoryMessages,
-  //         ); //!
-
-  //         // setHistoryMessages(parsedhistoryMessages);
-  //         dispatch(setHistoryMessages(parsedhistoryMessages));
-  //       },
-  //     );
-  //   };
-
-  //   subscribeToHistoryMessages();
-
-  //   const subscribeToTopic = () => {
-  //     subscriptionToTopic = stompClient.subscribe(
-  //       `${subToTopicDest}${topicId}`,
-  //       (message) => {
-  //         let parsedNewMessage = JSON.parse(message.body);
-
-  //         console.log(
-  //           'Received NewMessage from subscribeToTopic:',
-  //           parsedNewMessage,
-  //         ); //!
-
-  //         dispatch(setNewMessage([parsedNewMessage]));
-  //       },
-  //     );
-  //   };
-
-  //   subscribeToTopic();
-
-  //   const subscribeToNotify = () => {
-  //     subscriptionToNotify = stompClient.subscribe(
-  //       `${subToNotificationDest}${topicId}`,
-  //       (message) => {
-  //         let parsedNotifications = JSON.parse(message.body);
-
-  //         console.log(
-  //           'Received notifications from subscribeToNotify:',
-  //           parsedNotifications,
-  //         ); //!
-
-  //         dispatch(setNotifications(parsedNotifications));
-  //       },
-  //     );
-  //   };
-
-  //   subscribeToNotify();
-
-  //   const subscribeToError = () => {
-  //     subscriptionToError = stompClient.subscribe(
-  //       `${subToErrorDest}`,
-  //       (message) => {
-  //         let parsedErrorMessage = JSON.parse(message.body);
-  //         console.log(
-  //           'Received ErrorMessage from subscribeToError:',
-  //           parsedErrorMessage,
-  //         ); //!
-  //       },
-  //     );
-  //   };
-
-  //   subscribeToError();
-
-  //   return () => {
-  //     subscriptionToHistory.unsubscribe();
-  //     subscriptionToTopic.unsubscribe(); //?! чи треба якщо продовжуєш отримувати повідомлення
-  //     subscriptionToNotify.unsubscribe();
-  //     subscriptionToError.unsubscribe();
-  //   };
-  // }, [stompClient, topicId]); //?! dispatch
+    console.log('getTopicHistory useEffect'); //!
+  }, [topicId]);
 
   useEffect(() => {
-    console.log('historyMessages', historyMessages);
+    console.log('historyMessages useEffect 1', historyMessages);
     if (!historyMessages || historyMessages.length === 0) return;
 
     const historyMessagesData = processMessageData(
       historyMessages,
       notifications,
     );
+
+    console.log('historyMessages useEffect 2', historyMessages);
 
     dispatch(setMessages(historyMessagesData));
     // setMessages((prevMessages) => [...prevMessages, ...historyMessagesData]);
@@ -337,19 +204,6 @@ const Chat = ({ children }) => {
 
     inputRef.current.value = '';
   };
-  // const handleMessageSend = () => {
-  //   const inputMessage = inputRef.current.value.trim();
-
-  //   if (!stompClient || !connected || !inputMessage.trim()) return; //!
-
-  //   stompClient.send(
-  //     `${sendToPublicTopicDest}${topicId}`,
-  //     {},
-  //     JSON.stringify({ content: inputMessage }),
-  //   );
-
-  //   inputRef.current.value = '';
-  // };
 
   const subscribeStatus = () => {
     if (data) {
