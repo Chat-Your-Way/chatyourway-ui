@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import Avatar from '../../ui-kit/components/Avatar';
 import IconButton from '../../ui-kit/components/IconButton/IconButton';
 import { ICONS } from '../../ui-kit/icons';
@@ -36,12 +36,7 @@ import { getUserInfo } from '../../redux/userSlice';
 import { useParams } from 'react-router-dom';
 import {
   setMessages,
-  setHistoryMessages,
-  setNotifications,
   setNewMessage,
-  setConnected,
-  setStompClient,
-  getStompClient,
   getHistoryMessages,
   getNotifications,
   getNewMessage,
@@ -49,7 +44,6 @@ import {
   getConnected,
 } from '../../redux/chatSlice';
 
-import { nanoid } from 'nanoid'; //!
 import { useTopicsContext } from '../../common/Topics/TopicsContext';
 import { getAvatar } from '../../common/Topics/ChatsBlock/ChatItem/getAvatar';
 
@@ -61,6 +55,8 @@ import {
   sendMessage,
   subscribeToMessages,
 } from '../../redux/chat-operations';
+
+import processMessageData from './processMessageData';
 
 const Chat = ({ children }) => {
   const { contactsOpen, setContactsOpen } = useTopicsPageContext();
@@ -90,7 +86,7 @@ const Chat = ({ children }) => {
 
       console.log('disconnectWebSocket useEffect'); //!
     };
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     console.log('connected useEffect react', connected); //!
@@ -105,13 +101,15 @@ const Chat = ({ children }) => {
     dispatch(getTopicHistory(topicId));
 
     console.log('getTopicHistory useEffect'); //!
-  }, [topicId]);
+  }, [dispatch, connected, historyMessages, topicId]);
 
   useEffect(() => {
     console.log('historyMessages useEffect 1', historyMessages);
     if (!historyMessages || historyMessages.length === 0) return;
 
     const historyMessagesData = processMessageData(
+      data,
+      email,
       historyMessages,
       notifications,
     );
@@ -125,12 +123,17 @@ const Chat = ({ children }) => {
       dispatch(setMessages([]));
       // setMessages([]);
     };
-  }, [historyMessages, notifications]);
+  }, [dispatch, data, email, historyMessages, notifications]);
 
   useEffect(() => {
     if (!newMessage || newMessage.length === 0) return;
 
-    const newMessageData = processMessageData(newMessage, notifications);
+    const newMessageData = processMessageData(
+      data,
+      email,
+      newMessage,
+      notifications,
+    );
 
     dispatch(setMessages(newMessageData));
     // setMessages((prevMessages) => [...prevMessages, ...newMessageData]);
@@ -139,47 +142,7 @@ const Chat = ({ children }) => {
       dispatch(setNewMessage([]));
       // setNewMessage([]);
     };
-  }, [newMessage, notifications]);
-
-  const getTime = (timestamp) => {
-    const dateObject = new Date(timestamp);
-    const hours = dateObject.getHours();
-    const minutes = dateObject.getMinutes();
-
-    const time = `${hours.toString().padStart(2, '0')}:${minutes
-      .toString()
-      .padStart(2, '0')}`;
-
-    return time;
-  };
-
-  const processMessageData = (messagesData, notifications) => {
-    const messages = messagesData.map((messageData) => {
-      const { content, timestamp, sentFrom } = messageData;
-
-      const subscriber = data.topicSubscribers.find(
-        ({ contact }) => contact.email === sentFrom,
-      );
-      const notification = notifications.find(
-        (notification) => notification.email === sentFrom,
-      );
-
-      const message = {
-        id: nanoid(),
-        topicId: notification?.topicId, //?!
-        avatarId: subscriber?.contact.avatarId,
-        name: subscriber?.contact.nickname,
-        time: getTime(timestamp),
-        text: content,
-        isMyMessage: sentFrom === email,
-        isOnline: notification?.status !== 'OFFLINE',
-      };
-
-      return message;
-    });
-
-    return messages;
-  };
+  }, [dispatch, data, email, newMessage, notifications]);
 
   //! Websockets END ================================================
 
