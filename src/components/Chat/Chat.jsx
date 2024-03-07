@@ -34,7 +34,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useGetByIdQuery } from '../../redux/topics-operations';
 import { getUserInfo } from '../../redux/userSlice';
 import { useParams } from 'react-router-dom';
-import {
+import chatSlice, {
   setMessages,
   setNewMessage,
   getHistoryMessages,
@@ -69,11 +69,20 @@ const Chat = ({ children }) => {
   console.log('topicId', topicId); //!
 
   const dispatch = useDispatch();
-  const historyMessages = useSelector(getHistoryMessages);
-  const notifications = useSelector(getNotifications);
-  const newMessage = useSelector(getNewMessage);
-  const messages = useSelector(getMessages);
-  const connected = useSelector(getConnected);
+  // const historyMessages = useSelector(getHistoryMessages);
+  // const notifications = useSelector(getNotifications);
+  // const newMessage = useSelector(getNewMessage);
+  // const messages = useSelector(getMessages);
+  // const connected = useSelector(getConnected);
+  const { historyMessages, notifications, newMessage, messages, connected } =
+    useSelector((state) => ({
+      historyMessages: getHistoryMessages(state),
+      notifications: getNotifications(state),
+      newMessage: getNewMessage(state),
+      messages: getMessages(state),
+      connected: getConnected(state),
+    }));
+
   const inputRef = useRef(null);
 
   //! Websockets START================================================
@@ -81,30 +90,32 @@ const Chat = ({ children }) => {
   useEffect(() => {
     dispatch(connectWebSocket());
 
+    console.log('connectWebSocket useEffect 1'); //!
+
     return () => {
       dispatch(disconnectWebSocket());
 
-      console.log('disconnectWebSocket useEffect'); //!
+      console.log('disconnectWebSocket useEffect 1'); //!
     };
   }, [dispatch]);
 
   useEffect(() => {
-    console.log('connected useEffect react', connected); //!
+    console.log('connected useEffect 2/1', connected); //!
 
-    if (!connected) return;
+    // if (!connected) return;
 
     dispatch(subscribeToMessages(topicId));
 
-    console.log('subscribeToMessages useEffect'); //!
-    console.log('historyMessages react', historyMessages); //!
+    console.log('subscribeToMessages useEffect 2/2'); //!
+    console.log('historyMessages useEffect 2/2', historyMessages); //!
 
     dispatch(getTopicHistory(topicId));
 
-    console.log('getTopicHistory useEffect'); //!
+    console.log('getTopicHistory useEffect 2/2'); //!
   }, [dispatch, connected, historyMessages, topicId]);
 
   useEffect(() => {
-    console.log('historyMessages useEffect 1', historyMessages);
+    console.log('historyMessages useEffect 3/1', historyMessages); //!
     if (!historyMessages || historyMessages.length === 0) return;
 
     const historyMessagesData = processMessageData(
@@ -114,7 +125,7 @@ const Chat = ({ children }) => {
       notifications,
     );
 
-    console.log('historyMessages useEffect 2', historyMessages);
+    console.log('historyMessages useEffect 3/2', historyMessages); //!
 
     dispatch(setMessages(historyMessagesData));
     // setMessages((prevMessages) => [...prevMessages, ...historyMessagesData]);
@@ -126,7 +137,11 @@ const Chat = ({ children }) => {
   }, [dispatch, data, email, historyMessages, notifications]);
 
   useEffect(() => {
+    console.log('newMessage useEffect 4/1', newMessage); //!
+
     if (!newMessage || newMessage.length === 0) return;
+
+    console.log('newMessage useEffect 4/2', newMessage); //!
 
     const newMessageData = processMessageData(
       data,

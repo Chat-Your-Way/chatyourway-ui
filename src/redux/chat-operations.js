@@ -23,6 +23,32 @@ const sendToPublicTopicDest = '/app/topic/public/';
 
 let client = null;
 
+// export const connectWebSocket = () => {
+//   return async (dispatch) => {
+//     const socket = new SockJS(`${BASE_URL}/chat?Authorization=Bearer ${ajwt}`);
+//     client = Stomp.over(() => socket);
+
+//     console.log('client connectWebSocket', client); //!
+//     console.log('client.connected 1 connectWebSocket', client.connected); //!
+
+//     await client.connect(
+//       {},
+//       () => {
+//         // dispatch(setStompClient(client));
+
+//         dispatch(setConnected(true));
+
+//         console.log('client.connected 2 connectWebSocket', client.connected); //!
+
+//         console.log('Connected to WebSocket'); //!
+//       },
+//       (error) => {
+//         console.error('Error connecting to WebSocket:', error);
+//       },
+//     );
+//   };
+// };
+
 export const connectWebSocket = () => {
   return async (dispatch) => {
     const socket = new SockJS(`${BASE_URL}/chat?Authorization=Bearer ${ajwt}`);
@@ -31,41 +57,47 @@ export const connectWebSocket = () => {
     console.log('client connectWebSocket', client); //!
     console.log('client.connected 1 connectWebSocket', client.connected); //!
 
-    client.connect(
-      {},
-      () => {
-        // dispatch(setStompClient(client));
+    await new Promise((resolve, reject) => {
+      client.connect(
+        {},
+        () => {
+          // dispatch(setStompClient(client));
 
-        dispatch(setConnected(true));
+          dispatch(setConnected(true));
 
-        console.log('client.connected 2 connectWebSocket', client.connected); //!
+          console.log('client.connected 2 connectWebSocket', client.connected); //!
 
-        console.log('Connected to WebSocket'); //!
-      },
-      (error) => {
-        console.error('Error connecting to WebSocket:', error);
-      },
-    );
+          console.log('Connected to WebSocket'); //!
+          resolve();
+        },
+        (error) => {
+          console.error('Error connecting to WebSocket:', error);
+          reject(error);
+        },
+      );
+    });
   };
 };
 
 export const disconnectWebSocket = () => {
   return async (dispatch, getState) => {
-    // const { subscriptions } = getState().chat; //!
+    const { subscriptions } = getState().chat; //!
     // const { stompClient } = getState().chat;
 
+    console.log('subscriptions disconnectWebSocket', subscriptions); //!
+
     if (client) {
-      client.disconnect((error) => {
+      await client.disconnect((error) => {
         if (error) {
           console.error('Error disconnecting from WebSocket:', error);
         } else {
-          // subscriptions.forEach((subscription) => {
-          //   const { subscriptionId } = subscription;
-          //   if (subscriptionId) {
-          //     client.unsubscribe(subscriptionId);
-          //   }
-          // }); //!
-          // dispatch(clearSubscriptions()); //!
+          subscriptions.forEach((subscription) => {
+            const { subscriptionId } = subscription;
+            if (subscriptionId) {
+              client.unsubscribe(subscriptionId);
+            }
+          }); //?!
+          dispatch(clearSubscriptions()); //!
           dispatch(setConnected(false));
         }
       });
@@ -85,7 +117,7 @@ export const subscribeToMessages = (topicId) => {
       console.log('client.connected subscribeToMessages', client.connected); //!
       console.log('client subscribeToMessages', client); //!
 
-      const subscriptionToHistory = client.subscribe(
+      const subscriptionToHistory = await client.subscribe(
         `/user${subToTopicDest}${topicId}`,
         (message) => {
           const parsedHistoryMessages = JSON.parse(message.body);
@@ -99,7 +131,7 @@ export const subscribeToMessages = (topicId) => {
         },
       );
 
-      const subscriptionToTopic = client.subscribe(
+      const subscriptionToTopic = await client.subscribe(
         `${subToTopicDest}${topicId}`,
         (message) => {
           const parsedNewMessage = JSON.parse(message.body);
@@ -113,7 +145,7 @@ export const subscribeToMessages = (topicId) => {
         },
       );
 
-      const subscriptionToNotify = client.subscribe(
+      const subscriptionToNotify = await client.subscribe(
         `${subToNotificationDest}${topicId}`,
         (message) => {
           const parsedNotifications = JSON.parse(message.body);
@@ -127,7 +159,7 @@ export const subscribeToMessages = (topicId) => {
         },
       );
 
-      const subscriptionToError = client.subscribe(
+      const subscriptionToError = await client.subscribe(
         `${subToErrorDest}`,
         (message) => {
           const parsedErrorMessage = JSON.parse(message.body);
@@ -140,30 +172,30 @@ export const subscribeToMessages = (topicId) => {
       );
 
       //! для подальшого відключення
-      // dispatch(
-      //   setSubscription({
-      //     type: "history",
-      //     subscriptionId: subscriptionToHistory.id,
-      //   })
-      // );
-      // dispatch(
-      //   setSubscription({
-      //     type: "topic",
-      //     subscriptionId: subscriptionToTopic.id,
-      //   })
-      // );
-      // dispatch(
-      //   setSubscription({
-      //     type: "notify",
-      //     subscriptionId: subscriptionToNotify.id,
-      //   })
-      // );
-      // dispatch(
-      //   setSubscription({
-      //     type: "error",
-      //     subscriptionId: subscriptionToError.id,
-      //   })
-      // );
+      dispatch(
+        setSubscription({
+          type: 'history',
+          subscriptionId: subscriptionToHistory.id,
+        }),
+      );
+      dispatch(
+        setSubscription({
+          type: 'topic',
+          subscriptionId: subscriptionToTopic.id,
+        }),
+      );
+      dispatch(
+        setSubscription({
+          type: 'notify',
+          subscriptionId: subscriptionToNotify.id,
+        }),
+      );
+      dispatch(
+        setSubscription({
+          type: 'error',
+          subscriptionId: subscriptionToError.id,
+        }),
+      );
     }
   };
 };
@@ -176,7 +208,7 @@ export const getTopicHistory = (topicId) => {
     if (client && client.connected) {
       console.log('getTopicHistory redux client+ 2'); //!
 
-      client.send(
+      await client.send(
         `${getTopicHistoryDest}${topicId}`,
         {},
         JSON.stringify({ page: 0, pageSize: 100 }),
@@ -195,7 +227,7 @@ export const sendMessage = (topicId, inputMessage) => {
 
     console.log('sendMessage redux'); //!
 
-    client.send(
+    await client.send(
       `${sendToPublicTopicDest}${topicId}`,
       {},
       JSON.stringify({ content: inputMessage }),

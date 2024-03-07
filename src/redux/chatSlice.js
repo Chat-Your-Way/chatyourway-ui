@@ -14,30 +14,41 @@ const chatSlice = createSlice({
   reducers: {
     setMessages: (state, action) => {
       state.messages = [...state.messages, ...action.payload];
+      console.log('state.messages', state.messages); //!
     },
     setHistoryMessages: (state, action) => {
       state.historyMessages = action.payload;
+      console.log('state.historyMessages', state.historyMessages); //!
     },
     setNewMessage: (state, action) => {
       state.newMessage = action.payload;
+      console.log('state.newMessage', state.newMessage); //!
     },
     setNotifications: (state, action) => {
       state.notifications = action.payload;
+      console.log('state.notifications', state.notifications); //!
     },
-    setStompClient: (state, action) => {
-      state.stompClient = action.payload;
-    },
+    // setStompClient: (state, action) => {
+    //   state.stompClient = action.payload;
+    //   console.log('state.stompClient', state.stompClient); //!
+    // },
     setConnected: (state, action) => {
       state.connected = action.payload;
+      console.log('state.connected', state.connected); //!
     },
     setSubscription: (state, action) => {
       state.subscriptions.push(action.payload);
+      console.log('state.subscriptions setSubscription', state.subscriptions); //!
     },
     clearSubscriptions: (state) => {
       //   state.subscriptions.forEach((subscription) => {
       //     subscription.unsubscribe();
       //   });
       state.subscriptions = [];
+      console.log(
+        'state.subscriptions clearSubscriptions',
+        state.subscriptions,
+      ); //!
     },
   },
 });
