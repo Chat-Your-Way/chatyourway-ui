@@ -5,13 +5,13 @@ import { Stomp } from '@stomp/stompjs';
 import { BASE_URL, ajwt } from './apiParams';
 
 import {
-  clearSubscriptions,
-  // setStompClient,
-  setConnected,
   setHistoryMessages,
   setNewMessage,
   setNotifications,
-  setSubscription,
+  setSubscriptions,
+  clearSubscriptions,
+  setConnected,
+  setSubscripted,
 } from './chatSlice';
 
 const getTopicHistoryDest = '/app/history/topic/';
@@ -81,41 +81,61 @@ export const connectWebSocket = () => {
 
 export const disconnectWebSocket = () => {
   return async (dispatch, getState) => {
-    const { subscriptions } = getState().chat; //!
-    // const { stompClient } = getState().chat;
+    if (client && client.connected) {
+      try {
+        const { subscriptions } = getState().chat;
 
-    console.log('subscriptions disconnectWebSocket', subscriptions); //!
+        console.log('subscriptions disconnectWebSocket REDUX', subscriptions); //!
 
-    if (client) {
-      await client.disconnect((error) => {
-        if (error) {
-          console.error('Error disconnecting from WebSocket:', error);
-        } else {
-          subscriptions.forEach((subscription) => {
-            const { subscriptionId } = subscription;
-            if (subscriptionId) {
-              client.unsubscribe(subscriptionId);
-            }
-          }); //?!
-          dispatch(clearSubscriptions()); //!
-          dispatch(setConnected(false));
-        }
-      });
+        subscriptions.forEach(({ subscriptionId }) => {
+          if (subscriptionId) {
+            client.unsubscribe(subscriptionId);
+          }
+        });
+
+        await new Promise((resolve, _) => {
+          client.disconnect(() => {
+            resolve();
+          });
+        });
+
+        dispatch(clearSubscriptions()); //?!
+        dispatch(setConnected(false));
+        dispatch(setSubscripted(false));
+        console.log('Disconnected from WebSocket'); //!
+      } catch (error) {
+        console.error('Error disconnecting from WebSocket:', error);
+      }
     }
-
-    console.log('Disconnected from WebSocket'); //!
   };
 };
 
+// export const unsubscribeFromMessages = () => {
+//   return async (dispatch, getState) => {
+//     const { subscriptions } = getState().chat;
+
+//     console.log('subscriptions disconnectWebSocket REDUX', subscriptions); //!
+
+//     await Promise.all(
+//       subscriptions.map(async ({ subscriptionId }) => {
+//         if (subscriptionId) {
+//           await client.unsubscribe(subscriptionId);
+//         }
+//       }),
+//     );
+
+//     dispatch(clearSubscriptions()); //?!
+
+//     dispatch(setSubscripted(false));
+//   };
+// };
+
 export const subscribeToMessages = (topicId) => {
   return async (dispatch) => {
-    // const { stompClient } = getState().chat;
-
     console.log('subscribeToMessages'); //!
 
     if (client && client.connected) {
       console.log('client.connected subscribeToMessages', client.connected); //!
-      console.log('client subscribeToMessages', client); //!
 
       const subscriptionToHistory = await client.subscribe(
         `/user${subToTopicDest}${topicId}`,
@@ -173,29 +193,31 @@ export const subscribeToMessages = (topicId) => {
 
       //! для подальшого відключення
       dispatch(
-        setSubscription({
+        setSubscriptions({
           type: 'history',
           subscriptionId: subscriptionToHistory.id,
         }),
       );
       dispatch(
-        setSubscription({
+        setSubscriptions({
           type: 'topic',
           subscriptionId: subscriptionToTopic.id,
         }),
       );
       dispatch(
-        setSubscription({
+        setSubscriptions({
           type: 'notify',
           subscriptionId: subscriptionToNotify.id,
         }),
       );
       dispatch(
-        setSubscription({
+        setSubscriptions({
           type: 'error',
           subscriptionId: subscriptionToError.id,
         }),
       );
+
+      dispatch(setSubscripted(true));
     }
   };
 };
@@ -218,12 +240,11 @@ export const getTopicHistory = (topicId) => {
 };
 
 export const sendMessage = (topicId, inputMessage) => {
-  return async (getState) => {
-    const { connected } = getState().chat;
+  return async () => {
+    // console.log('connected sendMessage', connected); //!
 
-    console.log('connected', connected); //!
-
-    if (!client || !client.connected || !connected) return;
+    if (!client || !client.connected) return;
+    // if (!client || !client.connected || !connected) return;
 
     console.log('sendMessage redux'); //!
 
