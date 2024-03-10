@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { BASE_URL, ajwt } from './apiParams';
@@ -19,53 +18,20 @@ const subToTopicDest = '/topic/';
 const subToNotificationDest = '/user/specific/notify/';
 const subToErrorDest = '/user/specific/error';
 const sendToPublicTopicDest = '/app/topic/public/';
-// const sendToPrivateTopicDest = '/app/topic/private/'; //?!!!!!!!!!!!!!!!!!!!!
+// const sendToPrivateTopicDest = '/app/topic/private/'; //!TODO: sendToPrivateTopicDest
 
 let client = null;
-
-// export const connectWebSocket = () => {
-//   return async (dispatch) => {
-//     const socket = new SockJS(`${BASE_URL}/chat?Authorization=Bearer ${ajwt}`);
-//     client = Stomp.over(() => socket);
-
-//     console.log('client connectWebSocket', client); //!
-//     console.log('client.connected 1 connectWebSocket', client.connected); //!
-
-//     await client.connect(
-//       {},
-//       () => {
-//         // dispatch(setStompClient(client));
-
-//         dispatch(setConnected(true));
-
-//         console.log('client.connected 2 connectWebSocket', client.connected); //!
-
-//         console.log('Connected to WebSocket'); //!
-//       },
-//       (error) => {
-//         console.error('Error connecting to WebSocket:', error);
-//       },
-//     );
-//   };
-// };
 
 export const connectWebSocket = () => {
   return async (dispatch) => {
     const socket = new SockJS(`${BASE_URL}/chat?Authorization=Bearer ${ajwt}`);
     client = Stomp.over(() => socket);
 
-    console.log('client connectWebSocket', client); //!
-    console.log('client.connected 1 connectWebSocket', client.connected); //!
-
     await new Promise((resolve, reject) => {
       client.connect(
         {},
         () => {
-          // dispatch(setStompClient(client));
-
           dispatch(setConnected(true));
-
-          console.log('client.connected 2 connectWebSocket', client.connected); //!
 
           console.log('Connected to WebSocket'); //!
           resolve();
@@ -102,6 +68,7 @@ export const disconnectWebSocket = () => {
         dispatch(clearSubscriptions()); //?!
         dispatch(setConnected(false));
         dispatch(setSubscripted(false));
+
         console.log('Disconnected from WebSocket'); //!
       } catch (error) {
         console.error('Error disconnecting from WebSocket:', error);
@@ -132,11 +99,7 @@ export const disconnectWebSocket = () => {
 
 export const subscribeToMessages = (topicId) => {
   return async (dispatch) => {
-    console.log('subscribeToMessages'); //!
-
     if (client && client.connected) {
-      console.log('client.connected subscribeToMessages', client.connected); //!
-
       const subscriptionToHistory = await client.subscribe(
         `/user${subToTopicDest}${topicId}`,
         (message) => {
@@ -191,7 +154,6 @@ export const subscribeToMessages = (topicId) => {
         },
       );
 
-      //! для подальшого відключення
       dispatch(
         setSubscriptions({
           type: 'history',
@@ -224,12 +186,7 @@ export const subscribeToMessages = (topicId) => {
 
 export const getTopicHistory = (topicId) => {
   return async () => {
-    // const { stompClient } = getState().chat;
-    console.log('getTopicHistory redux 1'); //!
-
     if (client && client.connected) {
-      console.log('getTopicHistory redux client+ 2'); //!
-
       await client.send(
         `${getTopicHistoryDest}${topicId}`,
         {},
@@ -241,12 +198,7 @@ export const getTopicHistory = (topicId) => {
 
 export const sendMessage = (topicId, inputMessage) => {
   return async () => {
-    // console.log('connected sendMessage', connected); //!
-
     if (!client || !client.connected) return;
-    // if (!client || !client.connected || !connected) return;
-
-    console.log('sendMessage redux'); //!
 
     await client.send(
       `${sendToPublicTopicDest}${topicId}`,

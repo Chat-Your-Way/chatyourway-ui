@@ -1,5 +1,31 @@
 /* eslint-disable no-unused-vars */
 import { memo, useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
+import { getUserInfo } from '../../redux/userSlice';
+import { useGetByIdQuery } from '../../redux/topics-operations';
+import {
+  setMessages,
+  setNewMessage,
+  clearMessages,
+  selectMessages,
+  selectHistoryMessages,
+  selectNewMessage,
+  selectNotifications,
+  selectConnected,
+  selectSubscripted,
+} from '../../redux/chatSlice';
+import {
+  connectWebSocket,
+  disconnectWebSocket,
+  getTopicHistory,
+  sendMessage,
+  subscribeToMessages,
+  // unsubscribeFromMessages, //!TODO: unsubscribeFromMessages
+} from '../../redux/chat-operations';
+
+import { Avatars } from '../../ui-kit/images/avatars';
 import Avatar from '../../ui-kit/components/Avatar';
 import IconButton from '../../ui-kit/components/IconButton/IconButton';
 import { ICONS } from '../../ui-kit/icons';
@@ -30,108 +56,35 @@ import {
 import { useTopicsPageContext } from '../../pages/TopicsPage/TopicsPageContext';
 import DropDownMenu from './DropDownMenu/DropDownMenu';
 import TopicSettingsMenu from './TopicSettingsMenu/TopicSettingsMenu';
-import { useSelector, useDispatch } from 'react-redux';
-import { useGetByIdQuery } from '../../redux/topics-operations';
-import { getUserInfo } from '../../redux/userSlice';
-import { useParams } from 'react-router-dom';
-import {
-  setMessages,
-  setNewMessage,
-  clearMessages,
-  // selectMessages,
-  // selectHistoryMessages,
-  // selectNewMessage,
-  // selectNotifications,
-  // selectConnected,
-  // selectSubscripted,
-  // selectSubscriptions,
-  getHistoryMessages,
-  getNotifications,
-  getNewMessage,
-  getMessages,
-  getConnected,
-  getSubscripted,
-  getSubscriptions,
-} from '../../redux/chatSlice';
-
 import { useTopicsContext } from '../../common/Topics/TopicsContext';
 import { getAvatar } from '../../common/Topics/ChatsBlock/ChatItem/getAvatar';
-
-import { Avatars } from '../../ui-kit/images/avatars';
-import {
-  connectWebSocket,
-  disconnectWebSocket,
-  getTopicHistory,
-  sendMessage,
-  subscribeToMessages,
-  // unsubscribeFromMessages,
-} from '../../redux/chat-operations';
 
 import processMessageData from './processMessageData';
 
 const Chat = ({ children }) => {
-  const { contactsOpen, setContactsOpen } = useTopicsPageContext();
-  const { email } = useSelector(getUserInfo);
   const { title: topicId } = useParams();
   const { data, isLoading, isError } = useGetByIdQuery(topicId);
+  const { email } = useSelector(getUserInfo);
   const { isTopics } = useTopicsContext();
+  const { contactsOpen, setContactsOpen } = useTopicsPageContext();
 
-  console.log('isTopics', isTopics); //!
   console.log('topicId', topicId); //!
 
-  const dispatch = useDispatch();
-  const historyMessages = useSelector(getHistoryMessages);
-  const notifications = useSelector(getNotifications);
-  const newMessage = useSelector(getNewMessage);
-  const messages = useSelector(getMessages);
-  const connected = useSelector(getConnected);
-  const subscripted = useSelector(getSubscripted);
-  const subscriptions = useSelector(getSubscriptions);
-
-  // const {
-  //   historyMessages,
-  //   notifications,
-  //   newMessage,
-  //   messages,
-  //   connected,
-  //   subscripted,
-  //   subscriptions,
-  // } = useSelector((state) => ({
-  //   historyMessages: getHistoryMessages(state),
-  //   notifications: getNotifications(state),
-  //   newMessage: getNewMessage(state),
-  //   messages: getMessages(state),
-  //   connected: getConnected(state),
-  //   subscripted: getSubscripted(state),
-  //   subscriptions: getSubscriptions(state),
-  // }));
-
-  // const {
-  //   historyMessages,
-  //   notifications,
-  //   newMessage,
-  //   messages,
-  //   connected,
-  //   subscripted,
-  //   subscriptions,
-  // } = useSelector((state) => ({
-  //   historyMessages: selectHistoryMessages(state),
-  //   notifications: selectNotifications(state),
-  //   newMessage: selectNewMessage(state),
-  //   messages: selectMessages(state),
-  //   connected: selectConnected(state),
-  //   subscripted: selectSubscripted(state),
-  //   subscriptions: selectSubscriptions(state),
-  // }));
+  const historyMessages = useSelector(selectHistoryMessages);
+  const notifications = useSelector(selectNotifications);
+  const newMessage = useSelector(selectNewMessage);
+  const messages = useSelector(selectMessages);
+  const connected = useSelector(selectConnected);
+  const subscripted = useSelector(selectSubscripted);
 
   const inputRef = useRef(null);
 
-  //! Websockets START================================================
+  const dispatch = useDispatch();
 
+  //! Websockets START================================================
   useEffect(() => {
     if (!connected) {
       dispatch(connectWebSocket());
-      console.log('connected connectWebSocket useEffect 1', connected); //!
     }
 
     return () => {
@@ -141,32 +94,20 @@ const Chat = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    console.log('connected useEffect 2/1', connected); //!
-    console.log('subscripted useEffect 2/1', subscripted); //!
-
     if (!connected) return;
     dispatch(clearMessages());
 
     dispatch(subscribeToMessages(topicId));
 
-    console.log('subscribeToMessages useEffect 2/2'); //!
-    console.log('historyMessages useEffect 2/2', historyMessages); //!
-
     dispatch(getTopicHistory(topicId));
-
-    console.log('getTopicHistory useEffect 2/2'); //!
   }, [dispatch, connected, topicId]);
 
   useEffect(() => {
-    console.log('historyMessages useEffect 3/1', historyMessages); //!
-    console.log('subscripted useEffect 3/1', subscripted); //!
-    console.log('subscriptions useEffect 3/1', subscriptions); //!
-
     if (
       !historyMessages ||
-      historyMessages.length === 0
+      historyMessages.length === 0 ||
+      !subscripted
       // ||
-      // !subscripted ||
       // !data ||
       // !email
     )
@@ -179,26 +120,15 @@ const Chat = ({ children }) => {
       notifications,
     );
 
-    console.log('historyMessages useEffect 3/2', historyMessages); //!
-
     dispatch(setMessages(historyMessagesData));
-    // setMessages((prevMessages) => [...prevMessages, ...historyMessagesData]);
 
     return () => {
       dispatch(clearMessages());
-
-      console.log('dispatch(clearMessages()); useEffect 3', messages); //!
-
-      // setMessages([]);
     };
   }, [dispatch, historyMessages, notifications]);
 
   useEffect(() => {
-    console.log('newMessage useEffect 4/1', newMessage); //!
-
     if (!newMessage || newMessage.length === 0) return;
-
-    console.log('newMessage useEffect 4/2', newMessage); //!
 
     const newMessageData = processMessageData(
       data,
@@ -208,14 +138,11 @@ const Chat = ({ children }) => {
     );
 
     dispatch(setMessages(newMessageData));
-    // setMessages((prevMessages) => [...prevMessages, ...newMessageData]);
 
     return () => {
       dispatch(setNewMessage([]));
-      // setNewMessage([]);
     };
   }, [dispatch, newMessage, notifications]);
-
   //! Websockets END ================================================
 
   if (isLoading) {
@@ -233,7 +160,7 @@ const Chat = ({ children }) => {
   const handleMessageSend = () => {
     const inputMessage = inputRef.current.value.trim();
 
-    if (!inputMessage || inputMessage.length === 0) return; //!
+    if (!inputMessage || inputMessage.length === 0) return;
 
     dispatch(sendMessage(topicId, inputMessage));
 

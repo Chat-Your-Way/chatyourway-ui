@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import { createSelector } from 'reselect';
+import { createSelector } from 'reselect';
 
 const chatSlice = createSlice({
   name: 'chat',
@@ -35,13 +35,9 @@ const chatSlice = createSlice({
       state.subscripted = action.payload;
     },
     setSubscriptions: (state, action) => {
-      state.subscriptions.push(action.payload);
+      state.subscriptions = [...state.subscriptions, action.payload];
     },
     clearSubscriptions: (state) => {
-      // state.subscriptions.forEach(({ subscription }) => {
-      //   subscription.unsubscribe();
-      // });
-
       state.subscriptions = [];
     },
   },
@@ -62,47 +58,39 @@ export const {
 
 export default chatSlice;
 
-// export const selectChatState = (state) => state.chat;
+export const selectChatState = (state) => state.chat;
 
-// export const selectMessages = createSelector(
-//   selectChatState,
-//   (chat) => chat.messages,
-// );
+export const selectMessages = createSelector(
+  selectChatState,
+  (chat) => chat.messages,
+);
 
-// export const selectHistoryMessages = createSelector(
-//   selectChatState,
-//   (chat) => chat.historyMessages,
-// );
+export const selectHistoryMessages = createSelector(
+  selectChatState,
+  (chat) => chat.historyMessages,
+);
 
-// export const selectNewMessage = createSelector(
-//   selectChatState,
-//   (chat) => chat.newMessage,
-// );
+export const selectNewMessage = createSelector(
+  selectChatState,
+  (chat) => chat.newMessage,
+);
 
-// export const selectNotifications = createSelector(
-//   selectChatState,
-//   (chat) => chat.notifications,
-// );
+export const selectNotifications = createSelector(
+  selectChatState,
+  (chat) => chat.notifications,
+);
 
-// export const selectConnected = createSelector(
-//   selectChatState,
-//   (chat) => chat.connected,
-// );
+export const selectConnected = createSelector(
+  selectChatState,
+  (chat) => chat.connected,
+);
 
-// export const selectSubscripted = createSelector(
-//   selectChatState,
-//   (chat) => chat.subscripted,
-// );
+export const selectSubscripted = createSelector(
+  selectChatState,
+  (chat) => chat.subscripted,
+);
 
-// export const selectSubscriptions = createSelector(
-//   selectChatState,
-//   (chat) => chat.subscriptions,
-// );
-
-export const getMessages = (state) => state.chat.messages;
-export const getHistoryMessages = (state) => state.chat.historyMessages;
-export const getNewMessage = (state) => state.chat.newMessage;
-export const getNotifications = (state) => state.chat.notifications;
-export const getConnected = (state) => state.chat.connected;
-export const getSubscripted = (state) => state.chat.subscripted;
-export const getSubscriptions = (state) => state.chat.subscriptions;
+export const selectSubscriptions = createSelector(
+  selectChatState,
+  (chat) => chat.subscriptions,
+);
