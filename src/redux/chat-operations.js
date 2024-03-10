@@ -33,7 +33,6 @@ export const connectWebSocket = () => {
         () => {
           dispatch(setConnected(true));
 
-          console.log('Connected to WebSocket'); //!
           resolve();
         },
         (error) => {
@@ -45,61 +44,48 @@ export const connectWebSocket = () => {
   };
 };
 
-export const disconnectWebSocket = () => {
+export const unsubscribeFromMessages = () => {
   return async (dispatch, getState) => {
-    if (client && client.connected) {
-      try {
-        const { subscriptions } = getState().chat;
+    const { subscriptions } = getState().chat;
 
-        console.log('subscriptions disconnectWebSocket REDUX', subscriptions); //!
-
-        subscriptions.forEach(({ subscriptionId }) => {
-          if (subscriptionId) {
-            client.unsubscribe(subscriptionId);
+    await Promise.all(
+      subscriptions.map(async ({ subscriptionId }) => {
+        if (subscriptionId) {
+          try {
+            await client.unsubscribe(subscriptionId);
+          } catch (error) {
+            console.error('Error unsubscribing from WebSocket:', error);
           }
+        }
+      }),
+    );
+
+    dispatch(clearSubscriptions());
+    dispatch(setSubscripted(false));
+
+    return Promise.resolve();
+  };
+};
+
+export const disconnectWebSocket = () => {
+  return async (dispatch) => {
+    try {
+      await new Promise((resolve, _) => {
+        client.disconnect(() => {
+          resolve();
         });
+      });
 
-        await new Promise((resolve, _) => {
-          client.disconnect(() => {
-            resolve();
-          });
-        });
-
-        dispatch(clearSubscriptions()); //?!
-        dispatch(setConnected(false));
-        dispatch(setSubscripted(false));
-
-        console.log('Disconnected from WebSocket'); //!
-      } catch (error) {
-        console.error('Error disconnecting from WebSocket:', error);
-      }
+      dispatch(setConnected(false));
+    } catch (error) {
+      console.error('Error disconnecting from WebSocket:', error);
     }
   };
 };
 
-// export const unsubscribeFromMessages = () => {
-//   return async (dispatch, getState) => {
-//     const { subscriptions } = getState().chat;
-
-//     console.log('subscriptions disconnectWebSocket REDUX', subscriptions); //!
-
-//     await Promise.all(
-//       subscriptions.map(async ({ subscriptionId }) => {
-//         if (subscriptionId) {
-//           await client.unsubscribe(subscriptionId);
-//         }
-//       }),
-//     );
-
-//     dispatch(clearSubscriptions()); //?!
-
-//     dispatch(setSubscripted(false));
-//   };
-// };
-
 export const subscribeToMessages = (topicId) => {
   return async (dispatch) => {
-    if (client && client.connected) {
+    try {
       const subscriptionToHistory = await client.subscribe(
         `/user${subToTopicDest}${topicId}`,
         (message) => {
@@ -180,26 +166,24 @@ export const subscribeToMessages = (topicId) => {
       );
 
       dispatch(setSubscripted(true));
+    } catch (error) {
+      console.error('Error subscribing to WebSocket messages:', error);
     }
   };
 };
 
 export const getTopicHistory = (topicId) => {
   return async () => {
-    if (client && client.connected) {
-      await client.send(
-        `${getTopicHistoryDest}${topicId}`,
-        {},
-        JSON.stringify({ page: 0, pageSize: 100 }),
-      );
-    }
+    await client.send(
+      `${getTopicHistoryDest}${topicId}`,
+      {},
+      JSON.stringify({ page: 0, pageSize: 100 }),
+    );
   };
 };
 
 export const sendMessage = (topicId, inputMessage) => {
   return async () => {
-    if (!client || !client.connected) return;
-
     await client.send(
       `${sendToPublicTopicDest}${topicId}`,
       {},

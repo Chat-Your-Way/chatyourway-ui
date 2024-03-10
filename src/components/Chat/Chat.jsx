@@ -22,13 +22,19 @@ import {
   getTopicHistory,
   sendMessage,
   subscribeToMessages,
-  // unsubscribeFromMessages, //!TODO: unsubscribeFromMessages
+  unsubscribeFromMessages,
 } from '../../redux/chat-operations';
 
 import { Avatars } from '../../ui-kit/images/avatars';
 import Avatar from '../../ui-kit/components/Avatar';
 import IconButton from '../../ui-kit/components/IconButton/IconButton';
 import { ICONS } from '../../ui-kit/icons';
+import { useTopicsPageContext } from '../../pages/TopicsPage/TopicsPageContext';
+import DropDownMenu from './DropDownMenu/DropDownMenu';
+import TopicSettingsMenu from './TopicSettingsMenu/TopicSettingsMenu';
+import { useTopicsContext } from '../../common/Topics/TopicsContext';
+import { getAvatar } from '../../common/Topics/ChatsBlock/ChatItem/getAvatar';
+import Loader from '../Loader';
 import {
   ChatHeader,
   ChatInputIconBox,
@@ -53,11 +59,6 @@ import {
   UserMassageWrap,
   UserName,
 } from './Chat.styled';
-import { useTopicsPageContext } from '../../pages/TopicsPage/TopicsPageContext';
-import DropDownMenu from './DropDownMenu/DropDownMenu';
-import TopicSettingsMenu from './TopicSettingsMenu/TopicSettingsMenu';
-import { useTopicsContext } from '../../common/Topics/TopicsContext';
-import { getAvatar } from '../../common/Topics/ChatsBlock/ChatItem/getAvatar';
 
 import processMessageData from './processMessageData';
 
@@ -70,6 +71,7 @@ const Chat = ({ children }) => {
 
   console.log('topicId', topicId); //!
 
+  const dispatch = useDispatch();
   const historyMessages = useSelector(selectHistoryMessages);
   const notifications = useSelector(selectNotifications);
   const newMessage = useSelector(selectNewMessage);
@@ -79,38 +81,31 @@ const Chat = ({ children }) => {
 
   const inputRef = useRef(null);
 
-  const dispatch = useDispatch();
-
-  //! Websockets START================================================
   useEffect(() => {
     if (!connected) {
       dispatch(connectWebSocket());
     }
 
     return () => {
-      // dispatch(unsubscribeFromMessages()); //!
+      dispatch(unsubscribeFromMessages());
       dispatch(disconnectWebSocket());
     };
   }, []);
 
   useEffect(() => {
     if (!connected) return;
+
+    if (subscripted) {
+      dispatch(unsubscribeFromMessages());
+    }
+
     dispatch(clearMessages());
-
     dispatch(subscribeToMessages(topicId));
-
     dispatch(getTopicHistory(topicId));
   }, [dispatch, connected, topicId]);
 
   useEffect(() => {
-    if (
-      !historyMessages ||
-      historyMessages.length === 0 ||
-      !subscripted
-      // ||
-      // !data ||
-      // !email
-    )
+    if (!historyMessages || historyMessages.length === 0 || !subscripted)
       return;
 
     const historyMessagesData = processMessageData(
@@ -143,11 +138,6 @@ const Chat = ({ children }) => {
       dispatch(setNewMessage([]));
     };
   }, [dispatch, newMessage, notifications]);
-  //! Websockets END ================================================
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  } //!
 
   if (isError) {
     alert('Виникла помилка під час отримання теми');
@@ -179,14 +169,14 @@ const Chat = ({ children }) => {
 
   const avatarsArray = Object.values(Avatars);
 
-  const avatarContent = getAvatar(isTopics, data);
-
-  return (
-    data && ( //!
+  return isLoading ? (
+    <Loader />
+  ) : (
+    data && (
       <ChatWrap>
         <ChatHeader>
           <UserBox>
-            <Avatar>{avatarContent}</Avatar>
+            <Avatar>{getAvatar(isTopics, data)}</Avatar>
             <InfoBox>
               <ChatUserName variant="h5">
                 {data ? data.topicName : 'імя користувача'}
