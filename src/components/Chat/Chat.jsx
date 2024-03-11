@@ -14,7 +14,7 @@ import {
   selectNewMessage,
   selectNotifications,
   selectConnected,
-  selectSubscripted,
+  selectSubscribed,
 } from '../../redux/chatSlice';
 import {
   connectWebSocket,
@@ -77,7 +77,7 @@ const Chat = ({ children }) => {
   const newMessage = useSelector(selectNewMessage);
   const messages = useSelector(selectMessages);
   const connected = useSelector(selectConnected);
-  const subscripted = useSelector(selectSubscripted);
+  const subscribed = useSelector(selectSubscribed);
 
   const inputRef = useRef(null);
 
@@ -95,7 +95,7 @@ const Chat = ({ children }) => {
   useEffect(() => {
     if (!connected) return;
 
-    if (subscripted) {
+    if (subscribed) {
       dispatch(unsubscribeFromMessages());
     }
 
@@ -105,8 +105,7 @@ const Chat = ({ children }) => {
   }, [dispatch, connected, topicId]);
 
   useEffect(() => {
-    if (!historyMessages || historyMessages.length === 0 || !subscripted)
-      return;
+    if (!historyMessages || historyMessages.length === 0 || !subscribed) return;
 
     const historyMessagesData = processMessageData(
       data,

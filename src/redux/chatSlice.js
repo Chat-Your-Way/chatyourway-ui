@@ -9,7 +9,7 @@ const chatSlice = createSlice({
     newMessage: [],
     notifications: [],
     connected: false,
-    subscripted: false,
+    subscribed: false,
     subscriptions: [],
   },
   reducers: {
@@ -31,8 +31,8 @@ const chatSlice = createSlice({
     setConnected: (state, action) => {
       state.connected = action.payload;
     },
-    setSubscripted: (state, action) => {
-      state.subscripted = action.payload;
+    setSubscribed: (state, action) => {
+      state.subscribed = action.payload;
     },
     setSubscriptions: (state, action) => {
       state.subscriptions = [...state.subscriptions, action.payload];
@@ -51,7 +51,7 @@ export const {
   setNotifications,
   setStompClient,
   setConnected,
-  setSubscripted,
+  setSubscribed,
   setSubscriptions,
   clearSubscriptions,
 } = chatSlice.actions;
@@ -85,9 +85,9 @@ export const selectConnected = createSelector(
   (chat) => chat.connected,
 );
 
-export const selectSubscripted = createSelector(
+export const selectSubscribed = createSelector(
   selectChatState,
-  (chat) => chat.subscripted,
+  (chat) => chat.subscribed,
 );
 
 export const selectSubscriptions = createSelector(

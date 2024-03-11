@@ -10,7 +10,7 @@ import {
   setSubscriptions,
   clearSubscriptions,
   setConnected,
-  setSubscripted,
+  setSubscribed,
 } from './chatSlice';
 
 const getTopicHistoryDest = '/app/history/topic/';
@@ -61,7 +61,7 @@ export const unsubscribeFromMessages = () => {
     );
 
     dispatch(clearSubscriptions());
-    dispatch(setSubscripted(false));
+    dispatch(setSubscribed(false));
 
     return Promise.resolve();
   };
@@ -165,7 +165,7 @@ export const subscribeToMessages = (topicId) => {
         }),
       );
 
-      dispatch(setSubscripted(true));
+      dispatch(setSubscribed(true));
     } catch (error) {
       console.error('Error subscribing to WebSocket messages:', error);
     }
