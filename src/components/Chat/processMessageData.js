@@ -1,4 +1,4 @@
-import { nanoid } from 'nanoid'; //!
+import { nanoid } from 'nanoid';
 
 const getTime = (timestamp) => {
   const dateObject = new Date(timestamp);
@@ -13,6 +13,8 @@ const getTime = (timestamp) => {
 };
 
 const processMessageData = (data, email, messagesData, notifications) => {
+  console.log('worked processMessageData', messagesData);
+
   const messages = messagesData.map((messageData) => {
     const { content, timestamp, sentFrom } = messageData;
 
@@ -25,7 +27,7 @@ const processMessageData = (data, email, messagesData, notifications) => {
 
     const message = {
       id: nanoid(),
-      topicId: notification?.topicId, //?!
+      topicId: notification?.topicId, //?! not used
       avatarId: subscriber?.contact.avatarId,
       name: subscriber?.contact.nickname,
       time: getTime(timestamp),

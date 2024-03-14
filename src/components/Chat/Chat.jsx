@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { memo, useEffect, useRef } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -15,6 +15,7 @@ import {
   selectNotifications,
   selectConnected,
   selectSubscribed,
+  setHistoryMessages,
 } from '../../redux/chatSlice';
 import {
   connectWebSocket,
@@ -89,6 +90,7 @@ const Chat = ({ children }) => {
     return () => {
       dispatch(unsubscribeFromMessages());
       dispatch(disconnectWebSocket());
+      dispatch(clearMessages());
     };
   }, []);
 
@@ -105,7 +107,7 @@ const Chat = ({ children }) => {
   }, [dispatch, connected, topicId]);
 
   useEffect(() => {
-    if (!historyMessages || historyMessages.length === 0 || !subscribed) return;
+    if (historyMessages.length === 0 || notifications.length === 0) return;
 
     const historyMessagesData = processMessageData(
       data,
@@ -116,13 +118,11 @@ const Chat = ({ children }) => {
 
     dispatch(setMessages(historyMessagesData));
 
-    return () => {
-      dispatch(clearMessages());
-    };
-  }, [dispatch, historyMessages, notifications]);
+    dispatch(setHistoryMessages([]));
+  }, [dispatch, data, historyMessages, notifications]);
 
   useEffect(() => {
-    if (!newMessage || newMessage.length === 0) return;
+    if (newMessage.length === 0 || notifications.length === 0) return;
 
     const newMessageData = processMessageData(
       data,
@@ -133,10 +133,8 @@ const Chat = ({ children }) => {
 
     dispatch(setMessages(newMessageData));
 
-    return () => {
-      dispatch(setNewMessage([]));
-    };
-  }, [dispatch, newMessage, notifications]);
+    dispatch(setNewMessage([]));
+  }, [dispatch, data, newMessage, notifications]);
 
   if (isError) {
     alert('Виникла помилка під час отримання теми');
@@ -151,9 +149,13 @@ const Chat = ({ children }) => {
 
     if (!inputMessage || inputMessage.length === 0) return;
 
-    dispatch(sendMessage(topicId, inputMessage));
+    if (connected) {
+      dispatch(sendMessage(topicId, inputMessage));
 
-    inputRef.current.value = '';
+      inputRef.current.value = '';
+    } else {
+      console.log('Зʼєднання не встановлено'); //?!
+    }
   };
 
   const subscribeStatus = () => {
@@ -253,3 +255,6 @@ const Chat = ({ children }) => {
 };
 
 export default memo(Chat);
+
+// trohae7@gmail.com
+// Password-123

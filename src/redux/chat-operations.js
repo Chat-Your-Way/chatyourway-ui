@@ -48,6 +48,8 @@ export const unsubscribeFromMessages = () => {
   return async (dispatch, getState) => {
     const { subscriptions } = getState().chat;
 
+    if (subscriptions.length === 0) return;
+
     await Promise.all(
       subscriptions.map(async ({ subscriptionId }) => {
         if (subscriptionId) {
@@ -136,7 +138,7 @@ export const subscribeToMessages = (topicId) => {
           console.log(
             'Received ErrorMessage from subscribeToError:',
             parsedErrorMessage,
-          ); //!
+          ); //! обробка помилок
         },
       );
 
