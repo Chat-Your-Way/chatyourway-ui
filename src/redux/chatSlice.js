@@ -6,24 +6,30 @@ const chatSlice = createSlice({
   initialState: {
     messages: [],
     historyMessages: [],
-    newMessage: [],
+    newMessages: [],
+    subscriptions: [],
     notifications: [],
     connected: false,
     subscribed: false,
-    subscriptions: [],
   },
   reducers: {
     setMessages: (state, action) => {
-      state.messages = [...state.messages, ...action.payload];
+      state.messages = [...action.payload];
     },
     clearMessages: (state) => {
       state.messages = [];
     },
     setHistoryMessages: (state, action) => {
-      state.historyMessages = action.payload;
+      state.historyMessages = [...action.payload];
     },
-    setNewMessage: (state, action) => {
-      state.newMessage = action.payload;
+    clearHistoryMessages: (state) => {
+      state.historyMessages = [];
+    },
+    setNewMessages: (state, action) => {
+      state.newMessages = [...state.newMessages, ...action.payload];
+    },
+    clearNewMessages: (state) => {
+      state.newMessages = [];
     },
     setNotifications: (state, action) => {
       state.notifications = action.payload;
@@ -47,7 +53,9 @@ export const {
   setMessages,
   clearMessages,
   setHistoryMessages,
-  setNewMessage,
+  clearHistoryMessages,
+  setNewMessages,
+  clearNewMessages,
   setNotifications,
   setStompClient,
   setConnected,
@@ -70,9 +78,9 @@ export const selectHistoryMessages = createSelector(
   (chat) => chat.historyMessages,
 );
 
-export const selectNewMessage = createSelector(
+export const selectNewMessages = createSelector(
   selectChatState,
-  (chat) => chat.newMessage,
+  (chat) => chat.newMessages,
 );
 
 export const selectNotifications = createSelector(

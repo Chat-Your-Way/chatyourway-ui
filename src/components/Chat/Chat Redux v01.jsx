@@ -7,23 +7,23 @@ import { getUserInfo } from '../../redux/userSlice';
 import { useGetByIdQuery } from '../../redux/topics-operations';
 import {
   setMessages,
+  setNewMessage,
   clearMessages,
-  clearHistoryMessages,
-  clearNewMessages,
   selectMessages,
   selectHistoryMessages,
-  selectNewMessages,
+  selectNewMessage,
   selectNotifications,
   selectConnected,
   selectSubscribed,
+  setHistoryMessages,
 } from '../../redux/chatSlice';
 import {
   connectWebSocket,
   disconnectWebSocket,
-  subscribeToMessages,
-  unsubscribeFromMessages,
   getTopicHistory,
   sendMessage,
+  subscribeToMessages,
+  unsubscribeFromMessages,
 } from '../../redux/chat-operations';
 
 import { Avatars } from '../../ui-kit/images/avatars';
@@ -75,7 +75,7 @@ const Chat = ({ children }) => {
   const dispatch = useDispatch();
   const historyMessages = useSelector(selectHistoryMessages);
   const notifications = useSelector(selectNotifications);
-  const newMessages = useSelector(selectNewMessages);
+  const newMessage = useSelector(selectNewMessage);
   const messages = useSelector(selectMessages);
   const connected = useSelector(selectConnected);
   const subscribed = useSelector(selectSubscribed);
@@ -91,8 +91,6 @@ const Chat = ({ children }) => {
       dispatch(unsubscribeFromMessages());
       dispatch(disconnectWebSocket());
       dispatch(clearMessages());
-      dispatch(clearHistoryMessages());
-      dispatch(clearNewMessages());
     };
   }, []);
 
@@ -104,9 +102,6 @@ const Chat = ({ children }) => {
     }
 
     dispatch(clearMessages());
-    dispatch(clearHistoryMessages());
-    dispatch(clearNewMessages());
-
     dispatch(subscribeToMessages(topicId));
     dispatch(getTopicHistory(topicId));
   }, [dispatch, connected, topicId]);
@@ -114,16 +109,32 @@ const Chat = ({ children }) => {
   useEffect(() => {
     if (historyMessages.length === 0 || notifications.length === 0) return;
 
-    const newMessagesData = processMessageData(
+    const historyMessagesData = processMessageData(
       data,
       email,
       historyMessages,
-      newMessages,
       notifications,
     );
 
-    dispatch(setMessages(newMessagesData));
-  }, [dispatch, data, historyMessages, newMessages, notifications]);
+    dispatch(setMessages(historyMessagesData));
+
+    dispatch(setHistoryMessages([]));
+  }, [dispatch, data, historyMessages, notifications]);
+
+  useEffect(() => {
+    if (newMessage.length === 0 || notifications.length === 0) return;
+
+    const newMessageData = processMessageData(
+      data,
+      email,
+      newMessage,
+      notifications,
+    );
+
+    dispatch(setMessages(newMessageData));
+
+    dispatch(setNewMessage([]));
+  }, [dispatch, data, newMessage, notifications]);
 
   if (isError) {
     alert('Виникла помилка під час отримання теми');

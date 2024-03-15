@@ -12,8 +12,14 @@ const getTime = (timestamp) => {
   return time;
 };
 
-const processMessageData = (data, email, messagesData, notifications) => {
-  console.log('worked processMessageData', messagesData);
+const processMessageData = (
+  data,
+  email,
+  historyMessages,
+  newMessages,
+  notifications,
+) => {
+  const messagesData = [...historyMessages, ...newMessages];
 
   const messages = messagesData.map((messageData) => {
     const { content, timestamp, sentFrom } = messageData;

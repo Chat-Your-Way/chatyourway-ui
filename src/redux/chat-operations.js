@@ -5,7 +5,7 @@ import { BASE_URL, ajwt } from './apiParams';
 
 import {
   setHistoryMessages,
-  setNewMessage,
+  setNewMessages,
   setNotifications,
   setSubscriptions,
   clearSubscriptions,
@@ -108,11 +108,11 @@ export const subscribeToMessages = (topicId) => {
           const parsedNewMessage = JSON.parse(message.body);
 
           console.log(
-            'Received NewMessage from subscribeToTopic:',
+            'Received newMessage from subscribeToTopic:',
             parsedNewMessage,
           ); //!
 
-          dispatch(setNewMessage([parsedNewMessage]));
+          dispatch(setNewMessages([parsedNewMessage]));
         },
       );
 
