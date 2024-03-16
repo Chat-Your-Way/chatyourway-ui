@@ -32,7 +32,7 @@ const chatSlice = createSlice({
       state.newMessages = [];
     },
     setNotifications: (state, action) => {
-      state.notifications = action.payload;
+      state.notifications = [...action.payload];
     },
     setConnected: (state, action) => {
       state.connected = action.payload;

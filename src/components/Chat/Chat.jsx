@@ -70,8 +70,6 @@ const Chat = ({ children }) => {
   const { isTopics } = useTopicsContext();
   const { contactsOpen, setContactsOpen } = useTopicsPageContext();
 
-  console.log('topicId', topicId); //!
-
   const dispatch = useDispatch();
   const historyMessages = useSelector(selectHistoryMessages);
   const notifications = useSelector(selectNotifications);
