@@ -210,11 +210,7 @@ const Chat = ({ children }) => {
                     {avatarsArray.map(
                       (Logo, index) =>
                         item.avatarId - 1 === index && (
-                          <Avatar
-                            // size={isTablet ? 'lg' : 'md' //!}
-                            key={index}
-                            // isCurrent={'true' //!}
-                          >
+                          <Avatar key={index}>
                             <Logo />
                           </Avatar>
                         ),
