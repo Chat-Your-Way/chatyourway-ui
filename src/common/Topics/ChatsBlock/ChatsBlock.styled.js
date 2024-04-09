@@ -19,5 +19,7 @@ export const StyledBox = styled(Box, {
 `;
 
 export const StyledNavLink = styled(NavLink)`
+  position: relative; //!+
+
   text-decoration: none;
 `;

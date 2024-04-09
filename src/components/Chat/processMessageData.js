@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 
-const getTime = (timestamp) => {
+export const getTime = (timestamp) => {
   const dateObject = new Date(timestamp);
   const hours = dateObject.getHours();
   const minutes = dateObject.getMinutes();
@@ -12,7 +12,7 @@ const getTime = (timestamp) => {
   return time;
 };
 
-const processMessageData = (
+export const processMessageData = (
   data,
   email,
   historyMessages,
@@ -47,5 +47,3 @@ const processMessageData = (
 
   return messages;
 };
-
-export default processMessageData;

@@ -3,6 +3,7 @@ import {
   StyledBox,
   StyledAuthorBlock,
   MessageCount,
+  StyledTimeText, //!
 } from './LastMessages.styled';
 import { ICONS } from '../../../../../ui-kit/icons';
 
@@ -13,6 +14,7 @@ const LastMessages = ({
   isOpenChat = false,
   isOpenContacts = false,
   unreadedMessage,
+  lastMessageTime,
 }) => {
   const typingStatus = `${userName}/Пише...`;
   const defaultStatus = `${userName}: ${message}`;
@@ -26,6 +28,7 @@ const LastMessages = ({
       ) : (
         <ICONS.CONFIRM />
       )}
+      <StyledTimeText>{lastMessageTime}</StyledTimeText>
     </StyledBox>
   );
 };

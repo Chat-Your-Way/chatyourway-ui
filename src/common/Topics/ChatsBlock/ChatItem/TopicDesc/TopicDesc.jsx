@@ -1,16 +1,16 @@
 import { memo } from 'react';
-import { StyledBox, StyledThemeText, StyledTimeText } from './TopicDesc.styled';
+import { StyledBox, StyledThemeText } from './TopicDesc.styled';
 
 const TopicDesc = ({
   isOpenChat = false,
   isOpenContacts = false,
   title = 'name',
-  lastMessageTime = '00:00',
+  // lastMessageTime = '00:00', //!
 }) => {
   return (
     <StyledBox isOpenChat={isOpenChat} isOpenContacts={isOpenContacts}>
       <StyledThemeText>{title}</StyledThemeText>
-      <StyledTimeText>{lastMessageTime}</StyledTimeText>
+      {/* <StyledTimeText>{lastMessageTime}</StyledTimeText> //! */}
     </StyledBox>
   );
 };

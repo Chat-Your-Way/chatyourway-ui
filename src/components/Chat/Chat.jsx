@@ -61,11 +61,13 @@ import {
   UserName,
 } from './Chat.styled';
 
-import processMessageData from './processMessageData';
+import { processMessageData } from './processMessageData';
 
 const Chat = ({ children }) => {
   const { title: topicId } = useParams();
   const { data, isLoading, isError } = useGetByIdQuery(topicId);
+  console.log('data useGetByIdQuery', data);
+
   const { email } = useSelector(getUserInfo);
   const { isTopics } = useTopicsContext();
   const { contactsOpen, setContactsOpen } = useTopicsPageContext();

@@ -1,6 +1,6 @@
 import { memo, useState } from 'react';
 import { StyledBox } from './Topics.styled';
-import ChatsBlock from './ChatsBlock';
+import ChatsBlock from './ChatsBlock/ChatsBlock'; //!!
 import TopicsHeader from './TopicsHeader';
 
 const Topics = ({

@@ -52,3 +52,15 @@ export const MessageCount = styled(Badge)`
     background-color: ${(p) => p.theme.palette.primary.main};
   }
 `;
+
+export const StyledTimeText = styled(Typography)`
+  position: absolute; //!+
+  top: 16px; //!+
+  right: 26px; //!+
+  ${(p) => p.theme.typography.h6}
+  color: ${(p) => p.theme.palette.primary.lightDisabled};
+
+  @media screen and (min-width: calc(834px - 0.02px)) {
+    ${(p) => p.theme.typography.h5}
+  }
+`; //!

@@ -4,6 +4,8 @@ import { Stomp } from '@stomp/stompjs';
 import { BASE_URL, ajwt } from './apiParams';
 
 import {
+  setAllTopicsNotifications,
+  setSubscribedAllTopicsNotify,
   setHistoryMessages,
   setNewMessages,
   setNotifications,
@@ -13,6 +15,7 @@ import {
   setSubscribed,
 } from './chatSlice';
 
+const subToAllTopicsNotificationsDest = '/user/specific/notify/topics';
 const getTopicHistoryDest = '/app/history/topic/';
 const subToTopicDest = '/topic/';
 const subToNotificationDest = '/user/specific/notify/';
@@ -81,6 +84,30 @@ export const disconnectWebSocket = () => {
       dispatch(setConnected(false));
     } catch (error) {
       console.error('Error disconnecting from WebSocket:', error);
+    }
+  };
+};
+
+export const subscriptionToAllNotify = () => {
+  return async (dispatch) => {
+    try {
+      await client.subscribe(
+        `${subToAllTopicsNotificationsDest}`,
+        (message) => {
+          const parsedAllTopicsNotifications = JSON.parse(message.body);
+
+          console.log(
+            'Received notifications from subscribeToAllNotify:',
+            parsedAllTopicsNotifications,
+          ); //!
+
+          dispatch(setAllTopicsNotifications(parsedAllTopicsNotifications));
+        },
+      );
+
+      dispatch(setSubscribedAllTopicsNotify(true)); //!
+    } catch (error) {
+      console.error('Error subscribing to All Topics notifications:', error);
     }
   };
 };

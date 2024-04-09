@@ -4,6 +4,8 @@ import { createSelector } from 'reselect';
 const chatSlice = createSlice({
   name: 'chat',
   initialState: {
+    notificationsAllTopics: [],
+    subscribedAllTopicsNotify: false,
     messages: [],
     historyMessages: [],
     newMessages: [],
@@ -13,6 +15,12 @@ const chatSlice = createSlice({
     subscribed: false,
   },
   reducers: {
+    setAllTopicsNotifications: (state, action) => {
+      state.notificationsAllTopics = [...action.payload];
+    },
+    setSubscribedAllTopicsNotify: (state, action) => {
+      state.subscribedAllTopicsNotify = action.payload;
+    },
     setMessages: (state, action) => {
       state.messages = [...action.payload];
     },
@@ -50,6 +58,8 @@ const chatSlice = createSlice({
 });
 
 export const {
+  setAllTopicsNotifications,
+  setSubscribedAllTopicsNotify,
   setMessages,
   clearMessages,
   setHistoryMessages,
@@ -67,6 +77,16 @@ export const {
 export default chatSlice;
 
 export const selectChatState = (state) => state.chat;
+
+export const selectAllTopicsNotifications = createSelector(
+  selectChatState,
+  (chat) => chat.notificationsAllTopics,
+);
+
+export const selectSubscribedAllTopicsNotify = createSelector(
+  selectChatState,
+  (chat) => chat.subscribedAllTopicsNotify,
+);
 
 export const selectMessages = createSelector(
   selectChatState,
