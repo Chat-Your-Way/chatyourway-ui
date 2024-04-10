@@ -17,11 +17,8 @@ const ChatItem = ({
   const { isTopics } = useTopicsContext();
   const avatarContent = getAvatar(isTopics, data);
 
-  const unreadMessages = notification?.unreadMessages ?? null;
+  const unreadedMessages = notification?.unreadMessages ?? null;
   const lastMessageContent = notification?.lastMessage ?? null;
-
-  console.log('unreadMessages', unreadMessages); //!
-  console.log('lastMessageContent', lastMessageContent); //!
 
   return (
     <StyledBox
@@ -55,7 +52,7 @@ const ChatItem = ({
               isOpenContacts={isOpenContacts}
               userName={lastMessageContent.sentFrom}
               message={lastMessageContent.lastMessage}
-              unreadedMessage={notification.unreadMessages}
+              unreadedMessage={unreadedMessages}
               isTyping={data.isTyping}
               lastMessageTime={getTime(lastMessageContent.timestamp)}
             />

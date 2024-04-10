@@ -5,10 +5,14 @@ import Wrapper from '../Wrapper';
 import { FooterWrap, LogOutButton, LogOutIcon } from './Footer.styled';
 import { PATH } from '../../../constans/routes';
 
+import { disconnectWebSocket } from '../../../redux/chat-operations';
+import { useDispatch } from 'react-redux';
+
 const Footer = () => {
   const { isAuthenticated, localLogOut } = useUser();
   const [logout] = useLogoutMutation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const LogOut = async () => {
     try {
@@ -20,6 +24,7 @@ const Footer = () => {
       }
 
       localLogOut();
+      dispatch(disconnectWebSocket()); //!
       navigate(PATH.MAIN);
     } catch (error) {
       console.error('Виникла помилка:', error);

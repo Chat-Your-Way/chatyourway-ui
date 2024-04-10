@@ -19,7 +19,7 @@ import {
 } from '../../redux/chatSlice';
 import {
   connectWebSocket,
-  disconnectWebSocket,
+  // disconnectWebSocket, //!
   subscribeToMessages,
   unsubscribeFromMessages,
   getTopicHistory,
@@ -89,7 +89,7 @@ const Chat = ({ children }) => {
 
     return () => {
       dispatch(unsubscribeFromMessages());
-      dispatch(disconnectWebSocket());
+      // dispatch(disconnectWebSocket()); //!
       dispatch(clearMessages());
       dispatch(clearHistoryMessages());
       dispatch(clearNewMessages());

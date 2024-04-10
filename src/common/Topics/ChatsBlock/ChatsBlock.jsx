@@ -6,14 +6,17 @@ import { StyledNavLink } from './ChatsBlock.styled';
 import { useLocation } from 'react-router-dom';
 import { useTopicsContext } from '../TopicsContext';
 import { useGetAllQuery } from '../../../redux/topics-operations';
+import Loader from '../../../components/Loader';
+
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectAllTopicsNotifications,
   selectConnected,
+  selectSubscribedAllTopicsNotify,
 } from '../../../redux/chatSlice';
 import {
   connectWebSocket,
-  disconnectWebSocket,
+  disconnectWebSocket, //!
   subscriptionToAllNotify,
 } from '../../../redux/chat-operations';
 
@@ -23,7 +26,7 @@ const ChatsBlock = ({ isOpenChat = false, isOpenContacts = false, filter }) => {
   const { pathname } = useLocation();
   const path = pathname.includes('topics') ? 'topics' : 'notification';
 
-  const { data, isError } = useGetAllQuery(filter);
+  const { data, isLoading, isError } = useGetAllQuery(filter);
 
   console.log('data', data); //!!!!!!!!!!!!!!!!
 
@@ -34,6 +37,9 @@ const ChatsBlock = ({ isOpenChat = false, isOpenContacts = false, filter }) => {
   // const messages = useSelector(selectMessages);
   const connected = useSelector(selectConnected);
   // const subscribed = useSelector(selectSubscribed);
+  const subscribedAllTopicsNotify = useSelector(
+    selectSubscribedAllTopicsNotify,
+  );
 
   // const inputRef = useRef(null);
 
@@ -52,7 +58,7 @@ const ChatsBlock = ({ isOpenChat = false, isOpenContacts = false, filter }) => {
   }, []);
 
   useEffect(() => {
-    if (!connected) return; //!
+    if (!connected || subscribedAllTopicsNotify) return; //!
 
     // if (subscribed) {
     //   dispatch(unsubscribeFromMessages());
@@ -61,38 +67,37 @@ const ChatsBlock = ({ isOpenChat = false, isOpenContacts = false, filter }) => {
     // dispatch(clearMessages());
     // dispatch(clearHistoryMessages());
     // dispatch(clearNewMessages());
+    console.log('connected', connected); //!!!!!!!!!!!!!!!!
 
     dispatch(subscriptionToAllNotify());
     // dispatch(getTopicHistory());
   }, [dispatch, connected]);
 
-  console.log('notificationsAllTopics', notificationsAllTopics); //!!!!!!!!!!!!!!!!
-
   if (isError) {
     alert('Виникла помилка під час отримання тем');
   }
 
-  return (
-    <>
-      {data &&
-        notificationsAllTopics.length !== 0 &&
-        data.map((item) => {
-          const notification = notificationsAllTopics.find(
-            (notificationItem) => notificationItem.topicId === item.id,
-          );
+  return isLoading ? (
+    <Loader />
+  ) : (
+    data &&
+      notificationsAllTopics.length !== 0 &&
+      data.map((item) => {
+        const notification = notificationsAllTopics.find(
+          (notificationItem) => notificationItem.topicId === item.id,
+        );
 
-          return (
-            <StyledNavLink to={`../${path}/chat/${item.id}`} key={item.id}>
-              <ChatItem
-                isOpenChat={isOpenChat}
-                isOpenContacts={isOpenContacts}
-                data={item}
-                notification={notification}
-              />
-            </StyledNavLink>
-          );
-        })}
-    </>
+        return (
+          <StyledNavLink to={`../${path}/chat/${item.id}`} key={item.id}>
+            <ChatItem
+              isOpenChat={isOpenChat}
+              isOpenContacts={isOpenContacts}
+              data={item}
+              notification={notification}
+            />
+          </StyledNavLink>
+        );
+      })
   );
 };
 

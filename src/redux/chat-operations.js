@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import SockJS from 'sockjs-client';
+// eslint-disable-next-line import/no-unresolved
 import { Stomp } from '@stomp/stompjs';
 import { BASE_URL, ajwt } from './apiParams';
 
@@ -24,6 +25,10 @@ const sendToPublicTopicDest = '/app/topic/public/';
 // const sendToPrivateTopicDest = '/app/topic/private/'; //!TODO: sendToPrivateTopicDest
 
 let client = null;
+let reconnectTimeout = null;
+const RECONNECT_DELAY = 5000;
+let resubscribeTimeout = null;
+const RESUBSCRYBE_DELAY = 200;
 
 export const connectWebSocket = () => {
   return async (dispatch) => {
@@ -35,16 +40,30 @@ export const connectWebSocket = () => {
         {},
         () => {
           dispatch(setConnected(true));
-
           resolve();
         },
         (error) => {
           console.error('Error connecting to WebSocket:', error);
+
+          startReconnectTimeout(dispatch);
           reject(error);
         },
       );
     });
   };
+};
+
+const startReconnectTimeout = (dispatch) => {
+  reconnectTimeout = setTimeout(() => {
+    reconnectWebSocket(dispatch);
+  }, RECONNECT_DELAY);
+};
+
+const reconnectWebSocket = (dispatch) => {
+  clearTimeout(reconnectTimeout);
+
+  dispatch(setConnected(false));
+  dispatch(connectWebSocket());
 };
 
 export const unsubscribeFromMessages = () => {
@@ -90,7 +109,10 @@ export const disconnectWebSocket = () => {
 
 export const subscriptionToAllNotify = () => {
   return async (dispatch) => {
+    console.log('run subscribeToAllNotify'); //!
     try {
+      console.log('try subscribeToAllNotify'); //!
+
       await client.subscribe(
         `${subToAllTopicsNotificationsDest}`,
         (message) => {
@@ -105,11 +127,28 @@ export const subscriptionToAllNotify = () => {
         },
       );
 
-      dispatch(setSubscribedAllTopicsNotify(true)); //!
+      dispatch(setSubscribedAllTopicsNotify(true));
     } catch (error) {
       console.error('Error subscribing to All Topics notifications:', error);
+
+      startResubscribeTimeout(dispatch);
     }
   };
+};
+
+const startResubscribeTimeout = (dispatch) => {
+  resubscribeTimeout = setTimeout(() => {
+    resubscribeAllTopicsNotify(dispatch);
+  }, RESUBSCRYBE_DELAY);
+};
+
+const resubscribeAllTopicsNotify = (dispatch) => {
+  clearTimeout(resubscribeTimeout);
+
+  console.log('run REsubscribedAllTopicsNotify'); //!
+
+  dispatch(setSubscribedAllTopicsNotify(false));
+  dispatch(subscriptionToAllNotify());
 };
 
 export const subscribeToMessages = (topicId) => {
