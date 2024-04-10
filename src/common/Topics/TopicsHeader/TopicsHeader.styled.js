@@ -3,11 +3,16 @@ import { Box } from '@mui/material';
 import SearchInput from '../../../ui-kit/components/Input/SearchInput';
 
 export const StyledBox = styled(Box)`
+  margin-bottom: 8px;
   path {
     stroke: ${(p) =>
       p.theme.palette.mode === 'light'
         ? p.theme.palette.primary.dark
         : p.theme.palette.primary.contrastText};
+  }
+
+  @media screen and (min-width: calc(834px - 0.02px)) {
+    margin-bottom: 16px;
   }
 `;
 

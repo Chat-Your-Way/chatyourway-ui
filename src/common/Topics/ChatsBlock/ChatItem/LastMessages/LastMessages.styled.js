@@ -4,8 +4,9 @@ import { Badge, Typography, Box } from '@mui/material';
 export const StyledBox = styled(Box, {
   shouldForwardProp: (p) => p !== 'isOpenChat' && p !== 'isOpenContacts',
 })`
-  padding: 4px 12px 8px;
   width: 271px;
+  width: 100%;
+
   display: flex;
   align-items: center;
   gap: 16px;
@@ -13,11 +14,13 @@ export const StyledBox = styled(Box, {
 
   @media screen and (min-width: calc(834px - 0.02px)) {
     width: 308px;
+    width: 100%;
   }
 
   @media screen and (min-width: calc(1200px - 0.02px)) {
     width: ${(p) =>
       p.isOpenChat ? '300px' : p.isOpenContacts ? '241px' : '308px'};
+    width: 100%;
   }
 `;
 
@@ -27,6 +30,7 @@ export const StyledAuthorBlock = styled(Typography, {
 })`
   ${(p) => p.theme.typography.h6}
   width: 271px;
+  width: 100%;
   color: ${(p) =>
     p.isTyping
       ? p.theme.palette.primary.green
@@ -35,11 +39,13 @@ export const StyledAuthorBlock = styled(Typography, {
   @media screen and (min-width: calc(834px - 0.02px)) {
     ${(p) => p.theme.typography.h5}
     width: 308px;
+    width: 100%;
   }
 
   @media screen and (min-width: calc(1200px - 0.02px)) {
     width: ${(p) =>
       p.isOpenChat ? '300px' : p.isOpenContacts ? '241px' : '308px'};
+    width: 100%;
   }
 `;
 
@@ -54,13 +60,18 @@ export const MessageCount = styled(Badge)`
 `;
 
 export const StyledTimeText = styled(Typography)`
-  position: absolute; //!+
-  top: 16px; //!+
-  right: 26px; //!+
+  position: absolute;
+  top: 16px;
+  right: 0;
   ${(p) => p.theme.typography.h6}
   color: ${(p) => p.theme.palette.primary.lightDisabled};
 
   @media screen and (min-width: calc(834px - 0.02px)) {
+    right: 16px;
     ${(p) => p.theme.typography.h5}
   }
-`; //!
+
+  @media screen and (min-width: calc(1200px - 0.02px)) {
+    right: 12px;
+  }
+`;

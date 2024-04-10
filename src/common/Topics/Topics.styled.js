@@ -11,7 +11,7 @@ export const StyledBox = styled(Box, {
   width: 342px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+
   box-sizing: border-box;
   background-color: ${(p) => p.theme.palette.primary.white};
   border-radius: 16px;
@@ -19,7 +19,7 @@ export const StyledBox = styled(Box, {
   @media screen and (min-width: calc(834px - 0.02px)) {
     padding-top: 8px;
     padding-left: 18px;
-    padding-right: 18px;
+    padding-right: 22px;
     padding-bottom: 8px;
     width: 440px;
   }

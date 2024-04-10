@@ -8,6 +8,7 @@ export const StyledBox = styled(Box, {
 })`
   width: 330px;
   height: 43px;
+  margin-bottom: 4px;
   display: flex;
   box-sizing: border-box;
   justify-content: space-between;
