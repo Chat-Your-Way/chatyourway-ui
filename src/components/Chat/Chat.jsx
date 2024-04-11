@@ -10,6 +10,7 @@ import {
   clearMessages,
   clearHistoryMessages,
   clearNewMessages,
+  clearNotifications,
   selectMessages,
   selectHistoryMessages,
   selectNewMessages,
@@ -66,7 +67,7 @@ import { processMessageData } from './processMessageData';
 const Chat = ({ children }) => {
   const { title: topicId } = useParams();
   const { data, isLoading, isError } = useGetByIdQuery(topicId);
-  console.log('data useGetByIdQuery', data);
+  console.log('data useGetByIdQuery', data); //!
 
   const { email } = useSelector(getUserInfo);
   const { isTopics } = useTopicsContext();
@@ -93,6 +94,7 @@ const Chat = ({ children }) => {
       dispatch(clearMessages());
       dispatch(clearHistoryMessages());
       dispatch(clearNewMessages());
+      dispatch(clearNotifications());
     };
   }, []);
 
@@ -106,6 +108,7 @@ const Chat = ({ children }) => {
     dispatch(clearMessages());
     dispatch(clearHistoryMessages());
     dispatch(clearNewMessages());
+    dispatch(clearNotifications());
 
     dispatch(subscribeToMessages(topicId));
     dispatch(getTopicHistory(topicId));

@@ -14,6 +14,8 @@ import {
   clearSubscriptions,
   setConnected,
   setSubscribed,
+  setSubscriptionAllTopicsNotify,
+  clearSubscriptionAllTopicsNotify,
 } from './chatSlice';
 
 const subToAllTopicsNotificationsDest = '/user/specific/notify/topics';
@@ -39,7 +41,11 @@ export const connectWebSocket = () => {
       client.connect(
         {},
         () => {
-          dispatch(setConnected(true));
+          if (client.connected) {
+            console.log('client.connected', client.connected); //!
+            dispatch(setConnected(true));
+          } //!
+
           resolve();
         },
         (error) => {
@@ -66,6 +72,27 @@ const reconnectWebSocket = (dispatch) => {
   dispatch(connectWebSocket());
 };
 
+export const unsubscribeFromAllTopicsNotify = () => {
+  return async (dispatch, getState) => {
+    const { subscriptionAllTopicsNotify } = getState().chat;
+
+    if (subscriptionAllTopicsNotify.length === 0) return;
+
+    const { subscriptionId } = subscriptionAllTopicsNotify[0];
+
+    if (!subscriptionId) return;
+
+    try {
+      await client.unsubscribe(subscriptionId);
+
+      dispatch(clearSubscriptionAllTopicsNotify());
+      dispatch(setSubscribedAllTopicsNotify(false));
+    } catch (error) {
+      console.error('Error unsubscribing from WebSocket:', error);
+    }
+  };
+};
+
 export const unsubscribeFromMessages = () => {
   return async (dispatch, getState) => {
     const { subscriptions } = getState().chat;
@@ -74,18 +101,18 @@ export const unsubscribeFromMessages = () => {
 
     await Promise.all(
       subscriptions.map(async ({ subscriptionId }) => {
-        if (subscriptionId) {
-          try {
-            await client.unsubscribe(subscriptionId);
-          } catch (error) {
-            console.error('Error unsubscribing from WebSocket:', error);
-          }
+        if (!subscriptionId) return;
+
+        try {
+          await client.unsubscribe(subscriptionId);
+
+          dispatch(clearSubscriptions());
+          dispatch(setSubscribed(false));
+        } catch (error) {
+          console.error('Error unsubscribing from WebSocket:', error);
         }
       }),
     );
-
-    dispatch(clearSubscriptions());
-    dispatch(setSubscribed(false));
 
     return Promise.resolve();
   };
@@ -107,13 +134,12 @@ export const disconnectWebSocket = () => {
   };
 };
 
-export const subscriptionToAllNotify = () => {
+export const subscribeToAllTopicsNotify = () => {
   return async (dispatch) => {
     console.log('run subscribeToAllNotify'); //!
-    try {
-      console.log('try subscribeToAllNotify'); //!
 
-      await client.subscribe(
+    try {
+      const subscriptionToAllNotify = await client.subscribe(
         `${subToAllTopicsNotificationsDest}`,
         (message) => {
           const parsedAllTopicsNotifications = JSON.parse(message.body);
@@ -128,6 +154,12 @@ export const subscriptionToAllNotify = () => {
       );
 
       dispatch(setSubscribedAllTopicsNotify(true));
+      dispatch(
+        setSubscriptionAllTopicsNotify({
+          type: 'all-topics',
+          subscriptionId: subscriptionToAllNotify.id,
+        }),
+      );
     } catch (error) {
       console.error('Error subscribing to All Topics notifications:', error);
 
@@ -138,17 +170,17 @@ export const subscriptionToAllNotify = () => {
 
 const startResubscribeTimeout = (dispatch) => {
   resubscribeTimeout = setTimeout(() => {
-    resubscribeAllTopicsNotify(dispatch);
+    resubscribeToAllTopicsNotify(dispatch);
   }, RESUBSCRYBE_DELAY);
 };
 
-const resubscribeAllTopicsNotify = (dispatch) => {
+const resubscribeToAllTopicsNotify = (dispatch) => {
   clearTimeout(resubscribeTimeout);
 
   console.log('run REsubscribedAllTopicsNotify'); //!
 
   dispatch(setSubscribedAllTopicsNotify(false));
-  dispatch(subscriptionToAllNotify());
+  dispatch(subscribeToAllTopicsNotify());
 };
 
 export const subscribeToMessages = (topicId) => {

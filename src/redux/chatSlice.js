@@ -6,6 +6,7 @@ const chatSlice = createSlice({
   initialState: {
     notificationsAllTopics: [],
     subscribedAllTopicsNotify: false,
+    subscriptionAllTopicsNotify: [],
     messages: [],
     historyMessages: [],
     newMessages: [],
@@ -15,11 +16,20 @@ const chatSlice = createSlice({
     subscribed: false,
   },
   reducers: {
+    setSubscribedAllTopicsNotify: (state, action) => {
+      state.subscribedAllTopicsNotify = action.payload;
+    },
+    setSubscriptionAllTopicsNotify: (state, action) => {
+      state.subscriptionAllTopicsNotify = [action.payload];
+    },
+    clearSubscriptionAllTopicsNotify: (state) => {
+      state.notificationsAllTopics = [];
+    },
     setAllTopicsNotifications: (state, action) => {
       state.notificationsAllTopics = [...action.payload];
     },
-    setSubscribedAllTopicsNotify: (state, action) => {
-      state.subscribedAllTopicsNotify = action.payload;
+    clearAllTopicsNotifications: (state) => {
+      state.notificationsAllTopics = [];
     },
     setMessages: (state, action) => {
       state.messages = [...action.payload];
@@ -42,6 +52,9 @@ const chatSlice = createSlice({
     setNotifications: (state, action) => {
       state.notifications = [...action.payload];
     },
+    clearNotifications: (state) => {
+      state.notifications = [];
+    },
     setConnected: (state, action) => {
       state.connected = action.payload;
     },
@@ -58,8 +71,11 @@ const chatSlice = createSlice({
 });
 
 export const {
-  setAllTopicsNotifications,
   setSubscribedAllTopicsNotify,
+  setSubscriptionAllTopicsNotify,
+  clearSubscriptionAllTopicsNotify,
+  setAllTopicsNotifications,
+  clearAllTopicsNotifications,
   setMessages,
   clearMessages,
   setHistoryMessages,
@@ -67,7 +83,7 @@ export const {
   setNewMessages,
   clearNewMessages,
   setNotifications,
-  setStompClient,
+  clearNotifications,
   setConnected,
   setSubscribed,
   setSubscriptions,
