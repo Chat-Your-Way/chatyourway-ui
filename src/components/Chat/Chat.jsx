@@ -232,6 +232,12 @@ const Chat = ({ children }) => {
               type="text" //!
               maxRows={3}
               placeholder="Введіть повідомлення..."
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                  event.preventDefault();
+                  handleMessageSend();
+                }
+              }}
             />
             <ChatInputIconBox>
               {/* <IconButton icon={<IconSmile />} /> //! CHAT-220--smile-disable */}
