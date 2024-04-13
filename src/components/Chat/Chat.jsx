@@ -84,9 +84,9 @@ const Chat = ({ children }) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    if (!connected) {
-      dispatch(connectWebSocket());
-    }
+    // if (!connected) {
+    //   dispatch(connectWebSocket());
+    // } //!
 
     return () => {
       dispatch(unsubscribeFromMessages());
@@ -96,6 +96,8 @@ const Chat = ({ children }) => {
       dispatch(clearNewMessages());
       dispatch(clearNotifications());
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -126,7 +128,7 @@ const Chat = ({ children }) => {
     );
 
     dispatch(setMessages(newMessagesData));
-  }, [dispatch, data, historyMessages, newMessages, notifications]);
+  }, [dispatch, data, historyMessages, newMessages, notifications, email]);
 
   if (isError) {
     alert('Виникла помилка під час отримання теми');
