@@ -8,16 +8,16 @@ import { clearAllTopicsNotifications } from '../redux/chatSlice';
 
 export const useUser = () => {
   const [isAuth, setIsAuth] = useState(localStorage.getItem('accessToken'));
-  const dispatch = useDispatch(); //!
+  const dispatch = useDispatch();
 
   const localLogOut = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     setIsAuth('');
 
-    dispatch(unsubscribeFromAllTopicsNotify()); //!
-    dispatch(disconnectWebSocket()); //!
-    dispatch(clearAllTopicsNotifications()); //!
+    dispatch(unsubscribeFromAllTopicsNotify());
+    dispatch(disconnectWebSocket());
+    dispatch(clearAllTopicsNotifications());
   };
 
   const logIn = (accToken, refToken) => {
