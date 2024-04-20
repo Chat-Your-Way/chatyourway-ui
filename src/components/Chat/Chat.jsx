@@ -19,8 +19,6 @@ import {
   selectSubscribed,
 } from '../../redux/chatSlice';
 import {
-  connectWebSocket,
-  // disconnectWebSocket, //!
   subscribeToMessages,
   unsubscribeFromMessages,
   getTopicHistory,
@@ -67,6 +65,7 @@ import { processMessageData } from './processMessageData';
 const Chat = ({ children }) => {
   const { title: topicId } = useParams();
   const { data, isLoading, isError } = useGetByIdQuery(topicId);
+
   console.log('data useGetByIdQuery', data); //!
 
   const { email } = useSelector(getUserInfo);
