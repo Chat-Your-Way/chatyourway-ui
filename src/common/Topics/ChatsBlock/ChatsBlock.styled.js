@@ -10,6 +10,7 @@ export const StyledBox = styled(Box, {
   padding-left: 8px;
   width: ${(p) =>
     p.isOpenChat ? '368px' : p.isOpenContacts ? '300px' : '396px'};
+
   display: flex;
   box-sizing: border-box;
 

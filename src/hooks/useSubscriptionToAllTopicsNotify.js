@@ -16,5 +16,7 @@ export const useSubscriptionToAllTopicsNotify = (isAuthenticated) => {
   useEffect(() => {
     if (!isAuthenticated || !connected || subscribedAllTopicsNotify) return;
     dispatch(subscribeToAllTopicsNotify());
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, connected]);
 };

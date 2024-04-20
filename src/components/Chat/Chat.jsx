@@ -127,7 +127,9 @@ const Chat = ({ children }) => {
     );
 
     dispatch(setMessages(newMessagesData));
-  }, [dispatch, data, historyMessages, newMessages, notifications, email]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, historyMessages, newMessages, notifications, email]);
 
   if (isError) {
     alert('Виникла помилка під час отримання теми');

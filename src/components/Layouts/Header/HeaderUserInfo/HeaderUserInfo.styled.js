@@ -29,7 +29,10 @@ export const NotificationIcon = styled(ICONS.NOTIFICATION)`
 `;
 
 export const NotificationCount = styled(Badge)`
-  margin: 0 10px 0 0;
+  @media screen and (max-width: calc(845px - 0.03px)) {
+    margin: 0 10px 0 11px;
+  }
+
   @media screen and (min-width: calc(845px - 0.02px)) {
     margin: 0 24px 0 8px;
   }

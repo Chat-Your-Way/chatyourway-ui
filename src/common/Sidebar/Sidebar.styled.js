@@ -14,6 +14,7 @@ export const StyledBox = styled(Box, {
   display: flex;
   flex-direction: column;
   width: 342px;
+
   gap: ${(p) => (p.showText === true ? '8px' : '24px')};
   box-sizing: border-box;
   background: ${(p) => p.theme.palette.primary.white};

@@ -38,7 +38,8 @@ const TabsBlock = ({
         <StyledTab
           label="все"
           {...a11yProps(0)}
-          tabWith={firstTabWidth}
+          tabWidth={firstTabWidth}
+          tabNumber="1"
           firstTabPaddingX
           borderRight
           isActive={active === 'all'}
@@ -47,14 +48,16 @@ const TabsBlock = ({
         <StyledTab
           label="улюблене"
           {...a11yProps(1)}
-          tabWith={secondTabWidth}
+          tabWidth={secondTabWidth}
+          tabNumber="2"
           isActive={active === 'favourite'}
           value={'favourite'}
         />
         <StyledTab
           label="популярне"
           {...a11yProps(2)}
-          tabWith={thirdTabWidth}
+          tabWidth={thirdTabWidth}
+          tabNumber="3"
           borderLeft
           isActive={active === 'popular'}
           value={'popular/public'}

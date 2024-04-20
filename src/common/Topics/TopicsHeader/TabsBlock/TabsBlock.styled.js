@@ -49,7 +49,7 @@ export const StyledTabs = styled(Tabs, {
 
 export const StyledTab = styled(Tab, {
   shouldForwardProp: (p) =>
-    p !== 'tabWith' &&
+    p !== 'tabWidth' &&
     p !== 'firstTabPaddingX' &&
     p !== 'isActive' &&
     p !== 'borderRight' &&
@@ -74,10 +74,10 @@ export const StyledTab = styled(Tab, {
     p.borderRight ? '8px 0 0 8px' : p.borderLeft ? '0 8px 8px 0' : 'none'};
 
   @media screen and (min-width: calc(834px - 0.02px)) {
-    width: ${(p) => p.tabWith};
+    width: ${(p) => p.tabWidth};
   }
 
   @media screen and (min-width: calc(1200px - 0.02px)) {
-    width: ${(p) => p.tabWith};
+    width: ${(p) => p.tabWidth};
   }
 `;

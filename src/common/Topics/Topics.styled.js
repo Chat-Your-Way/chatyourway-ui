@@ -8,7 +8,10 @@ export const StyledBox = styled(Box, {
   padding-left: 6px;
   padding-right: 6px;
   padding-bottom: 10px;
-  width: 342px;
+
+  height: calc(100vh - 120px);
+  overflow-y: auto;
+
   display: flex;
   flex-direction: column;
 
@@ -22,9 +25,12 @@ export const StyledBox = styled(Box, {
     padding-right: 22px;
     padding-bottom: 8px;
     width: 440px;
+    height: calc(100vh - 340px);
   }
 
   @media screen and (min-width: calc(1200px - 0.02px)) {
+    height: calc(100vh - 239px);
+
     padding-top: ${(p) =>
       p.isOpenChat ? '8px' : p.isOpenContacts ? '8px' : '0'};
     padding-left: ${(p) =>

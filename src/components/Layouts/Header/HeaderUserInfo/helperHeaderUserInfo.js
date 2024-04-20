@@ -1,3 +1,4 @@
+//!TODO: Add TotalUnreadPrivatMessages
 export const calculateTotalUnreadMessages = (notifications) => {
   let totalUnreadedMessages = 0;
 
