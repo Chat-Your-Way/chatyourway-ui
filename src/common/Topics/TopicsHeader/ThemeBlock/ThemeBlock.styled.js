@@ -6,6 +6,7 @@ export const StyledBox = styled(Box, {
 })`
   ${(p) => p.theme.typography.h1};
   width: 330px;
+
   height: 54px;
   margin-bottom: 4px;
   display: flex;
@@ -27,11 +28,14 @@ export const StyledBox = styled(Box, {
 
   @media screen and (min-width: calc(834px - 0.02px)) {
     width: 400px;
+    width: 100%;
+
     height: 65px;
   }
 
   @media screen and (min-width: calc(1200px - 0.02px)) {
     width: ${(p) =>
       p.isOpenChat ? '360px' : p.isOpenContacts ? '300px' : '400px'};
+    width: 100%;
   }
 `;

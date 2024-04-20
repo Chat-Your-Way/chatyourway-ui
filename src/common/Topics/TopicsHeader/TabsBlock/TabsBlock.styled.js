@@ -22,6 +22,7 @@ export const StyledBox = styled(Box, {
   @media screen and (min-width: calc(1200px - 0.02px)) {
     width: ${(p) =>
       p.isOpenChat ? '360px' : p.isOpenContacts ? '300px' : '400px'};
+    max-width: 100%;
   }
 `;
 
