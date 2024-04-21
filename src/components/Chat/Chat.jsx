@@ -17,6 +17,7 @@ import {
   selectNotifications,
   selectConnected,
   selectSubscribed,
+  toggleChatOpened,
 } from '../../redux/chatSlice';
 import {
   subscribeToMessages,
@@ -70,7 +71,7 @@ const Chat = ({ children }) => {
 
   const { email } = useSelector(getUserInfo);
   const { isTopics } = useTopicsContext();
-  const { contactsOpen, setContactsOpen } = useTopicsPageContext();
+  const { contactsOpen, setContactsOpen } = useTopicsPageContext(); //?!
 
   const dispatch = useDispatch();
   const historyMessages = useSelector(selectHistoryMessages);
@@ -87,6 +88,8 @@ const Chat = ({ children }) => {
     //   dispatch(connectWebSocket());
     // } //!
 
+    dispatch(toggleChatOpened());
+
     return () => {
       dispatch(unsubscribeFromMessages());
       // dispatch(disconnectWebSocket()); //!
@@ -94,6 +97,8 @@ const Chat = ({ children }) => {
       dispatch(clearHistoryMessages());
       dispatch(clearNewMessages());
       dispatch(clearNotifications());
+
+      dispatch(toggleChatOpened());
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

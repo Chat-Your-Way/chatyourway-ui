@@ -2,6 +2,8 @@ import { memo, useState } from 'react';
 import { StyledBox } from './Topics.styled';
 import ChatsBlock from './ChatsBlock';
 import TopicsHeader from './TopicsHeader';
+import { useSelector } from 'react-redux';
+import { selectChatOpened } from '../../redux/chatSlice';
 
 const Topics = ({
   isOpenChat = false,
@@ -10,6 +12,10 @@ const Topics = ({
   handleBTNFunc,
 }) => {
   const [filter, setFilter] = useState('all');
+
+  const chatOpened = useSelector(selectChatOpened);
+
+  console.log('chatOpened', chatOpened); //!
 
   return (
     <StyledBox isOpenChat={isOpenChat} isOpenContacts={isOpenContacts}>

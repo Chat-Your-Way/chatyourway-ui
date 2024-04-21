@@ -14,6 +14,8 @@ const chatSlice = createSlice({
     notifications: [],
     connected: false,
     subscribed: false,
+    chatOpened: false,
+    contactsOpened: false,
   },
   reducers: {
     setSubscribedAllTopicsNotify: (state, action) => {
@@ -67,6 +69,12 @@ const chatSlice = createSlice({
     clearSubscriptions: (state) => {
       state.subscriptions = [];
     },
+    toggleChatOpened: (state) => {
+      state.chatOpened = !state.chatOpened;
+    },
+    toggleContactsOpened: (state) => {
+      state.contactsOpened = !state.contactsOpened;
+    },
   },
 });
 
@@ -88,6 +96,8 @@ export const {
   setSubscribed,
   setSubscriptions,
   clearSubscriptions,
+  toggleChatOpened,
+  toggleContactsOpened,
 } = chatSlice.actions;
 
 export default chatSlice;
@@ -137,4 +147,14 @@ export const selectSubscribed = createSelector(
 export const selectSubscriptions = createSelector(
   selectChatState,
   (chat) => chat.subscriptions,
+);
+
+export const selectChatOpened = createSelector(
+  selectChatState,
+  (chat) => chat.chatOpened,
+);
+
+export const selectContactsOpened = createSelector(
+  selectChatState,
+  (chat) => chat.contactsOpened,
 );
