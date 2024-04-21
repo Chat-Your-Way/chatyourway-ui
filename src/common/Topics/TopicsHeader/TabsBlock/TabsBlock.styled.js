@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
 export const StyledBox = styled(Box, {
-  shouldForwardProp: (p) => p !== 'isOpenChat' && p !== 'isOpenContacts',
+  shouldForwardProp: (p) => p !== 'chatOpened' && p !== 'contactsOpened',
 })`
   width: 330px;
   height: 43px;
@@ -21,13 +21,13 @@ export const StyledBox = styled(Box, {
 
   @media screen and (min-width: calc(1200px - 0.02px)) {
     width: ${(p) =>
-      p.isOpenChat ? '360px' : p.isOpenContacts ? '300px' : '400px'};
+      p.chatOpened ? '360px' : p.contactsOpened ? '300px' : '400px'};
     max-width: 100%;
   }
 `;
 
 export const StyledTabs = styled(Tabs, {
-  shouldForwardProp: (p) => p !== 'isOpenChat' && p !== 'isOpenContacts',
+  shouldForwardProp: (p) => p !== 'chatOpened' && p !== 'contactsOpened',
 })`
   width: 330px;
   min-height: 41px;
@@ -44,7 +44,7 @@ export const StyledTabs = styled(Tabs, {
 
   @media screen and (min-width: calc(1200px - 0.02px)) {
     width: ${(p) =>
-      p.isOpenChat ? '360px' : p.isOpenContacts ? '300px' : '400px'};
+      p.chatOpened ? '360px' : p.contactsOpened ? '300px' : '400px'};
   }
 `;
 

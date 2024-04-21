@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Badge, Typography, Box } from '@mui/material';
 
 export const StyledBox = styled(Box, {
-  shouldForwardProp: (p) => p !== 'isOpenChat' && p !== 'isOpenContacts',
+  shouldForwardProp: (p) => p !== 'chatOpened' && p !== 'contactsOpened',
 })`
   width: 271px;
   width: 100%;
@@ -19,14 +19,14 @@ export const StyledBox = styled(Box, {
 
   @media screen and (min-width: calc(1200px - 0.02px)) {
     width: ${(p) =>
-      p.isOpenChat ? '300px' : p.isOpenContacts ? '241px' : '308px'};
+      p.chatOpened ? '300px' : p.contactsOpened ? '241px' : '308px'};
     width: 100%;
   }
 `;
 
 export const StyledAuthorBlock = styled(Typography, {
   shouldForwardProp: (p) =>
-    p !== 'isTyping' && p !== 'isOpenChat' && p !== 'isOpenContacts',
+    p !== 'isTyping' && p !== 'chatOpened' && p !== 'contactsOpened',
 })`
   ${(p) => p.theme.typography.h6}
   width: 271px;
@@ -44,7 +44,7 @@ export const StyledAuthorBlock = styled(Typography, {
 
   @media screen and (min-width: calc(1200px - 0.02px)) {
     width: ${(p) =>
-      p.isOpenChat ? '300px' : p.isOpenContacts ? '241px' : '308px'};
+      p.chatOpened ? '300px' : p.contactsOpened ? '241px' : '308px'};
     width: 100%;
   }
 `;

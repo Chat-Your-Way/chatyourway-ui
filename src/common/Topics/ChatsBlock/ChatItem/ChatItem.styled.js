@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 
 export const StyledBox = styled(Box, {
   shouldForwardProp: (p) =>
-    p !== 'isOpenChat' && p !== 'isOpenContacts' && p !== 'isActive',
+    p !== 'chatOpened' && p !== 'contactsOpened' && p !== 'isActive',
 })`
   padding-top: 8px;
 
@@ -25,13 +25,13 @@ export const StyledBox = styled(Box, {
 
   @media screen and (min-width: calc(1200px - 0.02px)) {
     width: ${(p) =>
-      p.isOpenChat ? '368px' : p.isOpenContacts ? '300px' : '396px'};
+      p.chatOpened ? '368px' : p.contactsOpened ? '300px' : '396px'};
     width: 100%;
   }
 `;
 
 export const StyledChildrenBox = styled(Box, {
-  shouldForwardProp: (p) => p !== 'isOpenChat' && p !== 'isOpenContacts',
+  shouldForwardProp: (p) => p !== 'chatOpened' && p !== 'contactsOpened',
 })`
   width: 271px;
   width: 100%;
@@ -52,7 +52,7 @@ export const StyledChildrenBox = styled(Box, {
 
   @media screen and (min-width: calc(1200px - 0.02px)) {
     width: ${(p) =>
-      p.isOpenChat ? '300px' : p.isOpenContacts ? '241px' : '308px'};
+      p.chatOpened ? '300px' : p.contactsOpened ? '241px' : '308px'};
     width: 100%;
   }
 `;

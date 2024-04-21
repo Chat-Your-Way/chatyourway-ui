@@ -1,4 +1,9 @@
 import { memo } from 'react';
+import { useSelector } from 'react-redux';
+import {
+  selectChatOpened,
+  selectContactsOpened,
+} from '../../../../redux/chatSlice';
 import { StyledBox, StyledTabs, StyledTab } from './TabsBlock.styled';
 
 function a11yProps(index) {
@@ -8,30 +13,28 @@ function a11yProps(index) {
   };
 }
 
-const TabsBlock = ({
-  isOpenChat = false,
-  isOpenContacts = false,
-  active,
-  setFilter,
-}) => {
-  const firstTabWidth = isOpenChat ? '89px' : isOpenContacts ? '66px' : '115px';
-  const secondTabWidth = isOpenChat
+const TabsBlock = ({ active, setFilter }) => {
+  const chatOpened = useSelector(selectChatOpened);
+  const contactsOpened = useSelector(selectContactsOpened);
+
+  const firstTabWidth = chatOpened ? '89px' : contactsOpened ? '66px' : '115px';
+  const secondTabWidth = chatOpened
     ? '129px'
-    : isOpenContacts
+    : contactsOpened
     ? '97px'
     : '142px';
-  const thirdTabWidth = isOpenChat
+  const thirdTabWidth = chatOpened
     ? '144px'
-    : isOpenContacts
+    : contactsOpened
     ? '112px'
     : '145px';
 
   return (
-    <StyledBox isOpenChat={isOpenChat} isOpenContacts={isOpenContacts}>
+    <StyledBox chatOpened={chatOpened} contactsOpened={contactsOpened}>
       <StyledTabs
         aria-label="chat tabs"
-        isOpenChat={isOpenChat}
-        isOpenContacts={isOpenContacts}
+        chatOpened={chatOpened}
+        contactsOpened={contactsOpened}
         value={active}
         onChange={(_, value) => setFilter(value)}
       >

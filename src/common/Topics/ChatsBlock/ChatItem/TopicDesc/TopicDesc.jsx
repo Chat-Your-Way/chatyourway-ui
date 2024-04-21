@@ -1,16 +1,18 @@
 import { memo } from 'react';
+import { useSelector } from 'react-redux';
+import {
+  selectChatOpened,
+  selectContactsOpened,
+} from '../../../../../redux/chatSlice';
 import { StyledBox, StyledThemeText } from './TopicDesc.styled';
 
-const TopicDesc = ({
-  isOpenChat = false,
-  isOpenContacts = false,
-  title = 'name',
-  // lastMessageTime = '00:00', //!
-}) => {
+const TopicDesc = ({ title = 'name' }) => {
+  const chatOpened = useSelector(selectChatOpened);
+  const contactsOpened = useSelector(selectContactsOpened);
+
   return (
-    <StyledBox isOpenChat={isOpenChat} isOpenContacts={isOpenContacts}>
+    <StyledBox chatOpened={chatOpened} contactsOpened={contactsOpened}>
       <StyledThemeText>{title}</StyledThemeText>
-      {/* <StyledTimeText>{lastMessageTime}</StyledTimeText> //! */}
     </StyledBox>
   );
 };

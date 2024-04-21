@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Box } from '@mui/material';
 
 export const StyledBox = styled(Box, {
-  shouldForwardProp: (p) => p !== 'isOpenChat' && p !== 'isOpenContacts',
+  shouldForwardProp: (p) => p !== 'chatOpened' && p !== 'contactsOpened',
 })`
   ${(p) => p.theme.typography.h1};
   width: 330px;
@@ -35,7 +35,7 @@ export const StyledBox = styled(Box, {
 
   @media screen and (min-width: calc(1200px - 0.02px)) {
     width: ${(p) =>
-      p.isOpenChat ? '360px' : p.isOpenContacts ? '300px' : '400px'};
+      p.chatOpened ? '360px' : p.contactsOpened ? '300px' : '400px'};
     width: 100%;
   }
 `;

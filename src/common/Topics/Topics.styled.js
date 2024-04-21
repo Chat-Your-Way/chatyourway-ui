@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Box } from '@mui/material';
 
 export const StyledBox = styled(Box, {
-  shouldForwardProp: (p) => p !== 'isOpenChat' && p !== 'isOpenContacts',
+  shouldForwardProp: (p) => p !== 'chatOpened' && p !== 'contactsOpened',
 })`
   padding-top: 6px;
   padding-left: 6px;
@@ -32,13 +32,13 @@ export const StyledBox = styled(Box, {
     height: calc(100vh - 239px);
 
     padding-top: ${(p) =>
-      p.isOpenChat ? '8px' : p.isOpenContacts ? '8px' : '0'};
+      p.chatOpened ? '8px' : p.contactsOpened ? '8px' : '0'};
     padding-left: ${(p) =>
-      p.isOpenChat ? '18px' : p.isOpenContacts ? '5px' : '18px'};
+      p.chatOpened ? '18px' : p.contactsOpened ? '5px' : '18px'};
     padding-right: ${(p) =>
-      p.isOpenChat ? '14px' : p.isOpenContacts ? '5px' : '18px'};
+      p.chatOpened ? '14px' : p.contactsOpened ? '5px' : '18px'};
     padding-bottom: 58px;
     width: ${(p) =>
-      p.isOpenChat ? '400px' : p.isOpenContacts ? '310px' : '440px'};
+      p.chatOpened ? '400px' : p.contactsOpened ? '310px' : '440px'};
   }
 `;

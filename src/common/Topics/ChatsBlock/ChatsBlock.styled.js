@@ -4,12 +4,12 @@ import { NavLink } from 'react-router-dom';
 
 export const StyledBox = styled(Box, {
   shouldForwardProp: (p) =>
-    p !== 'isOpenChat' && p !== 'isOpenContacts' && p !== 'isActive',
+    p !== 'chatOpened' && p !== 'contactsOpened' && p !== 'isActive',
 })`
   padding-top: 8px;
   padding-left: 8px;
   width: ${(p) =>
-    p.isOpenChat ? '368px' : p.isOpenContacts ? '300px' : '396px'};
+    p.chatOpened ? '368px' : p.contactsOpened ? '300px' : '396px'};
 
   display: flex;
   box-sizing: border-box;

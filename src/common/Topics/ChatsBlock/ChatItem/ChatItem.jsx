@@ -1,4 +1,9 @@
 import { memo } from 'react';
+import { useSelector } from 'react-redux';
+import {
+  selectChatOpened,
+  selectContactsOpened,
+} from '../../../../redux/chatSlice';
 import Avatar from '../../../../ui-kit/components/Avatar';
 import TopicDesc from './TopicDesc';
 import LastMessages from './LastMessages';
@@ -7,49 +12,36 @@ import { StyledBox, StyledChildrenBox } from './ChatItem.styled';
 import { useTopicsContext } from '../../TopicsContext';
 import { getTime } from '../../../../components/Chat/processMessageData';
 
-const ChatItem = ({
-  isOpenChat = false,
-  isOpenContacts = false,
-  isActive,
-  data,
-  notification,
-}) => {
+const ChatItem = ({ isActive, data, notification }) => {
   const { isTopics } = useTopicsContext();
   const avatarContent = getAvatar(isTopics, data);
+
+  const chatOpened = useSelector(selectChatOpened);
+  const contactsOpened = useSelector(selectContactsOpened);
 
   const unreadedMessages = notification?.unreadMessages ?? null;
   const lastMessageContent = notification?.lastMessage ?? null;
 
   return (
     <StyledBox
-      isOpenChat={isOpenChat}
-      isOpenContacts={isOpenContacts}
+      chatOpened={chatOpened}
+      contactsOpened={contactsOpened}
       isActive={isActive}
     >
       <Avatar>{avatarContent}</Avatar>
       {data && (
         <StyledChildrenBox
-          isOpenChat={isOpenChat}
-          isOpenContacts={isOpenContacts}
+          chatOpened={chatOpened}
+          contactsOpened={contactsOpened}
         >
           {isTopics ? (
-            <TopicDesc
-              isOpenChat={isOpenChat}
-              isOpenContacts={isOpenContacts}
-              title={data.topicName}
-            />
+            <TopicDesc title={data.topicName} />
           ) : (
-            <TopicDesc
-              isOpenChat={isOpenChat}
-              isOpenContacts={isOpenContacts}
-              title={data.userName}
-            />
+            <TopicDesc title={data.userName} />
           )}
 
           {lastMessageContent && (
             <LastMessages
-              isOpenChat={isOpenChat}
-              isOpenContacts={isOpenContacts}
               userName={lastMessageContent.sentFrom}
               message={lastMessageContent.lastMessage}
               unreadedMessage={unreadedMessages}

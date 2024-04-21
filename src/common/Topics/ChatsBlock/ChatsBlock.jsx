@@ -13,7 +13,7 @@ import { StyledNavLink } from './ChatsBlock.styled';
 
 import { selectAllTopicsNotifications } from '../../../redux/chatSlice';
 
-const ChatsBlock = ({ isOpenChat = false, isOpenContacts = false, filter }) => {
+const ChatsBlock = ({ filter }) => {
   const { isTopics } = useTopicsContext();
   const ChatItems = ChatBlockDataHelper(isTopics); //?!
   const { pathname } = useLocation();
@@ -38,12 +38,7 @@ const ChatsBlock = ({ isOpenChat = false, isOpenContacts = false, filter }) => {
 
         return (
           <StyledNavLink to={`../${path}/chat/${item.id}`} key={item.id}>
-            <ChatItem
-              isOpenChat={isOpenChat}
-              isOpenContacts={isOpenContacts}
-              data={item}
-              notification={notification}
-            />
+            <ChatItem data={item} notification={notification} />
           </StyledNavLink>
         );
       })
