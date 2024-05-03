@@ -1,16 +1,20 @@
+import { useSelector } from 'react-redux';
+import {
+  selectChatOpened,
+  selectContactsOpened,
+} from '../../../../redux/chatSlice';
 import { StyledBox } from './ThemeBlock.styled';
 import DefaultButton from '../../../../ui-kit/components/Button';
 import { ICONS } from '../../../../ui-kit/icons';
 
-const ThemeBlock = ({
-  isOpenChat = false,
-  isOpenContacts = false,
-  isTopics,
-  handleBTNFunc,
-}) => {
+const ThemeBlock = ({ isTopics, handleBTNFunc }) => {
   const title = isTopics ? 'Теми' : 'Повідомлення';
+
+  const chatOpened = useSelector(selectChatOpened);
+  const contactsOpened = useSelector(selectContactsOpened);
+
   return (
-    <StyledBox isOpenChat={isOpenChat} isOpenContacts={isOpenContacts}>
+    <StyledBox chatOpened={chatOpened} contactsOpened={contactsOpened}>
       {title}
       {isTopics && (
         <DefaultButton

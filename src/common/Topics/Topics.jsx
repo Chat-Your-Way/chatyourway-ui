@@ -1,31 +1,24 @@
 import { memo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectChatOpened, selectContactsOpened } from '../../redux/chatSlice';
 import { StyledBox } from './Topics.styled';
 import ChatsBlock from './ChatsBlock';
 import TopicsHeader from './TopicsHeader';
 
-const Topics = ({
-  isOpenChat = false,
-  isOpenContacts = false,
-  handleBTNTopicFunc,
-  handleBTNFunc,
-}) => {
+const Topics = ({ handleBTNTopicFunc, handleBTNFunc }) => {
   const [filter, setFilter] = useState('all');
 
+  const chatOpened = useSelector(selectChatOpened);
+  const contactsOpened = useSelector(selectContactsOpened);
+
   return (
-    <StyledBox isOpenChat={isOpenChat} isOpenContacts={isOpenContacts}>
+    <StyledBox chatOpened={chatOpened} contactsOpened={contactsOpened}>
       <TopicsHeader
-        isOpenChat={isOpenChat}
-        isOpenContacts={isOpenContacts}
         handleBTNFunc={handleBTNFunc}
         active={filter}
         setFilter={setFilter}
       />
-      <ChatsBlock
-        isOpenChat={isOpenChat}
-        isOpenContacts={isOpenContacts}
-        handleBTNTopicFunc={handleBTNTopicFunc}
-        filter={filter}
-      />
+      <ChatsBlock handleBTNTopicFunc={handleBTNTopicFunc} filter={filter} />
     </StyledBox>
   );
 };

@@ -1,8 +1,15 @@
+import { useContext, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
+import { getUserInfo, setUserInfo } from '../../../../redux/userSlice';
+import { useGetUserInfoQuery } from '../../../../redux/user-operations';
+import { selectAllTopicsNotifications } from '../../../../redux/chatSlice';
+import { calculateTotalUnreadMessages } from './helperHeaderUserInfo';
+
 import Avatar from '../../../../ui-kit/components/Avatar';
 import { Avatars } from '../../../../ui-kit/images/avatars';
-import { useDispatch, useSelector } from 'react-redux';
-import { useContext, useEffect } from 'react';
+import { ThemeContext } from '../../../../ui-kit/theme/ThemeProvider';
+import { Typography } from '@mui/material';
 import {
   NotificationCount,
   NotificationIcon,
@@ -10,10 +17,6 @@ import {
   UserInfoBlock,
   UserName,
 } from './HeaderUserInfo.styled';
-import { Typography } from '@mui/material';
-import { getUserInfo, setUserInfo } from '../../../../redux/userSlice';
-import { ThemeContext } from '../../../../ui-kit/theme/ThemeProvider';
-import { useGetUserInfoQuery } from '../../../../redux/user-operations';
 
 const HeaderUserInfo = () => {
   const dispatch = useDispatch();
@@ -21,7 +24,10 @@ const HeaderUserInfo = () => {
   const { toggleTheme, currentTheme } = useContext(ThemeContext);
 
   const { data, isError, isLoading } = useGetUserInfoQuery();
+
   const { avatarId } = useSelector(getUserInfo);
+
+  const notificationsAllTopics = useSelector(selectAllTopicsNotifications);
 
   const avatarsArray = Object.values(Avatars);
   const isTablet = useMediaQuery({ query: '(min-width: calc(845px - 0.02px)' });
@@ -42,7 +48,9 @@ const HeaderUserInfo = () => {
         handleChange={toggleTheme}
         isChecked={currentTheme === 'dark'}
       />
-      <NotificationCount badgeContent={3}>
+      <NotificationCount
+        badgeContent={calculateTotalUnreadMessages(notificationsAllTopics)}
+      >
         <Typography level="h6">
           <NotificationIcon />
         </Typography>

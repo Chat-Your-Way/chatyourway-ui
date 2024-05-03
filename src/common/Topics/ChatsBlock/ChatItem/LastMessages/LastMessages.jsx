@@ -1,8 +1,14 @@
 import { memo } from 'react';
+import { useSelector } from 'react-redux';
+import {
+  selectChatOpened,
+  selectContactsOpened,
+} from '../../../../../redux/chatSlice';
 import {
   StyledBox,
   StyledAuthorBlock,
   MessageCount,
+  StyledTimeText,
 } from './LastMessages.styled';
 import { ICONS } from '../../../../../ui-kit/icons';
 
@@ -10,15 +16,18 @@ const LastMessages = ({
   isTyping = false,
   userName = 'user',
   message = 'Супер',
-  isOpenChat = false,
-  isOpenContacts = false,
   unreadedMessage,
+  lastMessageTime,
 }) => {
   const typingStatus = `${userName}/Пише...`;
   const defaultStatus = `${userName}: ${message}`;
+
+  const chatOpened = useSelector(selectChatOpened);
+  const contactsOpened = useSelector(selectContactsOpened);
+
   return (
-    <StyledBox isOpenChat={isOpenChat} isOpenContacts={isOpenContacts}>
-      <StyledAuthorBlock isTyping={isTyping}>
+    <StyledBox chatOpened={chatOpened} contactsOpened={contactsOpened}>
+      <StyledAuthorBlock isTyping={isTyping} chatOpened={chatOpened}>
         {isTyping ? typingStatus : defaultStatus}
       </StyledAuthorBlock>
       {unreadedMessage ? (
@@ -26,6 +35,7 @@ const LastMessages = ({
       ) : (
         <ICONS.CONFIRM />
       )}
+      <StyledTimeText>{lastMessageTime}</StyledTimeText>
     </StyledBox>
   );
 };

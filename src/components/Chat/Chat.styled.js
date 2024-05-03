@@ -8,18 +8,28 @@ export const ChatWrap = styled(Box)`
   justify-content: space-between;
   width: 100%;
   max-width: 342px;
-  height: 100vh;
+
+  height: calc(100vh - 145px);
+  overflow-y: auto;
+
   padding: 6px 6px 21px;
   border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
   overflow-y: auto;
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: calc(834px - 0.02px)) {
     max-width: 648px;
+    height: calc(100vh - 366px);
+
     padding: 8px 8px 16px;
+  }
+
+  @media screen and (min-width: calc(834px - 0.02px)) and (max-width: calc(1200px - 0.03px)) {
+    margin-left: 31px;
   }
 
   @media screen and (min-width: calc(1200px - 0.02px)) {
     max-width: 730px;
+    height: calc(100vh - 297px);
   }
 `;
 
@@ -87,7 +97,6 @@ export const IndicatorBox = styled(Box)`
     isMyMessage ? 'row ' : 'row-reverse'};
   ${({ isMyMessage }) =>
     isMyMessage ? 'margin-left: auto;' : 'margin-right: auto;'}
-  padding: 12px 12px;
 `;
 
 export const TimeIndicator = styled(Typography)`
@@ -120,11 +129,13 @@ export const IconActivity = styled(Box)`
 export const UserMassageWrap = styled(Box)`
   display: flex;
   flex-direction: column;
+  padding: 12px; //?!
+  gap: 12px; //?!
 `;
 
 export const TextMessageBlock = styled(Box)`
   display: flex;
-  padding: 12px;
+  /* padding: 12px; */ //!
   align-items: flex-start;
   gap: 8px;
 `;
