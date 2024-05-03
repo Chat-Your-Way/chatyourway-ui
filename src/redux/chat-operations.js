@@ -277,7 +277,7 @@ export const getTopicHistory = (topicId) => {
     await client.send(
       `${getTopicHistoryDest}${topicId}`,
       {},
-      JSON.stringify({ page: 0, pageSize: 100 }),
+      JSON.stringify({ page: 0, pageSize: 5 }),
     );
   };
 };

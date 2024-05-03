@@ -18,7 +18,7 @@ export const ChatWrap = styled(Box)`
   overflow-y: auto;
   @media screen and (min-width: calc(834px - 0.02px)) {
     max-width: 648px;
-    height: calc(100vh - 340px);
+    height: calc(100vh - 366px);
 
     padding: 8px 8px 16px;
   }
@@ -29,7 +29,7 @@ export const ChatWrap = styled(Box)`
 
   @media screen and (min-width: calc(1200px - 0.02px)) {
     max-width: 730px;
-    height: calc(100vh - 263px);
+    height: calc(100vh - 297px);
   }
 `;
 
