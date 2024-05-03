@@ -96,9 +96,7 @@ export const IndicatorBox = styled(Box)`
   flex-direction: ${({ isMyMessage }) =>
     isMyMessage ? 'row ' : 'row-reverse'};
   ${({ isMyMessage }) =>
-    isMyMessage
-      ? 'margin-left: auto;'
-      : 'margin-right: auto;'}/* padding: 12px 12px; */ //!
+    isMyMessage ? 'margin-left: auto;' : 'margin-right: auto;'}
 `;
 
 export const TimeIndicator = styled(Typography)`

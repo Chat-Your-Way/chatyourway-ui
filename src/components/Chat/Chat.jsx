@@ -67,8 +67,6 @@ const Chat = ({ children }) => {
   const { title: topicId } = useParams();
   const { data, isLoading, isError } = useGetByIdQuery(topicId);
 
-  console.log('data useGetByIdQuery', data); //!
-
   const { email } = useSelector(getUserInfo);
   const { isTopics } = useTopicsContext();
   const { contactsOpen, setContactsOpen } = useTopicsPageContext(); //?!
@@ -118,6 +116,8 @@ const Chat = ({ children }) => {
 
     dispatch(subscribeToMessages(topicId));
     dispatch(getTopicHistory(topicId));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, connected, topicId]);
 
   useEffect(() => {
@@ -154,7 +154,7 @@ const Chat = ({ children }) => {
 
       inputRef.current.value = '';
     } else {
-      console.log('Зʼєднання не встановлено'); //?!
+      alert('Зʼєднання не встановлено');
     }
   };
 

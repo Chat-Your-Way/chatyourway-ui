@@ -19,7 +19,6 @@ export const SharedLayoutWrapper = styled(Box)`
   transition: background 0.6s ease;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */ //!
 
   background: ${(p) =>
       p.theme.palette.mode === 'light'

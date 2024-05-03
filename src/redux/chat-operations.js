@@ -42,9 +42,8 @@ export const connectWebSocket = () => {
         {},
         () => {
           if (client.connected) {
-            console.log('client.connected', client.connected); //!
             dispatch(setConnected(true));
-          } //!
+          }
 
           resolve();
         },
@@ -136,18 +135,11 @@ export const disconnectWebSocket = () => {
 
 export const subscribeToAllTopicsNotify = () => {
   return async (dispatch) => {
-    console.log('run subscribeToAllNotify'); //!
-
     try {
       const subscriptionToAllNotify = await client.subscribe(
         `${subToAllTopicsNotificationsDest}`,
         (message) => {
           const parsedAllTopicsNotifications = JSON.parse(message.body);
-
-          console.log(
-            'Received notifications from subscribeToAllNotify:',
-            parsedAllTopicsNotifications,
-          ); //!
 
           dispatch(setAllTopicsNotifications(parsedAllTopicsNotifications));
         },
@@ -177,8 +169,6 @@ const startResubscribeTimeout = (dispatch) => {
 const resubscribeToAllTopicsNotify = (dispatch) => {
   clearTimeout(resubscribeTimeout);
 
-  console.log('run REsubscribedAllTopicsNotify'); //!
-
   dispatch(setSubscribedAllTopicsNotify(false));
   dispatch(subscribeToAllTopicsNotify());
 };
@@ -191,11 +181,6 @@ export const subscribeToMessages = (topicId) => {
         (message) => {
           const parsedHistoryMessages = JSON.parse(message.body);
 
-          console.log(
-            'Received message from subscribeToHistoryMessages:',
-            parsedHistoryMessages,
-          ); //!
-
           dispatch(setHistoryMessages(parsedHistoryMessages));
         },
       );
@@ -204,11 +189,6 @@ export const subscribeToMessages = (topicId) => {
         `${subToTopicDest}${topicId}`,
         (message) => {
           const parsedNewMessage = JSON.parse(message.body);
-
-          console.log(
-            'Received newMessage from subscribeToTopic:',
-            parsedNewMessage,
-          ); //!
 
           dispatch(setNewMessages([parsedNewMessage]));
         },
@@ -219,11 +199,6 @@ export const subscribeToMessages = (topicId) => {
         (message) => {
           const parsedNotifications = JSON.parse(message.body);
 
-          console.log(
-            'Received notifications from subscribeToNotify:',
-            parsedNotifications,
-          ); //!
-
           dispatch(setNotifications(parsedNotifications));
         },
       );
@@ -233,6 +208,7 @@ export const subscribeToMessages = (topicId) => {
         (message) => {
           const parsedErrorMessage = JSON.parse(message.body);
 
+          // eslint-disable-next-line no-console
           console.log(
             'Received ErrorMessage from subscribeToError:',
             parsedErrorMessage,
