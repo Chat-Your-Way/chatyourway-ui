@@ -14,7 +14,6 @@ const TopicsHeader = ({ handleBTNFunc, active, setFilter }) => {
 
   const chatOpened = useSelector(selectChatOpened);
 
-
   const contactsOpened = useSelector(selectContactsOpened);
 
   return (
