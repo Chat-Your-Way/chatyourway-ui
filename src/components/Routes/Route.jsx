@@ -18,6 +18,7 @@ import NotFoundPage from '../../pages/NotFoundPage';
 import VerificationEmailPage from '../../pages/VerificationEmailPage';
 import FaqPage from '../../pages/FaqPage';
 import Chat from '../Chat/Chat';
+import LoaderTemplate from '../Loader-template';
 
 const Router = () => {
   return (
@@ -47,10 +48,13 @@ const Router = () => {
 
         {/*Private Route*/}
         <Route path={PATH.MAIN} element={<PrivateRoute />}>
+          <Route path="loadertemplate" element={<LoaderTemplate />} />
           <Route path={PATH.HOMEPAGE} element={<SharedLayout />}>
+            <Route path="loadertemplate" element={<LoaderTemplate />} />
             <Route path={PATH.TOPICS} element={<TopicsPage />}>
               <Route path={PATH.CHAT} element={<Chat />} />
             </Route>
+
             <Route path={PATH.NOTIFICATION} element={<NotificationPage />}>
               <Route path={PATH.CHAT} element={<Chat />} />
             </Route>
