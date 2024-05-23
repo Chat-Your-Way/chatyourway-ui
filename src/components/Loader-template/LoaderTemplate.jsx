@@ -5,11 +5,10 @@ import {
   LoaderTemplateLogoSpanSecond,
   LoaderTemplateProgressBar,
   LoaderTemplateSVGAnimated,
-  LoaderTemplateWrapper,
 } from './LoaderTemplateStyled';
-// import LoaderTemplateLogo from '../../ui-kit/icons/logo/TeamChallengeLoaderLogo.png';
 import LoaderTemplateLogoSvg from '../../ui-kit/icons/logo/TeamChallengeLoaderLogo.svg';
 import { useEffect, useState } from 'react';
+import MainBackground from '../../ui-kit/components/MainBackground/MainBackground';
 
 function LoaderTemplate() {
   const [valueProgressBar, setValueProgressBar] = useState(0);
@@ -33,7 +32,11 @@ function LoaderTemplate() {
 
   return (
     <Box sx={{ fontFamily: 'Junge' }}>
-      <LoaderTemplateWrapper>
+      <MainBackground
+        $direction={'column'}
+        $justifyContent={'center'}
+        $alignItems="center"
+      >
         <LoaderTemplateContentWrapper>
           <LoaderTemplateLogoSpan>Chat</LoaderTemplateLogoSpan>
           <div style={{ position: 'relative' }}>
@@ -50,7 +53,7 @@ function LoaderTemplate() {
             readOnly={true}
           />
         </LoaderTemplateContentWrapper>
-      </LoaderTemplateWrapper>
+      </MainBackground>
     </Box>
   );
 }

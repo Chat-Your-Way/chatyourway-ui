@@ -58,7 +58,7 @@ export const LoaderTemplateLogoSpan = styled.span`
   line-height: 0.5;
   color: #6261ff;
   letter-spacing: -0.14em;
-  animation: ${makeInvisible} 2s linear;
+  animation: ${makeInvisible} 1s linear;
   animation-fill-mode: forwards;
 `;
 
@@ -169,15 +169,18 @@ export const LoaderTemplateProgressBar = styled.input`
     background: linear-gradient(
       to right,
       #8686dc ${(props) => `${props.$valueProgressBar}%` || '100%'},
-      rgba(134, 134, 220, 0)
-        ${(props) => `${props.$valueProgressBar - 100}px` || '100%'}
+      #999999 ${(props) => `${props.$valueProgressBar - 100}px` || '100%'}
     );
 
     background-color: #999999;
   }
 
   &:focus::-webkit-slider-runnable-track {
-    background: #8686dc;
+    background: linear-gradient(
+      to right,
+      #8686dc ${(props) => `${props.$valueProgressBar}%` || '100%'},
+      #999999 ${(props) => `${props.$valueProgressBar - 100}px` || '100%'}
+    );
   }
 
   &::-moz-range-track {
@@ -197,12 +200,19 @@ export const LoaderTemplateProgressBar = styled.input`
     border-width: 16px 0;
     color: transparent;
   }
+  &:focus::-ms-track {
+    background: linear-gradient(
+      to right,
+      #8686dc ${(props) => `${props.$valueProgressBar}%` || '100%'},
+      #999999 ${(props) => `${props.$valueProgressBar - 100}px` || '100%'}
+    );
+  }
   &::-ms-fill-lower {
     background: #999999;
     border-radius: 4px;
   }
   &:focus::-ms-fill-lower {
-    background: #8686dc;
+    background: #999999;
   }
   &::-ms-fill-upper {
     background: #999999;
@@ -214,7 +224,7 @@ export const LoaderTemplateProgressBar = styled.input`
 
   width: 200px;
   opacity: 0;
-  margin-top: 20px;
+  margin-top: 21px;
 
   animation: ${changeProgressBarVisible} 0.5s 1s linear;
   animation-fill-mode: forwards;

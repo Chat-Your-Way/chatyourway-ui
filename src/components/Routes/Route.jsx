@@ -4,7 +4,7 @@ import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
 import { PATH } from '../../constans/routes';
 import SharedLayout from '../../ui-kit/components/SharedLayout/SharedLayout';
-import Loader from '../Loader';
+// import Loader from '../Loader';
 import AuthorizationPage from '../../pages/AuthorizationPage';
 import LoginPage from '../../pages/LoginPage/LoginPage';
 import RegistrationPage from '../../pages/RegistrationPage';
@@ -22,7 +22,7 @@ import LoaderTemplate from '../Loader-template';
 
 const Router = () => {
   return (
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={<LoaderTemplate />}>
       <Routes>
         {/*Public Route*/}
         <Route path={PATH.MAIN} element={<PublicRoute />}>
