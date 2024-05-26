@@ -1,48 +1,6 @@
 import styled from '@emotion/styled';
 import { Box, keyframes } from '@mui/material';
-import firstLight from '../../ui-kit/images/mainBg/1-layer-light.png';
-import firstDark from '../../ui-kit/images/mainBg//1-layer-dark.png';
-import second from '../../ui-kit/images/mainBg//2-layer.png';
-import third from '../../ui-kit/images/mainBg//3-layer.png';
-import fourth from '../../ui-kit/images/mainBg//4-layer.png';
-import fifthLight from '../../ui-kit/images/mainBg//5-layer-light.png';
-import fifthDark from '../../ui-kit/images/mainBg//5-layer-dark.png';
-import sixthLight from '../../ui-kit/images/mainBg//6-layer-light.png';
-import sixthDark from '../../ui-kit/images/mainBg//6-layer-dark.png';
-import seventh from '../../ui-kit/images/mainBg//7-layer.png';
 import teamChallangeLoaderCircle from '../../ui-kit/icons/logo/TeamChallengeLoaderCircle.svg';
-
-export const LoaderTemplateWrapper = styled(Box)`
-  width: 100%;
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-  transition: background 0.6s ease;
-  display: flex;
-  flex-direction: ${(props) => `${props.$direction}` || 'column'};
-  justify-content: ${(props) =>
-    props.$justifyContent ? `${props.$justifyContent}` : 'flex-start'};
-  align-items: ${(props) =>
-    props.$alignItems ? `${props.$alignItems}` : 'stretch'};
-
-  background: ${(p) =>
-      p.theme.palette.mode === 'light'
-        ? `url(${firstLight}) left top / 50% no-repeat`
-        : `url(${firstDark}) left top / 50% no-repeat`},
-    url(${second}) left bottom / 50% no-repeat,
-    url(${third}) right bottom / 50% no-repeat,
-    url(${fourth}) right top / 50% no-repeat,
-    ${(p) =>
-      p.theme.palette.mode === 'light'
-        ? `url(${fifthLight}) right bottom / 45% no-repeat`
-        : `url(${fifthDark}) right bottom / 45% no-repeat`},
-    ${(p) =>
-      p.theme.palette.mode === 'light'
-        ? `url(${sixthLight}) left bottom / 70% no-repeat`
-        : `url(${sixthDark}) left bottom / 70% no-repeat`},
-    url(${seventh}) right bottom / 50% no-repeat;
-  background-color: ${(p) => p.theme.palette.primary.disabled};
-`;
 
 export const LoaderTemplateContentWrapper = styled(Box)`
   display: grid;
