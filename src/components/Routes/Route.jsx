@@ -48,9 +48,7 @@ const Router = () => {
 
         {/*Private Route*/}
         <Route path={PATH.MAIN} element={<PrivateRoute />}>
-          <Route path="loadertemplate" element={<LoaderTemplate />} />
           <Route path={PATH.HOMEPAGE} element={<SharedLayout />}>
-            <Route path="loadertemplate" element={<LoaderTemplate />} />
             <Route path={PATH.TOPICS} element={<TopicsPage />}>
               <Route path={PATH.CHAT} element={<Chat />} />
             </Route>

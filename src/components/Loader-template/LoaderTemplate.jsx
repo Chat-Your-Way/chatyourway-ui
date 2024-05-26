@@ -5,6 +5,7 @@ import {
   LoaderTemplateLogoSpanSecond,
   LoaderTemplateProgressBar,
   LoaderTemplateSVGAnimated,
+  LoaderTemplateSVGWrapper,
 } from './LoaderTemplateStyled';
 import LoaderTemplateLogoSvg from '../../ui-kit/icons/logo/TeamChallengeLoaderLogo.svg';
 import { useEffect, useState } from 'react';
@@ -39,9 +40,9 @@ function LoaderTemplate() {
       >
         <LoaderTemplateContentWrapper>
           <LoaderTemplateLogoSpan>Chat</LoaderTemplateLogoSpan>
-          <div style={{ position: 'relative' }}>
+          <LoaderTemplateSVGWrapper>
             <LoaderTemplateSVGAnimated src={LoaderTemplateLogoSvg} />
-          </div>
+          </LoaderTemplateSVGWrapper>
 
           <LoaderTemplateLogoSpanSecond>Your Way</LoaderTemplateLogoSpanSecond>
           <LoaderTemplateProgressBar

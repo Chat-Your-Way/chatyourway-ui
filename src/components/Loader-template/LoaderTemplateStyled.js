@@ -19,9 +19,11 @@ export const LoaderTemplateWrapper = styled(Box)`
   overflow: hidden;
   transition: background 0.6s ease;
   display: flex;
-  /* flex-direction: column; */
-  justify-content: center;
-  align-items: center;
+  flex-direction: ${(props) => `${props.$direction}` || 'column'};
+  justify-content: ${(props) =>
+    props.$justifyContent ? `${props.$justifyContent}` : 'flex-start'};
+  align-items: ${(props) =>
+    props.$alignItems ? `${props.$alignItems}` : 'stretch'};
 
   background: ${(p) =>
       p.theme.palette.mode === 'light'
@@ -91,6 +93,10 @@ to {
   left: -50%;
 }
   `;
+
+export const LoaderTemplateSVGWrapper = styled.div`
+  position: relative;
+`;
 
 export const LoaderTemplateSVGAnimated = styled.img`
   position: absolute;
