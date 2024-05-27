@@ -30,7 +30,7 @@ const HeaderUserInfo = () => {
   const notificationsAllTopics = useSelector(selectAllTopicsNotifications);
 
   const avatarsArray = Object.values(Avatars);
-  const isTablet = useMediaQuery({ query: '(min-width: calc(845px - 0.02px)' });
+  const isTablet = useMediaQuery({ query: '(min-width: 769px' });
 
   if (isError) {
     alert('Сталася помилка при отриманні інформації про користувача');
@@ -55,7 +55,7 @@ const HeaderUserInfo = () => {
           <NotificationIcon />
         </Typography>
       </NotificationCount>
-      <UserName variant="h4">{!isLoading && data.nickname}</UserName>
+      <UserName variant="h4">{!isLoading && data && data.nickname}</UserName>
       {avatarsArray.map(
         (Logo, index) =>
           avatarId - 1 === index && (

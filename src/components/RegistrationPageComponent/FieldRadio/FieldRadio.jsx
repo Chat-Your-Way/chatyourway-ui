@@ -8,8 +8,19 @@ export const FieldRadio = ({ id, control, avatarId }) => {
   const avatarsList = Object.entries(Avatars).map((item) => {
     return { id: item[0].replace('Avatar', ''), Logo: item[1] };
   });
-  const isTablet = useMediaQuery({ query: '(min-width: calc(845px - 0.02px)' });
+  const isTablet = useMediaQuery({ query: '(min-width: 769px)' });
+  const isExtraSmallScreen = useMediaQuery({ query: '(max-width: 560px)' });
   const checkedValue = avatarId ? avatarId.toString() : '3';
+
+  const getSize = () => {
+    if (isTablet) {
+      return 'lg';
+    } else if (isExtraSmallScreen) {
+      return 'xs';
+    } else {
+      return 'md';
+    }
+  };
 
   return (
     <Controller
@@ -31,7 +42,7 @@ export const FieldRadio = ({ id, control, avatarId }) => {
                   defaultChecked={id === checkedValue}
                 />
                 <div>
-                  <Avatar size={isTablet ? 'lg' : 'md'}>
+                  <Avatar size={getSize()}>
                     <Logo />
                   </Avatar>
                 </div>

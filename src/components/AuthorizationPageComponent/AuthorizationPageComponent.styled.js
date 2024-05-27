@@ -15,7 +15,7 @@ export const AuthorizationLogo = styled(ICONS.LOGO)`
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.dark};
   margin-bottom: 92px;
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     display: none;
   }
 `;
@@ -25,7 +25,7 @@ export const AuthorizationTitle = styled(Typography)`
   text-align: center;
   color: ${(p) => p.theme.palette.primary.dark};
   margin-bottom: 24px;
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     ${(p) => p.theme.typography.h2}
     margin-bottom: 40px;
   }

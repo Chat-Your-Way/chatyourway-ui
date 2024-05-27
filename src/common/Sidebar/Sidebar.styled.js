@@ -6,6 +6,15 @@ import Button from '../../ui-kit/components/Button';
 
 export const MainBox = styled(Box)`
   display: flex;
+  padding-left: 0;
+
+  @media screen and (min-width: 769px) {
+    padding-left: 0;
+  }
+
+  @media screen and (min-width: 1200px) {
+    padding-left: 55px;
+  }
 `;
 
 export const StyledBox = styled(Box, {
@@ -20,11 +29,29 @@ export const StyledBox = styled(Box, {
   background: ${(p) => p.theme.palette.primary.white};
   border: 1px solid transparent;
   border-radius: 16px;
+  padding: 5px 5px;
+  width: calc(100vw - 50px);
 
-  @media screen and (min-width: calc(834px - 0.02px)) {
+  @media screen and (max-width: 320px) {
+    width: 300px;
+  }
+
+  @media screen and (max-width: 400px) {
+    height: calc(100vh - 136px);
+    margin-top: 20px;
+    margin-left: 0;
+  }
+
+  @media screen and (min-width: 580px) {
+    padding: 35px 15px 10px 15px;
+    height: auto;
+  }
+
+  @media screen and (min-width: 769px) {
     width: ${(p) => (p.showText ? '290px' : '75px')};
     background: transparent;
     border: none;
+    margin-left: 0;
   }
 `;
 
@@ -34,23 +61,35 @@ export const StyledContentBox = styled(Box, {
   padding-bottom: 83px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 25px;
   box-sizing: border-box;
   background: transparent;
 
-  @media screen and (min-width: calc(834px - 0.02px)) {
+  @media screen and (max-width: 320px) {
+    gap: 10px;
+  }
+
+  @media screen and (min-width: 769px) {
     gap: 0;
+    position: absolute;
+    top: 167px;
+    left: 40px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    top: 154px;
+    left: 80px;
   }
 `;
 
 export const Logo = styled(ICONS.LOGO)`
-  padding-left: 67px;
+  margin: 0 auto;
   fill: ${(p) =>
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.dark};
 
-  @media screen and (min-width: calc(834px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     display: none;
   }
 `;
@@ -60,7 +99,7 @@ export const StyledItemsBox = styled(Box, {
 })`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 9px;
   box-sizing: border-box;
   background: transparent;
 `;
@@ -73,7 +112,6 @@ export const StyledItem = styled(Box, {
   display: flex;
   align-items: center;
   text-decoration: none;
-  width: 235px;
   gap: ${(p) => (p.showText ? '8px' : '0')};
   box-sizing: border-box;
   color: ${(p) => p.theme.palette.primary.main};
@@ -81,6 +119,7 @@ export const StyledItem = styled(Box, {
   background: transparent;
   border: none;
   transition: 0.2s ease all;
+  
 
   path {
     fill: ${(p) =>
@@ -95,11 +134,12 @@ export const StyledItem = styled(Box, {
     ${(p) => p.theme.typography.h4}
   }
 
-  @media screen and (min-width: calc(1200px - 0.02px)) {
-    width: 290px;
+  @media screen and (max-width: 320px) {
+    padding: 8px 16px;
   }
 
-  @media screen and (min-width: calc(834px - 0.02px)) {
+  @media screen and (min-width: 769px) {
+    max-width: 290px;
     border: 1px solid
       ${(p) =>
         p.showText && p.isActive
@@ -108,6 +148,10 @@ export const StyledItem = styled(Box, {
 
     background: ${(p) =>
       p.showText && p.isActive ? p.theme.palette.primary.white : 'transparent'};
+  }
+
+  @media screen and (min-width: 1200px) {
+    width: 290px;
   }
 
   svg {
@@ -142,7 +186,7 @@ export const LogOutButton = styled(Button)`
   display: flex;
   justify-content: start;
 
-  @media screen and (min-width: calc(834px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     display: none;
   }
 `;
@@ -159,7 +203,7 @@ export const StyledText = styled(Typography, {
 })`
   color: ${(p) => p.theme.palette.primary.dark};
 
-  @media screen and (min-width: calc(834px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     color: ${(p) =>
       p.isActive ? p.theme.palette.primary.main : p.theme.palette.primary.dark};
 

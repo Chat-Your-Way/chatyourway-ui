@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Avatar } from '@mui/material';
 
 const sizePicker = {
+  xs: { width: '45px', height: '45px' },
   sm: { width: '55px', height: '55px' },
   md: { width: '60px', height: '60px' },
   lg: { width: '80px', height: '80px' },

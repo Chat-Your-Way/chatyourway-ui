@@ -18,6 +18,7 @@ import { PATH } from '../../constans/routes';
 import { useMediaQuery } from 'react-responsive';
 import { useUser } from '../../hooks/useUser';
 import { useLogoutMutation } from '../../redux/auth-operations';
+import { useTopicsContext } from '../Topics/TopicsContext';
 
 const menuRoutes = [
   {
@@ -42,38 +43,51 @@ const menuRoutes = [
   },
 ];
 
-const useTabletAndBelowMediaQuery = () =>
-  useMediaQuery({ query: '(max-width: 1200px)' });
-
 const useMobileMediaQuery = () =>
-  useMediaQuery({ query: '(max-width: 834px)' });
+  useMediaQuery({ query: '(max-width: 769px)' });
 
 const Sidebar = () => {
-  const { showText, showMenu, setShowText, setShowMenu } = useSidebarContext();
+  const {
+    showText,
+    showMenu,
+    setShowText,
+    setShowMenu,
+    setSelectedCategory,
+  } = useSidebarContext();
   const { pathname } = useLocation();
-  const isTabletAndBelow = useTabletAndBelowMediaQuery();
   const isMobile = useMobileMediaQuery();
   const [isShowText, setIsShowText] = useState();
   const { localLogOut } = useUser();
   const [logout] = useLogoutMutation();
   const navigate = useNavigate();
+  const { setShowTopics } = useTopicsContext();
 
   useEffect(() => {
-    const isHome = pathname.includes('home');
-    const isTopicsOrNotification = pathname.includes('topics')
-      ? true
-      : pathname.includes('notification')
-      ? true
-      : false;
-    if (pathname.includes('chat')) setShowText(false);
-    else setShowText(true);
-    if (isMobile && isTopicsOrNotification) setShowMenu(false);
-    else if (isMobile && isHome) setShowMenu(true);
-  }, [pathname, setShowText, setShowMenu, isTabletAndBelow, isMobile]);
+    if (pathname === PATH.HOME) {
+      setShowText(false);
+      setShowMenu(true);
+    } else {
+      setShowText(true);
+    }
+    if (pathname.includes('chat')) {
+      setShowText(false);
+    } else {
+      setShowText(true);
+    }
+  }, [pathname, setShowText, setShowMenu]);
+
 
   useEffect(() => {
     setIsShowText(showText);
   }, [showText]);
+
+  useEffect(() => {
+    if (!isMobile) {
+      setShowMenu(true);
+    } else {
+      setShowMenu(false);
+    }
+  }, [isMobile, setShowMenu]);
 
   const LogOut = async () => {
     try {
@@ -92,6 +106,15 @@ const Sidebar = () => {
     }
   };
 
+  const handleCategoryClick = (path) => {
+    setSelectedCategory(path);
+    if (isMobile) {
+      setShowMenu(false);
+    }
+    setShowTopics(true);
+    navigate(path);
+  };
+
   return (
     <MainBox>
       {showMenu && (
@@ -103,7 +126,11 @@ const Sidebar = () => {
                 return (
                   <StyledNavLink to={route.path} key={route.name}>
                     {({ isActive }) => (
-                      <StyledItem showText={showText} isActive={isActive}>
+                      <StyledItem
+                        showText={showText}
+                        isActive={isActive}
+                        onClick={() => handleCategoryClick(route.path)}
+                      >
                         {route.icon}
                         {showText && (
                           <StyledText isActive={isActive}>

@@ -15,13 +15,13 @@ export const FaqPageWrapper = styled(Box)`
   border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
 
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     padding: 40px 20px;
     max-width: 648px;
     height: 840px;
   }
 
-  @media screen and (min-width: calc(1195px - 0.02px)) {
+  @media screen and (min-width: 1194px) {
     width: 840px;
     height: 761px;
     padding: 40px 70px 262px 40px;
@@ -33,7 +33,7 @@ export const FaqPageTitle = styled(Typography)`
   margin-bottom: 20px;
   color: ${(p) => p.theme.palette.primary.dark};
 
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: 769x) {
     ${(p) => p.theme.typography.h1};
     justify-content: start;
   }
@@ -65,12 +65,12 @@ export const AccordionList = styled(Box)`
   &::-webkit-scrollbar-thumb {
     background-color: ${(p) => p.theme.palette.primary.lightPurple};
   }
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     max-width: 600px;
     max-height: 700px;
   }
 
-  @media screen and (min-width: calc(1195px - 0.02px)) {
+  @media screen and (min-width: 1194px) {
     max-width: 730px;
     max-height: 861px;
   }

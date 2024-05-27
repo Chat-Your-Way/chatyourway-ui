@@ -8,7 +8,7 @@ const VerificationEmailWrapper = styled(Box)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  @media screen and (min-width: 844px) {
+  @media screen and (min-width: 769px) {
     width: 457px;
   }
 `;
@@ -16,7 +16,7 @@ const VerificationEmailWrapper = styled(Box)`
 const TextBox = styled(Box)`
   display: block;
   min-width: 300px;
-  @media screen and (min-width: 844px) {
+  @media screen and (min-width: 769px) {
     width: 85%;
   }
 `;
@@ -29,7 +29,7 @@ export const Logo = styled(ICONS.LOGO)`
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.dark};
 
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     display: none;
   }
 `;
@@ -39,7 +39,7 @@ const VerificationEmailTitle = styled(Typography)`
   color: ${(p) => p.theme.palette.primary.dark};
   ${(p) => p.theme.typography.h3}
   min-width: 300px;
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     min-width: 457px;
   }
 `;
@@ -52,8 +52,8 @@ const VerificationEmailSubTitle = styled(Typography)`
 const VerificationEmailParagraph = styled(Typography)`
   color: ${(p) => p.theme.palette.primary.dark};
   display: flex;
-  ${(p) => p.theme.typography.h5}
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  ${(p) => p.theme.typography.h5};
+  @media screen and (min-width: 769px) {
     min-width: 389px;
   }
 `;
@@ -61,8 +61,8 @@ const VerificationEmailParagraph = styled(Typography)`
 const VerificationEmailSubParagraph = styled(Typography)`
   color: ${(p) => p.theme.palette.primary.dark};
   display: flex;
-  ${(p) => p.theme.typography.h5}
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  ${(p) => p.theme.typography.h5};
+  @media screen and (min-width: 769px) {
     min-width: 389px;
   }
 `;
@@ -71,7 +71,7 @@ const LoginAccountButton = styled(DefaultButton)`
   ${(p) => p.theme.typography.h5}
   padding: 8px 12px;
   margin-top: 24px;
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     display: flex;
     ${(p) => p.theme.typography.h5}
   }

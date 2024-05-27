@@ -10,22 +10,37 @@ export const WhiteLayoutStyled = styled(Box, {
 
   box-sizing: border-box;
   border-radius: 16px;
-  margin: 0 auto;
-  width: ${(p) => (p.width ? p.width : '342px')};
-  height: ${(p) => (p.height ? p.height : '600px')};
+  //margin-bottom: 30px;
+  width: ${(p) => (p.width ? p.width : '100%')};
+  max-width: 342px;
+  height: ${(p) => (p.height ? p.height : '100vh')};
+  max-height: 600px;
   padding: ${(p) => (p.padding ? p.padding : '40px 28px 40px 27px')};
   background-color: ${(p) => p.theme.palette.primary.white};
 
-  @media screen and (min-width: calc(845px - 0.02px)) {
-    align-items: center;
-    width: ${(p) => (p.width ? p.width : '624px')};
-    height: ${(p) => (p.height ? p.height : '800px')};
-    padding: ${(p) => (p.padding ? p.padding : '0 133px')};
+  @media screen and (max-width: 342px) {
+    height: 100%;
+    margin: 0 5px;
   }
 
-  @media screen and (min-width: calc(1195px - 0.02px)) {
-    width: ${(p) => (p.width ? p.width : '800px')};
-    height: ${(p) => (p.height ? p.height : '600px')};
-    padding: ${(p) => (p.padding ? p.padding : '205px 221px')};
+  @media screen and (min-width: 769px) {
+    align-items: center;
+    width: ${(p) => (p.width ? p.width : '100%')};
+    max-width: 624px;
+    height: ${(p) => (p.height ? p.height : '100vh')};
+    max-height: 800px;
+    // padding: ${(p) => (p.padding ? p.padding : '0 133px')};
+    margin-top: 38px;
+    margin-bottom: 30px;
+  }
+
+  @media screen and (min-width: 1195px) {
+    width: ${(p) => (p.width ? p.width : '100%')};
+    max-width: 800px;
+    height: ${(p) => (p.height ? p.height : '100vh')};
+    max-height: 594px;
+    // padding: ${(p) => (p.padding ? p.padding : '205px 190px')};
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
 `;

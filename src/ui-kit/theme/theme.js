@@ -75,13 +75,13 @@ export const createCommonTheme = (theme) =>
       },
       h2: {
         fontFamily: 'Inter, sans-serif',
-        fontSize: '40px',
+        fontSize: '43px',
         lineHeight: '135%',
         fontWeight: '400',
       },
       h3: {
         fontFamily: 'Inter, sans-serif',
-        fontSize: '32px',
+        fontSize: '33px',
         lineHeight: '135%',
         fontWeight: '400',
       },

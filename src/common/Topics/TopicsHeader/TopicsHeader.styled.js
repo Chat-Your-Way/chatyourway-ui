@@ -11,7 +11,7 @@ export const StyledBox = styled(Box)`
         : p.theme.palette.primary.contrastText};
   }
 
-  @media screen and (min-width: calc(834px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     margin-bottom: 16px;
   }
 `;
@@ -19,13 +19,13 @@ export const StyledBox = styled(Box)`
 export const StyledSearchInput = styled(SearchInput, {
   shouldForwardProp: (p) => p !== 'inputWidth' && p !== 'inputHeight',
 })`
-  width: 330px;
+  //width: 330px;
 
-  @media screen and (min-width: calc(834px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     width: 400px;
   }
 
-  @media screen and (min-width: calc(1200px - 0.02px)) {
+  @media screen and (min-width: 1200px) {
     width: ${(p) =>
       p.chatOpened ? '360px' : p.contactsOpened ? '300px' : '400px'};
     max-width: 100%;
