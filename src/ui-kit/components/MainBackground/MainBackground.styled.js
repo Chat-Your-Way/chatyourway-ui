@@ -18,7 +18,11 @@ export const SharedLayoutWrapper = styled(Box)`
   overflow: hidden;
   transition: background 0.6s ease;
   display: flex;
-  flex-direction: column;
+  flex-direction: ${(props) => `${props.$direction}` || 'column'};
+  justify-content: ${(props) =>
+    props.$justifyContent ? `${props.$justifyContent}` : 'flex-start'};
+  align-items: ${(props) =>
+    props.$alignItems ? `${props.$alignItems}` : 'stretch'};
 
   background: ${(p) =>
       p.theme.palette.mode === 'light'
