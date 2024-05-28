@@ -16,7 +16,7 @@ export const SuccessSignupWrapper = styled(Box)`
 export const Logo = styled(ICONS.LOGO)`
   display: block;
   justify-content: center;
-  padding: 58px 0px;
+  padding: 58px 0;
   fill: ${(p) =>
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.contrastText

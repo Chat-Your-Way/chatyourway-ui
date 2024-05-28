@@ -73,7 +73,7 @@ export const RegistrationLabel = styled(Typography)`
 
 export const RegistrationInput = styled(InputBase, {
   shouldForwardProp: (p) =>
-    p !== 'inputWidth' && p !== 'inputHeight' && p !== 'errors' ,
+    p !== 'inputWidth' && p !== 'inputHeight' && p !== 'errors',
 })`
   padding: 12px;
   width: ${(p) => (p.inputWidth ? p.inputWidth : '300px')};
@@ -82,7 +82,7 @@ export const RegistrationInput = styled(InputBase, {
   background-color: ${(p) => p.theme.palette.primary.white};
 
   @media screen and (min-width: 560px) {
-  height: 46px;
+    height: 46px;
   }
 
   @media screen and (min-width: 769px) {

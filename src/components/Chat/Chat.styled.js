@@ -107,7 +107,7 @@ export const TimeIndicator = styled(Typography)`
 
   @media screen and (min-width: calc(845px - 0.02px)) {
     ${({ isMyMessage }) =>
-        (isMyMessage ? 'margin-right: 16px;' : 'margin-left: 16px;')}
+      isMyMessage ? 'margin-right: 16px;' : 'margin-left: 16px;'}
   }
 `;
 

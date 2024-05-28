@@ -11,7 +11,7 @@ import { getAvatar } from './getAvatar';
 import { StyledBox, StyledChildrenBox } from './ChatItem.styled';
 import { useTopicsContext } from '../../TopicsContext';
 import { getTime } from '../../../../components/Chat/processMessageData';
-import {useMediaQuery} from "react-responsive";
+import { useMediaQuery } from 'react-responsive';
 
 const ChatItem = ({ isActive, data, notification }) => {
   const { isTopics } = useTopicsContext();

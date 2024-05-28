@@ -7,7 +7,7 @@ export const StyledBox = styled(Box)`
   flex-grow: 1;
   margin-top: 85px;
   position: absolute;
-  
+
   @media screen and (max-width: 400px) {
     margin-top: 40px;
   }

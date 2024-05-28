@@ -22,7 +22,6 @@ export const StyledBox = styled(Box, {
 })`
   display: flex;
   flex-direction: column;
-  width: 342px;
 
   gap: ${(p) => (p.showText === true ? '8px' : '24px')};
   box-sizing: border-box;
@@ -119,7 +118,6 @@ export const StyledItem = styled(Box, {
   background: transparent;
   border: none;
   transition: 0.2s ease all;
-  
 
   path {
     fill: ${(p) =>

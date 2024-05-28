@@ -19,8 +19,6 @@ export const StyledBox = styled(Box)`
 export const StyledSearchInput = styled(SearchInput, {
   shouldForwardProp: (p) => p !== 'inputWidth' && p !== 'inputHeight',
 })`
-  //width: 330px;
-
   @media screen and (min-width: 769px) {
     width: 400px;
   }

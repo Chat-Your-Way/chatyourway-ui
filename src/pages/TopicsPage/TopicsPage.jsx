@@ -10,10 +10,10 @@ import { useTopicsPageContext } from './TopicsPageContext';
 import { useTopicsContext } from '../../common/Topics/TopicsContext';
 
 const useTabletAndBelowMediaQuery = () =>
-    useMediaQuery({ query: '(max-width: 770px)' });
+  useMediaQuery({ query: '(max-width: 770px)' });
 
 const useMobileMediaQuery = () =>
-    useMediaQuery({ query: '(max-width: 769px)' });
+  useMediaQuery({ query: '(max-width: 769px)' });
 
 function TopicsPage() {
   const isTabletAndBelow = useTabletAndBelowMediaQuery();
@@ -42,22 +42,22 @@ function TopicsPage() {
   };
 
   return (
-      <StyledBox>
-        {showTopics && <Topics handleBTNFunc={handleModal} />}
-        {modalOpenNewTopic && (
-            <Modal closeModal={() => setModalOpenNewTopic(!contactsOpen)}>
-              {<NewTopic closeModal={() => setModalOpenNewTopic(false)} />}
-            </Modal>
-        )}
-        {<Outlet />}
-        {contactsOpen && isTabletAndBelow ? (
-            <Modal closeModal={() => setContactsOpen(false)} location="right">
-              <Contacts title={title} />
-            </Modal>
-        ) : contactsOpen ? (
-            <Contacts title={title} />
-        ) : null}
-      </StyledBox>
+    <StyledBox>
+      {showTopics && <Topics handleBTNFunc={handleModal} />}
+      {modalOpenNewTopic && (
+        <Modal closeModal={() => setModalOpenNewTopic(!contactsOpen)}>
+          {<NewTopic closeModal={() => setModalOpenNewTopic(false)} />}
+        </Modal>
+      )}
+      {<Outlet />}
+      {contactsOpen && isTabletAndBelow ? (
+        <Modal closeModal={() => setContactsOpen(false)} location="right">
+          <Contacts title={title} />
+        </Modal>
+      ) : contactsOpen ? (
+        <Contacts title={title} />
+      ) : null}
+    </StyledBox>
   );
 }
 

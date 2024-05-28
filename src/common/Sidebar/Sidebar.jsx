@@ -47,13 +47,8 @@ const useMobileMediaQuery = () =>
   useMediaQuery({ query: '(max-width: 769px)' });
 
 const Sidebar = () => {
-  const {
-    showText,
-    showMenu,
-    setShowText,
-    setShowMenu,
-    setSelectedCategory,
-  } = useSidebarContext();
+  const { showText, showMenu, setShowText, setShowMenu, setSelectedCategory } =
+    useSidebarContext();
   const { pathname } = useLocation();
   const isMobile = useMobileMediaQuery();
   const [isShowText, setIsShowText] = useState();
@@ -75,7 +70,6 @@ const Sidebar = () => {
       setShowText(true);
     }
   }, [pathname, setShowText, setShowMenu]);
-
 
   useEffect(() => {
     setIsShowText(showText);

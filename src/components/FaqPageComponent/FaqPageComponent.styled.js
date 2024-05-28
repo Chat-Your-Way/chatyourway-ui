@@ -33,7 +33,7 @@ export const FaqPageTitle = styled(Typography)`
   margin-bottom: 20px;
   color: ${(p) => p.theme.palette.primary.dark};
 
-  @media screen and (min-width: 769x) {
+  @media screen and (min-width: 769px) {
     ${(p) => p.theme.typography.h1};
     justify-content: start;
   }
