@@ -4,7 +4,7 @@ import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
 import { PATH } from '../../constans/routes';
 import SharedLayout from '../../ui-kit/components/SharedLayout/SharedLayout';
-// import Loader from '../Loader';
+import Loader from '../Loader';
 import AuthorizationPage from '../../pages/AuthorizationPage';
 import LoginPage from '../../pages/LoginPage/LoginPage';
 import RegistrationPage from '../../pages/RegistrationPage';
@@ -18,11 +18,10 @@ import NotFoundPage from '../../pages/NotFoundPage';
 import VerificationEmailPage from '../../pages/VerificationEmailPage';
 import FaqPage from '../../pages/FaqPage';
 import Chat from '../Chat/Chat';
-import LoaderTemplate from '../Loader-template';
 
 const Router = () => {
   return (
-    <Suspense fallback={<LoaderTemplate />}>
+    <Suspense fallback={<Loader />}>
       <Routes>
         {/*Public Route*/}
         <Route path={PATH.MAIN} element={<PublicRoute />}>
@@ -52,7 +51,6 @@ const Router = () => {
             <Route path={PATH.TOPICS} element={<TopicsPage />}>
               <Route path={PATH.CHAT} element={<Chat />} />
             </Route>
-
             <Route path={PATH.NOTIFICATION} element={<NotificationPage />}>
               <Route path={PATH.CHAT} element={<Chat />} />
             </Route>
