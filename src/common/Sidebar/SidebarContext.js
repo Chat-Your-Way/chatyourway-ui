@@ -1,4 +1,5 @@
-import { useContext, createContext, useState } from 'react';
+import { useContext, createContext, useState, useEffect } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 const Context = createContext(null);
 
@@ -16,11 +17,24 @@ export function useSidebarContext() {
 export const useCreateSidebarContext = function (props) {
   const [showText, setShowText] = useState(props.showText || true);
   const [showMenu, setShowMenu] = useState(props.showText || true);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const isMobile = useMediaQuery({ query: '(max-width: 769px)' });
+
+  useEffect(() => {
+    if (isMobile) {
+      setShowMenu(false);
+    } else {
+      setShowMenu(true);
+    }
+  }, [isMobile]);
 
   return {
     showText,
     setShowText,
     showMenu,
     setShowMenu,
+    selectedCategory,
+    setSelectedCategory,
   };
 };

@@ -10,6 +10,35 @@ export const LoginWrapper = styled(Box)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  position: absolute;
+  top: 41%;
+  transform: translateY(-50%);
+
+  @media screen and (min-width: 769px) {
+    padding-bottom: 0;
+    padding-top: 0;
+    top: 50%;
+  }
+
+  @media screen and (min-width: 1194px) {
+    margin-top: 0;
+    padding-bottom: 30px;
+    padding-top: 30px;
+  }
+
+  h5 {
+    font-size: ${(p) => p.theme.typography.h5};
+    margin-top: 0;
+  }
+
+  span {
+    font-size: ${(p) => p.theme.typography.h5};
+  }
+
+  .css-1tqzluo-MuiInputBase-root {
+    height: 46px;
+  }
 `;
 
 export const LogoIcon = styled(ICONS.LOGO)`
@@ -18,7 +47,7 @@ export const LogoIcon = styled(ICONS.LOGO)`
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.dark};
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     display: none;
   }
 `;
@@ -39,7 +68,7 @@ export const LoginLink = styled(NavLink)`
 `;
 
 export const ButtonWrapper = styled(Box)`
-  margin: 24px 0 0 0;
+  margin: 20px 0 0 0;
   text-align: center;
 `;
 

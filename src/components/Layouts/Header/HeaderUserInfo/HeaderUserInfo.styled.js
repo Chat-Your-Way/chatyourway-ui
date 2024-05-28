@@ -10,7 +10,7 @@ export const UserInfoBlock = styled(Box)`
 export const StyledToogle = styled(Toogle)`
   display: none;
 
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     display: flex;
   }
 `;
@@ -20,7 +20,7 @@ export const NotificationIcon = styled(ICONS.NOTIFICATION)`
   width: 24px;
   padding-top: 8px;
   padding-right: 2px;
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     height: 40px;
     width: 40px;
     padding: 0;
@@ -29,11 +29,11 @@ export const NotificationIcon = styled(ICONS.NOTIFICATION)`
 `;
 
 export const NotificationCount = styled(Badge)`
-  @media screen and (max-width: calc(845px - 0.03px)) {
+  @media screen and (max-width: 769px) {
     margin: 0 10px 0 11px;
   }
 
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     margin: 0 24px 0 8px;
   }
 
@@ -44,7 +44,7 @@ export const NotificationCount = styled(Badge)`
 `;
 
 export const UserName = styled(Typography)`
-  @media screen and (max-width: calc(845px - 0.02px)) {
+  @media screen and (max-width: 769px) {
     font-size: 16px;
   }
   color: ${(p) => p.theme.palette.primary.dark};

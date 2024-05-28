@@ -11,6 +11,22 @@ import sixthLight from '../../images/mainBg/6-layer-light.png';
 import sixthDark from '../../images/mainBg/6-layer-dark.png';
 import seventh from '../../images/mainBg/7-layer.png';
 
+const generateBackground = (mode, sizes) => `
+  url(${mode === 'light' ? firstLight : firstDark}) left top / ${
+  sizes.first
+} no-repeat,
+  url(${second}) left bottom / 50% no-repeat,
+  url(${third}) right bottom / 50% no-repeat,
+  url(${fourth}) right top / 50% no-repeat,
+  url(${mode === 'light' ? fifthLight : fifthDark}) right bottom / ${
+  sizes.fifth
+} no-repeat,
+  url(${mode === 'light' ? sixthLight : sixthDark}) left bottom / ${
+  sizes.sixth
+} no-repeat,
+  url(${seventh}) right bottom / 50% no-repeat
+`;
+
 export const SharedLayoutWrapper = styled(Box)`
   width: 100%;
   min-height: 100vh;
@@ -19,22 +35,31 @@ export const SharedLayoutWrapper = styled(Box)`
   transition: background 0.6s ease;
   display: flex;
   flex-direction: column;
-
   background: ${(p) =>
-      p.theme.palette.mode === 'light'
-        ? `url(${firstLight}) left top / 50% no-repeat`
-        : `url(${firstDark}) left top / 50% no-repeat`},
-    url(${second}) left bottom / 50% no-repeat,
-    url(${third}) right bottom / 50% no-repeat,
-    url(${fourth}) right top / 50% no-repeat,
-    ${(p) =>
-      p.theme.palette.mode === 'light'
-        ? `url(${fifthLight}) right bottom / 45% no-repeat`
-        : `url(${fifthDark}) right bottom / 45% no-repeat`},
-    ${(p) =>
-      p.theme.palette.mode === 'light'
-        ? `url(${sixthLight}) left bottom / 70% no-repeat`
-        : `url(${sixthDark}) left bottom / 70% no-repeat`},
-    url(${seventh}) right bottom / 50% no-repeat;
+    generateBackground(p.theme.palette.mode, {
+      first: p.theme.palette.mode === 'light' ? '132%' : '50%',
+      fifth: p.theme.palette.mode === 'light' ? '43%' : '45%',
+      sixth: p.theme.palette.mode === 'light' ? '96%' : '70%',
+    })};
   background-color: ${(p) => p.theme.palette.primary.disabled};
+
+  @media screen and (min-width: 769px) {
+    background: ${(p) =>
+      generateBackground(p.theme.palette.mode, {
+        first: p.theme.palette.mode === 'light' ? '88%' : '50%',
+        fifth: p.theme.palette.mode === 'light' ? '50%' : '45%',
+        sixth: p.theme.palette.mode === 'light' ? '96%' : '70%',
+      })};
+    background-color: ${(p) => p.theme.palette.primary.disabled};
+  }
+
+  @media screen and (min-width: 1195px) {
+    background: ${(p) =>
+      generateBackground(p.theme.palette.mode, {
+        first: p.theme.palette.mode === 'light' ? '63%' : '50%',
+        fifth: p.theme.palette.mode === 'light' ? '46%' : '45%',
+        sixth: p.theme.palette.mode === 'light' ? '77%' : '70%',
+      })};
+    background-color: ${(p) => p.theme.palette.primary.disabled};
+  }
 `;

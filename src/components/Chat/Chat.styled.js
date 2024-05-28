@@ -9,7 +9,7 @@ export const ChatWrap = styled(Box)`
   width: 100%;
   max-width: 342px;
 
-  height: calc(100vh - 145px);
+  //height: calc(100vh - 145px);
   overflow-y: auto;
 
   padding: 6px 6px 21px;

@@ -8,14 +8,17 @@ export const RegistrationWrapper = styled(Box)`
   flex-direction: column;
   align-items: center;
   margin: auto;
-  padding: 47px 0 81px 0;
+  padding-bottom: 30px;
 
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     align-items: flex-start;
-    padding: 40px 40px 250px 40px;
+    padding: 30px;
   }
-  @media screen and (min-width: calc(1200px - 0.02px)) {
-    padding: 32px 80px 164px 80px;
+  @media screen and (min-width: 1200px) {
+    padding: 5px 80px 164px 80px;
+    position: absolute;
+    transform: translateY(-50%);
+    top: 58%;
   }
 `;
 
@@ -24,12 +27,20 @@ export const LogoIcon = styled(ICONS.LOGO)`
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.dark};
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  height: 50px;
+
+  @media screen and (min-width: 560px) {
+    height: 87px;
+  }
+
+  @media screen and (min-width: 769px) {
     display: none;
     margin: 0 0 122px 0;
+    height: 87px;
   }
-  @media screen and (min-width: calc(1200px - 0.02px)) {
+  @media screen and (min-width: 1200px) {
     margin: 0 0 45px 0;
+    height: 87px;
   }
 `;
 
@@ -43,15 +54,19 @@ export const RegistrationForm = styled.form`
 // ===== COMMON STYLES
 export const RegistrationInputWrapper = styled(Box)`
   position: relative;
-  margin: 0 0 23px 0;
+  margin: 3px 0 19px 0;
 `;
 
 export const RegistrationLabel = styled(Typography)`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  @media screen and (max-width: calc(845px - 0.02px)) {
+  font-size: ${(p) => p.theme.typography.h6};
+  margin-top: -10px;
+
+  @media screen and (min-width: 560px) {
     ${(p) => p.theme.typography.h5};
+    margin-top: 0;
   }
   color: ${(p) => p.theme.palette.primary.dark};
 `;
@@ -62,11 +77,15 @@ export const RegistrationInput = styled(InputBase, {
 })`
   padding: 12px;
   width: ${(p) => (p.inputWidth ? p.inputWidth : '300px')};
-  height: ${(p) => (p.inputHeight ? p.inputHeight : '46px')};
+  height: ${(p) => (p.inputHeight ? p.inputHeight : '40px')};
   border: 1px solid ${(p) => (p.errors === 'true' ? '#DA4444' : '#6261AF')};
   background-color: ${(p) => p.theme.palette.primary.white};
 
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: 560px) {
+    height: 46px;
+  }
+
+  @media screen and (min-width: 769px) {
     width: ${(p) => (p.inputWidth ? p.inputWidth : '400px')};
   }
 `;
@@ -74,8 +93,13 @@ export const RegistrationInput = styled(InputBase, {
 export const RegistrationInputError = styled.span`
   position: absolute;
   left: 0;
-  bottom: -20px;
+  font-size: 13px;
   color: ${(p) => p.theme.palette.primary.errorColor};
+
+  @media screen and (min-width: 560px) {
+    bottom: -20px;
+    font-size: 16px;
+  }
 `;
 
 export const RegistrationButton = styled(DefaultButton)`
@@ -89,6 +113,6 @@ export const RegistrationButton = styled(DefaultButton)`
   ${(p) => p.theme.typography.h5}
 
   &:hover {
-    box-shadow: 0px 1px 8px 4px rgba(134, 134, 220, 0.2);
+    box-shadow: 0 1px 8px 4px rgba(134, 134, 220, 0.2);
   }
 `;

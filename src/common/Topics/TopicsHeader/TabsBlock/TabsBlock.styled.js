@@ -6,20 +6,19 @@ import Tab from '@mui/material/Tab';
 export const StyledBox = styled(Box, {
   shouldForwardProp: (p) => p !== 'chatOpened' && p !== 'contactsOpened',
 })`
-  width: 330px;
+  //width: 330px;
   height: 43px;
   margin-bottom: 4px;
   display: flex;
-  box-sizing: border-box;
   justify-content: space-between;
   border: 1px solid ${(p) => p.theme.palette.primary.contrastText};
   border-radius: 8px;
 
-  @media screen and (min-width: calc(834px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     width: 400px;
   }
 
-  @media screen and (min-width: calc(1200px - 0.02px)) {
+  @media screen and (min-width: 1200px) {
     width: ${(p) =>
       p.chatOpened ? '360px' : p.contactsOpened ? '300px' : '400px'};
     max-width: 100%;
@@ -29,20 +28,24 @@ export const StyledBox = styled(Box, {
 export const StyledTabs = styled(Tabs, {
   shouldForwardProp: (p) => p !== 'chatOpened' && p !== 'contactsOpened',
 })`
-  width: 330px;
+  //width: 330px;
   min-height: 41px;
   display: flex;
   box-sizing: border-box;
+  width: 100%;
 
   .MuiTabs-flexContainer {
     justify-content: space-between;
   }
 
-  @media screen and (min-width: calc(834px - 0.02px)) {
+  button {
+    width: 33%;
+  }
+  @media screen and (min-width: 769px) {
     width: 400px;
   }
 
-  @media screen and (min-width: calc(1200px - 0.02px)) {
+  @media screen and (min-width: 1200px) {
     width: ${(p) =>
       p.chatOpened ? '360px' : p.contactsOpened ? '300px' : '400px'};
   }
@@ -74,11 +77,11 @@ export const StyledTab = styled(Tab, {
   border-radius: ${(p) =>
     p.borderRight ? '8px 0 0 8px' : p.borderLeft ? '0 8px 8px 0' : 'none'};
 
-  @media screen and (min-width: calc(834px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     width: ${(p) => p.tabWidth};
   }
 
-  @media screen and (min-width: calc(1200px - 0.02px)) {
+  @media screen and (min-width: 1200px) {
     width: ${(p) => p.tabWidth};
   }
 `;

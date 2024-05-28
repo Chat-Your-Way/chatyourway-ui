@@ -74,7 +74,7 @@ function RegistrationPageComponent() {
           id="nickname"
           control={control}
           errors={errors.nickname}
-          placeholder={``}
+          placeholder={`Кекс`}
         />
 
         <FieldText
@@ -82,7 +82,7 @@ function RegistrationPageComponent() {
           id="email"
           control={control}
           errors={errors.email}
-          placeholder={'Email'}
+          placeholder={'example@gmail.com'}
         />
 
         <FieldPassword
@@ -90,7 +90,7 @@ function RegistrationPageComponent() {
           id="password"
           control={control}
           errors={errors.password}
-          placeholder={'Пароль'}
+          placeholder={'Мінімум 8 символів'}
         />
 
         <FieldPassword
@@ -99,7 +99,7 @@ function RegistrationPageComponent() {
           control={control}
           errors={errors.confirm}
           watch={passwordValue}
-          placeholder={'Підтвердити пароль'}
+          placeholder={'Мінімум 8 символів'}
         />
 
         <FieldRadio id="avatar" control={control} />

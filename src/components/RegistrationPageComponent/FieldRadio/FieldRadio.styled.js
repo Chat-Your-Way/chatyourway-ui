@@ -4,12 +4,22 @@ import { Box } from '@mui/material';
 export const RadioGroup = styled(Box)`
   list-style: none;
   margin: 0 auto 8px auto;
-  padding: 24px 0 0 0;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 5px;
   justify-content: center;
+
+  @media screen and (min-width: 560px) {
+    gap: 9px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+
+  @media screen and (min-width: 769px) {
+    padding: 24px 0 0 0;
+    gap: 16px;
+  }
 `;
 
 export const RadioLabel = styled.label`

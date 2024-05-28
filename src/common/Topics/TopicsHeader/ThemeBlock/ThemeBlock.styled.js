@@ -4,8 +4,8 @@ import { Box } from '@mui/material';
 export const StyledBox = styled(Box, {
   shouldForwardProp: (p) => p !== 'chatOpened' && p !== 'contactsOpened',
 })`
-  ${(p) => p.theme.typography.h1};
-  width: 330px;
+  font-size: 40px;
+  //width: 342px;
 
   height: 54px;
   margin-bottom: 4px;
@@ -26,16 +26,17 @@ export const StyledBox = styled(Box, {
     fill: ${(p) => p.theme.palette.primary.dark};
   }
 
-  @media screen and (min-width: calc(834px - 0.02px)) {
-    width: 400px;
+  @media screen and (min-width: 769px) {
+    ${(p) => p.theme.typography.h1};
+    //width: 400px;
     width: 100%;
 
     height: 65px;
   }
 
-  @media screen and (min-width: calc(1200px - 0.02px)) {
+  @media screen and (min-width: 1200px) {
     width: ${(p) =>
       p.chatOpened ? '360px' : p.contactsOpened ? '300px' : '400px'};
-    width: 100%;
+    height: 60px;
   }
 `;

@@ -10,10 +10,10 @@ import { useTopicsPageContext } from './TopicsPageContext';
 import { useTopicsContext } from '../../common/Topics/TopicsContext';
 
 const useTabletAndBelowMediaQuery = () =>
-  useMediaQuery({ query: '(max-width: 1200px)' });
+  useMediaQuery({ query: '(max-width: 770px)' });
 
 const useMobileMediaQuery = () =>
-  useMediaQuery({ query: '(max-width: 834px)' });
+  useMediaQuery({ query: '(max-width: 769px)' });
 
 function TopicsPage() {
   const isTabletAndBelow = useTabletAndBelowMediaQuery();

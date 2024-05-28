@@ -11,6 +11,7 @@ import { getAvatar } from './getAvatar';
 import { StyledBox, StyledChildrenBox } from './ChatItem.styled';
 import { useTopicsContext } from '../../TopicsContext';
 import { getTime } from '../../../../components/Chat/processMessageData';
+import { useMediaQuery } from 'react-responsive';
 
 const ChatItem = ({ isActive, data, notification }) => {
   const { isTopics } = useTopicsContext();
@@ -22,13 +23,15 @@ const ChatItem = ({ isActive, data, notification }) => {
   const unreadedMessages = notification?.unreadMessages ?? null;
   const lastMessageContent = notification?.lastMessage ?? null;
 
+  const isTablet = useMediaQuery({ query: '(min-width: 769px' });
+
   return (
     <StyledBox
       chatOpened={chatOpened}
       contactsOpened={contactsOpened}
       isActive={isActive}
     >
-      <Avatar>{avatarContent}</Avatar>
+      <Avatar size={isTablet ? 'lg' : 'md'}>{avatarContent}</Avatar>
       {data && (
         <StyledChildrenBox
           chatOpened={chatOpened}

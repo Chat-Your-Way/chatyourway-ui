@@ -12,12 +12,12 @@ export const StyledBox = styled(Box, {
   gap: 16px;
   box-sizing: border-box;
 
-  @media screen and (min-width: calc(834px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     width: 308px;
     width: 100%;
   }
 
-  @media screen and (min-width: calc(1200px - 0.02px)) {
+  @media screen and (min-width: 1200px) {
     width: ${(p) =>
       p.chatOpened ? '300px' : p.contactsOpened ? '241px' : '308px'};
     width: 100%;
@@ -36,13 +36,13 @@ export const StyledAuthorBlock = styled(Typography, {
       ? p.theme.palette.primary.green
       : p.theme.palette.primary.lightDisabled};
 
-  @media screen and (min-width: calc(834px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     ${(p) => p.theme.typography.h5}
     width: 308px;
     width: 100%;
   }
 
-  @media screen and (min-width: calc(1200px - 0.02px)) {
+  @media screen and (min-width: 1200px) {
     width: ${(p) =>
       p.chatOpened ? '300px' : p.contactsOpened ? '241px' : '308px'};
     width: 100%;
@@ -50,7 +50,7 @@ export const StyledAuthorBlock = styled(Typography, {
 `;
 
 export const MessageCount = styled(Badge)`
-  margin: 0 12px 0;
+  margin: 30px 12px 0;
   width: 24px;
   color: ${(p) => p.theme.palette.primary.white};
 
@@ -66,12 +66,12 @@ export const StyledTimeText = styled(Typography)`
   ${(p) => p.theme.typography.h6}
   color: ${(p) => p.theme.palette.primary.lightDisabled};
 
-  @media screen and (min-width: calc(834px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     right: 16px;
     ${(p) => p.theme.typography.h5}
   }
 
-  @media screen and (min-width: calc(1200px - 0.02px)) {
-    right: 12px;
+  @media screen and (min-width: 1200px) {
+    right: 20px;
   }
 `;

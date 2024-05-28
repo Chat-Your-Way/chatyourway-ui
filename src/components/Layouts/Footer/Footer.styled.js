@@ -4,16 +4,21 @@ import { ICONS } from '../../../ui-kit/icons';
 import { Box } from '@mui/material';
 
 export const FooterWrap = styled(Box)`
+  position: absolute;
+  bottom: 0;
   display: none;
+  padding-left: 80px;
 
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     display: block;
     padding-top: 77px;
     padding-bottom: 40px;
+    padding-left: 40px;
   }
-  @media screen and (min-width: calc(1195px - 0.02px)) {
+  @media screen and (min-width: 1194px) {
     padding-top: 24px;
     padding-bottom: 40px;
+    padding-left: 80px;
   }
 `;
 

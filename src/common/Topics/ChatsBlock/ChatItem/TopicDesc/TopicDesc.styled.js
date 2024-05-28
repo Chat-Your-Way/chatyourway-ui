@@ -13,13 +13,13 @@ export const StyledBox = styled(Box, {
   justify-content: space-between;
   box-sizing: border-box;
 
-  @media screen and (min-width: calc(834px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     width: 308px;
     width: 100%;
     margin-bottom: 10px;
   }
 
-  @media screen and (min-width: calc(1200px - 0.02px)) {
+  @media screen and (min-width: 1200px) {
     width: ${(p) =>
       p.chatOpened ? '300px' : p.contactsOpened ? '241px' : '308px'};
     width: 100%;
@@ -32,7 +32,7 @@ export const StyledThemeText = styled(Typography)`
   ${(p) => p.theme.typography.h6}
   color: ${(p) => p.theme.palette.primary.dark};
 
-  @media screen and (min-width: calc(834px - 0.02px)) {
+  @media screen and (min-width: 769px) {
     ${(p) => p.theme.typography.h5}
   }
 `;
