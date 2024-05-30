@@ -15,7 +15,11 @@ const SharedLayout = () => {
   useSubscriptionToAllTopicsNotify(isAuthenticated);
 
   return (
-    <MainBackground>
+    <MainBackground
+      $direction={'column'}
+      $justifyContent={'flex-start'}
+      $alignItems={'stretch'}
+    >
       <Header />
       <main>
         <MainWrapper>
