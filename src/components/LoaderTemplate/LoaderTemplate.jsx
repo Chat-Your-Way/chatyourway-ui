@@ -34,7 +34,7 @@ function LoaderTemplate() {
   return (
     <Box sx={{ fontFamily: 'Junge' }}>
       <MainBackground
-        $direction={'column'}
+        $flexDirection={'column'}
         $justifyContent={'center'}
         $alignItems={'center'}
       >
