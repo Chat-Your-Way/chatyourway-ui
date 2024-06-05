@@ -35,7 +35,7 @@ export const SharedLayoutWrapper = styled.div`
   transition: background 0.6s ease;
   display: flex;
   flex-direction: ${(props) =>
-    props.$flexDirection ? `${props.$flexDirection}` : 'row'};
+    props.$flexDirection ? `${props.$flexDirection}` : 'column'};
   justify-content: ${(props) =>
     props.$justifyContent ? `${props.$justifyContent}` : 'flex-start'};
   align-items: ${(props) =>
