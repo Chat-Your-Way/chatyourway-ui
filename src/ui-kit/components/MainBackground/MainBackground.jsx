@@ -1,20 +1,9 @@
 import { SharedLayoutWrapper } from './MainBackground.styled';
 
-const MainBackground = ({
-  children,
-  $direction,
-  $justifyContent,
-  $alignItems,
-}) => {
-  return (
-    <SharedLayoutWrapper
-      $direction={$direction}
-      $justifyContent={$justifyContent}
-      $alignItems={$alignItems}
-    >
-      {children}
-    </SharedLayoutWrapper>
-  );
+const MainBackground = (props) => {
+  const { children, ...restProps } = props;
+
+  return <SharedLayoutWrapper {...restProps}>{children}</SharedLayoutWrapper>;
 };
 
 export default MainBackground;

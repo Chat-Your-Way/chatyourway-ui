@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Box } from '@mui/material';
+// import { Box } from '@mui/material';
 import firstLight from '../../images/mainBg/1-layer-light.png';
 import firstDark from '../../images/mainBg/1-layer-dark.png';
 import second from '../../images/mainBg/2-layer.png';
@@ -27,7 +27,7 @@ const generateBackground = (mode, sizes) => `
   url(${seventh}) right bottom / 50% no-repeat
 `;
 
-export const SharedLayoutWrapper = styled(Box)`
+export const SharedLayoutWrapper = styled.div`
   width: 100%;
   min-height: 100vh;
   position: relative;
@@ -35,7 +35,7 @@ export const SharedLayoutWrapper = styled(Box)`
   transition: background 0.6s ease;
   display: flex;
   flex-direction: ${(props) =>
-    props.$direction ? `${props.$direction}` : 'row'};
+    props.$flexDirection ? `${props.$flexDirection}` : 'column'};
   justify-content: ${(props) =>
     props.$justifyContent ? `${props.$justifyContent}` : 'flex-start'};
   align-items: ${(props) =>
