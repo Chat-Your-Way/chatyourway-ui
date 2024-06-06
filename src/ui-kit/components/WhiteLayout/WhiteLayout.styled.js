@@ -13,7 +13,7 @@ export const WhiteLayoutStyled = styled(Box, {
   //margin-bottom: 30px;
   width: ${(p) => (p.width ? p.width : '100%')};
   max-width: 342px;
-  height: ${(p) => (p.height ? p.height : '100vh')};
+  height: ${(p) => (p.height ? p.height : '90vh')};
   max-height: 600px;
   padding: ${(p) => (p.padding ? p.padding : '40px 28px 40px 27px')};
   background-color: ${(p) => p.theme.palette.primary.white};
@@ -27,7 +27,7 @@ export const WhiteLayoutStyled = styled(Box, {
     align-items: center;
     width: ${(p) => (p.width ? p.width : '100%')};
     max-width: 624px;
-    height: ${(p) => (p.height ? p.height : '100vh')};
+    height: ${(p) => (p.height ? p.height : '90vh')};
     max-height: 800px;
     // padding: ${(p) => (p.padding ? p.padding : '0 133px')};
     margin-top: 38px;
@@ -37,7 +37,7 @@ export const WhiteLayoutStyled = styled(Box, {
   @media screen and (min-width: 1195px) {
     width: ${(p) => (p.width ? p.width : '100%')};
     max-width: 800px;
-    height: ${(p) => (p.height ? p.height : '100vh')};
+    height: ${(p) => (p.height ? p.height : '90vh')};
     max-height: 594px;
     // padding: ${(p) => (p.padding ? p.padding : '205px 190px')};
     margin-top: 30px;

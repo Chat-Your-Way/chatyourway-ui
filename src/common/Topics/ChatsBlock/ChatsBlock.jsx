@@ -12,6 +12,7 @@ import Loader from '../../../components/Loader';
 import { StyledNavLink } from './ChatsBlock.styled';
 
 import { selectAllTopicsNotifications } from '../../../redux/chatSlice';
+import { useUser } from '../../../hooks/useUser';
 
 const ChatsBlock = ({ filter }) => {
   const { isTopics } = useTopicsContext();
@@ -19,11 +20,13 @@ const ChatsBlock = ({ filter }) => {
   const { pathname } = useLocation();
   const path = pathname.includes('topics') ? 'topics' : 'notification';
   const { data, isLoading, isError } = useGetAllQuery(filter);
+  const { localLogOut } = useUser();
 
   const notificationsAllTopics = useSelector(selectAllTopicsNotifications);
 
   if (isError) {
     alert('Виникла помилка під час отримання тем');
+    localLogOut();
   }
 
   return isLoading ? (

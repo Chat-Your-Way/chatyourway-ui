@@ -17,6 +17,7 @@ import {
   UserInfoBlock,
   UserName,
 } from './HeaderUserInfo.styled';
+import { useUser } from '../../../../hooks/useUser';
 
 const HeaderUserInfo = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,8 @@ const HeaderUserInfo = () => {
   const { toggleTheme, currentTheme } = useContext(ThemeContext);
 
   const { data, isError, isLoading } = useGetUserInfoQuery();
+
+  const { localLogOut } = useUser();
 
   const { avatarId } = useSelector(getUserInfo);
 
@@ -34,13 +37,14 @@ const HeaderUserInfo = () => {
 
   if (isError) {
     alert('Сталася помилка при отриманні інформації про користувача');
+    localLogOut();
   }
 
   useEffect(() => {
     if (!isLoading && data) {
       dispatch(setUserInfo(data));
     }
-  }, [dispatch, data, isLoading]);
+  }, [dispatch, data, isLoading, isError, localLogOut]);
 
   return (
     <UserInfoBlock>
