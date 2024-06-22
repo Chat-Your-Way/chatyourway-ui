@@ -13,8 +13,7 @@ export const useUser = () => {
   const localLogOut = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
-    setIsAuth('');
-
+    setIsAuth(null);
     dispatch(unsubscribeFromAllTopicsNotify());
     dispatch(disconnectWebSocket());
     dispatch(clearAllTopicsNotifications());

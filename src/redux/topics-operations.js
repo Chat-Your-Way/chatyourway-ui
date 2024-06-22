@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { BASE_URL, Referer, ajwt } from './apiParams';
+import { BASE_URL, Referer } from './apiParams';
 
 const topicsApi = createApi({
   reducerPath: 'topicsApi',
@@ -12,7 +12,7 @@ const topicsApi = createApi({
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${ajwt}`,
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
         body: JSON.stringify(body),
       }),
@@ -26,7 +26,7 @@ const topicsApi = createApi({
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${ajwt}`,
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       }),
       providesTags: ['Topics'],
@@ -39,7 +39,7 @@ const topicsApi = createApi({
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${ajwt}`,
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       }),
       invalidatesTags: ['Topics'],
@@ -52,7 +52,7 @@ const topicsApi = createApi({
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${ajwt}`,
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       }),
       invalidatesTags: ['Topics'],
@@ -65,7 +65,7 @@ const topicsApi = createApi({
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${ajwt}`,
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       }),
       providesTags: ['Topics'],
@@ -78,7 +78,7 @@ const topicsApi = createApi({
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${ajwt}`,
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       }),
       invalidatesTags: ['Topics'],
@@ -91,7 +91,7 @@ const topicsApi = createApi({
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${ajwt}`,
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       }),
       invalidatesTags: ['Topics'],

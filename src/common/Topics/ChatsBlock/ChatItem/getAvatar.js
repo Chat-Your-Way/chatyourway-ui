@@ -1,6 +1,7 @@
 export function getAvatar(isTopics, data) {
   if (!isTopics) return undefined;
-  const topicNameSet = data.topicName
+  // const topicNameSet = data.topicName
+  const topicNameSet = data.name
     .split(' ')
     .filter((el) => el !== '' && el !== '-');
   if (topicNameSet.length === 1) {

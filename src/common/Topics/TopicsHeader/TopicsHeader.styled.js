@@ -25,7 +25,7 @@ export const StyledSearchInput = styled(SearchInput, {
 
   @media screen and (min-width: 1200px) {
     width: ${(p) =>
-      p.chatOpened ? '360px' : p.contactsOpened ? '300px' : '400px'};
+      p.$chatOpened ? '360px' : p.$contactsOpened ? '300px' : '400px'};
     max-width: 100%;
   }
 `;

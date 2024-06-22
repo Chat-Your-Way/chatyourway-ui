@@ -22,8 +22,8 @@ const TopicsHeader = ({ handleBTNFunc, active, setFilter }) => {
       {isTopics && <TabsBlock active={active} setFilter={setFilter} />}
       <StyledBox>
         <StyledSearchInput
-          chatOpened={chatOpened}
-          contactsOpened={contactsOpened}
+          $chatOpened={chatOpened}
+          $contactsOpened={contactsOpened}
         />
       </StyledBox>
     </>

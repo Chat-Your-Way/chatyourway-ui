@@ -4,6 +4,7 @@ import { BASE_URL, Referer, ajwt } from './apiParams';
 const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
+  tagTypes: ['User'],
   endpoints: (builder) => ({
     editUserInfo: builder.mutation({
       query: (body) => ({
@@ -25,7 +26,7 @@ const userApi = createApi({
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${ajwt}`,
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       }),
       providesTags: ['User'],
