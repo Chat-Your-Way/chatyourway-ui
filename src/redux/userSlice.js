@@ -11,12 +11,13 @@ const userInfoSlice = createSlice({
 
   reducers: {
     setUserInfo(state, action) {
-      return (state = action.payload);
+      return { ...state, ...action.payload };
     },
   },
 });
 
-export const { setUserInfo } = userInfoSlice.actions;
+export const { setUserInfo, setAccessToken, setRefreshToken, setIsLoggedIn } =
+  userInfoSlice.actions;
 
 export default userInfoSlice;
 

@@ -16,9 +16,11 @@ import { ICONS } from '../../ui-kit/icons';
 import { useSidebarContext } from './SidebarContext';
 import { PATH } from '../../constans/routes';
 import { useMediaQuery } from 'react-responsive';
-import { useUser } from '../../hooks/useUser';
+// import { useUser } from '../../hooks/useUser';
 import { useLogoutMutation } from '../../redux/auth-operations';
 import { useTopicsContext } from '../Topics/TopicsContext';
+import { useDispatch } from 'react-redux';
+import { setIsLoggedIn } from '../../redux/authOperatonsToolkit/authOperationsThunkSlice';
 
 const menuRoutes = [
   {
@@ -52,10 +54,11 @@ const Sidebar = () => {
   const { pathname } = useLocation();
   const isMobile = useMobileMediaQuery();
   const [isShowText, setIsShowText] = useState();
-  const { localLogOut } = useUser();
+  // const { localLogOut } = useUser();
   const [logout] = useLogoutMutation();
   const navigate = useNavigate();
   const { setShowTopics } = useTopicsContext();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (pathname === PATH.HOME) {
@@ -92,8 +95,9 @@ const Sidebar = () => {
         return;
       }
 
-      localLogOut();
-      navigate(PATH.MAIN);
+      // localLogOut();
+      // navigate(PATH.MAIN);
+      dispatch(setIsLoggedIn(false));
     } catch (error) {
       console.error('Виникла помилка:', error);
       return;

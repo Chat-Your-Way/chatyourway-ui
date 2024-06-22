@@ -2,7 +2,7 @@
 import SockJS from 'sockjs-client';
 // eslint-disable-next-line import/no-unresolved
 import { Stomp } from '@stomp/stompjs';
-import { BASE_URL, ajwt } from './apiParams';
+import { BASE_URL } from './apiParams';
 
 import {
   setAllTopicsNotifications,
@@ -34,7 +34,11 @@ const RESUBSCRYBE_DELAY = 200;
 
 export const connectWebSocket = () => {
   return async (dispatch) => {
-    const socket = new SockJS(`${BASE_URL}/chat?Authorization=Bearer ${ajwt}`);
+    const socket = new SockJS(
+      `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem(
+        'accessToken',
+      )}`,
+    );
     client = Stomp.over(() => socket);
 
     await new Promise((resolve, reject) => {
@@ -140,7 +144,6 @@ export const subscribeToAllTopicsNotify = () => {
         `${subToAllTopicsNotificationsDest}`,
         (message) => {
           const parsedAllTopicsNotifications = JSON.parse(message.body);
-
           dispatch(setAllTopicsNotifications(parsedAllTopicsNotifications));
         },
       );

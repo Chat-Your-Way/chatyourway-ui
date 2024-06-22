@@ -1,9 +1,9 @@
 /* eslint-disable max-len */
 import { useForm } from 'react-hook-form';
 import { useLoginMutation } from '../../redux/auth-operations';
-import { useUser } from '../../hooks/useUser';
+// import { useUser } from '../../hooks/useUser';
 import { PATH } from '../../constans/routes';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { FieldText } from '../RegistrationPageComponent/FieldText/FieldText.jsx';
 import { FieldPassword } from '../RegistrationPageComponent/FieldPassword/FieldPassword.jsx';
 import {
@@ -15,10 +15,18 @@ import {
   LogoIcon,
 } from './LoginPageComponent.styled.js';
 
+// import { setUserInfo } from '../../redux/userSlice.js';
+
+import { useDispatch } from 'react-redux';
+import { setIsLoggedIn } from '../../redux/authOperatonsToolkit/authOperationsThunkSlice.js';
+
 function LoginPageComponent() {
   const [login] = useLoginMutation();
-  const navigate = useNavigate();
-  const { logIn } = useUser();
+  // const navigate = useNavigate();
+  // const { logIn } = useUser();
+
+  const dispatch = useDispatch();
+
   const {
     formState: { errors, isValid },
     handleSubmit,
@@ -47,12 +55,17 @@ function LoginPageComponent() {
         return;
       }
 
+      // if (data) {
+      // logIn(JSON.stringify(data.accessToken), JSON.stringify(data.refreshToken));
+
+      // setUserInfo(data);
+      // navigate(PATH.MAIN / PATH.HOMEPAGE);
+      // }
       if (data) {
-        logIn(
-          JSON.stringify(data.accessToken),
-          JSON.stringify(data.refreshToken),
-        );
-        navigate(PATH.MAIN / PATH.HOMEPAGE);
+        localStorage.setItem('accessToken', data.accessToken);
+        localStorage.setItem('refreshToken', data.refreshToken);
+        dispatch(setIsLoggedIn(true));
+        // navigate(PATH.MAIN / PATH.HOMEPAGE);
       }
     } catch (error) {
       console.error('Виникла помилка під час заповнення форми:', error);

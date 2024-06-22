@@ -20,7 +20,7 @@ export const StyledBox = styled(Box, {
   @media screen and (min-width: 769px) {
     padding: 11px 26px 6px 11px;
     width: 440px;
-    height: calc(100vh - 355px);
+    height: calc(100vh - 305px);
   }
 
   @media screen and (min-width: 769px) and (max-width: 800px) {
@@ -28,7 +28,7 @@ export const StyledBox = styled(Box, {
   }
 
   @media screen and (min-width: 1200px) {
-    height: calc(100vh - 276px);
+    height: calc(100vh - 176px);
 
     padding-top: ${(p) =>
       p.chatOpened ? '8px' : p.contactsOpened ? '8px' : '-1px'};

@@ -62,6 +62,7 @@ import {
 } from './Chat.styled';
 
 import { processMessageData } from './processMessageData';
+import { setIsLoggedIn } from '../../redux/authOperatonsToolkit/authOperationsThunkSlice';
 
 const Chat = ({ children }) => {
   const { title: topicId } = useParams();
@@ -138,6 +139,9 @@ const Chat = ({ children }) => {
 
   if (isError) {
     alert('Виникла помилка під час отримання теми');
+    dispatch(setIsLoggedIn(false));
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
   }
 
   const handleContacts = () => {
@@ -187,10 +191,7 @@ const Chat = ({ children }) => {
           </UserBox>
           <InfoMoreBox>
             {children}
-            <TopicSettingsMenu
-              topicId={topicId}
-              subscribeStatus={subscribeStatus()}
-            />
+            <TopicSettingsMenu topicId={topicId} subscribeStatus />
           </InfoMoreBox>
         </ChatHeader>
         <ChatSectionWrap>

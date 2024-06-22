@@ -30,7 +30,7 @@ const TabsBlock = ({ active, setFilter }) => {
     : '145px';
 
   return (
-    <StyledBox chatOpened={chatOpened} contactsOpened={contactsOpened}>
+    <StyledBox $chatOpened={chatOpened} $contactsOpened={contactsOpened}>
       <StyledTabs
         aria-label="chat tabs"
         chatOpened={chatOpened}

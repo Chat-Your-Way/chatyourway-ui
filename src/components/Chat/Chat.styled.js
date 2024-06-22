@@ -18,7 +18,7 @@ export const ChatWrap = styled(Box)`
   overflow-y: auto;
   @media screen and (min-width: calc(834px - 0.02px)) {
     max-width: 648px;
-    height: calc(100vh - 366px);
+    height: calc(100vh - 305px);
 
     padding: 8px 8px 16px;
   }

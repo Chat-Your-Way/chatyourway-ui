@@ -1,7 +1,11 @@
 import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useMediaQuery } from 'react-responsive';
 import { getUserInfo, setUserInfo } from '../../../../redux/userSlice';
+// import { useContext } from 'react';
+// import { useSelector } from 'react-redux';
+// import { getUserInfo } from '../../../../redux/userSlice';
+
+import { useMediaQuery } from 'react-responsive';
 import { useGetUserInfoQuery } from '../../../../redux/user-operations';
 import { selectAllTopicsNotifications } from '../../../../redux/chatSlice';
 import { calculateTotalUnreadMessages } from './helperHeaderUserInfo';
@@ -17,30 +21,46 @@ import {
   UserInfoBlock,
   UserName,
 } from './HeaderUserInfo.styled';
+import { setIsLoggedIn } from '../../../../redux/authOperatonsToolkit/authOperationsThunkSlice';
+// import { selectUserThunk } from '../../../../redux/userApiThunk/userApiThunkSelectors';
+// import { useUser } from '../../../../hooks/useUser';
+// import { useNavigate } from 'react-router-dom';
+// import { PATH } from '../../../../constans/routes';
 
 const HeaderUserInfo = () => {
   const dispatch = useDispatch();
 
   const { toggleTheme, currentTheme } = useContext(ThemeContext);
 
-  const { data, isError, isLoading } = useGetUserInfoQuery();
+  const { data, isLoading, isError, error } = useGetUserInfoQuery();
+
+  // const { localLogOut } = useUser();
+  // const navigate = useNavigate();
 
   const { avatarId } = useSelector(getUserInfo);
+  // const { nickname: userNickname, avatarId } = useSelector(selectUserThunk);
 
   const notificationsAllTopics = useSelector(selectAllTopicsNotifications);
 
   const avatarsArray = Object.values(Avatars);
   const isTablet = useMediaQuery({ query: '(min-width: 769px' });
 
-  if (isError) {
-    alert('Сталася помилка при отриманні інформації про користувача');
+  if (error?.data?.httpStatus === 'UNAUTHORIZED') {
+    alert(
+      'Сталася помилка при отриманні інформації про користувача - необхідно авторизуватись',
+    );
+    dispatch(setIsLoggedIn(false));
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
   }
+  // localLogOut();
+  // navigate(PATH.MAIN);
 
   useEffect(() => {
     if (!isLoading && data) {
       dispatch(setUserInfo(data));
     }
-  }, [dispatch, data, isLoading]);
+  }, [dispatch, data, isLoading, isError]);
 
   return (
     <UserInfoBlock>
@@ -56,6 +76,8 @@ const HeaderUserInfo = () => {
         </Typography>
       </NotificationCount>
       <UserName variant="h4">{!isLoading && data && data.nickname}</UserName>
+      {/* <UserName variant="h4">{userNickname}</UserName> */}
+
       {avatarsArray.map(
         (Logo, index) =>
           avatarId - 1 === index && (

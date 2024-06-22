@@ -4,6 +4,7 @@ import topicsApi from './topics-operations';
 import userApi from './user-operations';
 import userInfoSlice from './userSlice';
 import chatSlice from './chatSlice';
+import authOperationsThunk from './authOperatonsToolkit/authOperationsThunkSlice';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
     [userInfoSlice.name]: userInfoSlice.reducer,
     [chatSlice.name]: chatSlice.reducer,
+    [authOperationsThunk.name]: authOperationsThunk.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
