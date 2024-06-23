@@ -6,7 +6,7 @@ import {
   selectSubscribedAllTopicsNotify,
 } from '../redux/chatSlice';
 
-export const useSubscriptionToAllTopicsNotify = (isAuthenticated) => {
+export const useSubscriptionToAllTopicsNotify = (isLoggedIn) => {
   const dispatch = useDispatch();
   const connected = useSelector(selectConnected);
   const subscribedAllTopicsNotify = useSelector(
@@ -14,7 +14,7 @@ export const useSubscriptionToAllTopicsNotify = (isAuthenticated) => {
   );
 
   useEffect(() => {
-    if (!isAuthenticated || !connected || subscribedAllTopicsNotify) return;
+    if (!isLoggedIn || !connected || subscribedAllTopicsNotify) return;
     dispatch(subscribeToAllTopicsNotify());
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

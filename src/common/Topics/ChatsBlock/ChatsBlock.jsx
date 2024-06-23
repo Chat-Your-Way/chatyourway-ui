@@ -46,11 +46,12 @@ const ChatsBlock = ({ filter }) => {
     <Loader />
   ) : (
     data &&
-      // notificationsAllTopics.length !== 0 &&
+      notificationsAllTopics.length !== 0 &&
       data.map((item) => {
         const notification = notificationsAllTopics.find(
           (notificationItem) => notificationItem.id === item.id,
         );
+        // console.log('notification', notification);
 
         return (
           <StyledNavLink to={`../${path}/chat/${item.id}`} key={item.id}>
@@ -61,5 +62,5 @@ const ChatsBlock = ({ filter }) => {
   );
 };
 
-// export default memo(ChatsBlock);
-export default ChatsBlock;
+export default memo(ChatsBlock);
+// export default ChatsBlock;

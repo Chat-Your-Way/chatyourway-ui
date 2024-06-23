@@ -143,7 +143,9 @@ export const subscribeToAllTopicsNotify = () => {
       const subscriptionToAllNotify = await client.subscribe(
         `${subToAllTopicsNotificationsDest}`,
         (message) => {
+          // console.log('message', message);
           const parsedAllTopicsNotifications = JSON.parse(message.body);
+          // console.log('parsedAllTopicsNotifications', parsedAllTopicsNotifications);
           dispatch(setAllTopicsNotifications(parsedAllTopicsNotifications));
         },
       );
