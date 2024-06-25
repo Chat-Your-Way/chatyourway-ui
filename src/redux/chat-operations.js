@@ -2,6 +2,7 @@
 import SockJS from 'sockjs-client';
 // eslint-disable-next-line import/no-unresolved
 import { Stomp } from '@stomp/stompjs';
+
 import { BASE_URL } from './apiParams';
 
 import {
@@ -26,7 +27,26 @@ const subToErrorDest = '/user/specific/error';
 const sendToPublicTopicDest = '/app/topic/public/';
 // const sendToPrivateTopicDest = '/app/topic/private/'; //!TODO: sendToPrivateTopicDest
 
-let client = null;
+// let client = null;
+// const socket = new SockJS(
+//   `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem('accessToken')}`
+// );
+
+const stompConfig = {
+  onConnect: function (frame) {
+    // console.log('This is onConnect function:', frame); // I need this console.log! :-)
+  },
+  webSocketFactory: function () {
+    return new SockJS(
+      `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem(
+        'accessToken',
+      )}`,
+    );
+  },
+};
+const client = Stomp.client();
+client.configure(stompConfig);
+
 let reconnectTimeout = null;
 const RECONNECT_DELAY = 5000;
 let resubscribeTimeout = null;
@@ -34,32 +54,46 @@ const RESUBSCRYBE_DELAY = 200;
 
 export const connectWebSocket = () => {
   return async (dispatch) => {
-    const socket = new SockJS(
-      `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem(
-        'accessToken',
-      )}`,
-    );
-    client = Stomp.over(() => socket);
-
+    // console.log(client.connected);
     await new Promise((resolve, reject) => {
       client.connect(
         {},
         () => {
           if (client.connected) {
             dispatch(setConnected(true));
+            resolve();
           }
-
-          resolve();
         },
         (error) => {
           console.error('Error connecting to WebSocket:', error);
-
           startReconnectTimeout(dispatch);
           reject(error);
         },
       );
     });
   };
+  // return async dispatch => {
+  //   const socket = new SockJS(
+  //     `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem('accessToken')}`
+  //   );
+  //   client = Stomp.over(() => socket);
+  //   await new Promise((resolve, reject) => {
+  // client.connect(
+  //   {},
+  //   () => {
+  //     if (client.connected) {
+  //       dispatch(setConnected(true));
+  //     }
+  //         resolve();
+  //       },
+  // error => {
+  // console.error('Error connecting to WebSocket:', error);
+  // startReconnectTimeout(dispatch);
+  // reject(error);
+  // }
+  //     );
+  //   });
+  // };
 };
 
 const startReconnectTimeout = (dispatch) => {
@@ -143,13 +177,15 @@ export const subscribeToAllTopicsNotify = () => {
       const subscriptionToAllNotify = await client.subscribe(
         `${subToAllTopicsNotificationsDest}`,
         (message) => {
-          // console.log('message', message);
           const parsedAllTopicsNotifications = JSON.parse(message.body);
-          // console.log('parsedAllTopicsNotifications', parsedAllTopicsNotifications);
-          dispatch(setAllTopicsNotifications(parsedAllTopicsNotifications));
+
+          dispatch(
+            setAllTopicsNotifications(
+              message.id ? [{ name: `${message.id}` }] : [{ name: 'test' }],
+            ),
+          );
         },
       );
-
       dispatch(setSubscribedAllTopicsNotify(true));
       dispatch(
         setSubscriptionAllTopicsNotify({

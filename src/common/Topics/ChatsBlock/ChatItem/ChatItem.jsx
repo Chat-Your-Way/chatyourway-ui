@@ -13,15 +13,16 @@ import { useTopicsContext } from '../../TopicsContext';
 import { getTime } from '../../../../components/Chat/processMessageData';
 import { useMediaQuery } from 'react-responsive';
 
-const ChatItem = ({ isActive, data, notification }) => {
+// const ChatItem = ({ isActive, data, notification }) => {
+const ChatItem = ({ isActive, data }) => {
   const { isTopics } = useTopicsContext();
   const avatarContent = getAvatar(isTopics, data);
 
   const chatOpened = useSelector(selectChatOpened);
   const contactsOpened = useSelector(selectContactsOpened);
 
-  const unreadedMessages = notification?.unreadMessages ?? null;
-  const lastMessageContent = notification?.lastMessage ?? null;
+  const unreadedMessages = data?.unreadMessageCount ?? null;
+  const lastMessageContent = data?.lastMessage ?? null;
 
   const isTablet = useMediaQuery({ query: '(min-width: 769px' });
 
@@ -38,9 +39,9 @@ const ChatItem = ({ isActive, data, notification }) => {
           contactsOpened={contactsOpened}
         >
           {isTopics ? (
-            <TopicDesc title={data.topicName} />
+            <TopicDesc title={data.name} />
           ) : (
-            <TopicDesc title={data.userName} />
+            <TopicDesc title={data.createdBy.nickname} />
           )}
 
           {lastMessageContent && (
@@ -48,7 +49,7 @@ const ChatItem = ({ isActive, data, notification }) => {
               userName={lastMessageContent.sentFrom}
               message={lastMessageContent.lastMessage}
               unreadedMessage={unreadedMessages}
-              isTyping={data.isTyping}
+              // isTyping={data.isTyping}
               lastMessageTime={getTime(lastMessageContent.timestamp)}
             />
           )}
