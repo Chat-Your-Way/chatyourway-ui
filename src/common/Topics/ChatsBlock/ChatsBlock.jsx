@@ -54,12 +54,12 @@ const ChatsBlock = ({ filter }) => {
 
         return (
           <StyledNavLink to={`../${path}/chat/${item.id}`} key={item.id}>
-            <ChatItem data={item} notification={notification} />
+            {/* <ChatItem data={item} notification={notification} /> */}
+            <ChatItem data={item} />
           </StyledNavLink>
         );
       })
   );
 };
 
-// export default memo(ChatsBlock);
-export default ChatsBlock;
+export default memo(ChatsBlock);

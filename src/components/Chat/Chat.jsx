@@ -24,6 +24,7 @@ import {
   unsubscribeFromMessages,
   getTopicHistory,
   sendMessage,
+  connectWebSocket,
 } from '../../redux/chat-operations';
 
 import { Avatars } from '../../ui-kit/images/avatars';
@@ -63,10 +64,20 @@ import {
 
 import { processMessageData } from './processMessageData';
 import { setIsLoggedIn } from '../../redux/authOperatonsToolkit/authOperationsThunkSlice';
+import { useGetMessagesByTopicQuery } from '../../redux/messagesAPI/messagesAPI';
 
 const Chat = ({ children }) => {
   const { title: topicId } = useParams();
-  const { data, isLoading, isError } = useGetByIdQuery(topicId);
+  const { data: topicIdData, isLoading, isError } = useGetByIdQuery(topicId);
+  const {
+    data: messagesByTopic,
+    currentData: currentMessagesByTopic,
+    isFetching,
+  } = useGetMessagesByTopicQuery(topicId, {
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  });
 
   const { email } = useSelector(getUserInfo);
   const { isTopics } = useTopicsContext();
@@ -83,9 +94,9 @@ const Chat = ({ children }) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    // if (!connected) {
-    //   dispatch(connectWebSocket());
-    // } //!
+    if (!connected) {
+      dispatch(connectWebSocket());
+    }
 
     dispatch(toggleChatOpened());
 
@@ -103,29 +114,29 @@ const Chat = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // useEffect(() => {
+  //   if (!connected) return;
+
+  //   if (subscribed) {
+  //     dispatch(unsubscribeFromMessages());
+  //   }
+
+  //   dispatch(clearMessages());
+  //   dispatch(clearHistoryMessages());
+  //   dispatch(clearNewMessages());
+  //   dispatch(clearNotifications());
+
+  //   dispatch(subscribeToMessages(topicId));
+  //   dispatch(getTopicHistory(topicId));
+
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [dispatch, connected, topicId]);
+
   useEffect(() => {
-    if (!connected) return;
-
-    if (subscribed) {
-      dispatch(unsubscribeFromMessages());
-    }
-
-    dispatch(clearMessages());
-    dispatch(clearHistoryMessages());
-    dispatch(clearNewMessages());
-    dispatch(clearNotifications());
-
-    dispatch(subscribeToMessages(topicId));
-    dispatch(getTopicHistory(topicId));
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, connected, topicId]);
-
-  useEffect(() => {
-    if (historyMessages.length === 0 || notifications.length === 0) return;
-
+    // if (historyMessages.length === 0 || notifications.length === 0) return;
+    if (!currentMessagesByTopic) return;
     const newMessagesData = processMessageData(
-      data,
+      currentMessagesByTopic,
       email,
       historyMessages,
       newMessages,
@@ -135,7 +146,14 @@ const Chat = ({ children }) => {
     dispatch(setMessages(newMessagesData));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, historyMessages, newMessages, notifications, email]);
+  }, [
+    dispatch,
+    historyMessages,
+    newMessages,
+    notifications,
+    email,
+    currentMessagesByTopic,
+  ]);
 
   if (isError) {
     alert('Виникла помилка під час отримання теми');
@@ -163,8 +181,8 @@ const Chat = ({ children }) => {
   };
 
   const subscribeStatus = () => {
-    if (data) {
-      const status = data.topicSubscribers.find(
+    if (topicIdData) {
+      const status = topicIdData.topicSubscribers.find(
         (el) => el.contact.email === email && el.unsubscribeAt === null,
       );
 
@@ -177,14 +195,14 @@ const Chat = ({ children }) => {
   return isLoading ? (
     <Loader />
   ) : (
-    data && (
+    topicIdData && (
       <ChatWrap>
         <ChatHeader>
           <UserBox>
-            <Avatar>{getAvatar(isTopics, data)}</Avatar>
+            <Avatar>{getAvatar(isTopics, topicIdData)}</Avatar>
             <InfoBox>
               <ChatUserName variant="h5">
-                {data ? data.topicName : 'імя користувача'}
+                {topicIdData ? topicIdData.name : 'імя користувача'}
               </ChatUserName>
               <TypingIndicator variant="h5">Ти/Пишеш...</TypingIndicator>
             </InfoBox>

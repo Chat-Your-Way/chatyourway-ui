@@ -92,6 +92,7 @@ const Sidebar = () => {
 
       if (error) {
         alert(error.data.message);
+        dispatch(setIsLoggedIn(false));
         return;
       }
 

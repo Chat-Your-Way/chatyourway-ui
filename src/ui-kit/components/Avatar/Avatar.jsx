@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { AvatarStyled } from './Avatar.styled';
+import { AvatarStyled } from './Avatar.styled.jsx';
 
 function Avatar({
   children,

@@ -22,12 +22,12 @@ const Footer = () => {
 
       if (error) {
         alert(error.data.message);
+        dispatch(setIsLoggedIn(false));
         return;
       }
 
       // localLogOut();
       // navigate(PATH.MAIN);
-      dispatch(setIsLoggedIn(false));
     } catch (error) {
       console.error('Виникла помилка:', error);
     }
