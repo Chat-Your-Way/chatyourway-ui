@@ -8,11 +8,12 @@ export const TopicsWrapper = styled(Box, {
 
   // height: calc(100vh - 145px); // Old rule
   height: 85vh;
-  width: calc(100vw - 40px);
+  // width: calc(100vw - 40px); // Old rule
+  width: 93vw;
   overflow-y: auto;
 
-  display: flex;
-  flex-direction: column;
+  // display: flex; // Old rule
+  // flex-direction: column; // Old rule
 
   box-sizing: border-box;
   background-color: ${(p) => p.theme.palette.primary.white};

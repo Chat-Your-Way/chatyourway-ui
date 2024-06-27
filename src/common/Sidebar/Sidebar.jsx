@@ -46,7 +46,7 @@ const menuRoutes = [
 ];
 
 const useMobileMediaQuery = () =>
-  useMediaQuery({ query: '(max-width: 769px)' });
+  useMediaQuery({ query: '(max-width: 768px)' });
 
 const Sidebar = () => {
   const { showText, showMenu, setShowText, setShowMenu, setSelectedCategory } =
