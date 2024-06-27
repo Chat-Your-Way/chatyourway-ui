@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import SockJS from 'sockjs-client';
 // eslint-disable-next-line import/no-unresolved
-import { Stomp } from '@stomp/stompjs';
+import { Client } from '@stomp/stompjs';
 
 import { BASE_URL } from './apiParams';
 
@@ -28,14 +28,16 @@ const sendToPublicTopicDest = '/app/topic/public/';
 // const sendToPrivateTopicDest = '/app/topic/private/'; //!TODO: sendToPrivateTopicDest
 
 // let client = null;
-// const socket = new SockJS(
-//   `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem('accessToken')}`
-// );
+const socket = new SockJS(
+  `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem(
+    'accessToken',
+  )}`,
+);
 
 const stompConfig = {
-  onConnect: function (frame) {
-    // console.log('This is onConnect function:', frame); // I need this console.log! :-)
-  },
+  heartbeatIncoming: 7000,
+  heartbeatOutgoing: 7000,
+
   webSocketFactory: function () {
     return new SockJS(
       `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem(
@@ -44,8 +46,10 @@ const stompConfig = {
     );
   },
 };
-const client = Stomp.client();
-client.configure(stompConfig);
+export const client = new Client(stompConfig);
+//  onConnect: function (frame) {
+//     console.log('This is onConnect function:', frame); // I need this console.log! :-)
+//   },
 
 let reconnectTimeout = null;
 const RECONNECT_DELAY = 5000;
@@ -54,22 +58,11 @@ const RESUBSCRYBE_DELAY = 200;
 
 export const connectWebSocket = () => {
   return async (dispatch) => {
-    // console.log(client.connected);
     await new Promise((resolve, reject) => {
-      client.connect(
-        {},
-        () => {
-          if (client.connected) {
-            dispatch(setConnected(true));
-            resolve();
-          }
-        },
-        (error) => {
-          console.error('Error connecting to WebSocket:', error);
-          startReconnectTimeout(dispatch);
-          reject(error);
-        },
-      );
+      client.activate();
+      if (client.connected) {
+        dispatch(setConnected(true));
+      }
     });
   };
   // return async dispatch => {
@@ -77,20 +70,21 @@ export const connectWebSocket = () => {
   //     `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem('accessToken')}`
   //   );
   //   client = Stomp.over(() => socket);
+  //   console.log('client', client);
   //   await new Promise((resolve, reject) => {
-  // client.connect(
-  //   {},
-  //   () => {
-  //     if (client.connected) {
-  //       dispatch(setConnected(true));
-  //     }
+  //     client.connect(
+  //       {},
+  //       () => {
+  //         if (client.connected) {
+  //           dispatch(setConnected(true));
+  //         }
   //         resolve();
   //       },
-  // error => {
-  // console.error('Error connecting to WebSocket:', error);
-  // startReconnectTimeout(dispatch);
-  // reject(error);
-  // }
+  //       error => {
+  //         console.error('Error connecting to WebSocket:', error);
+  //         startReconnectTimeout(dispatch);
+  //         reject(error);
+  //       }
   //     );
   //   });
   // };
@@ -174,8 +168,19 @@ export const disconnectWebSocket = () => {
 export const subscribeToAllTopicsNotify = () => {
   return async (dispatch) => {
     try {
+      // const subscriptionToAllNotify = await client.subscribe(
+      //   `${subToAllTopicsNotificationsDest}`,
+      //   message => {
+      //     const parsedAllTopicsNotifications = JSON.parse(message.body);
+
+      //     dispatch(
+      //       setAllTopicsNotifications(message.id ?
+      // [{ name: `${message.id}` }] : [{ name: 'test' }])
+      //     );
+      //   }
+      // );
       const subscriptionToAllNotify = await client.subscribe(
-        `${subToAllTopicsNotificationsDest}`,
+        subToAllTopicsNotificationsDest,
         (message) => {
           const parsedAllTopicsNotifications = JSON.parse(message.body);
 
@@ -301,10 +306,9 @@ export const getTopicHistory = (topicId) => {
 
 export const sendMessage = (topicId, inputMessage) => {
   return async () => {
-    await client.send(
-      `${sendToPublicTopicDest}${topicId}`,
-      {},
-      JSON.stringify({ content: inputMessage }),
-    );
+    await client.publish({
+      destination: `${sendToPublicTopicDest}${topicId}`,
+      body: JSON.stringify({ content: inputMessage }),
+    });
   };
 };

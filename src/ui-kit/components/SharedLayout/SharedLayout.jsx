@@ -23,9 +23,6 @@ const SharedLayout = () => {
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  // useWebSocketConnection(isAuthenticated);
-  // useSubscriptionToAllTopicsNotify(isAuthenticated);
-
   useWebSocketConnection(isLoggedIn);
   useSubscriptionToAllTopicsNotify(isLoggedIn);
 

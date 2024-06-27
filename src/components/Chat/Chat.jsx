@@ -135,6 +135,7 @@ const Chat = ({ children }) => {
   useEffect(() => {
     // if (historyMessages.length === 0 || notifications.length === 0) return;
     if (!currentMessagesByTopic) return;
+
     const newMessagesData = processMessageData(
       currentMessagesByTopic,
       email,
@@ -142,6 +143,8 @@ const Chat = ({ children }) => {
       newMessages,
       notifications,
     );
+
+    dispatch(subscribeToMessages(topicId));
 
     dispatch(setMessages(newMessagesData));
 
@@ -169,7 +172,8 @@ const Chat = ({ children }) => {
   const handleMessageSend = () => {
     const inputMessage = inputRef.current.value.trim();
 
-    if (!inputMessage || inputMessage.length === 0) return;
+    if (!inputMessage || inputMessage.length === 0)
+      return alert('This message is empty');
 
     if (connected) {
       dispatch(sendMessage(topicId, inputMessage));
