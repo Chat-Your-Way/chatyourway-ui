@@ -28,16 +28,14 @@ const sendToPublicTopicDest = '/app/topic/public/';
 // const sendToPrivateTopicDest = '/app/topic/private/'; //!TODO: sendToPrivateTopicDest
 
 // let client = null;
-const socket = new SockJS(
-  `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem(
-    'accessToken',
-  )}`,
-);
+// const socket = new SockJS(
+//   `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem('accessToken')}`
+// );
 
 const stompConfig = {
   heartbeatIncoming: 7000,
   heartbeatOutgoing: 7000,
-
+  reconnectDelay: 10000,
   webSocketFactory: function () {
     return new SockJS(
       `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem(
@@ -47,9 +45,6 @@ const stompConfig = {
   },
 };
 export const client = new Client(stompConfig);
-//  onConnect: function (frame) {
-//     console.log('This is onConnect function:', frame); // I need this console.log! :-)
-//   },
 
 let reconnectTimeout = null;
 const RECONNECT_DELAY = 5000;
