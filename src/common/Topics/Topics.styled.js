@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Box } from '@mui/material';
 
-export const StyledBox = styled(Box, {
+export const TopicsWrapper = styled(Box, {
   shouldForwardProp: (p) => p !== 'chatOpened' && p !== 'contactsOpened',
 })`
   padding: 10px 10px 6px 10px;
