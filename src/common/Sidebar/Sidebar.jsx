@@ -1,16 +1,28 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+// import {
+//   MainBox,
+//   StyledBox,
+//   StyledNavLink,
+//   StyledText,
+//   StyledContentBox,
+//   Logo,
+//   LogOutButton,
+//   LogOutIcon,
+//   StyledNavlist,
+// } from './Sidebar.styled';
 import {
   MainBox,
   StyledBox,
   StyledNavLink,
   StyledItem,
   StyledText,
-  StyledItemsBox,
   StyledContentBox,
   Logo,
   LogOutButton,
   LogOutIcon,
+  StyledNavlistItem,
+  StyledNavlist,
 } from './Sidebar.styled';
 import { ICONS } from '../../ui-kit/icons';
 import { useSidebarContext } from './SidebarContext';
@@ -120,25 +132,41 @@ const Sidebar = () => {
         <StyledBox showText={isShowText}>
           <StyledContentBox>
             <Logo />
-            <StyledItemsBox>
+            <StyledNavlist>
+              {/* <StyledItemsBox> */}
               {menuRoutes.map((route) => {
                 return (
-                  <StyledNavLink to={route.path} key={route.name}>
-                    {({ isActive }) => (
-                      <StyledItem
-                        showText={showText}
-                        isActive={isActive}
-                        onClick={() => handleCategoryClick(route.path)}
-                      >
-                        {route.icon}
-                        {showText && (
-                          <StyledText isActive={isActive}>
-                            {route.name}
-                          </StyledText>
-                        )}
-                      </StyledItem>
-                    )}
-                  </StyledNavLink>
+                  <StyledNavlistItem key={route.name}>
+                    <StyledNavLink to={route.path} key={route.name}>
+                      {({ isActive }) => (
+                        <StyledItem
+                          showText={showText}
+                          isActive={isActive}
+                          onClick={() => handleCategoryClick(route.path)}
+                        >
+                          {route.icon}
+                          {showText && (
+                            <StyledText isActive={isActive}>
+                              {route.name}
+                            </StyledText>
+                          )}
+                        </StyledItem>
+                      )}
+                    </StyledNavLink>
+                  </StyledNavlistItem>
+
+                  // <StyledNavLink to={route.path} key={route.name}>
+                  //   {({ isActive }) => (
+                  //     <StyledItem
+                  //       showText={showText}
+                  //       isActive={isActive}
+                  //       onClick={() => handleCategoryClick(route.path)}
+                  //     >
+                  //       {route.icon}
+                  //       {showText && <StyledText isActive={isActive}>{route.name}</StyledText>}
+                  //     </StyledItem>
+                  //   )}
+                  // </StyledNavLink>
                 );
               })}
               <LogOutButton
@@ -146,7 +174,8 @@ const Sidebar = () => {
                 startIcon={<LogOutIcon />}
                 handleClick={LogOut}
               />
-            </StyledItemsBox>
+            </StyledNavlist>
+            {/* </StyledItemsBox> */}
           </StyledContentBox>
         </StyledBox>
       )}

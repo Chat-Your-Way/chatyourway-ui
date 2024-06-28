@@ -12,9 +12,9 @@ export const MainWrapper = styled(Box)`
     padding: 0 40px;
   }
   @media screen and (min-width: 1195px) {
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
     min-height: 100vh;
   }
 `;

@@ -93,15 +93,32 @@ export const Logo = styled(ICONS.LOGO)`
   }
 `;
 
-export const StyledItemsBox = styled(Box, {
-  shouldForwardProp: (p) => p !== 'showText',
+// export const StyledItemsBox = styled(Box, {
+//   shouldForwardProp: p => p !== 'showText',
+// })`
+//   display: flex;
+//   flex-direction: column;
+//   gap: 9px;
+//   box-sizing: border-box;
+//   background: transparent;
+// `;
+
+export const StyledNavlist = styled('ul', {
+  shouldForwardProp: (prop) => prop !== 'showText',
 })`
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 9px;
   box-sizing: border-box;
   background: transparent;
 `;
+
+export const StyledNavlistItem = styled('li', {
+  shouldForwardProp: (p) => p !== 'showText' && p !== 'isActive',
+})``;
 
 export const StyledItem = styled(Box, {
   shouldForwardProp: (p) => p !== 'showText' && p !== 'isActive',
