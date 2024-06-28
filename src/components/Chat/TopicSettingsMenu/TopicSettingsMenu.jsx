@@ -20,17 +20,40 @@ import {
   useUnsubscribeMutation,
   useGetAllQuery,
 } from '../../../redux/topics-operations';
+import { useDispatch, useSelector } from 'react-redux';
+// eslint-disable-next-line max-len
+import { selectAccessToken } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import {
+  setAccessToken,
+  setIsLoggedIn,
+  setRefreshToken,
+} from '../../../redux/authOperatonsToolkit/authOperationsThunkSlice';
 
 const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { data, isError } = useGetAllQuery('favourite');
+  const dispatch = useDispatch();
+  const accessTokenInStore = useSelector(selectAccessToken);
+  const { data, isError, error } = useGetAllQuery({
+    filter: 'favourite',
+    accessTokenInStore,
+  });
   const [addFavourite] = useAddFavouriteMutation();
   const [removeFavourite] = useRemoveFavouriteMutation();
   const [subscribe] = useSubscribeMutation();
   const [unsubscribe] = useUnsubscribeMutation();
 
   if (isError) {
-    alert('Виникла помилка під час отримання тем');
+    alert(
+      'Виникла помилка під час отримання улюблених тем (TopicSettingsMenu)',
+    );
+    if (error.data?.httpStatus === 'UNAUTHORIZED') {
+      alert(
+        'Виникла помилка під час отримання улюблених тем, авторизуйтесь в системмі!',
+      );
+      dispatch(setIsLoggedIn(false));
+      dispatch(setAccessToken(null));
+      return dispatch(setRefreshToken(null));
+    }
   }
 
   const favouriteStatus = () => {

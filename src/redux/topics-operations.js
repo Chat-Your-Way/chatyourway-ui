@@ -20,13 +20,14 @@ const topicsApi = createApi({
     }),
 
     getAll: builder.query({
-      query: (value) => ({
-        url: `/topics/${value}`,
+      query: ({ filter = 'all', accessTokenInStore }) => ({
+        url: `/topics/${filter}`,
         method: 'GET',
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          // Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${accessTokenInStore}`,
         },
       }),
       providesTags: ['Topics'],

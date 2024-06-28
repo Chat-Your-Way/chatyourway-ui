@@ -22,13 +22,19 @@ import {
   setIsLoggedIn,
   setRefreshToken,
 } from '../../../redux/authOperatonsToolkit/authOperationsThunkSlice';
+// eslint-disable-next-line max-len
+import { selectAccessToken } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
 
 const ChatsBlock = ({ filter }) => {
   const { isTopics } = useTopicsContext();
   const ChatItems = ChatBlockDataHelper(isTopics); //?!
   const { pathname } = useLocation();
   const path = pathname.includes('topics') ? 'topics' : 'notification';
-  const { data, isLoading, isError, error } = useGetAllQuery(filter);
+  const accessTokenInStore = useSelector(selectAccessToken);
+  const { data, isLoading, isError, error } = useGetAllQuery({
+    filter,
+    accessTokenInStore,
+  });
   const { localLogOut } = useUser();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,7 +42,7 @@ const ChatsBlock = ({ filter }) => {
   const notificationsAllTopics = useSelector(selectAllTopicsNotifications);
 
   if (error) {
-    alert('Виникла помилка під час отримання тем');
+    alert('Виникла помилка під час отримання тем (ChatsBlock)');
     dispatch(setIsLoggedIn(false));
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');

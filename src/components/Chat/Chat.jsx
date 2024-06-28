@@ -159,7 +159,7 @@ const Chat = ({ children }) => {
   ]);
 
   if (isError) {
-    alert('Виникла помилка під час отримання теми');
+    alert('Виникла помилка під час отримання теми (ChatComponent)');
     dispatch(setIsLoggedIn(false));
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');

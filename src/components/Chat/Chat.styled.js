@@ -7,19 +7,19 @@ export const ChatWrap = styled(Box)`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  /* max-width: 342px; */
+  /* max-width: 342px; */ // Old rule
   max-width: 85vw;
-  //height: calc(100vh - 145px);
-  height: 85vh;
+  //height: calc(100vh - 145px); // Old rule
+  height: 84vh;
   overflow-y: auto;
 
-  padding: 6px 6px 21px;
+  /* padding: 6px 6px 21px; */ // Old rule
+  padding: 6px;
   border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
   overflow-y: auto;
 
-  /* @media screen and (min-width: calc(834px - 0.02px)) { */
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: calc(834px - 0.02px)) {
     max-width: 648px;
     height: 77vh;
 
