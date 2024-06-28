@@ -7,18 +7,21 @@ export const ChatWrap = styled(Box)`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  max-width: 342px;
-
+  /* max-width: 342px; */
+  max-width: 85vw;
   //height: calc(100vh - 145px);
+  height: 85vh;
   overflow-y: auto;
 
   padding: 6px 6px 21px;
   border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
   overflow-y: auto;
-  @media screen and (min-width: calc(834px - 0.02px)) {
+
+  /* @media screen and (min-width: calc(834px - 0.02px)) { */
+  @media screen and (min-width: 768px) {
     max-width: 648px;
-    height: calc(100vh - 305px);
+    height: 77vh;
 
     padding: 8px 8px 16px;
   }
@@ -30,7 +33,7 @@ export const ChatWrap = styled(Box)`
   @media screen and (min-width: calc(1200px - 0.02px)) {
     max-width: 730px;
     /* height: calc(100vh - 297px); */
-    height: calc(100vh - 100px);
+    height: 75vh;
   }
 `;
 
