@@ -5,7 +5,8 @@ export const MainWrapper = styled(Box)`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  /* min-height: 100vh; */
+  min-height: 100%;
 
   @media screen and (min-width: 769px) {
     gap: 24px;

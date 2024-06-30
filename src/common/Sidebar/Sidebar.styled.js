@@ -5,10 +5,10 @@ import { ICONS } from '../../ui-kit/icons';
 import Button from '../../ui-kit/components/Button';
 
 export const MainBox = styled(Box)`
-  display: flex;
+  /* display: flex; */
   padding-left: 0;
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     padding-left: 0;
   }
 
@@ -29,24 +29,28 @@ export const StyledBox = styled(Box, {
   border: 1px solid transparent;
   border-radius: 16px;
   padding: 5px 5px;
-  width: calc(100vw - 50px);
+  // width: calc(100vw - 50px);
+  width: 85vw;
+  max-width: 342px;
+  height: 75vh;
+  max-height: 600px;
 
   @media screen and (max-width: 320px) {
     width: 300px;
   }
 
-  @media screen and (max-width: 400px) {
-    height: calc(100vh - 136px);
-    margin-top: 20px;
-    margin-left: 0;
-  }
+  // @media screen and (max-width: 400px) {
+  //   height: calc(100vh - 136px);
+  //   margin-top: 20px;
+  //   margin-left: 0;
+  // }
 
   @media screen and (min-width: 580px) {
     padding: 35px 15px 10px 15px;
     height: auto;
   }
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     width: ${(p) => (p.showText ? '290px' : '75px')};
     background: transparent;
     border: none;
@@ -68,7 +72,7 @@ export const StyledContentBox = styled(Box, {
     gap: 10px;
   }
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     gap: 0;
     position: absolute;
     top: 167px;
@@ -88,7 +92,7 @@ export const Logo = styled(ICONS.LOGO)`
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.dark};
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     display: none;
   }
 `;
@@ -153,7 +157,7 @@ export const StyledItem = styled(Box, {
     padding: 8px 16px;
   }
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     max-width: 290px;
     border: 1px solid
       ${(p) =>

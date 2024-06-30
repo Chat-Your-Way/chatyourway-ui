@@ -6,22 +6,24 @@ import DefaultButton from '../../ui-kit/components/Button';
 
 export const LoginWrapper = styled(Box)`
   display: flex;
-  margin: 0 auto;
+  margin-top: 115px;
+  height: 600px;
+  /* margin: 0 auto; */
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  position: absolute;
+  /* position: absolute;
   top: 41%;
-  transform: translateY(-50%);
+  transform: translateY(-50%); */
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     padding-bottom: 0;
     padding-top: 0;
     top: 50%;
   }
 
-  @media screen and (min-width: 1194px) {
+  @media screen and (min-width: 1200px) {
     margin-top: 0;
     padding-bottom: 30px;
     padding-top: 30px;

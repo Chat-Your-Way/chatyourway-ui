@@ -65,6 +65,7 @@ const Sidebar = () => {
     useSidebarContext();
   const { pathname } = useLocation();
   const isMobile = useMobileMediaQuery();
+
   const [isShowText, setIsShowText] = useState();
   // const { localLogOut } = useUser();
   const [logout] = useLogoutMutation();

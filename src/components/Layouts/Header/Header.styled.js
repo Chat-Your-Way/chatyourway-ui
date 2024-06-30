@@ -13,9 +13,9 @@ export const HeaderWrap = styled(Box)`
   padding-right: 18px; */
   box-sizing: border-box;
 
-  @media screen and (min-width: 560px) {
+  /* @media screen and (min-width: 560px) {
     padding-top: 30px;
-  }
+  } */
   @media screen and (min-width: 768px) {
     padding: 40px;
   }
@@ -44,7 +44,7 @@ export const AuthSection = styled(Box)`
   display: flex;
   justify-content: space-between;
 
-  @media screen and (max-width: 769px) {
+  @media screen and (max-width: 767px) {
     flex-grow: 1;
   }
 `;
@@ -52,7 +52,7 @@ export const AuthSection = styled(Box)`
 export const StyledIconButton = styled(IconButton)`
   display: block;
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     display: none;
   }
 `;

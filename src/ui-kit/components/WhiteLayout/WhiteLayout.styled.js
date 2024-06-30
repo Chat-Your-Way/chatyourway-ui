@@ -9,7 +9,7 @@ export const WhiteLayoutStyled = styled(Box, {
   // display: flex;
   // justify-content: center;
   width: ${(p) => (p.width ? p.width : '90vw')};
-  height: ${(p) => (p.height ? p.height : '70vh')};
+  height: ${(p) => (p.height ? p.height : '600px')};
   margin: 0 24px;
   padding: ${(p) => (p.padding ? p.padding : '40px 28px 40px 27px')};
   border-radius: 16px;
