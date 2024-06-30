@@ -12,6 +12,7 @@ export const ChatWrap = styled(Box)`
   //height: calc(100vh - 145px); // Old rule
   height: 84vh;
   overflow-y: auto;
+  box-sizing: border-box;
 
   /* padding: 6px 6px 21px; */ // Old rule
   padding: 6px;

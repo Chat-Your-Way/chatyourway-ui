@@ -4,43 +4,47 @@ import { Box } from '@mui/system';
 export const WhiteLayoutStyled = styled(Box, {
   shouldForwardProp: (p) => p !== 'width' && p !== 'height' && p !== 'padding',
 })`
-  position: relative;
-  display: flex;
-  justify-content: center;
-
   box-sizing: border-box;
-  border-radius: 16px;
-  //margin-bottom: 30px;
-  width: ${(p) => (p.width ? p.width : '100%')};
-  max-width: 342px;
-  height: ${(p) => (p.height ? p.height : '90vh')};
-  max-height: 600px;
+  position: relative;
+  // display: flex;
+  // justify-content: center;
+  width: ${(p) => (p.width ? p.width : '90vw')};
+  height: ${(p) => (p.height ? p.height : '70vh')};
+  margin: 0 24px;
   padding: ${(p) => (p.padding ? p.padding : '40px 28px 40px 27px')};
+  border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
+  max-width: 342px;
+  // height: 70vh;
+  // max-height: 600px;
+  //margin-bottom: 30px;
 
-  @media screen and (max-width: 342px) {
-    height: 100%;
-    margin: 0 5px;
-  }
+  // @media screen and (min-width: 320px) {
+  //   height: 70vh;
+  //   margin: 0 24px;
+  // }
 
-  @media screen and (min-width: 769px) {
-    align-items: center;
-    width: ${(p) => (p.width ? p.width : '100%')};
+  @media screen and (min-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    // align-items: center;
+    width: ${(p) => (p.width ? p.width : '75vw')};
     max-width: 624px;
-    height: ${(p) => (p.height ? p.height : '90vh')};
+    height: ${(p) => (p.height ? p.height : '70vh')};
     max-height: 800px;
-    // padding: ${(p) => (p.padding ? p.padding : '0 133px')};
-    margin-top: 38px;
-    margin-bottom: 30px;
+    padding: ${(p) => (p.padding ? p.padding : '0px')};
+    // margin-top: 38px;
+    // margin-bottom: 30px;
   }
 
-  @media screen and (min-width: 1195px) {
-    width: ${(p) => (p.width ? p.width : '100%')};
+  @media screen and (min-width: 1200px) {
+    width: ${(p) => (p.width ? p.width : '800px')};
     max-width: 800px;
-    height: ${(p) => (p.height ? p.height : '90vh')};
-    max-height: 594px;
-    // padding: ${(p) => (p.padding ? p.padding : '205px 190px')};
-    margin-top: 30px;
-    margin-bottom: 30px;
+    height: ${(p) => (p.height ? p.height : '600px')};
+    max-height: 600px;
+    padding: ${(p) => (p.padding ? p.padding : '0')};
+    // margin-top: 30px;
+    // margin-bottom: 30px;
   }
 `;
