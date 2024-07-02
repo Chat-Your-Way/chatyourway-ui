@@ -14,6 +14,7 @@ export const MainBox = styled(Box)`
 
   @media screen and (min-width: 1200px) {
     padding-left: 55px;
+    flex-grow: 0;
   }
 `;
 
@@ -51,7 +52,7 @@ export const StyledBox = styled(Box, {
   }
 
   @media screen and (min-width: 768px) {
-    width: ${(p) => (p.showText ? '290px' : '75px')};
+    width: ${(p) => (p.showText ? '30vw' : '75px')};
     background: transparent;
     border: none;
     margin-left: 0;

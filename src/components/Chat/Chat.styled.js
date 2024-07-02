@@ -33,6 +33,7 @@ export const ChatWrap = styled(Box)`
 
   /* @media screen and (min-width: calc(1200px - 0.02px)) { */
   @media screen and (min-width: 1200px) {
+    width: 51vw;
     max-width: 730px;
     /* height: calc(100vh - 297px); */
     height: 75vh;

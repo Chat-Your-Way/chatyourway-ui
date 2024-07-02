@@ -65,10 +65,16 @@ import {
 import { processMessageData } from './processMessageData';
 import { setIsLoggedIn } from '../../redux/authOperatonsToolkit/authOperationsThunkSlice';
 import { useGetMessagesByTopicQuery } from '../../redux/messagesAPI/messagesAPI';
+import { selectAccessToken } from '../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
 
 const Chat = ({ children }) => {
   const { title: topicId } = useParams();
-  const { data: topicIdData, isLoading, isError } = useGetByIdQuery(topicId);
+  const accessTokenInStore = useSelector(selectAccessToken);
+  const {
+    data: topicIdData,
+    isLoading,
+    isError,
+  } = useGetByIdQuery({ topicId, accessTokenInStore });
   const {
     data: messagesByTopic,
     currentData: currentMessagesByTopic,

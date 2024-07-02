@@ -23,7 +23,7 @@ export const StyledBox = styled(Box, {
 
   @media screen and (min-width: 1200px) {
     width: ${(p) =>
-      p.chatOpened ? '368px' : p.contactsOpened ? '300px' : '396px'};
+      p.chatOpened ? '368px' : p.contactsOpened ? '300px' : '100%'};
     padding-bottom: 15px;
     margin-bottom: 0;
   }
@@ -49,6 +49,6 @@ export const StyledChildrenBox = styled(Box, {
 
   @media screen and (min-width: 1200px) {
     width: ${(p) =>
-      p.chatOpened ? '300px' : p.contactsOpened ? '241px' : '308px'};
+      p.chatOpened ? '300px' : p.contactsOpened ? '241px' : '100%'};
   }
 `;

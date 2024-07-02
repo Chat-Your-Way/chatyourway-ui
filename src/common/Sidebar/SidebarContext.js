@@ -19,7 +19,7 @@ export const useCreateSidebarContext = function (props) {
   const [showMenu, setShowMenu] = useState(props.showText || true);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const isMobile = useMediaQuery({ query: '(max-width: 769px)' });
+  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
   useEffect(() => {
     if (isMobile) {
