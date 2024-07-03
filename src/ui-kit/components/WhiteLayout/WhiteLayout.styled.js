@@ -47,7 +47,7 @@ export const WhiteLayoutStyled = styled(Box, {
     height: ${(p) => (p.height ? p.height : '600px')};
     max-height: 600px;
     padding: ${(p) => (p.padding ? p.padding : '0')};
-    margin: 182px 0 212px 0;
+    margin: 182px 0 212px;
     // margin-top: 30px;
     // margin-bottom: 30px;
   }

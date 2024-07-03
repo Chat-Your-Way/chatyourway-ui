@@ -18,6 +18,7 @@ import {
   selectConnected,
   selectSubscribed,
   toggleChatOpened,
+  selectChatOpened,
 } from '../../redux/chatSlice';
 import {
   subscribeToMessages,
@@ -96,6 +97,7 @@ const Chat = ({ children }) => {
   const messages = useSelector(selectMessages);
   const connected = useSelector(selectConnected);
   const subscribed = useSelector(selectSubscribed);
+  const chatOpened = useSelector(selectChatOpened);
 
   const inputRef = useRef(null);
 
