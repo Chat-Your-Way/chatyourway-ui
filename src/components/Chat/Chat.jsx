@@ -64,7 +64,11 @@ import {
 } from './Chat.styled';
 
 import { processMessageData } from './processMessageData';
-import { setIsLoggedIn } from '../../redux/authOperatonsToolkit/authOperationsThunkSlice';
+import {
+  setAccessToken,
+  setIsLoggedIn,
+  setRefreshToken,
+} from '../../redux/authOperatonsToolkit/authOperationsThunkSlice';
 import { useGetMessagesByTopicQuery } from '../../redux/messagesAPI/messagesAPI';
 import { selectAccessToken } from '../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
 
@@ -76,6 +80,7 @@ const Chat = ({ children }) => {
     isLoading,
     isError,
   } = useGetByIdQuery({ topicId, accessTokenInStore });
+
   const {
     data: messagesByTopic,
     currentData: currentMessagesByTopic,
@@ -97,7 +102,7 @@ const Chat = ({ children }) => {
   const messages = useSelector(selectMessages);
   const connected = useSelector(selectConnected);
   const subscribed = useSelector(selectSubscribed);
-  const chatOpened = useSelector(selectChatOpened);
+  const isChatOpened = useSelector(selectChatOpened);
 
   const inputRef = useRef(null);
 
@@ -169,6 +174,8 @@ const Chat = ({ children }) => {
   if (isError) {
     alert('Виникла помилка під час отримання теми (ChatComponent)');
     dispatch(setIsLoggedIn(false));
+    dispatch(setAccessToken(null));
+    dispatch(setRefreshToken(null));
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
   }
@@ -207,7 +214,7 @@ const Chat = ({ children }) => {
   return isLoading ? (
     <Loader />
   ) : (
-    topicIdData && (
+    isChatOpened && (
       <ChatWrap>
         <ChatHeader>
           <UserBox>

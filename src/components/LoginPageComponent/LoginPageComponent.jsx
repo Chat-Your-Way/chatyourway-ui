@@ -53,8 +53,10 @@ function LoginPageComponent() {
       if (error) {
         if (error.status === 401) {
           alert(`Неправильна пошта чи пароль`);
-        } else {
+        } else if (error.data) {
           alert(error.data.message);
+        } else {
+          alert('Something goes wrong :-( Maybe server is down.');
         }
         return;
       }
