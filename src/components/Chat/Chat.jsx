@@ -19,6 +19,7 @@ import {
   selectSubscribed,
   toggleChatOpened,
   selectChatOpened,
+  setChatOpened,
 } from '../../redux/chatSlice';
 import {
   subscribeToMessages,
@@ -118,6 +119,7 @@ const Chat = ({ children }) => {
     }
 
     // dispatch(toggleChatOpened());
+    dispatch(setChatOpened(true));
 
     return () => {
       dispatch(unsubscribeFromMessages());
@@ -127,7 +129,8 @@ const Chat = ({ children }) => {
       dispatch(clearNewMessages());
       dispatch(clearNotifications());
 
-      dispatch(toggleChatOpened());
+      // dispatch(toggleChatOpened());
+      dispatch(setChatOpened(true));
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

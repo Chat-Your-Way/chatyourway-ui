@@ -76,18 +76,18 @@ const Sidebar = () => {
   const isChatOpened = useSelector(selectChatOpened);
 
   useEffect(() => {
-    if (pathname === PATH.HOME) {
-      setShowText(false);
-      setShowMenu(true);
-    } else {
-      setShowText(true);
-    }
+    // if (pathname === PATH.HOME) {
+    //   setShowText(false);
+    //   setShowMenu(true);
+    // } else {
+    //   setShowText(true);
+    // }
     // if (pathname.includes('chat')) {
     //   setShowText(false);
     // } else {
     //   setShowText(true);
     // }
-    if (isChatOpened) {
+    if (isChatOpened && pathname.includes('chat')) {
       setShowText(false);
     } else {
       setShowText(true);

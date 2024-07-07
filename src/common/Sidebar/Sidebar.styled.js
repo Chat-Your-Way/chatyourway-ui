@@ -76,7 +76,7 @@ export const StyledContentBox = styled(Box, {
 
   @media screen and (min-width: 768px) {
     gap: 0;
-    position: absolute;
+    // position: absolute;
     top: 167px;
     left: 40px;
   }
@@ -84,6 +84,7 @@ export const StyledContentBox = styled(Box, {
   @media screen and (min-width: 1200px) {
     top: 154px;
     left: 80px;
+    position: absolute;
   }
 `;
 
