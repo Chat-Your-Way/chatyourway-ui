@@ -96,7 +96,7 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
 
   const handleSubscribe = async () => {
     try {
-      const { error } = await subscribe(topicId);
+      const { error } = await subscribe({ topicId, accessTokenInStore });
       if (error) {
         alert('Виникла помилка під час підписки на тему');
       } else {
@@ -110,7 +110,7 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
 
   const handleUnsubscribe = async () => {
     try {
-      const { error } = await unsubscribe(topicId);
+      const { error } = await unsubscribe({ topicId, accessTokenInStore });
       if (error) {
         alert('Виникла помилка під час відписки від теми');
       } else {
@@ -160,7 +160,9 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
             <ListItemIcon>
               {<IconButton icon={<MenuIconSubscribe />} />}
             </ListItemIcon>
-            <SettingsTextStyled primary="підписатися" />
+            <SettingsTextStyled
+              primary={subscribeStatus ? 'Відписатися' : 'Підписатися'}
+            />
           </SettingsItemStyled>
         ) : (
           <SettingsItemStyled onClick={handleUnsubscribe} disableRipple>

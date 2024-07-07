@@ -69,7 +69,10 @@ import {
   setIsLoggedIn,
   setRefreshToken,
 } from '../../redux/authOperatonsToolkit/authOperationsThunkSlice';
-import { useGetMessagesByTopicQuery } from '../../redux/messagesAPI/messagesAPI';
+import {
+  useGetMessagesByTopicQuery,
+  useSendMessageToTopicMutation,
+} from '../../redux/messagesAPI/messagesAPI';
 import { selectAccessToken } from '../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
 
 const Chat = ({ children }) => {
@@ -104,6 +107,9 @@ const Chat = ({ children }) => {
   const subscribed = useSelector(selectSubscribed);
   const isChatOpened = useSelector(selectChatOpened);
 
+  const [sendMessageToTopic, { error: sendMessageError }] =
+    useSendMessageToTopicMutation();
+
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -111,7 +117,7 @@ const Chat = ({ children }) => {
       dispatch(connectWebSocket());
     }
 
-    dispatch(toggleChatOpened());
+    // dispatch(toggleChatOpened());
 
     return () => {
       dispatch(unsubscribeFromMessages());
@@ -171,7 +177,7 @@ const Chat = ({ children }) => {
     currentMessagesByTopic,
   ]);
 
-  if (isError) {
+  if (isError || sendMessageError) {
     alert('Виникла помилка під час отримання теми (ChatComponent)');
     dispatch(setIsLoggedIn(false));
     dispatch(setAccessToken(null));
@@ -191,8 +197,8 @@ const Chat = ({ children }) => {
       return alert('This message is empty');
 
     if (connected) {
-      dispatch(sendMessage(topicId, inputMessage));
-
+      // dispatch(sendMessage(topicId, inputMessage));
+      sendMessageToTopic({ topicId, inputMessage, accessTokenInStore });
       inputRef.current.value = '';
     } else {
       alert('Зʼєднання не встановлено');
@@ -202,7 +208,7 @@ const Chat = ({ children }) => {
   const subscribeStatus = () => {
     if (topicIdData) {
       const status = topicIdData.topicSubscribers.find(
-        (el) => el.contact.email === email && el.unsubscribeAt === null,
+        (el) => el.email === email,
       );
 
       return status ? true : false;
@@ -215,6 +221,7 @@ const Chat = ({ children }) => {
     <Loader />
   ) : (
     isChatOpened && (
+      // topicIdData && (
       <ChatWrap>
         <ChatHeader>
           <UserBox>
@@ -228,7 +235,10 @@ const Chat = ({ children }) => {
           </UserBox>
           <InfoMoreBox>
             {children}
-            <TopicSettingsMenu topicId={topicId} subscribeStatus />
+            <TopicSettingsMenu
+              topicId={topicId}
+              subscribeStatus={subscribeStatus()}
+            />
           </InfoMoreBox>
         </ChatHeader>
         <ChatSectionWrap>

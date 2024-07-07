@@ -1,5 +1,7 @@
 import { useContext, createContext, useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
+import { setChatOpened } from '../../redux/chatSlice';
 
 const Context = createContext(null);
 
@@ -20,14 +22,16 @@ export const useCreateSidebarContext = function (props) {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isMobile) {
       setShowMenu(false);
     } else {
       setShowMenu(true);
+      dispatch(setChatOpened(true));
     }
-  }, [isMobile]);
+  }, [isMobile, dispatch]);
 
   return {
     showText,
@@ -36,5 +40,6 @@ export const useCreateSidebarContext = function (props) {
     setShowMenu,
     selectedCategory,
     setSelectedCategory,
+    isMobile,
   };
 };

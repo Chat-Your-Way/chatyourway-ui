@@ -35,6 +35,7 @@ export const StyledBox = styled(Box, {
   max-width: 342px;
   height: 75vh;
   max-height: 600px;
+  overflow-y: auto;
 
   @media screen and (max-width: 320px) {
     width: 300px;

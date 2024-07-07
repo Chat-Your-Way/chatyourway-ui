@@ -17,7 +17,20 @@ export const messagesAPI = createApi({
       }),
       providesTags: ['messages'],
     }),
+    sendMessageToTopic: builder.mutation({
+      query: ({ topicId, inputMessage, accessTokenInStore }) => ({
+        url: `/messages/topic/${topicId}`,
+        method: 'POST',
+        body: JSON.stringify({ content: inputMessage }),
+        headers: {
+          Authorization: `Bearer ${accessTokenInStore}`,
+          'Content-Type': 'application/json',
+        },
+      }),
+      invalidatesTags: ['messages'],
+    }),
   }),
 });
 
-export const { useGetMessagesByTopicQuery } = messagesAPI;
+export const { useGetMessagesByTopicQuery, useSendMessageToTopicMutation } =
+  messagesAPI;

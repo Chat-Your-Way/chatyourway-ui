@@ -22,6 +22,8 @@ import {
   UserName,
 } from './HeaderUserInfo.styled';
 import { setIsLoggedIn } from '../../../../redux/authOperatonsToolkit/authOperationsThunkSlice';
+// eslint-disable-next-line max-len
+import { selectAccessToken } from '../../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
 // import { selectUserThunk } from '../../../../redux/userApiThunk/userApiThunkSelectors';
 // import { useUser } from '../../../../hooks/useUser';
 // import { useNavigate } from 'react-router-dom';
@@ -29,10 +31,12 @@ import { setIsLoggedIn } from '../../../../redux/authOperatonsToolkit/authOperat
 
 const HeaderUserInfo = () => {
   const dispatch = useDispatch();
+  const accessTokenInStore = useSelector(selectAccessToken);
 
   const { toggleTheme, currentTheme } = useContext(ThemeContext);
 
-  const { data, isLoading, isError, error } = useGetUserInfoQuery();
+  const { data, isLoading, isError, error } =
+    useGetUserInfoQuery(accessTokenInStore);
 
   // const { localLogOut } = useUser();
   // const navigate = useNavigate();

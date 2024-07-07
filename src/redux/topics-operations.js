@@ -4,6 +4,7 @@ import { BASE_URL, Referer } from './apiParams';
 const topicsApi = createApi({
   reducerPath: 'topicsApi',
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
+  tagTypes: ['Topics'],
   endpoints: (builder) => ({
     create: builder.mutation({
       query: (body) => ({
@@ -73,26 +74,26 @@ const topicsApi = createApi({
     }),
 
     subscribe: builder.mutation({
-      query: (id) => ({
-        url: `/topics/subscribe/${id}`,
+      query: ({ topicId, accessTokenInStore }) => ({
+        url: `/topics/subscribe/${topicId}`,
         method: 'POST',
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${accessTokenInStore}`,
         },
       }),
       invalidatesTags: ['Topics'],
     }),
 
     unsubscribe: builder.mutation({
-      query: (id) => ({
-        url: `/topics/unsubscribe/${id}`,
+      query: ({ topicId, accessTokenInStore }) => ({
+        url: `/topics/unsubscribe/${topicId}`,
         method: 'PATCH',
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${accessTokenInStore}`,
         },
       }),
       invalidatesTags: ['Topics'],

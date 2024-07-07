@@ -14,7 +14,7 @@ import HeaderUserInfo from './HeaderUserInfo';
 import { useTopicsContext } from '../../../common/Topics/TopicsContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
-import { toggleChatOpened } from '../../../redux/chatSlice';
+import { setChatOpened } from '../../../redux/chatSlice';
 
 const Header = () => {
   const { showMenu, setShowMenu } = useSidebarContext();
@@ -26,9 +26,14 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const onIconMenuClick = () => {
+    if (!showMenu) {
+      dispatch(setChatOpened(false));
+    } else {
+      dispatch(setChatOpened(true));
+    }
+
     setShowMenu(!showMenu);
     setShowTopics(false);
-    dispatch(toggleChatOpened());
   };
 
   return (

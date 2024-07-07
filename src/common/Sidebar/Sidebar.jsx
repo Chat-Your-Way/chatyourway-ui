@@ -31,8 +31,9 @@ import { useMediaQuery } from 'react-responsive';
 // import { useUser } from '../../hooks/useUser';
 import { useLogoutMutation } from '../../redux/auth-operations';
 import { useTopicsContext } from '../Topics/TopicsContext';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setIsLoggedIn } from '../../redux/authOperatonsToolkit/authOperationsThunkSlice';
+import { selectChatOpened, setChatOpened } from '../../redux/chatSlice';
 
 const menuRoutes = [
   {
@@ -72,6 +73,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const { setShowTopics } = useTopicsContext();
   const dispatch = useDispatch();
+  const isChatOpened = useSelector(selectChatOpened);
 
   useEffect(() => {
     if (pathname === PATH.HOME) {
@@ -80,12 +82,17 @@ const Sidebar = () => {
     } else {
       setShowText(true);
     }
-    if (pathname.includes('chat')) {
+    // if (pathname.includes('chat')) {
+    //   setShowText(false);
+    // } else {
+    //   setShowText(true);
+    // }
+    if (isChatOpened) {
       setShowText(false);
     } else {
       setShowText(true);
     }
-  }, [pathname, setShowText, setShowMenu]);
+  }, [pathname, setShowText, setShowMenu, isChatOpened]);
 
   useEffect(() => {
     setIsShowText(showText);
@@ -122,6 +129,7 @@ const Sidebar = () => {
     setSelectedCategory(path);
     if (isMobile) {
       setShowMenu(false);
+      dispatch(setChatOpened(true));
     }
     setShowTopics(true);
     navigate(path);
