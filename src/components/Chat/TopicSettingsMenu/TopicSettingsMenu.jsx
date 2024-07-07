@@ -50,6 +50,7 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
       alert(
         'Виникла помилка під час отримання улюблених тем, авторизуйтесь в системмі!',
       );
+
       dispatch(setIsLoggedIn(false));
       dispatch(setAccessToken(null));
       return dispatch(setRefreshToken(null));

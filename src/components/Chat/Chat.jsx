@@ -181,7 +181,13 @@ const Chat = ({ children }) => {
   ]);
 
   if (isError || sendMessageError) {
+    if (sendMessageError.data?.message.includes('subscribed to the topic')) {
+      return alert(
+        'Потрібно підписатись на цю тему, щоб відправляти повідомлення',
+      );
+    }
     alert('Виникла помилка під час отримання теми (ChatComponent)');
+
     dispatch(setIsLoggedIn(false));
     dispatch(setAccessToken(null));
     dispatch(setRefreshToken(null));
