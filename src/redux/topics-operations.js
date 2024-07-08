@@ -4,6 +4,7 @@ import { BASE_URL, Referer } from './apiParams';
 const topicsApi = createApi({
   reducerPath: 'topicsApi',
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
+  tagTypes: ['Topics'],
   endpoints: (builder) => ({
     create: builder.mutation({
       query: (body) => ({
@@ -20,13 +21,14 @@ const topicsApi = createApi({
     }),
 
     getAll: builder.query({
-      query: (value) => ({
-        url: `/topics/${value}`,
+      query: ({ filter = 'all', accessTokenInStore }) => ({
+        url: `/topics/${filter}`,
         method: 'GET',
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          // Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${accessTokenInStore}`,
         },
       }),
       providesTags: ['Topics'],
@@ -59,39 +61,39 @@ const topicsApi = createApi({
     }),
 
     getById: builder.query({
-      query: (id) => ({
-        url: `/topics/${id}`,
+      query: ({ topicId, accessTokenInStore }) => ({
+        url: `/topics/${topicId}`,
         method: 'GET',
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${accessTokenInStore}`,
         },
       }),
       providesTags: ['Topics'],
     }),
 
     subscribe: builder.mutation({
-      query: (id) => ({
-        url: `/topics/subscribe/${id}`,
+      query: ({ topicId, accessTokenInStore }) => ({
+        url: `/topics/subscribe/${topicId}`,
         method: 'POST',
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${accessTokenInStore}`,
         },
       }),
       invalidatesTags: ['Topics'],
     }),
 
     unsubscribe: builder.mutation({
-      query: (id) => ({
-        url: `/topics/unsubscribe/${id}`,
+      query: ({ topicId, accessTokenInStore }) => ({
+        url: `/topics/unsubscribe/${topicId}`,
         method: 'PATCH',
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${accessTokenInStore}`,
         },
       }),
       invalidatesTags: ['Topics'],

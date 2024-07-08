@@ -10,7 +10,7 @@ export const UserInfoBlock = styled(Box)`
 export const StyledToogle = styled(Toogle)`
   display: none;
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     display: flex;
   }
 `;

@@ -15,7 +15,7 @@ export const AuthorizationLogo = styled(ICONS.LOGO)`
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.dark};
   margin-bottom: 92px;
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     display: none;
   }
 `;

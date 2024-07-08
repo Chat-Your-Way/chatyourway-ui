@@ -18,6 +18,8 @@ import {
   selectConnected,
   selectSubscribed,
   toggleChatOpened,
+  selectChatOpened,
+  setChatOpened,
 } from '../../redux/chatSlice';
 import {
   subscribeToMessages,
@@ -63,12 +65,26 @@ import {
 } from './Chat.styled';
 
 import { processMessageData } from './processMessageData';
-import { setIsLoggedIn } from '../../redux/authOperatonsToolkit/authOperationsThunkSlice';
-import { useGetMessagesByTopicQuery } from '../../redux/messagesAPI/messagesAPI';
+import {
+  setAccessToken,
+  setIsLoggedIn,
+  setRefreshToken,
+} from '../../redux/authOperatonsToolkit/authOperationsThunkSlice';
+import {
+  useGetMessagesByTopicQuery,
+  useSendMessageToTopicMutation,
+} from '../../redux/messagesAPI/messagesAPI';
+import { selectAccessToken } from '../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
 
 const Chat = ({ children }) => {
   const { title: topicId } = useParams();
-  const { data: topicIdData, isLoading, isError } = useGetByIdQuery(topicId);
+  const accessTokenInStore = useSelector(selectAccessToken);
+  const {
+    data: topicIdData,
+    isLoading,
+    isError,
+  } = useGetByIdQuery({ topicId, accessTokenInStore });
+
   const {
     data: messagesByTopic,
     currentData: currentMessagesByTopic,
@@ -90,6 +106,10 @@ const Chat = ({ children }) => {
   const messages = useSelector(selectMessages);
   const connected = useSelector(selectConnected);
   const subscribed = useSelector(selectSubscribed);
+  const isChatOpened = useSelector(selectChatOpened);
+
+  const [sendMessageToTopic, { error: sendMessageError }] =
+    useSendMessageToTopicMutation();
 
   const inputRef = useRef(null);
 
@@ -98,7 +118,8 @@ const Chat = ({ children }) => {
       dispatch(connectWebSocket());
     }
 
-    dispatch(toggleChatOpened());
+    // dispatch(toggleChatOpened());
+    dispatch(setChatOpened(true));
 
     return () => {
       dispatch(unsubscribeFromMessages());
@@ -108,7 +129,8 @@ const Chat = ({ children }) => {
       dispatch(clearNewMessages());
       dispatch(clearNotifications());
 
-      dispatch(toggleChatOpened());
+      // dispatch(toggleChatOpened());
+      dispatch(setChatOpened(true));
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -135,6 +157,7 @@ const Chat = ({ children }) => {
   useEffect(() => {
     // if (historyMessages.length === 0 || notifications.length === 0) return;
     if (!currentMessagesByTopic) return;
+
     const newMessagesData = processMessageData(
       currentMessagesByTopic,
       email,
@@ -142,6 +165,8 @@ const Chat = ({ children }) => {
       newMessages,
       notifications,
     );
+
+    dispatch(subscribeToMessages(topicId));
 
     dispatch(setMessages(newMessagesData));
 
@@ -155,9 +180,17 @@ const Chat = ({ children }) => {
     currentMessagesByTopic,
   ]);
 
-  if (isError) {
-    alert('Виникла помилка під час отримання теми');
+  if (isError || sendMessageError) {
+    if (sendMessageError.data?.message.includes('subscribed to the topic')) {
+      return alert(
+        'Потрібно підписатись на цю тему, щоб відправляти повідомлення',
+      );
+    }
+    alert('Виникла помилка під час отримання теми (ChatComponent)');
+
     dispatch(setIsLoggedIn(false));
+    dispatch(setAccessToken(null));
+    dispatch(setRefreshToken(null));
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
   }
@@ -169,11 +202,12 @@ const Chat = ({ children }) => {
   const handleMessageSend = () => {
     const inputMessage = inputRef.current.value.trim();
 
-    if (!inputMessage || inputMessage.length === 0) return;
+    if (!inputMessage || inputMessage.length === 0)
+      return alert('This message is empty');
 
     if (connected) {
-      dispatch(sendMessage(topicId, inputMessage));
-
+      // dispatch(sendMessage(topicId, inputMessage));
+      sendMessageToTopic({ topicId, inputMessage, accessTokenInStore });
       inputRef.current.value = '';
     } else {
       alert('Зʼєднання не встановлено');
@@ -183,7 +217,7 @@ const Chat = ({ children }) => {
   const subscribeStatus = () => {
     if (topicIdData) {
       const status = topicIdData.topicSubscribers.find(
-        (el) => el.contact.email === email && el.unsubscribeAt === null,
+        (el) => el.email === email,
       );
 
       return status ? true : false;
@@ -195,7 +229,8 @@ const Chat = ({ children }) => {
   return isLoading ? (
     <Loader />
   ) : (
-    topicIdData && (
+    isChatOpened && (
+      // topicIdData && (
       <ChatWrap>
         <ChatHeader>
           <UserBox>
@@ -209,7 +244,10 @@ const Chat = ({ children }) => {
           </UserBox>
           <InfoMoreBox>
             {children}
-            <TopicSettingsMenu topicId={topicId} subscribeStatus />
+            <TopicSettingsMenu
+              topicId={topicId}
+              subscribeStatus={subscribeStatus()}
+            />
           </InfoMoreBox>
         </ChatHeader>
         <ChatSectionWrap>

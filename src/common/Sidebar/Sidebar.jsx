@@ -1,16 +1,28 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+// import {
+//   MainBox,
+//   StyledBox,
+//   StyledNavLink,
+//   StyledText,
+//   StyledContentBox,
+//   Logo,
+//   LogOutButton,
+//   LogOutIcon,
+//   StyledNavlist,
+// } from './Sidebar.styled';
 import {
   MainBox,
   StyledBox,
   StyledNavLink,
   StyledItem,
   StyledText,
-  StyledItemsBox,
   StyledContentBox,
   Logo,
   LogOutButton,
   LogOutIcon,
+  StyledNavlistItem,
+  StyledNavlist,
 } from './Sidebar.styled';
 import { ICONS } from '../../ui-kit/icons';
 import { useSidebarContext } from './SidebarContext';
@@ -19,8 +31,9 @@ import { useMediaQuery } from 'react-responsive';
 // import { useUser } from '../../hooks/useUser';
 import { useLogoutMutation } from '../../redux/auth-operations';
 import { useTopicsContext } from '../Topics/TopicsContext';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setIsLoggedIn } from '../../redux/authOperatonsToolkit/authOperationsThunkSlice';
+import { selectChatOpened, setChatOpened } from '../../redux/chatSlice';
 
 const menuRoutes = [
   {
@@ -46,33 +59,40 @@ const menuRoutes = [
 ];
 
 const useMobileMediaQuery = () =>
-  useMediaQuery({ query: '(max-width: 769px)' });
+  useMediaQuery({ query: '(max-width: 767px)' });
 
 const Sidebar = () => {
   const { showText, showMenu, setShowText, setShowMenu, setSelectedCategory } =
     useSidebarContext();
   const { pathname } = useLocation();
   const isMobile = useMobileMediaQuery();
+
   const [isShowText, setIsShowText] = useState();
   // const { localLogOut } = useUser();
   const [logout] = useLogoutMutation();
   const navigate = useNavigate();
   const { setShowTopics } = useTopicsContext();
   const dispatch = useDispatch();
+  const isChatOpened = useSelector(selectChatOpened);
 
   useEffect(() => {
-    if (pathname === PATH.HOME) {
+    // if (pathname === PATH.HOME) {
+    //   setShowText(false);
+    //   setShowMenu(true);
+    // } else {
+    //   setShowText(true);
+    // }
+    // if (pathname.includes('chat')) {
+    //   setShowText(false);
+    // } else {
+    //   setShowText(true);
+    // }
+    if (isChatOpened && pathname.includes('chat')) {
       setShowText(false);
-      setShowMenu(true);
     } else {
       setShowText(true);
     }
-    if (pathname.includes('chat')) {
-      setShowText(false);
-    } else {
-      setShowText(true);
-    }
-  }, [pathname, setShowText, setShowMenu]);
+  }, [pathname, setShowText, setShowMenu, isChatOpened]);
 
   useEffect(() => {
     setIsShowText(showText);
@@ -109,6 +129,7 @@ const Sidebar = () => {
     setSelectedCategory(path);
     if (isMobile) {
       setShowMenu(false);
+      dispatch(setChatOpened(true));
     }
     setShowTopics(true);
     navigate(path);
@@ -120,25 +141,41 @@ const Sidebar = () => {
         <StyledBox showText={isShowText}>
           <StyledContentBox>
             <Logo />
-            <StyledItemsBox>
+            <StyledNavlist>
+              {/* <StyledItemsBox> */}
               {menuRoutes.map((route) => {
                 return (
-                  <StyledNavLink to={route.path} key={route.name}>
-                    {({ isActive }) => (
-                      <StyledItem
-                        showText={showText}
-                        isActive={isActive}
-                        onClick={() => handleCategoryClick(route.path)}
-                      >
-                        {route.icon}
-                        {showText && (
-                          <StyledText isActive={isActive}>
-                            {route.name}
-                          </StyledText>
-                        )}
-                      </StyledItem>
-                    )}
-                  </StyledNavLink>
+                  <StyledNavlistItem key={route.name}>
+                    <StyledNavLink to={route.path} key={route.name}>
+                      {({ isActive }) => (
+                        <StyledItem
+                          showText={showText}
+                          isActive={isActive}
+                          onClick={() => handleCategoryClick(route.path)}
+                        >
+                          {route.icon}
+                          {showText && (
+                            <StyledText isActive={isActive}>
+                              {route.name}
+                            </StyledText>
+                          )}
+                        </StyledItem>
+                      )}
+                    </StyledNavLink>
+                  </StyledNavlistItem>
+
+                  // <StyledNavLink to={route.path} key={route.name}>
+                  //   {({ isActive }) => (
+                  //     <StyledItem
+                  //       showText={showText}
+                  //       isActive={isActive}
+                  //       onClick={() => handleCategoryClick(route.path)}
+                  //     >
+                  //       {route.icon}
+                  //       {showText && <StyledText isActive={isActive}>{route.name}</StyledText>}
+                  //     </StyledItem>
+                  //   )}
+                  // </StyledNavLink>
                 );
               })}
               <LogOutButton
@@ -146,7 +183,8 @@ const Sidebar = () => {
                 startIcon={<LogOutIcon />}
                 handleClick={LogOut}
               />
-            </StyledItemsBox>
+            </StyledNavlist>
+            {/* </StyledItemsBox> */}
           </StyledContentBox>
         </StyledBox>
       )}

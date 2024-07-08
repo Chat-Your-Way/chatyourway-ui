@@ -18,7 +18,11 @@ import {
 // import { setUserInfo } from '../../redux/userSlice.js';
 
 import { useDispatch } from 'react-redux';
-import { setIsLoggedIn } from '../../redux/authOperatonsToolkit/authOperationsThunkSlice.js';
+import {
+  setAccessToken,
+  setIsLoggedIn,
+  setRefreshToken,
+} from '../../redux/authOperatonsToolkit/authOperationsThunkSlice.js';
 
 function LoginPageComponent() {
   const [login] = useLoginMutation();
@@ -49,8 +53,10 @@ function LoginPageComponent() {
       if (error) {
         if (error.status === 401) {
           alert(`Неправильна пошта чи пароль`);
-        } else {
+        } else if (error.data) {
           alert(error.data.message);
+        } else {
+          alert('Something goes wrong :-( Maybe server is down.');
         }
         return;
       }
@@ -64,6 +70,8 @@ function LoginPageComponent() {
       if (data) {
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
+        dispatch(setAccessToken(data.accessToken));
+        dispatch(setRefreshToken(data.refreshToken));
         dispatch(setIsLoggedIn(true));
         // navigate(PATH.MAIN / PATH.HOMEPAGE);
       }

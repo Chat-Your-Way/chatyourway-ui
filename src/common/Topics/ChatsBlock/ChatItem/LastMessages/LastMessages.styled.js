@@ -19,7 +19,7 @@ export const StyledBox = styled(Box, {
 
   @media screen and (min-width: 1200px) {
     width: ${(p) =>
-      p.chatOpened ? '300px' : p.contactsOpened ? '241px' : '308px'};
+      p.chatOpened ? '300px' : p.contactsOpened ? '241px' : '100%'};
     width: 100%;
   }
 `;
@@ -38,14 +38,14 @@ export const StyledAuthorBlock = styled(Typography, {
 
   @media screen and (min-width: 769px) {
     ${(p) => p.theme.typography.h5}
-    width: 308px;
+    // width: 308px;
     width: 100%;
   }
 
   @media screen and (min-width: 1200px) {
-    width: ${(p) =>
-      p.chatOpened ? '300px' : p.contactsOpened ? '241px' : '308px'};
-    width: 100%;
+    // width: ${(p) =>
+      p.chatOpened ? '300px' : p.contactsOpened ? '241px' : '100%'};
+    // width: 100%;
   }
 `;
 

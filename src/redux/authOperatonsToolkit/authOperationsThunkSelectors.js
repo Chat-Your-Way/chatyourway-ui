@@ -9,6 +9,3 @@ export const selectAuthStatus = (state) =>
 
 export const selectIsLoggedIn = (state) =>
   state.authenticationApiToolkit.isLoggedIn;
-
-export const selectUserNickname = (state) =>
-  state.authenticationApiToolkit.nickname;

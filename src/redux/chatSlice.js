@@ -75,6 +75,9 @@ const chatSlice = createSlice({
     toggleContactsOpened: (state) => {
       state.contactsOpened = !state.contactsOpened;
     },
+    setChatOpened: (state, action) => {
+      state.chatOpened = action.payload;
+    },
   },
 });
 
@@ -98,6 +101,7 @@ export const {
   clearSubscriptions,
   toggleChatOpened,
   toggleContactsOpened,
+  setChatOpened,
 } = chatSlice.actions;
 
 export default chatSlice;

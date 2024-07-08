@@ -20,13 +20,13 @@ const userApi = createApi({
       invalidatesTags: ['User'],
     }),
     getUserInfo: builder.query({
-      query: () => ({
+      query: (accessTokenInStore) => ({
         url: `/contacts/profile`,
         method: 'GET',
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${accessTokenInStore}`,
         },
       }),
       providesTags: ['User'],

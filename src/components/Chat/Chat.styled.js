@@ -7,19 +7,23 @@ export const ChatWrap = styled(Box)`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  max-width: 342px;
-
-  //height: calc(100vh - 145px);
+  /* max-width: 342px; */ // Old rule
+  max-width: 85vw;
+  //height: calc(100vh - 145px); // Old rule
+  height: 84vh;
   overflow-y: auto;
+  box-sizing: border-box;
 
-  padding: 6px 6px 21px;
+  /* padding: 6px 6px 21px; */ // Old rule
+  padding: 6px;
   border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
   overflow-y: auto;
-  @media screen and (min-width: calc(834px - 0.02px)) {
-    max-width: 648px;
-    height: calc(100vh - 305px);
 
+  /* @media screen and (min-width: calc(834px - 0.02px)) { */
+  @media screen and (min-width: 768px) {
+    max-width: 648px;
+    height: 74vh;
     padding: 8px 8px 16px;
   }
 
@@ -27,10 +31,13 @@ export const ChatWrap = styled(Box)`
     margin-left: 31px;
   }
 
-  @media screen and (min-width: calc(1200px - 0.02px)) {
+  /* @media screen and (min-width: calc(1200px - 0.02px)) { */
+  @media screen and (min-width: 1200px) {
+    width: 51vw;
     max-width: 730px;
     /* height: calc(100vh - 297px); */
-    height: calc(100vh - 100px);
+    height: 75vh;
+    padding: 8px 10px 16px;
   }
 `;
 

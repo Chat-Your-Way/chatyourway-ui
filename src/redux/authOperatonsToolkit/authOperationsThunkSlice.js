@@ -6,10 +6,18 @@ const authOperationsThunk = createSlice({
   initialState: {
     status: 'idle',
     isLoggedIn: null,
+    accessToken: null,
+    refreshToken: null,
   },
   reducers: {
     setIsLoggedIn(state, action) {
       state.isLoggedIn = action.payload;
+    },
+    setAccessToken(state, action) {
+      state.accessToken = action.payload;
+    },
+    setRefreshToken(state, action) {
+      state.refreshToken = action.payload;
     },
   },
   extraReducers(builder) {
