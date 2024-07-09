@@ -24,6 +24,7 @@ import {
 } from '../../../redux/authOperatonsToolkit/authOperationsThunkSlice';
 // eslint-disable-next-line max-len
 import { selectAccessToken } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import localLogOutUtil from '../../../utils/localLogOutUtil';
 
 const ChatsBlock = ({ filter }) => {
   const { isTopics } = useTopicsContext();
@@ -31,10 +32,17 @@ const ChatsBlock = ({ filter }) => {
   const { pathname } = useLocation();
   const path = pathname.includes('topics') ? 'topics' : 'notification';
   const accessTokenInStore = useSelector(selectAccessToken);
-  const { data, isLoading, isError, error } = useGetAllQuery({
-    filter,
-    accessTokenInStore,
-  });
+  const { data, isLoading, isError, error } = useGetAllQuery(
+    {
+      filter,
+      accessTokenInStore,
+    },
+    {
+      refetchOnMountOrArgChange: 5,
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+    },
+  );
   const { localLogOut } = useUser();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -43,9 +51,10 @@ const ChatsBlock = ({ filter }) => {
 
   if (error) {
     alert('Виникла помилка під час отримання тем (ChatsBlock)');
-    dispatch(setIsLoggedIn(false));
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    localLogOutUtil(dispatch);
+    // dispatch(setIsLoggedIn(false));
+    // localStorage.removeItem('accessToken');
+    // localStorage.removeItem('refreshToken');
   }
 
   return isLoading ? (

@@ -1,4 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
+
 import authenticationApi from './auth-operations';
 import topicsApi from './topics-operations';
 import userApi from './user-operations';
@@ -26,3 +28,5 @@ const store = configureStore({
 });
 
 export default store;
+
+setupListeners(store.dispatch);

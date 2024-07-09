@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
-import SockJS from 'sockjs-client';
+// import SockJS from 'sockjs-client';
 // eslint-disable-next-line import/no-unresolved
 import { Client } from '@stomp/stompjs';
+// import { Stomp } from '@stomp/stompjs';
 
-import { BASE_URL } from './apiParams';
+// import { BASE_URL } from './apiParams';
 
 import {
   setAllTopicsNotifications,
@@ -31,18 +32,22 @@ const sendToPublicTopicDest = '/app/topic/public/';
 // const socket = new SockJS(
 //   `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem('accessToken')}`
 // );
+// socket.onerror = function (error) {
+//   console.log(error);
+// };
 
 const stompConfig = {
   heartbeatIncoming: 7000,
   heartbeatOutgoing: 7000,
   reconnectDelay: 10000,
-  webSocketFactory: function () {
-    return new SockJS(
-      `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem(
-        'accessToken',
-      )}`,
-    );
-  },
+  // webSocketFactory: function () {
+  // return new SockJS(
+  //   `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem(
+  //     'accessToken',
+  //   )}`,
+  // );
+  //   return socket;
+  // },
 };
 export const client = new Client(stompConfig);
 
@@ -64,6 +69,7 @@ export const connectWebSocket = () => {
   //   const socket = new SockJS(
   //     `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem('accessToken')}`
   //   );
+
   //   client = Stomp.over(() => socket);
   //   console.log('client', client);
   //   await new Promise((resolve, reject) => {
@@ -147,13 +153,19 @@ export const unsubscribeFromMessages = () => {
 export const disconnectWebSocket = () => {
   return async (dispatch) => {
     try {
-      await new Promise((resolve, _) => {
-        client.disconnect(() => {
+      // await new Promise((resolve, _) => {
+      //   client.disconnect(() => {
+      //     resolve();
+      //   });
+      // });
+      await new Promise((resolve, reject) => {
+        client.deactivate((event) => {
           resolve();
         });
+        if (!client.connected) {
+          dispatch(setConnected(false));
+        }
       });
-
-      dispatch(setConnected(false));
     } catch (error) {
       console.error('Error disconnecting from WebSocket:', error);
     }
@@ -163,17 +175,13 @@ export const disconnectWebSocket = () => {
 export const subscribeToAllTopicsNotify = () => {
   return async (dispatch) => {
     try {
-      // const subscriptionToAllNotify = await client.subscribe(
-      //   `${subToAllTopicsNotificationsDest}`,
-      //   message => {
-      //     const parsedAllTopicsNotifications = JSON.parse(message.body);
-
-      //     dispatch(
-      //       setAllTopicsNotifications(message.id ?
-      // [{ name: `${message.id}` }] : [{ name: 'test' }])
-      //     );
-      //   }
-      // );
+      //  const subscriptionToAllNotify = await client.subscribe(
+      //     `${subToAllTopicsNotificationsDest}`,
+      //     (message) => {
+      //       // console.log('message', message);
+      //       const parsedAllTopicsNotifications = JSON.parse(message.body);
+      //       // console.log('parsedAllTopicsNotifications', parsedAllTopicsNotifications);
+      //       dispatch(setAllTopicsNotifications(parsedAllTopicsNotifications));
       const subscriptionToAllNotify = await client.subscribe(
         subToAllTopicsNotificationsDest,
         (message) => {
@@ -299,7 +307,7 @@ export const getTopicHistory = (topicId) => {
   };
 };
 
-export const sendMessage = (topicId, inputMessage) => {
+export const sendMessageByWs = ({ topicId, inputMessage }) => {
   return async () => {
     await client.publish({
       destination: `${sendToPublicTopicDest}${topicId}`,

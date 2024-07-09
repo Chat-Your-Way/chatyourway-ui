@@ -35,13 +35,13 @@ const topicsApi = createApi({
     }),
 
     addFavourite: builder.mutation({
-      query: (id) => ({
-        url: `/topics/${id}/favourite/add`,
+      query: ({ topicId, accessTokenInStore }) => ({
+        url: `/topics/${topicId}/favourite/add`,
         method: 'PATCH',
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${accessTokenInStore}`,
         },
       }),
       invalidatesTags: ['Topics'],

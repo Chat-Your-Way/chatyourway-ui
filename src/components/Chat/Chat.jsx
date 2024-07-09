@@ -25,8 +25,8 @@ import {
   subscribeToMessages,
   unsubscribeFromMessages,
   getTopicHistory,
-  sendMessage,
   connectWebSocket,
+  sendMessageByWs,
 } from '../../redux/chat-operations';
 
 import { Avatars } from '../../ui-kit/images/avatars';
@@ -75,6 +75,7 @@ import {
   useSendMessageToTopicMutation,
 } from '../../redux/messagesAPI/messagesAPI';
 import { selectAccessToken } from '../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import localLogOutUtil from '../../utils/localLogOutUtil';
 
 const Chat = ({ children }) => {
   const { title: topicId } = useParams();
@@ -89,8 +90,9 @@ const Chat = ({ children }) => {
     data: messagesByTopic,
     currentData: currentMessagesByTopic,
     isFetching,
+    error: messagesByTopicError,
   } = useGetMessagesByTopicQuery(topicId, {
-    refetchOnMountOrArgChange: true,
+    refetchOnMountOrArgChange: 5,
     refetchOnFocus: true,
     refetchOnReconnect: true,
   });
@@ -130,7 +132,7 @@ const Chat = ({ children }) => {
       dispatch(clearNotifications());
 
       // dispatch(toggleChatOpened());
-      dispatch(setChatOpened(true));
+      dispatch(setChatOpened(false));
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -180,19 +182,21 @@ const Chat = ({ children }) => {
     currentMessagesByTopic,
   ]);
 
-  if (isError || sendMessageError) {
-    if (sendMessageError.data?.message.includes('subscribed to the topic')) {
+  if (isError || sendMessageError || messagesByTopicError) {
+    if (sendMessageError?.data?.message?.includes('subscribed to the topic')) {
       return alert(
         'Потрібно підписатись на цю тему, щоб відправляти повідомлення',
       );
     }
+
     alert('Виникла помилка під час отримання теми (ChatComponent)');
 
-    dispatch(setIsLoggedIn(false));
-    dispatch(setAccessToken(null));
-    dispatch(setRefreshToken(null));
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    localLogOutUtil(dispatch);
+    // dispatch(setIsLoggedIn(false));
+    // dispatch(setAccessToken(null));
+    // dispatch(setRefreshToken(null));
+    // localStorage.removeItem('accessToken');
+    // localStorage.removeItem('refreshToken');
   }
 
   const handleContacts = () => {
@@ -206,7 +210,7 @@ const Chat = ({ children }) => {
       return alert('This message is empty');
 
     if (connected) {
-      // dispatch(sendMessage(topicId, inputMessage));
+      // dispatch(sendMessageByWs({ topicId, inputMessage }));
       sendMessageToTopic({ topicId, inputMessage, accessTokenInStore });
       inputRef.current.value = '';
     } else {
