@@ -8,7 +8,7 @@ export const FieldRadio = ({ id, control, avatarId }) => {
   const avatarsList = Object.entries(Avatars).map((item) => {
     return { id: item[0].replace('Avatar', ''), Logo: item[1] };
   });
-  const isTablet = useMediaQuery({ query: '(min-width: 769px)' });
+  const isTablet = useMediaQuery({ query: '(min-width: 768px)' });
   const isExtraSmallScreen = useMediaQuery({ query: '(max-width: 560px)' });
   const checkedValue = avatarId ? avatarId.toString() : '3';
 

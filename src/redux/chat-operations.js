@@ -181,17 +181,13 @@ export const subscribeToAllTopicsNotify = () => {
       //       // console.log('message', message);
       //       const parsedAllTopicsNotifications = JSON.parse(message.body);
       //       // console.log('parsedAllTopicsNotifications', parsedAllTopicsNotifications);
-      //       dispatch(setAllTopicsNotifications(parsedAllTopicsNotifications));
+      // dispatch(setAllTopicsNotifications(parsedAllTopicsNotifications));
       const subscriptionToAllNotify = await client.subscribe(
         subToAllTopicsNotificationsDest,
         (message) => {
           const parsedAllTopicsNotifications = JSON.parse(message.body);
 
-          dispatch(
-            setAllTopicsNotifications(
-              message.id ? [{ name: `${message.id}` }] : [{ name: 'test' }],
-            ),
-          );
+          dispatch(setAllTopicsNotifications(parsedAllTopicsNotifications));
         },
       );
       dispatch(setSubscribedAllTopicsNotify(true));

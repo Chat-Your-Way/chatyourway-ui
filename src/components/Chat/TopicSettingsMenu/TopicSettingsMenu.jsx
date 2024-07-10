@@ -84,7 +84,7 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
 
   const handleRemoveFavourite = async () => {
     try {
-      const { error } = await removeFavourite(topicId);
+      const { error } = await removeFavourite({ topicId, accessTokenInStore });
       if (error) {
         alert('Виникла помилка під час видалення теми з улюблених');
       } else {

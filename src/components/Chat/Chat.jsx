@@ -92,7 +92,7 @@ const Chat = ({ children }) => {
     isFetching,
     error: messagesByTopicError,
   } = useGetMessagesByTopicQuery(topicId, {
-    refetchOnMountOrArgChange: 5,
+    refetchOnMountOrArgChange: 10,
     refetchOnFocus: true,
     refetchOnReconnect: true,
   });

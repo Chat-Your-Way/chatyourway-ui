@@ -7,15 +7,15 @@ const topicsApi = createApi({
   tagTypes: ['Topics'],
   endpoints: (builder) => ({
     create: builder.mutation({
-      query: (body) => ({
+      query: ({ newTopic, accessTokenInStore }) => ({
         url: '/topics/create',
         method: 'POST',
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${accessTokenInStore}`,
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(newTopic),
       }),
       invalidatesTags: ['Topics'],
     }),
@@ -48,13 +48,13 @@ const topicsApi = createApi({
     }),
 
     removeFavourite: builder.mutation({
-      query: (id) => ({
-        url: `/topics/${id}/favourite/remove`,
+      query: ({ topicId, accessTokenInStore }) => ({
+        url: `/topics/${topicId}/favourite/remove`,
         method: 'PATCH',
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${accessTokenInStore}`,
         },
       }),
       invalidatesTags: ['Topics'],
