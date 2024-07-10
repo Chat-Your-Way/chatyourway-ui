@@ -6,7 +6,14 @@ import { FooterWrap, LogOutButton, LogOutIcon } from './Footer.styled';
 // import { PATH } from '../../../constans/routes';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
-import { setIsLoggedIn } from '../../../redux/authOperatonsToolkit/authOperationsThunkSlice';
+// import {
+//   setAccessToken,
+//   setIsLoggedIn,
+//   setRefreshToken,
+// } from '../../../redux/authOperatonsToolkit/authOperationsThunkSlice';
+// import { setConnected } from '../../../redux/chatSlice';
+// import { client } from '../../../redux/chat-operations';
+import localLogOutUtil from '../../../utils/localLogOutUtil';
 
 const Footer = () => {
   // const { isAuthenticated, localLogOut } = useUser();
@@ -22,10 +29,22 @@ const Footer = () => {
 
       if (error) {
         alert(error.data.message);
-        dispatch(setIsLoggedIn(false));
+        // dispatch(setIsLoggedIn(false));
+        // dispatch(setConnected(false));
+        // dispatch(setAccessToken(null));
+        // dispatch(setRefreshToken(null));
+        // client.deactivate();
+        localLogOutUtil(dispatch);
+
         return;
       }
-
+      localLogOutUtil(dispatch);
+      // dispatch(setIsLoggedIn(false));
+      // dispatch(setAccessToken(null));
+      // dispatch(setConnected(false));
+      // dispatch(setAccessToken(null));
+      // dispatch(setRefreshToken(null));
+      // client.deactivate();
       // localLogOut();
       // navigate(PATH.MAIN);
     } catch (error) {

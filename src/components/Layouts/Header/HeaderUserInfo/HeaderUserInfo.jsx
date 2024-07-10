@@ -21,9 +21,9 @@ import {
   UserInfoBlock,
   UserName,
 } from './HeaderUserInfo.styled';
-import { setIsLoggedIn } from '../../../../redux/authOperatonsToolkit/authOperationsThunkSlice';
 // eslint-disable-next-line max-len
 import { selectAccessToken } from '../../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import localLogOutUtil from '../../../../utils/localLogOutUtil';
 // import { selectUserThunk } from '../../../../redux/userApiThunk/userApiThunkSelectors';
 // import { useUser } from '../../../../hooks/useUser';
 // import { useNavigate } from 'react-router-dom';
@@ -53,9 +53,7 @@ const HeaderUserInfo = () => {
     alert(
       'Сталася помилка при отриманні інформації про користувача - необхідно авторизуватись',
     );
-    dispatch(setIsLoggedIn(false));
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    localLogOutUtil(dispatch);
   }
   // localLogOut();
   // navigate(PATH.MAIN);

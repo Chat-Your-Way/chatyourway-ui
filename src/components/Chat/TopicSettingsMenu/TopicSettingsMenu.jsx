@@ -28,6 +28,7 @@ import {
   setIsLoggedIn,
   setRefreshToken,
 } from '../../../redux/authOperatonsToolkit/authOperationsThunkSlice';
+import localLogOutUtil from '../../../utils/localLogOutUtil';
 
 const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -50,10 +51,10 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
       alert(
         'Виникла помилка під час отримання улюблених тем, авторизуйтесь в системмі!',
       );
-
-      dispatch(setIsLoggedIn(false));
-      dispatch(setAccessToken(null));
-      return dispatch(setRefreshToken(null));
+      localLogOutUtil(dispatch);
+      // dispatch(setIsLoggedIn(false));
+      // dispatch(setAccessToken(null));
+      // return dispatch(setRefreshToken(null));
     }
   }
 
@@ -69,7 +70,7 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
 
   const handleAddFavourite = async () => {
     try {
-      const { error } = await addFavourite(topicId);
+      const { error } = await addFavourite({ topicId, accessTokenInStore });
       if (error) {
         alert('Виникла помилка під час додання теми до улюблених');
       } else {

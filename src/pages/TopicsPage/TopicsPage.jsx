@@ -10,10 +10,12 @@ import { useTopicsPageContext } from './TopicsPageContext';
 import { useTopicsContext } from '../../common/Topics/TopicsContext';
 
 const useTabletAndBelowMediaQuery = () =>
-  useMediaQuery({ query: '(max-width: 770px)' });
+  // useMediaQuery({ query: '(max-width: 770px)' });
+  useMediaQuery({ query: '(max-width: 768px)' });
 
 const useMobileMediaQuery = () =>
-  useMediaQuery({ query: '(max-width: 769px)' });
+  // useMediaQuery({ query: '(max-width: 769px)' });
+  useMediaQuery({ query: '(max-width: 767px)' });
 
 function TopicsPage() {
   const isTabletAndBelow = useTabletAndBelowMediaQuery();

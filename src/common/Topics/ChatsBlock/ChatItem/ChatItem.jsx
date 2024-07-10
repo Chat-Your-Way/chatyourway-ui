@@ -24,7 +24,7 @@ const ChatItem = ({ isActive, data }) => {
   const unreadedMessages = data?.unreadMessageCount ?? null;
   const lastMessageContent = data?.lastMessage ?? null;
 
-  const isTablet = useMediaQuery({ query: '(min-width: 769px' });
+  const isTablet = useMediaQuery({ query: '(min-width: 768px' });
 
   return (
     <StyledBox

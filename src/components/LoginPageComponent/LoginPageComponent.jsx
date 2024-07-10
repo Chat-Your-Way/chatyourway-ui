@@ -56,7 +56,9 @@ function LoginPageComponent() {
         } else if (error.data) {
           alert(error.data.message);
         } else {
-          alert('Something goes wrong :-( Maybe server is down.');
+          alert(
+            'Something goes wrong :-( Maybe server or your connection is down.',
+          );
         }
         return;
       }
