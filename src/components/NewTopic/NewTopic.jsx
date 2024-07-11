@@ -9,6 +9,9 @@ import {
 } from './NewTopic.styled';
 import NewTopicInput from './NewTopicInput';
 import { useCreateMutation } from '../../redux/topics-operations';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAccessToken } from '../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import localLogOutUtil from '../../utils/localLogOutUtil';
 
 const defaultValues = {
   topicName: '',
@@ -22,6 +25,9 @@ function NewTopic({ closeModal }) {
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: 'all', defaultValues: defaultValues });
+
+  const dispatch = useDispatch();
+  const accessTokenInStore = useSelector(selectAccessToken);
 
   const [topicName, setTopicName] = useState();
   const [tags, setTags] = useState();
@@ -44,12 +50,13 @@ function NewTopic({ closeModal }) {
       .filter((el) => (el !== '') & (el !== '#'));
     const newTopic = { topicName: topicName.trim(), tags: formattedTags };
     try {
-      const { data } = await create(newTopic);
+      const { data } = await create({ newTopic, accessTokenInStore });
       if (data) {
         closeModal();
         alert(`Тема "${data.topicName}" успішно створена`);
       } else {
         alert('Виникла помилка під час створення теми');
+        localLogOutUtil(dispatch);
       }
     } catch (error) {
       console.error(error);

@@ -8,9 +8,9 @@ export const RegistrationWrapper = styled(Box)`
   flex-direction: column;
   align-items: center;
   margin: auto;
-  padding-bottom: 30px;
+  padding-bottom: 50px;
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     align-items: flex-start;
     padding: 30px;
   }
@@ -33,7 +33,7 @@ export const LogoIcon = styled(ICONS.LOGO)`
     height: 87px;
   }
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     display: none;
     margin: 0 0 122px 0;
     height: 87px;
@@ -54,7 +54,7 @@ export const RegistrationForm = styled.form`
 // ===== COMMON STYLES
 export const RegistrationInputWrapper = styled(Box)`
   position: relative;
-  margin: 3px 0 19px 0;
+  margin: 3px 0 20px 0;
 `;
 
 export const RegistrationLabel = styled(Typography)`
@@ -85,7 +85,7 @@ export const RegistrationInput = styled(InputBase, {
     height: 46px;
   }
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     width: ${(p) => (p.inputWidth ? p.inputWidth : '400px')};
   }
 `;

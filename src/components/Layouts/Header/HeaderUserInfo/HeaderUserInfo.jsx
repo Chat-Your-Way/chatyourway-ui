@@ -47,7 +47,7 @@ const HeaderUserInfo = () => {
   const notificationsAllTopics = useSelector(selectAllTopicsNotifications);
 
   const avatarsArray = Object.values(Avatars);
-  const isTablet = useMediaQuery({ query: '(min-width: 769px' });
+  const isTablet = useMediaQuery({ query: '(min-width: 768px' });
 
   if (error?.data?.httpStatus === 'UNAUTHORIZED') {
     alert(
