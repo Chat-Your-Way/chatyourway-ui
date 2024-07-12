@@ -9,7 +9,7 @@ import TabsBlock from './TabsBlock';
 import { StyledBox, StyledSearchInput } from './TopicsHeader.styled';
 import { useTopicsContext } from '../TopicsContext';
 
-const TopicsHeader = ({ handleBTNFunc, active, setFilter }) => {
+const TopicsHeader = ({ handleModal, active, setFilter }) => {
   const { isTopics } = useTopicsContext();
 
   const chatOpened = useSelector(selectChatOpened);
@@ -18,7 +18,7 @@ const TopicsHeader = ({ handleBTNFunc, active, setFilter }) => {
 
   return (
     <>
-      <ThemeBlock isTopics={isTopics} handleBTNFunc={handleBTNFunc} />
+      <ThemeBlock isTopics={isTopics} handleModal={handleModal} />
       {isTopics && <TabsBlock active={active} setFilter={setFilter} />}
       <StyledBox>
         <StyledSearchInput

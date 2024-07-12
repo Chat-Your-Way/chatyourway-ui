@@ -41,13 +41,21 @@ const ChatItem = ({ isActive, data }) => {
           {isTopics ? (
             <TopicDesc title={data.name} />
           ) : (
-            <TopicDesc title={data.createdBy.nickname} />
+            <TopicDesc
+              title={
+                data.createdBy?.nickname ? data.createdBy.nickname : data.name
+              }
+            />
           )}
 
           {lastMessageContent && (
             <LastMessages
               userName={lastMessageContent.sentFrom}
-              message={lastMessageContent.lastMessage}
+              message={
+                lastMessageContent.lastMessage.length > 20
+                  ? `${lastMessageContent.lastMessage.slice(0, 20)}...`
+                  : lastMessageContent.lastMessage
+              }
               unreadedMessage={unreadedMessages}
               // isTyping={data.isTyping}
               lastMessageTime={getTime(lastMessageContent.timestamp)}
