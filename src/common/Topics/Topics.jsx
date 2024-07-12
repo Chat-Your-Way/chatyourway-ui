@@ -5,7 +5,7 @@ import { TopicsWrapper } from './Topics.styled';
 import ChatsBlock from './ChatsBlock';
 import TopicsHeader from './TopicsHeader';
 
-const Topics = ({ handleBTNTopicFunc, handleBTNFunc }) => {
+const Topics = ({ handleBTNTopicFunc, handleModal }) => {
   const [filter, setFilter] = useState('all');
 
   const chatOpened = useSelector(selectChatOpened);
@@ -14,7 +14,7 @@ const Topics = ({ handleBTNTopicFunc, handleBTNFunc }) => {
   return (
     <TopicsWrapper chatOpened={chatOpened} contactsOpened={contactsOpened}>
       <TopicsHeader
-        handleBTNFunc={handleBTNFunc}
+        handleModal={handleModal}
         active={filter}
         setFilter={setFilter}
       />

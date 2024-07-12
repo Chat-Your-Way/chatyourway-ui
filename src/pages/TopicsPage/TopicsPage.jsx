@@ -45,7 +45,7 @@ function TopicsPage() {
 
   return (
     <StyledBox>
-      {showTopics && <Topics handleBTNFunc={handleModal} />}
+      {showTopics && <Topics handleModal={handleModal} />}
       {modalOpenNewTopic && (
         <Modal closeModal={() => setModalOpenNewTopic(!contactsOpen)}>
           {<NewTopic closeModal={() => setModalOpenNewTopic(false)} />}

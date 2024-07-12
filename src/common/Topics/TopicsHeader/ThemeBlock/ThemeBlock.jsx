@@ -7,7 +7,7 @@ import { StyledBox } from './ThemeBlock.styled';
 import DefaultButton from '../../../../ui-kit/components/Button';
 import { ICONS } from '../../../../ui-kit/icons';
 
-const ThemeBlock = ({ isTopics, handleBTNFunc }) => {
+const ThemeBlock = ({ isTopics, handleModal }) => {
   const title = isTopics ? 'Теми' : 'Повідомлення';
 
   const chatOpened = useSelector(selectChatOpened);
@@ -20,7 +20,7 @@ const ThemeBlock = ({ isTopics, handleBTNFunc }) => {
         <DefaultButton
           label="Нова"
           endIcon={<ICONS.EDIT_SQUARE />}
-          handleClick={handleBTNFunc}
+          handleClick={handleModal}
         />
       )}
     </StyledBox>

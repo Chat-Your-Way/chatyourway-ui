@@ -4,7 +4,10 @@ import { memo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useGetAllQuery } from '../../../redux/topics-operations';
+import {
+  useGetAllPrivateTopicsQuery,
+  useGetAllQuery,
+} from '../../../redux/topics-operations';
 import { useTopicsContext } from '../TopicsContext';
 import ChatItem from './ChatItem';
 import { ChatBlockDataHelper } from './ChatBlockDataHelper';
@@ -32,7 +35,12 @@ const ChatsBlock = ({ filter }) => {
   const { pathname } = useLocation();
   const path = pathname.includes('topics') ? 'topics' : 'notification';
   const accessTokenInStore = useSelector(selectAccessToken);
-  const { data, isLoading, isError, error } = useGetAllQuery(
+  const {
+    data: allTopicsData,
+    isLoading,
+    isError,
+    error,
+  } = useGetAllQuery(
     {
       filter,
       accessTokenInStore,
@@ -43,6 +51,18 @@ const ChatsBlock = ({ filter }) => {
       refetchOnReconnect: true,
     },
   );
+
+  const {
+    data: privateTopics,
+    currentData: currentPrivateTopics,
+    isFetching: isFetchingPrivateTopics,
+    error: privateTopicsError,
+  } = useGetAllPrivateTopicsQuery(accessTokenInStore, {
+    refetchOnMountOrArgChange: 10,
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  });
+
   const { localLogOut } = useUser();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -59,21 +79,36 @@ const ChatsBlock = ({ filter }) => {
 
   return isLoading ? (
     <Loader />
-  ) : (
-    data &&
-      // notificationsAllTopics.length !== 0 &&
-      data.map((item) => {
-        const notification = notificationsAllTopics.find(
-          (notificationItem) => notificationItem.id === item.id,
-        );
+  ) : isTopics ? (
+    allTopicsData &&
+    // notificationsAllTopics.length !== 0 &&
+    allTopicsData.map((item) => {
+      const notification = notificationsAllTopics.find(
+        (notificationItem) => notificationItem.id === item.id,
+      );
 
-        return (
-          <StyledNavLink to={`../${path}/chat/${item.id}`} key={item.id}>
-            {/* <ChatItem data={item} notification={notification} /> */}
-            <ChatItem data={item} />
-          </StyledNavLink>
-        );
-      })
+      return (
+        <StyledNavLink to={`../${path}/chat/${item.id}`} key={item.id}>
+          {/* <ChatItem data={item} notification={notification} /> */}
+          <ChatItem data={item} />
+        </StyledNavLink>
+      );
+    })
+  ) : (
+    privateTopics &&
+    // notificationsAllTopics.length !== 0 &&
+    privateTopics.map((item) => {
+      const notification = notificationsAllTopics.find(
+        (notificationItem) => notificationItem.id === item.id,
+      );
+
+      return (
+        <StyledNavLink to={`../${path}/chat/${item.id}`} key={item.id}>
+          {/* <ChatItem data={item} notification={notification} /> */}
+          <ChatItem data={item} />
+        </StyledNavLink>
+      );
+    })
   );
 };
 
