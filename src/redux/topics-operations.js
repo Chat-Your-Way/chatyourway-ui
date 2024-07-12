@@ -102,7 +102,7 @@ const topicsApi = createApi({
     // Here will be the code for private messages
     getAllPrivateTopics: builder.query({
       query: (accessTokenInStore) => ({
-        url: 'topics/private',
+        url: '/topics/private',
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
@@ -117,7 +117,16 @@ const topicsApi = createApi({
 
     delete: builder.mutation({}),
 
-    getSubscribers: builder.query({}),
+    getSubscribers: builder.query({
+      query: ({ topicId, accessTokenInStore }) => ({
+        url: `/topics/subscribers/${topicId}`,
+        headers: {
+          Referer: Referer,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessTokenInStore}`,
+        },
+      }),
+    }),
 
     search: builder.query({}),
 
@@ -134,6 +143,7 @@ export const {
   useSubscribeMutation,
   useUnsubscribeMutation,
   useGetAllPrivateTopicsQuery,
+  useGetSubscribersQuery,
 } = topicsApi;
 
 export default topicsApi;

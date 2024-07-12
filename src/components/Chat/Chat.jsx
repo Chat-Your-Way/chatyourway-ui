@@ -79,6 +79,7 @@ import {
 } from '../../redux/messagesAPI/messagesAPI';
 import { selectAccessToken } from '../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
 import localLogOutUtil from '../../utils/localLogOutUtil';
+import UsersAvatar from './UsersAvatar/UsersAvatar';
 
 const Chat = ({ children }) => {
   const { title: topicId } = useParams();
@@ -318,6 +319,7 @@ const Chat = ({ children }) => {
             <TypingIndicator variant="h5">Ти/Пишеш...</TypingIndicator>
           </InfoBox>
         </UserBox>
+        <UsersAvatar topicId={topicId} />
         <InfoMoreBox>
           {children}
           <TopicSettingsMenu
