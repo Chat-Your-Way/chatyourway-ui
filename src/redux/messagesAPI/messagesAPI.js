@@ -7,12 +7,12 @@ export const messagesAPI = createApi({
   tagTypes: ['messages'],
   endpoints: (builder) => ({
     getMessagesByTopic: builder.query({
-      query: (topicId) => ({
+      query: ({ topicId, accessTokenInStore }) => ({
         url: `messages/topic/${topicId}`,
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${accessTokenInStore}`,
         },
       }),
       providesTags: ['messages'],

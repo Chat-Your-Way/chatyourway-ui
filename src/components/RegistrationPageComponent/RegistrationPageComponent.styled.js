@@ -16,9 +16,9 @@ export const RegistrationWrapper = styled(Box)`
   }
   @media screen and (min-width: 1200px) {
     padding: 5px 80px 164px 80px;
-    position: absolute;
-    transform: translateY(-50%);
-    top: 58%;
+    /* position: absolute; */
+    /* transform: translateY(-50%);
+    top: 58%; */
   }
 `;
 

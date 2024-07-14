@@ -37,7 +37,7 @@ const Router = () => {
               path={PATH.RECOVERY_PASSWORD}
               element={<RecoveryPasswordPage />}
             />
-            <Route path={PATH.SUCCESS_SIGNUP} element={<SuccessSignupPage />} />
+            <Route path={'activate'} element={<SuccessSignupPage />} />
             <Route
               path={PATH.VERIFICATION_EMAIL}
               element={<VerificationEmailPage />}

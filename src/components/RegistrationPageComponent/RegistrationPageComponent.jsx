@@ -46,7 +46,7 @@ function RegistrationPageComponent() {
     };
 
     try {
-      const { error } = await registration(userData);
+      const { error, data: registrationData } = await registration(userData);
 
       if (error) {
         if (
@@ -58,7 +58,8 @@ function RegistrationPageComponent() {
         }
         return;
       }
-
+      localStorage.setItem('accessToken', registrationData.accessToken);
+      localStorage.setItem('refreshToken', registrationData.refreshToken);
       navigate(PATH.VERIFICATION_EMAIL);
     } catch (error) {
       console.error('Виникла помилка під час заповнення форми:', error);
