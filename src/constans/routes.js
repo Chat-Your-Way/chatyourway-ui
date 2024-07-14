@@ -10,7 +10,7 @@ export const PATH = {
   REGISTER: 'register',
   RECOVERY_PASSWORD: '/recovery-password',
   SETTINGS: 'settings',
-  SUCCESS_SIGNUP: '/success-signup',
+  SUCCESS_SIGNUP: '/activate',
   TOPICS: 'topics',
   VERIFICATION_EMAIL: '/verification-email',
 };

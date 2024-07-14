@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { BASE_URL, Referer, ajwt, rjwt } from './apiParams';
+import { BASE_URL, Referer, ajwt } from './apiParams';
 
 const authenticationApi = createApi({
   reducerPath: 'authenticationApi',
@@ -17,10 +17,10 @@ const authenticationApi = createApi({
       }),
     }),
     refresh: builder.mutation({
-      query: () => ({
+      query: ({ accessTokenInStore }) => ({
         url: '/auth/refresh',
         method: 'POST',
-        headers: { Authorization: `Bearer ${rjwt}` },
+        headers: { Authorization: `Bearer ${accessTokenInStore}` },
       }),
     }),
     login: builder.mutation({
@@ -30,11 +30,14 @@ const authenticationApi = createApi({
         body: body,
       }),
     }),
+
     activate: builder.mutation({
-      query: (activationCode) => ({
-        url: `/auth/activate?Email%20token=${activationCode}`,
+      query: ({ activationToken }) => ({
+        url: `/auth/activate?Email%20token=${activationToken}`,
         method: 'POST',
-        headers: { Authorization: `Bearer ${ajwt}` },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
       }),
     }),
     logout: builder.mutation({
