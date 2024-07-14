@@ -42,8 +42,11 @@ export const ChatWrap = styled(Box)`
 `;
 
 export const ChatHeader = styled(Box)`
-  display: flex;
-  justify-content: space-between;
+  /* display: flex;
+  justify-content: space-between; */
+  display: grid;
+  grid-template-columns: 2fr 2fr 50px;
+
   margin-bottom: 16px;
 `;
 
@@ -55,29 +58,31 @@ export const UserBox = styled(Box)`
 export const InfoBox = styled(Box)`
   display: flex;
   flex-direction: column;
-  padding: 8px 8px 0px 8px;
+  padding: 8px;
   @media screen and (min-width: calc(845px - 0.02px)) {
-    padding: 8px 12px 4px 12px;
+    /* padding: 8px 12px 4px 12px; */
   }
 `;
 
 export const ChatUserName = styled(Typography)`
   margin-bottom: 4px;
   color: ${(p) => p.theme.palette.primary.dark};
+  /* font-size: ${(p) => p.fontSize}; */
 `;
 
 export const TypingIndicator = styled(Typography)`
-  ${(p) => p.theme.typography.h6};
+  /* ${(p) => p.theme.typography.h6}; */
   color: #48a87a;
 
-  @media screen and (min-width: calc(845px - 0.02px)) {
-    ${(p) => p.theme.typography.h5};
-  }
+  /* @media screen and (min-width: calc(845px - 0.02px)) {
+      ${(p) => p.theme.typography.h5};
+    } */
 `;
 
 export const InfoMoreBox = styled(Box)`
   display: flex;
   gap: 4px;
+  justify-self: right;
 `;
 
 export const ChatSectionWrap = styled(Box)`

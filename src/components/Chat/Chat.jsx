@@ -79,7 +79,8 @@ import {
 } from '../../redux/messagesAPI/messagesAPI';
 import { selectAccessToken } from '../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
 import localLogOutUtil from '../../utils/localLogOutUtil';
-import UsersAvatar from './UsersAvatar/UsersAvatar';
+import UsersAvatar from './UsersAvatar/';
+import { useMediaQuery } from 'react-responsive';
 
 const Chat = ({ children }) => {
   const { title: topicId } = useParams();
@@ -95,11 +96,14 @@ const Chat = ({ children }) => {
     currentData: currentMessagesByTopic,
     isFetching: isFetchingMessagesByTopic,
     error: messagesByTopicError,
-  } = useGetMessagesByTopicQuery(topicId, {
-    refetchOnMountOrArgChange: 10,
-    refetchOnFocus: true,
-    refetchOnReconnect: true,
-  });
+  } = useGetMessagesByTopicQuery(
+    { topicId, accessTokenInStore },
+    {
+      refetchOnMountOrArgChange: 10,
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+    },
+  );
 
   const { email } = useSelector(getUserInfo);
   const { isTopics } = useTopicsContext();
@@ -113,6 +117,11 @@ const Chat = ({ children }) => {
   const connected = useSelector(selectConnected);
   const subscribed = useSelector(selectSubscribed);
   const isChatOpened = useSelector(selectChatOpened);
+
+  const useMobileMediaQuery = () =>
+    // useMediaQuery({ query: '(max-width: 769px)' });
+    useMediaQuery({ query: '(max-width: 767px)' });
+  const isMobile = useMobileMediaQuery();
 
   const [sendMessageToTopic, { error: sendMessageError }] =
     useSendMessageToTopicMutation();
@@ -311,12 +320,16 @@ const Chat = ({ children }) => {
     <ChatWrap>
       <ChatHeader>
         <UserBox>
-          <Avatar>{getAvatar(isTopics, topicIdData)}</Avatar>
+          <Avatar size={isMobile ? 'sm' : 'md'}>
+            {topicIdData ? getAvatar(isTopics, topicIdData) : null}
+          </Avatar>
           <InfoBox>
-            <ChatUserName variant="h5">
+            <ChatUserName variant={isMobile ? 'h6' : 'h5'}>
               {topicIdData ? topicIdData.name : 'імя користувача'}
             </ChatUserName>
-            <TypingIndicator variant="h5">Ти/Пишеш...</TypingIndicator>
+            <TypingIndicator variant={isMobile ? 'h6' : 'h5'}>
+              Ти/Пишеш...
+            </TypingIndicator>
           </InfoBox>
         </UserBox>
         <UsersAvatar topicId={topicId} />
