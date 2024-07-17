@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
@@ -11,7 +12,7 @@ import { useTopicsContext } from '../../common/Topics/TopicsContext';
 
 const useTabletAndBelowMediaQuery = () =>
   // useMediaQuery({ query: '(max-width: 770px)' });
-  useMediaQuery({ query: '(max-width: 768px)' });
+  useMediaQuery({ query: '(max-width: 1199px)' });
 
 const useMobileMediaQuery = () =>
   // useMediaQuery({ query: '(max-width: 769px)' });
@@ -35,8 +36,9 @@ function TopicsPage() {
   }, []);
 
   useEffect(() => {
-    if (isTabletAndBelow && pathname.includes('chat')) setShowTopics(false);
-    else setShowTopics(true);
+    if (isTabletAndBelow && pathname.includes('chat')) {
+      setShowTopics(false);
+    } else setShowTopics(true);
   }, [setShowTopics, isTabletAndBelow, pathname, isMobile]);
 
   const handleModal = () => {

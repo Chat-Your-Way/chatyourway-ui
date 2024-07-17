@@ -30,7 +30,7 @@ import { selectAccessToken } from '../../../redux/authOperatonsToolkit/authOpera
 import localLogOutUtil from '../../../utils/localLogOutUtil';
 
 const ChatsBlock = ({ filter }) => {
-  const { isTopics } = useTopicsContext();
+  const { isTopics, showTopics } = useTopicsContext();
   const ChatItems = ChatBlockDataHelper(isTopics); //?!
   const { pathname } = useLocation();
   const path = pathname.includes('topics') ? 'topics' : 'notification';
