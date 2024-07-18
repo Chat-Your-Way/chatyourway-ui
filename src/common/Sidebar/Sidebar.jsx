@@ -32,8 +32,9 @@ import { useMediaQuery } from 'react-responsive';
 import { useLogoutMutation } from '../../redux/auth-operations';
 import { useTopicsContext } from '../Topics/TopicsContext';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsLoggedIn } from '../../redux/authOperatonsToolkit/authOperationsThunkSlice';
+
 import { selectChatOpened, setChatOpened } from '../../redux/chatSlice';
+import localLogOutUtil from '../../utils/localLogOutUtil';
 
 const menuRoutes = [
   {
@@ -102,7 +103,7 @@ const Sidebar = () => {
     if (!isMobile) {
       setShowMenu(true);
     } else {
-      setShowMenu(false);
+      setShowMenu(true); // Mobile menu always true?
     }
   }, [isMobile, setShowMenu]);
 
@@ -112,13 +113,15 @@ const Sidebar = () => {
 
       if (error) {
         alert(error.data.message);
-        dispatch(setIsLoggedIn(false));
+        // dispatch(setIsLoggedIn(false));
+        localLogOutUtil();
         return;
       }
 
       // localLogOut();
       // navigate(PATH.MAIN);
-      dispatch(setIsLoggedIn(false));
+      // dispatch(setIsLoggedIn(false));
+      localLogOutUtil();
     } catch (error) {
       console.error('Виникла помилка:', error);
       return;
@@ -131,6 +134,7 @@ const Sidebar = () => {
       setShowMenu(false);
       dispatch(setChatOpened(true));
     }
+
     setShowTopics(true);
     navigate(path);
   };
