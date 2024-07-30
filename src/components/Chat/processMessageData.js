@@ -12,14 +12,17 @@ export const getTime = (timestamp) => {
   return time;
 };
 
-export const processMessageData = (
-  data,
-  email,
+export const processMessageData = ({
+  currentMessagesByTopic,
   historyMessages,
   newMessages,
   notifications,
-) => {
-  const messagesData = [...historyMessages, ...newMessages, ...data.content];
+}) => {
+  const messagesData = [
+    ...historyMessages,
+    ...newMessages,
+    ...currentMessagesByTopic.content,
+  ];
 
   const messages = messagesData.map((messageData) => {
     const { content, timestamp, sender, my: isMyMessage } = messageData;
@@ -36,7 +39,7 @@ export const processMessageData = (
       time: getTime(timestamp),
       text: content,
       isMyMessage: isMyMessage,
-      isOnline: notification?.status !== 'OFFLINE',
+      isOnline: notification?.status !== 'OFFLINE', // isOnline does not exists in array 'content'
     };
 
     return message;

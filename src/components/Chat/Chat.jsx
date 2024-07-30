@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { memo, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import { getUserInfo } from '../../redux/userSlice';
 import {
@@ -75,6 +75,7 @@ import {
 } from '../../redux/authOperatonsToolkit/authOperationsThunkSlice';
 import {
   useGetMessagesByTopicQuery,
+  useSendMessageToNewTopicMutation,
   useSendMessageToTopicMutation,
 } from '../../redux/messagesAPI/messagesAPI';
 import { selectAccessToken } from '../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
@@ -83,12 +84,13 @@ import UsersAvatar from './UsersAvatar/';
 import { useMediaQuery } from 'react-responsive';
 
 const Chat = ({ children }) => {
-  const { title: topicId } = useParams();
+  const { title: topicId, userId } = useParams();
+
   const accessTokenInStore = useSelector(selectAccessToken);
   const {
     data: topicIdData,
     isLoading,
-    isError,
+    error: topicIdDataError,
   } = useGetByIdQuery({ topicId, accessTokenInStore });
 
   const {
@@ -96,6 +98,7 @@ const Chat = ({ children }) => {
     currentData: currentMessagesByTopic,
     isFetching: isFetchingMessagesByTopic,
     error: messagesByTopicError,
+    refetch: refetchMessagesByTopicId,
   } = useGetMessagesByTopicQuery(
     { topicId, accessTokenInStore },
     {
@@ -108,6 +111,8 @@ const Chat = ({ children }) => {
   const { email } = useSelector(getUserInfo);
   const { isTopics } = useTopicsContext();
   const { contactsOpen, setContactsOpen } = useTopicsPageContext(); //?!
+  const { privateTopics, setPrivateTopics } = useTopicsContext();
+  const { pathname } = useLocation();
 
   const dispatch = useDispatch();
   const historyMessages = useSelector(selectHistoryMessages);
@@ -125,6 +130,8 @@ const Chat = ({ children }) => {
 
   const [sendMessageToTopic, { error: sendMessageError }] =
     useSendMessageToTopicMutation();
+  const [sendFirstMessageToUser, { error: sendFirstMessageError }] =
+    useSendMessageToNewTopicMutation();
 
   const inputRef = useRef(null);
 
@@ -173,13 +180,30 @@ const Chat = ({ children }) => {
     // if (historyMessages.length === 0 || notifications.length === 0) return;
     if (!currentMessagesByTopic) return;
 
-    const newMessagesData = processMessageData(
+    // Find user with privateTopicId, and throw this array of messages to component for render
+    // if (privateTopics) {
+    //   // console.log('privateTopics', privateTopics);
+    //   const userWithPrivateTopicId = privateTopics?.find(el => el?.contact?.id === userId);
+    //   // console.log('userWithPrivateTopicId', userWithPrivateTopicId);
+    //   if (userWithPrivateTopicId) {
+    //     refetchMessagesByTopicId({ topicId: userWithPrivateTopicId.id, accessTokenInStore });
+    //   } else {
+    //     dispatch(setMessages([]));
+    //     return;
+    //   }
+    // }
+
+    // if (topicId.includes('@')) {
+    //   return dispatch(setMessages([]));
+    // }
+
+    const newMessagesData = processMessageData({
       currentMessagesByTopic,
       email,
       historyMessages,
       newMessages,
       notifications,
-    );
+    });
 
     dispatch(subscribeToMessages(topicId));
 
@@ -195,7 +219,137 @@ const Chat = ({ children }) => {
     currentMessagesByTopic,
   ]);
 
-  if (isError || sendMessageError || messagesByTopicError) {
+  // Function for searching name of user in private topics array
+  const getUserName = () => {
+    const existingUser = privateTopics?.find(
+      (el) => el?.contact?.id === userId,
+    );
+
+    if (existingUser) {
+      return existingUser.contact.nickname;
+    } else {
+      return false;
+    }
+  };
+
+  const handleContacts = () => {
+    setContactsOpen(!contactsOpen);
+  }; //?!
+
+  const handleMessageSend = () => {
+    const inputMessage = inputRef.current.value.trim();
+
+    if (!inputMessage || inputMessage.length === 0)
+      return alert('This message is empty');
+
+    if (pathname.includes('topics') && connected) {
+      // dispatch(sendMessageByWs({ topicId, inputMessage }));
+      sendMessageToTopic({ topicId, inputMessage, accessTokenInStore });
+      inputRef.current.value = '';
+    } else if (
+      pathname.includes('notification') &&
+      connected &&
+      getUserName()
+    ) {
+      sendMessageToTopic({ topicId, inputMessage, accessTokenInStore });
+      inputRef.current.value = '';
+    } else if (!getUserName() && topicId.includes('@') && connected) {
+      sendFirstMessageToUser({
+        userEmail: topicId,
+        inputMessage,
+        accessTokenInStore,
+      });
+      inputRef.current.value = '';
+    } else {
+      alert('Not connected');
+    }
+    // if (connected) {
+    //   // dispatch(sendMessageByWs({ topicId, inputMessage }));
+    //   sendMessageToTopic({ topicId, inputMessage, accessTokenInStore });
+    //   inputRef.current.value = '';
+    // } else {
+    //   alert('Зʼєднання не встановлено');
+    // }
+  };
+
+  const subscribeStatus = () => {
+    if (topicIdData) {
+      const status = topicIdData.topicSubscribers.find(
+        (el) => el.email === email,
+      );
+
+      return status ? true : false;
+    }
+  };
+
+  const avatarsArray = Object.values(Avatars);
+
+  if (topicIdDataError || sendMessageError || messagesByTopicError) {
+    if (
+      messagesByTopicError?.data?.detail?.includes(
+        "Failed to convert 'id' with value",
+      ) ||
+      topicIdDataError?.data?.detail?.includes(
+        "Failed to convert 'id' with value",
+      )
+    ) {
+      // dispatch(setMessages([]));
+
+      return (
+        <ChatWrap>
+          <ChatHeader>
+            <UserBox>
+              <Avatar size={isMobile ? 'sm' : 'md'}>
+                {topicIdData ? getAvatar(isTopics, topicIdData) : null}
+              </Avatar>
+              <InfoBox>
+                <ChatUserName variant={isMobile ? 'h6' : 'h5'}>
+                  {pathname.includes('notification')
+                    ? `Приватний чат з ${getUserName()}`
+                    : null}
+                  {topicIdData ? topicIdData.name : getUserName()}
+                </ChatUserName>
+                <TypingIndicator variant={isMobile ? 'h6' : 'h5'}>
+                  Ти/Пишеш...
+                </TypingIndicator>
+              </InfoBox>
+            </UserBox>
+            <UsersAvatar topicId={topicId} />
+            <InfoMoreBox>
+              {children}
+              <TopicSettingsMenu
+                topicId={topicId}
+                subscribeStatus={subscribeStatus()}
+              />
+            </InfoMoreBox>
+          </ChatHeader>
+          <ChatSectionWrap>
+            <ChatSection>
+              We are ssory, but you can`t write messages to yourself!
+            </ChatSection>
+            <InputBox>
+              <ChatInputStyled
+                ref={inputRef} //!
+                type="text" //!
+                maxRows={3}
+                placeholder="Введіть повідомлення..."
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault();
+                    handleMessageSend();
+                  }
+                }}
+              />
+              <ChatInputIconBox>
+                {/* <IconButton icon={<IconSmile />} /> //! CHAT-220--smile-disable */}
+                <IconButton icon={<IconSend />} onClick={handleMessageSend} />
+              </ChatInputIconBox>
+            </InputBox>
+          </ChatSectionWrap>
+        </ChatWrap>
+      );
+    }
+
     if (sendMessageError?.data?.message?.includes('subscribed to the topic')) {
       return alert(
         'Потрібно підписатись на цю тему, щоб відправляти повідомлення',
@@ -211,37 +365,6 @@ const Chat = ({ children }) => {
     // localStorage.removeItem('accessToken');
     // localStorage.removeItem('refreshToken');
   }
-
-  const handleContacts = () => {
-    setContactsOpen(!contactsOpen);
-  }; //?!
-
-  const handleMessageSend = () => {
-    const inputMessage = inputRef.current.value.trim();
-
-    if (!inputMessage || inputMessage.length === 0)
-      return alert('This message is empty');
-
-    if (connected) {
-      // dispatch(sendMessageByWs({ topicId, inputMessage }));
-      sendMessageToTopic({ topicId, inputMessage, accessTokenInStore });
-      inputRef.current.value = '';
-    } else {
-      alert('Зʼєднання не встановлено');
-    }
-  };
-
-  const subscribeStatus = () => {
-    if (topicIdData) {
-      const status = topicIdData.topicSubscribers.find(
-        (el) => el.email === email,
-      );
-
-      return status ? true : false;
-    }
-  };
-
-  const avatarsArray = Object.values(Avatars);
 
   return isLoading ? (
     <Loader />
@@ -315,7 +438,7 @@ const Chat = ({ children }) => {
   //     </ChatSectionWrap>
   //   </ChatWrap>
   // )
-  isChatOpened ? (
+  isChatOpened && topicIdData && messages ? (
     // topicIdData && (
     <ChatWrap>
       <ChatHeader>
@@ -325,6 +448,9 @@ const Chat = ({ children }) => {
           </Avatar>
           <InfoBox>
             <ChatUserName variant={isMobile ? 'h6' : 'h5'}>
+              {pathname.includes('notification')
+                ? `Приватний чат з ${getUserName()} `
+                : null}
               {topicIdData ? topicIdData.name : 'імя користувача'}
             </ChatUserName>
             <TypingIndicator variant={isMobile ? 'h6' : 'h5'}>

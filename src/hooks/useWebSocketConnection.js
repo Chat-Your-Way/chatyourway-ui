@@ -21,7 +21,7 @@ export const useWebSocketConnection = (isLoggedIn) => {
       );
 
       socket.onmessage = function () {
-        // I think it don't work.
+        // I think this gunction does not work.
       };
 
       client.configure({
@@ -29,6 +29,10 @@ export const useWebSocketConnection = (isLoggedIn) => {
           if (frame.command === 'CONNECTED') {
             dispatch(setConnected(true));
           }
+        },
+        onDisconnect: () => {
+          dispatch(setConnected(false));
+          localLogOutUtil(dispatch);
         },
         onWebSocketError: () => {
           localLogOutUtil(dispatch);

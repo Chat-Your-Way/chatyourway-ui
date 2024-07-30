@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable no-unused-vars */
 import { useSelector } from 'react-redux';
 import { useGetSubscribersQuery } from '../../../redux/topics-operations';
@@ -14,19 +15,33 @@ import {
   UsersAvatarStyledLi,
 } from './UsersAvatarStyled';
 import { memo } from 'react';
+import { Link } from 'react-router-dom';
+import { useTopicsContext } from '../../../common/Topics/TopicsContext';
 
 const UsersAvatar = ({ topicId }) => {
   const accessTokenInStore = useSelector(selectAccessToken);
   const isTablet = useMediaQuery({ query: '(min-width: 768px' });
   const isDesktop = useMediaQuery({ query: '(mint-width: 1200px)' });
+  const { privateTopics, setPrivateTopics } = useTopicsContext();
 
   const {
     isLoading,
     isError,
     error,
     data: usersSubscribers,
-  } = useGetSubscribersQuery({ topicId, accessTokenInStore });
+  } = useGetSubscribersQuery(
+    { topicId, accessTokenInStore },
+    { refetchOnFocus: true, refetchOnReconnect: true, refetchOnMountOrArgChange: 10 }
+  );
 
+  const getPrivateTopicId = userId => {
+    const userWithPrivateTopicId = privateTopics.find(el => el.contact.id === userId);
+
+    if (userWithPrivateTopicId) {
+      return userWithPrivateTopicId.id;
+    } else return userWithPrivateTopicId.contact.email;
+  };
+  // console.log('privateTopics', privateTopics);
   return (
     <UsersAvatarStyledWrapper>
       <UsersAvatarStyledList>
@@ -43,7 +58,7 @@ const UsersAvatar = ({ topicId }) => {
             //       )}
             //     </UsersAvatarStyledLi>
             // ))
-            usersSubscribers.reduce((acuum, user, index, array) => {
+            usersSubscribers.reduce((acuum, user, index) => {
               if (index === 4) {
                 return [
                   ...acuum,
@@ -52,13 +67,20 @@ const UsersAvatar = ({ topicId }) => {
                     $left={index === 0 ? 0 : index * (isTablet ? 30 : 10)}
                     $width={isTablet ? '180px' : isDesktop ? '220px' : '94px'}
                   >
-                    <Avatar
-                      size={isTablet ? 'md' : 'sm'}
-                      key={index}
-                      isCurrent={'true'}
+                    {/* here must be a link to list of all contacts, 
+                    who is subscribed to current topic */}
+                    <Link
+                      to={
+                        privateTopics.some(el => el?.contact?.id === user.id)
+                          ? `/home/notification/chat/${getPrivateTopicId(user.id)}/${user.id}`
+                          : `/home/notification/chat/${topicId}/${user.id}`
+                      }
+                      // to={`/home/notification/chat/${topicId}`}
                     >
-                      {usersSubscribers.length}
-                    </Avatar>
+                      <Avatar size={isTablet ? 'md' : 'sm'} key={index} isCurrent={'true'}>
+                        {usersSubscribers.length}
+                      </Avatar>
+                    </Link>
                   </UsersAvatarStyledLi>,
                 ];
               }
@@ -68,19 +90,25 @@ const UsersAvatar = ({ topicId }) => {
                   key={user.id}
                   $left={index === 0 ? 0 : index * (isTablet ? 30 : 10)}
                 >
-                  {Object.values(Avatars).map(
-                    (Logo, index) =>
-                      user.avatarId - 1 === index && (
-                        <Avatar
-                          size={isTablet ? 'md' : 'sm'}
-                          key={index}
-                          isCurrent={'true'}
-                        >
-                          <Logo />
-                        </Avatar>
-                      ),
-                  )}
-                </UsersAvatarStyledLi>,
+                  <Link
+                    to={
+                      privateTopics.some(el => el?.contact?.id === user.id)
+                        ? `/home/notification/chat/${getPrivateTopicId(user.id)}/${user.id}`
+                        : `/home/notification/chat/${user.email}/${user.id}`
+                      // `/home/notification/chat/${topicId}`
+                    }
+                    key={user.id}
+                  >
+                    {Object.values(Avatars).map(
+                      (Logo, index) =>
+                        user.avatarId - 1 === index && (
+                          <Avatar size={isTablet ? 'md' : 'sm'} key={index} isCurrent={'true'}>
+                            <Logo />
+                          </Avatar>
+                        )
+                    )}
+                  </Link>
+                </UsersAvatarStyledLi>
               );
 
               return acuum;
