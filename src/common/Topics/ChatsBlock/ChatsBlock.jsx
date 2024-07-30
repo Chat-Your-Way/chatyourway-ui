@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,7 +30,7 @@ import { selectAccessToken } from '../../../redux/authOperatonsToolkit/authOpera
 import localLogOutUtil from '../../../utils/localLogOutUtil';
 
 const ChatsBlock = ({ filter }) => {
-  const { isTopics, showTopics } = useTopicsContext();
+  const { isTopics, showTopics, setPrivateTopics } = useTopicsContext();
   const ChatItems = ChatBlockDataHelper(isTopics); //?!
   const { pathname } = useLocation();
   const path = pathname.includes('topics') ? 'topics' : 'notification';
@@ -53,6 +53,7 @@ const ChatsBlock = ({ filter }) => {
   );
 
   const {
+    isLoading: isLoadingPrivateTopics,
     data: privateTopics,
     currentData: currentPrivateTopics,
     isFetching: isFetchingPrivateTopics,
@@ -62,6 +63,14 @@ const ChatsBlock = ({ filter }) => {
     refetchOnFocus: true,
     refetchOnReconnect: true,
   });
+
+  useEffect(() => {
+    if (currentPrivateTopics) {
+      setPrivateTopics(currentPrivateTopics);
+    } else {
+      setPrivateTopics([]);
+    }
+  }, [currentPrivateTopics, setPrivateTopics]);
 
   const { localLogOut } = useUser();
   const navigate = useNavigate();
@@ -88,7 +97,10 @@ const ChatsBlock = ({ filter }) => {
       );
 
       return (
-        <StyledNavLink to={`../${path}/chat/${item.id}`} key={item.id}>
+        <StyledNavLink
+          to={`../${path}/chat/${item.id}/${item.createdBy.id}`}
+          key={item.id}
+        >
           {/* <ChatItem data={item} notification={notification} /> */}
           <ChatItem data={item} />
         </StyledNavLink>
@@ -103,7 +115,10 @@ const ChatsBlock = ({ filter }) => {
       );
 
       return (
-        <StyledNavLink to={`../${path}/chat/${item.id}`} key={item.id}>
+        <StyledNavLink
+          to={`../${path}/chat/${item.id}/${item.contact.id}`}
+          key={item.id}
+        >
           {/* <ChatItem data={item} notification={notification} /> */}
           <ChatItem data={item} />
         </StyledNavLink>
