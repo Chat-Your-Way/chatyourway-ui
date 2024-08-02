@@ -25,7 +25,12 @@ export const processMessageData = ({
   ];
 
   const messages = messagesData.map((messageData) => {
-    const { content, timestamp, sender, my: isMyMessage } = messageData;
+    const {
+      content: messageContent,
+      timestamp,
+      sender,
+      my: isMyMessage,
+    } = messageData;
 
     const notification = notifications.find(
       (notification) => notification.email === sender.email,
@@ -37,9 +42,11 @@ export const processMessageData = ({
       avatarId: sender.avatarId,
       name: sender.nickname,
       time: getTime(timestamp),
-      text: content,
+      text: messageContent,
       isMyMessage: isMyMessage,
       isOnline: notification?.status !== 'OFFLINE', // isOnline does not exists in array 'content'
+      senderId: sender.id,
+      senderEmail: sender.email,
     };
 
     return message;
