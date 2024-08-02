@@ -38,22 +38,22 @@ import localLogOutUtil from '../../utils/localLogOutUtil';
 
 const menuRoutes = [
   {
-    path: PATH.TOPICS,
+    path: `${PATH.MAIN}${PATH.HOMEPAGE}${PATH.MAIN}${PATH.TOPICS}`,
     name: 'Чати',
     icon: <ICONS.CHAT />,
   },
   {
-    path: PATH.NOTIFICATION,
+    path: `${PATH.MAIN}${PATH.HOMEPAGE}${PATH.MAIN}${PATH.NOTIFICATION}`,
     name: 'Повідомлення',
     icon: <ICONS.MESSAGE />,
   },
   {
-    path: PATH.SETTINGS,
+    path: `${PATH.MAIN}${PATH.HOMEPAGE}${PATH.MAIN}${PATH.SETTINGS}`,
     name: 'Налаштування',
     icon: <ICONS.SETTING />,
   },
   {
-    path: PATH.INFO,
+    path: `${PATH.MAIN}${PATH.HOMEPAGE}${PATH.MAIN}${PATH.INFO}`,
     name: 'FAQ',
     icon: <ICONS.INFO_SQUARE />,
   },

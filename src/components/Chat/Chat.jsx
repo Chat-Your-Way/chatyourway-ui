@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { memo, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 
 import { getUserInfo } from '../../redux/userSlice';
 import {
@@ -262,6 +262,7 @@ const Chat = ({ children }) => {
       inputRef.current.value = '';
     } else {
       alert('Not connected');
+      localLogOutUtil(dispatch);
     }
     // if (connected) {
     //   // dispatch(sendMessageByWs({ topicId, inputMessage }));
@@ -280,6 +281,16 @@ const Chat = ({ children }) => {
 
       return status ? true : false;
     }
+  };
+
+  const getPrivateTopicId = (userId) => {
+    const userWithPrivateTopicId = privateTopics.find(
+      (el) => el.contact.id === userId,
+    );
+
+    if (userWithPrivateTopicId) {
+      return userWithPrivateTopicId.id;
+    } else return userWithPrivateTopicId.contact.email;
   };
 
   const avatarsArray = Object.values(Avatars);
@@ -497,9 +508,22 @@ const Chat = ({ children }) => {
                   {avatarsArray.map(
                     (Logo, index) =>
                       item.avatarId - 1 === index && (
-                        <Avatar key={index}>
-                          <Logo />
-                        </Avatar>
+                        <Link
+                          key={item.id}
+                          to={
+                            privateTopics.some(
+                              (el) => el?.contact?.id === item.senderId,
+                            )
+                              ? `/home/notification/chat/${getPrivateTopicId(
+                                  item.senderId,
+                                )}/${item.senderId}`
+                              : `/home/notification/chat/${item.senderEmail}/${item.senderId}`
+                          }
+                        >
+                          <Avatar key={index}>
+                            <Logo />
+                          </Avatar>
+                        </Link>
                       ),
                   )}
                 </MessageContainer>

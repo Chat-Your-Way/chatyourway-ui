@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
-import TextNavLinkButton from '../../ui-kit/components/TextNavLinkButton';
+// import TextNavLinkButton from '../../ui-kit/components/TextNavLinkButton';
+// eslint-disable-next-line max-len
+import TextNavLinkButtonWithoutProps from '../../ui-kit/components/TextNavLinkButtonWithoutProps/TextNavLinkButtonWithoutProps';
 import { ICONS } from '../../ui-kit/icons';
 
 export const AuthorizationWrapper = styled(Box)`
@@ -38,6 +40,10 @@ export const ButtonWrapper = styled(Box)`
   width: 180px;
 `;
 
-export const AuthorizationButton = styled(TextNavLinkButton)`
+// export const AuthorizationButton = styled(TextNavLinkButton)`
+//   text-align: center;
+// `;
+
+export const AuthorizationButton = styled(TextNavLinkButtonWithoutProps)`
   text-align: center;
 `;
