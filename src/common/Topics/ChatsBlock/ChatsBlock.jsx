@@ -29,14 +29,14 @@ import {
 import { selectAccessToken } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
 import localLogOutUtil from '../../../utils/localLogOutUtil';
 
-const ChatsBlock = ({ filter }) => {
+const ChatsBlock = ({ filter, searchInputValue }) => {
   const { isTopics, showTopics, setPrivateTopics } = useTopicsContext();
   const ChatItems = ChatBlockDataHelper(isTopics); //?!
   const { pathname } = useLocation();
   const path = pathname.includes('topics') ? 'topics' : 'notification';
   const accessTokenInStore = useSelector(selectAccessToken);
   const {
-    data: allTopicsData,
+    currentData: allTopicsData,
     isLoading,
     isError,
     error,
@@ -78,6 +78,13 @@ const ChatsBlock = ({ filter }) => {
 
   const notificationsAllTopics = useSelector(selectAllTopicsNotifications);
 
+  const filteredAllTopicsData = allTopicsData.filter((item) =>
+    item.name.includes(searchInputValue),
+  );
+  const filteredCurrentPrivateTopics = currentPrivateTopics.filter((item) =>
+    item.name.includes(searchInputValue),
+  );
+
   if (error) {
     alert('Виникла помилка під час отримання тем (ChatsBlock)');
     localLogOutUtil(dispatch);
@@ -91,7 +98,7 @@ const ChatsBlock = ({ filter }) => {
   ) : isTopics ? (
     allTopicsData &&
     // notificationsAllTopics.length !== 0 &&
-    allTopicsData.map((item) => {
+    filteredAllTopicsData.map((item) => {
       const notification = notificationsAllTopics.find(
         (notificationItem) => notificationItem.id === item.id,
       );
@@ -109,7 +116,7 @@ const ChatsBlock = ({ filter }) => {
   ) : (
     privateTopics &&
     // notificationsAllTopics.length !== 0 &&
-    privateTopics.map((item) => {
+    filteredCurrentPrivateTopics.map((item) => {
       const notification = notificationsAllTopics.find(
         (notificationItem) => notificationItem.id === item.id,
       );

@@ -7,6 +7,7 @@ import TopicsHeader from './TopicsHeader';
 
 const Topics = ({ handleBTNTopicFunc, handleModal }) => {
   const [filter, setFilter] = useState('all');
+  const [searchInputValue, setSearchInputValue] = useState('');
 
   const chatOpened = useSelector(selectChatOpened);
   const contactsOpened = useSelector(selectContactsOpened);
@@ -17,8 +18,15 @@ const Topics = ({ handleBTNTopicFunc, handleModal }) => {
         handleModal={handleModal}
         active={filter}
         setFilter={setFilter}
+        searchInputValue={searchInputValue}
+        setSearchInputValue={setSearchInputValue}
       />
-      <ChatsBlock handleBTNTopicFunc={handleBTNTopicFunc} filter={filter} />
+      <ChatsBlock
+        handleBTNTopicFunc={handleBTNTopicFunc}
+        filter={filter}
+        searchInputValue={searchInputValue}
+        setSearchInputValue={setSearchInputValue}
+      />
     </TopicsWrapper>
   );
 };
