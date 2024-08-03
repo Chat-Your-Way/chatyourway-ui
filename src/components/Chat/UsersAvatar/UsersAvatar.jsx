@@ -17,6 +17,7 @@ import {
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTopicsContext } from '../../../common/Topics/TopicsContext';
+import getPrivateTopicId from '../../../utils/getPrivateTopicId';
 
 const UsersAvatar = ({ topicId }) => {
   const accessTokenInStore = useSelector(selectAccessToken);
@@ -34,13 +35,6 @@ const UsersAvatar = ({ topicId }) => {
     { refetchOnFocus: true, refetchOnReconnect: true, refetchOnMountOrArgChange: 10 }
   );
 
-  const getPrivateTopicId = userId => {
-    const userWithPrivateTopicId = privateTopics.find(el => el.contact.id === userId);
-
-    if (userWithPrivateTopicId) {
-      return userWithPrivateTopicId.id;
-    } else return userWithPrivateTopicId.contact.email;
-  };
   // console.log('privateTopics', privateTopics);
   return (
     <UsersAvatarStyledWrapper>
@@ -72,7 +66,10 @@ const UsersAvatar = ({ topicId }) => {
                     <Link
                       to={
                         privateTopics.some(el => el?.contact?.id === user.id)
-                          ? `/home/notification/chat/${getPrivateTopicId(user.id)}/${user.id}`
+                          ? `/home/notification/chat/${getPrivateTopicId({
+                              userId: user.id,
+                              privateTopics,
+                            })}/${user.id}`
                           : `/home/notification/chat/${topicId}/${user.id}`
                       }
                       // to={`/home/notification/chat/${topicId}`}
@@ -93,7 +90,10 @@ const UsersAvatar = ({ topicId }) => {
                   <Link
                     to={
                       privateTopics.some(el => el?.contact?.id === user.id)
-                        ? `/home/notification/chat/${getPrivateTopicId(user.id)}/${user.id}`
+                        ? `/home/notification/chat/${getPrivateTopicId({
+                            userId: user.id,
+                            privateTopics,
+                          })}/${user.id}`
                         : `/home/notification/chat/${user.email}/${user.id}`
                       // `/home/notification/chat/${topicId}`
                     }

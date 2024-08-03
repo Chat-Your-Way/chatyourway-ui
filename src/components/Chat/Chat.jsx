@@ -69,11 +69,6 @@ import {
 
 import { processMessageData } from './processMessageData';
 import {
-  setAccessToken,
-  setIsLoggedIn,
-  setRefreshToken,
-} from '../../redux/authOperatonsToolkit/authOperationsThunkSlice';
-import {
   useGetMessagesByTopicQuery,
   useSendMessageToNewTopicMutation,
   useSendMessageToTopicMutation,
@@ -82,6 +77,7 @@ import { selectAccessToken } from '../../redux/authOperatonsToolkit/authOperatio
 import localLogOutUtil from '../../utils/localLogOutUtil';
 import UsersAvatar from './UsersAvatar/';
 import { useMediaQuery } from 'react-responsive';
+import getPrivateTopicId from '../../utils/getPrivateTopicId';
 
 const Chat = ({ children }) => {
   const { title: topicId, userId } = useParams();
@@ -281,16 +277,6 @@ const Chat = ({ children }) => {
 
       return status ? true : false;
     }
-  };
-
-  const getPrivateTopicId = (userId) => {
-    const userWithPrivateTopicId = privateTopics.find(
-      (el) => el.contact.id === userId,
-    );
-
-    if (userWithPrivateTopicId) {
-      return userWithPrivateTopicId.id;
-    } else return userWithPrivateTopicId.contact.email;
   };
 
   const avatarsArray = Object.values(Avatars);
@@ -514,9 +500,10 @@ const Chat = ({ children }) => {
                             privateTopics.some(
                               (el) => el?.contact?.id === item.senderId,
                             )
-                              ? `/home/notification/chat/${getPrivateTopicId(
-                                  item.senderId,
-                                )}/${item.senderId}`
+                              ? `/home/notification/chat/${getPrivateTopicId({
+                                  userId: item.senderId,
+                                  privateTopics,
+                                })}/${item.senderId}`
                               : `/home/notification/chat/${item.senderEmail}/${item.senderId}`
                           }
                         >

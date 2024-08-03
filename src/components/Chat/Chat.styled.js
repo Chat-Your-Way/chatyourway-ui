@@ -92,19 +92,19 @@ export const ChatSectionWrap = styled(Box)`
   flex-grow: 1;
 `;
 
-export const ChatSection = styled(Box)`
+export const ChatSection = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-export const MessageContainer = styled(Box)`
+export const MessageContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   flex-direction: ${({ isMyMessage }) =>
     isMyMessage ? 'row ' : 'row-reverse'};
 `;
 
-export const IndicatorBox = styled(Box)`
+export const IndicatorBox = styled.div`
   display: flex;
   flex-direction: ${({ isMyMessage }) =>
     isMyMessage ? 'row ' : 'row-reverse'};
