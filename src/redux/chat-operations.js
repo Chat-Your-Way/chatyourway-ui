@@ -19,6 +19,8 @@ import {
   setSubscriptionAllTopicsNotify,
   clearSubscriptionAllTopicsNotify,
 } from './chatSlice';
+import SockJS from 'sockjs-client';
+import { BASE_URL } from './apiParams';
 
 const subToAllTopicsNotificationsDest = '/user/specific/notify/topics';
 const getTopicHistoryDest = '/app/history/topic/';
@@ -30,7 +32,7 @@ const sendToPublicTopicDest = '/app/topic/public/';
 
 // let client = null;
 // const socket = new SockJS(
-//   `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem('accessToken')}`
+// `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem('accessToken')}`
 // );
 // socket.onerror = function (error) {
 //   console.log(error);
@@ -49,6 +51,7 @@ const stompConfig = {
   //   return socket;
   // },
 };
+
 export const client = new Client(stompConfig);
 
 let reconnectTimeout = null;
@@ -56,40 +59,41 @@ const RECONNECT_DELAY = 5000;
 let resubscribeTimeout = null;
 const RESUBSCRYBE_DELAY = 200;
 
-export const connectWebSocket = () => {
-  return async (dispatch) => {
-    await new Promise((resolve, reject) => {
-      client.activate();
-      if (client.connected) {
-        dispatch(setConnected(true));
-      }
-    });
-  };
-  // return async dispatch => {
-  //   const socket = new SockJS(
-  //     `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem('accessToken')}`
-  //   );
+// export const connectWebSocket = () => {
+//   return async dispatch => {
+//     await new Promise((resolve, reject) => {
+//       client.activate();
+//       if (client.connected) {
+//         dispatch(setConnected(true));
+//         resolve();
+//       }
+//     });
+//   };
+// return async dispatch => {
+//   const socket = new SockJS(
+//     `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem('accessToken')}`
+//   );
 
-  //   client = Stomp.over(() => socket);
-  //   console.log('client', client);
-  //   await new Promise((resolve, reject) => {
-  //     client.connect(
-  //       {},
-  //       () => {
-  //         if (client.connected) {
-  //           dispatch(setConnected(true));
-  //         }
-  //         resolve();
-  //       },
-  //       error => {
-  //         console.error('Error connecting to WebSocket:', error);
-  //         startReconnectTimeout(dispatch);
-  //         reject(error);
-  //       }
-  //     );
-  //   });
-  // };
-};
+//   client = Stomp.over(() => socket);
+//   console.log('client', client);
+//   await new Promise((resolve, reject) => {
+//     client.connect(
+//       {},
+//       () => {
+//         if (client.connected) {
+//           dispatch(setConnected(true));
+//         }
+//         resolve();
+//       },
+//       error => {
+//         console.error('Error connecting to WebSocket:', error);
+//         startReconnectTimeout(dispatch);
+//         reject(error);
+//       }
+//     );
+//   });
+// };
+// };
 
 const startReconnectTimeout = (dispatch) => {
   reconnectTimeout = setTimeout(() => {
@@ -101,7 +105,7 @@ const reconnectWebSocket = (dispatch) => {
   clearTimeout(reconnectTimeout);
 
   dispatch(setConnected(false));
-  dispatch(connectWebSocket());
+  // dispatch(connectWebSocket());
 };
 
 export const unsubscribeFromAllTopicsNotify = () => {

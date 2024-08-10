@@ -7,8 +7,21 @@ export const messagesAPI = createApi({
   tagTypes: ['messages'],
   endpoints: (builder) => ({
     getMessagesByTopic: builder.query({
-      query: ({ topicId, accessTokenInStore }) => ({
-        url: `messages/topic/${topicId}`,
+      query: ({
+        topicId,
+        accessTokenInStore,
+        totalPagesPublicTopic = '',
+        sizeOfMessages = '',
+      }) => ({
+        //  url: `messages/topic/${topicId}?page=${totalPagesPublicTopic}&size=${sizeOfMessages}`.
+        url:
+          totalPagesPublicTopic && sizeOfMessages
+            ? `messages/topic/${topicId}?page=${totalPagesPublicTopic}&size=${sizeOfMessages}`
+            : `messages/topic/${topicId}`,
+        // url: () =>
+        //   totalPagesPublicTopic && sizeOfMessages
+        //     ? `messages/topic/${topicId}?page=${totalPagesPublicTopic}&size=${sizeOfMessages}`
+        //     : `messages/topic/${topicId}`,
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',

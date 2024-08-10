@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { memo, useEffect, useRef } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation, useParams } from 'react-router-dom';
 
@@ -28,8 +28,9 @@ import {
   subscribeToMessages,
   unsubscribeFromMessages,
   getTopicHistory,
-  connectWebSocket,
+  // connectWebSocket,
   sendMessageByWs,
+  client,
 } from '../../redux/chat-operations';
 
 import { Avatars } from '../../ui-kit/images/avatars';
@@ -82,9 +83,13 @@ import getPrivateTopicId from '../../utils/getPrivateTopicId';
 const Chat = ({ children }) => {
   const { title: topicId, userId } = useParams();
 
+  const [totalPagesPublicTopic, setTotalPagesPublicTopic] = useState(1);
+  const [totalPagesPrivateTopic, setTotalPagesPrivateTopic] = useState(1);
+  const [sizeOfMessages, setSizeOfMessages] = useState(10);
+
   const accessTokenInStore = useSelector(selectAccessToken);
   const {
-    data: topicIdData,
+    currentData: topicIdData,
     isLoading,
     error: topicIdDataError,
   } = useGetByIdQuery({ topicId, accessTokenInStore });
@@ -103,6 +108,14 @@ const Chat = ({ children }) => {
       refetchOnReconnect: true,
     },
   );
+
+  // const paginationFN = () => {
+  //   const { totalElements, totalPages } = currentMessagesByTopic;
+
+  //   if (totalPages - totalElements <= 0) {
+  //     return console.log('End of pagination');
+  //   }
+  // };
 
   const { email } = useSelector(getUserInfo);
   const { isTopics } = useTopicsContext();
@@ -133,7 +146,9 @@ const Chat = ({ children }) => {
 
   useEffect(() => {
     if (!connected) {
-      dispatch(connectWebSocket());
+      // console.log('Client in Chat useEffect, then !connected', client);
+      // dispatch(connectWebSocket());
+      client.activate();
     }
 
     // dispatch(toggleChatOpened());
@@ -214,6 +229,32 @@ const Chat = ({ children }) => {
     email,
     currentMessagesByTopic,
   ]);
+  // Here we have a problem - every time in redux store writing subscriptions,
+  //then open a new topic.And old subscriptions does not removes.
+
+  // useEffect for scroll.
+  useEffect(() => {
+    if (!isLoading && currentMessagesByTopic && topicIdData) {
+      const chatwrapId = document.getElementById('#chatwrap');
+      // console.log('chatwrapId', chatwrapId);
+
+      chatwrapId.addEventListener('scroll', (event) => {
+        setInterval(scrollEventWithTO(event), 500);
+      });
+    }
+  }, [messages, isLoading, currentMessagesByTopic, topicIdData]);
+
+  const scrollEventWithTO = (event) => {
+    const { scrollHeight, scrollTop } = event.target;
+    // console.log(event);
+    // console.log('event.target.scrollHeight', scrollHeight);
+    // console.log('event.target.scrollTop', scrollTop);
+    // console.log('window.innerHeight', window.innerHeight);
+
+    // if (scrollHeight - (scrollTop + window.innerHeight)) {
+    //   console.log(scrollHeight - (scrollTop + window.innerHeight));
+    // }
+  };
 
   // Function for searching name of user in private topics array
   const getUserName = () => {
@@ -288,12 +329,18 @@ const Chat = ({ children }) => {
       ) ||
       topicIdDataError?.data?.detail?.includes(
         "Failed to convert 'id' with value",
+      ) ||
+      messagesByTopicError?.data?.detail?.includes(
+        "Failed to convert 'topicId' with value",
+      ) ||
+      topicIdDataError?.data?.detail?.includes(
+        "Failed to convert 'topicId' with value",
       )
     ) {
       // dispatch(setMessages([]));
 
       return (
-        <ChatWrap>
+        <ChatWrap id="#chatwrap">
           <ChatHeader>
             <UserBox>
               <Avatar size={isMobile ? 'sm' : 'md'}>
@@ -336,6 +383,7 @@ const Chat = ({ children }) => {
                     handleMessageSend();
                   }
                 }}
+                readOnly
               />
               <ChatInputIconBox>
                 {/* <IconButton icon={<IconSmile />} /> //! CHAT-220--smile-disable */}
@@ -437,7 +485,7 @@ const Chat = ({ children }) => {
   // )
   isChatOpened && topicIdData && messages ? (
     // topicIdData && (
-    <ChatWrap>
+    <ChatWrap id="#chatwrap">
       <ChatHeader>
         <UserBox>
           <Avatar size={isMobile ? 'sm' : 'md'}>

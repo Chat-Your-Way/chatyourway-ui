@@ -87,27 +87,40 @@ const UsersAvatar = ({ topicId }) => {
                   key={user.id}
                   $left={index === 0 ? 0 : index * (isTablet ? 30 : 10)}
                 >
-                  <Link
-                    to={
-                      privateTopics.some(el => el?.contact?.id === user.id)
-                        ? `/home/notification/chat/${getPrivateTopicId({
-                            userId: user.id,
-                            privateTopics,
-                          })}/${user.id}`
-                        : `/home/notification/chat/${user.email}/${user.id}`
-                      // `/home/notification/chat/${topicId}`
-                    }
-                    key={user.id}
-                  >
-                    {Object.values(Avatars).map(
+                  {/* If user permittedSendingPrivateMessage ? 
+                  paste here link to private topic : just avatar */}
+                  {user.permittedSendingPrivateMessage ? (
+                    <Link
+                      to={
+                        privateTopics.some(el => el?.contact?.id === user.id)
+                          ? `/home/notification/chat/${getPrivateTopicId({
+                              userId: user.id,
+                              privateTopics,
+                            })}/${user.id}`
+                          : `/home/notification/chat/${user.email}/${user.id}`
+                        // `/home/notification/chat/${topicId}`
+                      }
+                      key={user.id}
+                    >
+                      {Object.values(Avatars).map(
+                        (Logo, index) =>
+                          user.avatarId - 1 === index && (
+                            <Avatar size={isTablet ? 'md' : 'sm'} key={index} isCurrent={'true'}>
+                              <Logo />
+                            </Avatar>
+                          )
+                      )}
+                    </Link>
+                  ) : (
+                    Object.values(Avatars).map(
                       (Logo, index) =>
                         user.avatarId - 1 === index && (
                           <Avatar size={isTablet ? 'md' : 'sm'} key={index} isCurrent={'true'}>
                             <Logo />
                           </Avatar>
                         )
-                    )}
-                  </Link>
+                    )
+                  )}
                 </UsersAvatarStyledLi>
               );
 
