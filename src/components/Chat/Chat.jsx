@@ -79,19 +79,22 @@ import localLogOutUtil from '../../utils/localLogOutUtil';
 import UsersAvatar from './UsersAvatar/';
 import { useMediaQuery } from 'react-responsive';
 import getPrivateTopicId from '../../utils/getPrivateTopicId';
+import { current } from '@reduxjs/toolkit';
+import debounce from 'lodash.debounce';
 
 const Chat = ({ children }) => {
   const { title: topicId, userId } = useParams();
 
-  const [totalPagesPublicTopic, setTotalPagesPublicTopic] = useState(1);
-  const [totalPagesPrivateTopic, setTotalPagesPrivateTopic] = useState(1);
-  const [sizeOfMessages, setSizeOfMessages] = useState(10);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [sizeOfMessages, setSizeOfMessages] = useState(0);
 
   const accessTokenInStore = useSelector(selectAccessToken);
   const {
     currentData: topicIdData,
     isLoading,
     error: topicIdDataError,
+    isFetching: isFetchingTopicIdData,
   } = useGetByIdQuery({ topicId, accessTokenInStore });
 
   const {
@@ -101,26 +104,18 @@ const Chat = ({ children }) => {
     error: messagesByTopicError,
     refetch: refetchMessagesByTopicId,
   } = useGetMessagesByTopicQuery(
-    { topicId, accessTokenInStore },
+    { topicId, accessTokenInStore, totalPages: currentPage, sizeOfMessages },
     {
-      refetchOnMountOrArgChange: 10,
+      refetchOnMountOrArgChange: 10, // Not really sure that i understand how this is work!
       refetchOnFocus: true,
       refetchOnReconnect: true,
+      // pollingInterval: 10000, // This works perfect!
     },
   );
 
-  // const paginationFN = () => {
-  //   const { totalElements, totalPages } = currentMessagesByTopic;
-
-  //   if (totalPages - totalElements <= 0) {
-  //     return console.log('End of pagination');
-  //   }
-  // };
-
   const { email } = useSelector(getUserInfo);
-  const { isTopics } = useTopicsContext();
+  const { isTopics, privateTopics, setPrivateTopics } = useTopicsContext();
   const { contactsOpen, setContactsOpen } = useTopicsPageContext(); //?!
-  const { privateTopics, setPrivateTopics } = useTopicsContext();
   const { pathname } = useLocation();
 
   const dispatch = useDispatch();
@@ -161,7 +156,7 @@ const Chat = ({ children }) => {
       dispatch(clearHistoryMessages());
       dispatch(clearNewMessages());
       dispatch(clearNotifications());
-
+      setTotalPages(0);
       // dispatch(toggleChatOpened());
       dispatch(setChatOpened(false));
     };
@@ -230,31 +225,83 @@ const Chat = ({ children }) => {
     currentMessagesByTopic,
   ]);
   // Here we have a problem - every time in redux store writing subscriptions,
-  //then open a new topic.And old subscriptions does not removes.
+  //then open a new topic. And old subscriptions does not removes.
+
+  // useEffecto for pagination values
+  // useEffect(() => {
+  //   // This is first render, so I need the values for pagination in useState;
+  //   if (
+  //     !isLoading &&
+  //     currentMessagesByTopic &&
+  //     topicIdData &&
+  //     !isFetchingTopicIdData &&
+  //     !isFetchingMessagesByTopic
+  //   ) {
+  //     const {
+  //       // totalElements,
+  //       totalPages: totalPagesInCurrentMessages,
+  //       pageable: { pageNumber: currentPageNumber },
+  //     } = currentMessagesByTopic;
+  //     setCurrentPage(currentPageNumber + 1);
+  //     setTotalPages(totalPagesInCurrentMessages);
+  //   }
+  // });
 
   // useEffect for scroll.
-  useEffect(() => {
-    if (!isLoading && currentMessagesByTopic && topicIdData) {
-      const chatwrapId = document.getElementById('#chatwrap');
-      // console.log('chatwrapId', chatwrapId);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (
+  //       !isLoading &&
+  //       currentMessagesByTopic &&
+  //       topicIdData &&
+  //       !isFetchingTopicIdData &&
+  //       !isFetchingMessagesByTopic
+  //     ) {
+  //       const chatwrapId = document.getElementById('#chatwrap');
+  //       // console.dir('chatwrapId', chatwrapId);
+  //       // chatwrapId.scrollEventWithTO
+  //       // chatwrapId.scrollHeight = 100;
+  //       chatwrapId.scrollTo(0, chatwrapId.scrollHeight);
 
-      chatwrapId.addEventListener('scroll', (event) => {
-        setInterval(scrollEventWithTO(event), 500);
-      });
-    }
-  }, [messages, isLoading, currentMessagesByTopic, topicIdData]);
+  //       chatwrapId.addEventListener(
+  //         'scroll',
+  //         debounce(event => scrollEventWithTO(event), 500)
+  //       );
+  //     }
+  //   }, 0);
+  // }, [
+  //   messages,
+  //   isLoading,
+  //   currentMessagesByTopic,
+  //   topicIdData,
+  //   isFetchingTopicIdData,
+  //   isFetchingMessagesByTopic,
+  //   messagesByTopicError,
+  //   scrollEventWithTO,
+  // ]);
 
-  const scrollEventWithTO = (event) => {
-    const { scrollHeight, scrollTop } = event.target;
-    // console.log(event);
-    // console.log('event.target.scrollHeight', scrollHeight);
-    // console.log('event.target.scrollTop', scrollTop);
-    // console.log('window.innerHeight', window.innerHeight);
+  // const scrollEventWithTO = event => {
+  //   // if (currentMessagesByTopic && !isFetchingMessagesByTopic && !messagesByTopicError) {
 
-    // if (scrollHeight - (scrollTop + window.innerHeight)) {
-    //   console.log(scrollHeight - (scrollTop + window.innerHeight));
-    // }
-  };
+  //   const { scrollHeight, scrollTop } = event.target;
+  //   // console.log(event);
+  //   // console.log('event.target.scrollHeight', scrollHeight);
+  //   // console.log('event.target.scrollTop', scrollTop);
+  //   // console.log('window.innerHeight', window.innerHeight);
+  //   // console.log('currentPage', currentPage);
+
+  //   if (scrollHeight - scrollTop > scrollHeight - 200 && currentPage <= totalPages) {
+  //     // console.log('scrollHeight - 200', scrollHeight - 200);
+  //     // refetchMessagesByTopicId({ topicId, accessTokenInStore, totalPages, sizeOfMessages });
+  //     // setCurrentPage(prevState => prevState + 1);
+  //     // setSizeOfMessages(30);
+  //   } else {
+  //     return;
+  //   }
+  //   // if (window.innerHeight - scrollHeight <= 15) {
+  //   //   event.target.scrollTo(0, scrollHeight);
+  //   // }
+  // };
 
   // Function for searching name of user in private topics array
   const getUserName = () => {

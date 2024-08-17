@@ -10,13 +10,13 @@ export const messagesAPI = createApi({
       query: ({
         topicId,
         accessTokenInStore,
-        totalPagesPublicTopic = '',
+        totalPages = '',
         sizeOfMessages = '',
       }) => ({
         //  url: `messages/topic/${topicId}?page=${totalPagesPublicTopic}&size=${sizeOfMessages}`.
         url:
-          totalPagesPublicTopic && sizeOfMessages
-            ? `messages/topic/${topicId}?page=${totalPagesPublicTopic}&size=${sizeOfMessages}`
+          totalPages && sizeOfMessages
+            ? `messages/topic/${topicId}?page=${totalPages}&size=${sizeOfMessages}`
             : `messages/topic/${topicId}`,
         // url: () =>
         //   totalPagesPublicTopic && sizeOfMessages

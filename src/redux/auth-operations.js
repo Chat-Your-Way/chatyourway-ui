@@ -28,6 +28,10 @@ const authenticationApi = createApi({
         url: '/auth/login',
         method: 'POST',
         body: body,
+        // headers: {
+        //   'Content-type': 'application/json',
+        //   Referer: 'https://splendid-quokka-41776c.netlify.app/',
+        // },
       }),
     }),
 
