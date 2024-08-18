@@ -25,7 +25,7 @@ const chatSlice = createSlice({
       state.subscriptionAllTopicsNotify = [action.payload];
     },
     clearSubscriptionAllTopicsNotify: (state) => {
-      state.notificationsAllTopics = [];
+      state.subscriptionAllTopicsNotify = [];
     },
     setAllTopicsNotifications: (state, action) => {
       state.notificationsAllTopics = [...action.payload];

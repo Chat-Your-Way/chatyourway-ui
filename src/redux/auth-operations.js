@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { BASE_URL, Referer, ajwt } from './apiParams';
+import { BASE_URL, Referer } from './apiParams';
 
 const authenticationApi = createApi({
   reducerPath: 'authenticationApi',
@@ -28,6 +28,10 @@ const authenticationApi = createApi({
         url: '/auth/login',
         method: 'POST',
         body: body,
+        // headers: {
+        //   'Content-type': 'application/json',
+        //   Referer: 'https://splendid-quokka-41776c.netlify.app/',
+        // },
       }),
     }),
 
@@ -41,10 +45,10 @@ const authenticationApi = createApi({
       }),
     }),
     logout: builder.mutation({
-      query: () => ({
+      query: ({ accessTokenInStore }) => ({
         url: '/auth/logout',
         method: 'POST',
-        headers: { Authorization: `Bearer ${ajwt}` },
+        headers: { Authorization: `Bearer ${accessTokenInStore}` },
       }),
     }),
     resetPassword: builder.mutation({

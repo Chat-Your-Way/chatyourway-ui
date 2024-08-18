@@ -5,7 +5,10 @@ import Wrapper from '../Wrapper';
 import { FooterWrap, LogOutButton, LogOutIcon } from './Footer.styled';
 // import { PATH } from '../../../constans/routes';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIsLoggedIn } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import {
+  selectAccessToken,
+  selectIsLoggedIn,
+} from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
 // import {
 //   setAccessToken,
 //   setIsLoggedIn,
@@ -20,15 +23,18 @@ const Footer = () => {
   const [logout] = useLogoutMutation();
   // const navigate = useNavigate();
 
+  const accessTokenInStore = useSelector(selectAccessToken);
+
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const dispatch = useDispatch();
 
   const LogOut = async () => {
     try {
-      const { error } = await logout();
+      const { error } = await logout({ accessTokenInStore });
 
       if (error) {
         alert(error.data.message);
+        // console.log('error', error);
         // dispatch(setIsLoggedIn(false));
         // dispatch(setConnected(false));
         // dispatch(setAccessToken(null));

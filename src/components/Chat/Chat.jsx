@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { memo, useEffect, useRef } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation, useParams } from 'react-router-dom';
 
@@ -28,8 +28,9 @@ import {
   subscribeToMessages,
   unsubscribeFromMessages,
   getTopicHistory,
-  connectWebSocket,
+  // connectWebSocket,
   sendMessageByWs,
+  client,
 } from '../../redux/chat-operations';
 
 import { Avatars } from '../../ui-kit/images/avatars';
@@ -78,15 +79,22 @@ import localLogOutUtil from '../../utils/localLogOutUtil';
 import UsersAvatar from './UsersAvatar/';
 import { useMediaQuery } from 'react-responsive';
 import getPrivateTopicId from '../../utils/getPrivateTopicId';
+import { current } from '@reduxjs/toolkit';
+import debounce from 'lodash.debounce';
 
 const Chat = ({ children }) => {
   const { title: topicId, userId } = useParams();
 
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [sizeOfMessages, setSizeOfMessages] = useState(0);
+
   const accessTokenInStore = useSelector(selectAccessToken);
   const {
-    data: topicIdData,
+    currentData: topicIdData,
     isLoading,
     error: topicIdDataError,
+    isFetching: isFetchingTopicIdData,
   } = useGetByIdQuery({ topicId, accessTokenInStore });
 
   const {
@@ -96,18 +104,18 @@ const Chat = ({ children }) => {
     error: messagesByTopicError,
     refetch: refetchMessagesByTopicId,
   } = useGetMessagesByTopicQuery(
-    { topicId, accessTokenInStore },
+    { topicId, accessTokenInStore, totalPages: currentPage, sizeOfMessages },
     {
-      refetchOnMountOrArgChange: 10,
+      refetchOnMountOrArgChange: 10, // Not really sure that i understand how this is work!
       refetchOnFocus: true,
       refetchOnReconnect: true,
+      // pollingInterval: 10000, // This works perfect!
     },
   );
 
   const { email } = useSelector(getUserInfo);
-  const { isTopics } = useTopicsContext();
+  const { isTopics, privateTopics, setPrivateTopics } = useTopicsContext();
   const { contactsOpen, setContactsOpen } = useTopicsPageContext(); //?!
-  const { privateTopics, setPrivateTopics } = useTopicsContext();
   const { pathname } = useLocation();
 
   const dispatch = useDispatch();
@@ -133,7 +141,9 @@ const Chat = ({ children }) => {
 
   useEffect(() => {
     if (!connected) {
-      dispatch(connectWebSocket());
+      // console.log('Client in Chat useEffect, then !connected', client);
+      // dispatch(connectWebSocket());
+      client.activate();
     }
 
     // dispatch(toggleChatOpened());
@@ -146,7 +156,7 @@ const Chat = ({ children }) => {
       dispatch(clearHistoryMessages());
       dispatch(clearNewMessages());
       dispatch(clearNotifications());
-
+      setTotalPages(0);
       // dispatch(toggleChatOpened());
       dispatch(setChatOpened(false));
     };
@@ -214,6 +224,84 @@ const Chat = ({ children }) => {
     email,
     currentMessagesByTopic,
   ]);
+  // Here we have a problem - every time in redux store writing subscriptions,
+  //then open a new topic. And old subscriptions does not removes.
+
+  // useEffecto for pagination values
+  // useEffect(() => {
+  //   // This is first render, so I need the values for pagination in useState;
+  //   if (
+  //     !isLoading &&
+  //     currentMessagesByTopic &&
+  //     topicIdData &&
+  //     !isFetchingTopicIdData &&
+  //     !isFetchingMessagesByTopic
+  //   ) {
+  //     const {
+  //       // totalElements,
+  //       totalPages: totalPagesInCurrentMessages,
+  //       pageable: { pageNumber: currentPageNumber },
+  //     } = currentMessagesByTopic;
+  //     setCurrentPage(currentPageNumber + 1);
+  //     setTotalPages(totalPagesInCurrentMessages);
+  //   }
+  // });
+
+  // useEffect for scroll.
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (
+  //       !isLoading &&
+  //       currentMessagesByTopic &&
+  //       topicIdData &&
+  //       !isFetchingTopicIdData &&
+  //       !isFetchingMessagesByTopic
+  //     ) {
+  //       const chatwrapId = document.getElementById('#chatwrap');
+  //       // console.dir('chatwrapId', chatwrapId);
+  //       // chatwrapId.scrollEventWithTO
+  //       // chatwrapId.scrollHeight = 100;
+  //       chatwrapId.scrollTo(0, chatwrapId.scrollHeight);
+
+  //       chatwrapId.addEventListener(
+  //         'scroll',
+  //         debounce(event => scrollEventWithTO(event), 500)
+  //       );
+  //     }
+  //   }, 0);
+  // }, [
+  //   messages,
+  //   isLoading,
+  //   currentMessagesByTopic,
+  //   topicIdData,
+  //   isFetchingTopicIdData,
+  //   isFetchingMessagesByTopic,
+  //   messagesByTopicError,
+  //   scrollEventWithTO,
+  // ]);
+
+  // const scrollEventWithTO = event => {
+  //   // if (currentMessagesByTopic && !isFetchingMessagesByTopic && !messagesByTopicError) {
+
+  //   const { scrollHeight, scrollTop } = event.target;
+  //   // console.log(event);
+  //   // console.log('event.target.scrollHeight', scrollHeight);
+  //   // console.log('event.target.scrollTop', scrollTop);
+  //   // console.log('window.innerHeight', window.innerHeight);
+  //   // console.log('currentPage', currentPage);
+
+  //   if (scrollHeight - scrollTop > scrollHeight - 200 && currentPage <= totalPages) {
+  //     // console.log('scrollHeight - 200', scrollHeight - 200);
+  //     // refetchMessagesByTopicId({ topicId, accessTokenInStore, totalPages, sizeOfMessages });
+  //     // setCurrentPage(prevState => prevState + 1);
+  //     // setSizeOfMessages(30);
+  //   } else {
+  //     return;
+  //   }
+  //   // if (window.innerHeight - scrollHeight <= 15) {
+  //   //   event.target.scrollTo(0, scrollHeight);
+  //   // }
+  // };
 
   // Function for searching name of user in private topics array
   const getUserName = () => {
@@ -288,12 +376,18 @@ const Chat = ({ children }) => {
       ) ||
       topicIdDataError?.data?.detail?.includes(
         "Failed to convert 'id' with value",
+      ) ||
+      messagesByTopicError?.data?.detail?.includes(
+        "Failed to convert 'topicId' with value",
+      ) ||
+      topicIdDataError?.data?.detail?.includes(
+        "Failed to convert 'topicId' with value",
       )
     ) {
       // dispatch(setMessages([]));
 
       return (
-        <ChatWrap>
+        <ChatWrap id="#chatwrap">
           <ChatHeader>
             <UserBox>
               <Avatar size={isMobile ? 'sm' : 'md'}>
@@ -336,6 +430,7 @@ const Chat = ({ children }) => {
                     handleMessageSend();
                   }
                 }}
+                readOnly
               />
               <ChatInputIconBox>
                 {/* <IconButton icon={<IconSmile />} /> //! CHAT-220--smile-disable */}
@@ -437,7 +532,7 @@ const Chat = ({ children }) => {
   // )
   isChatOpened && topicIdData && messages ? (
     // topicIdData && (
-    <ChatWrap>
+    <ChatWrap id="#chatwrap">
       <ChatHeader>
         <UserBox>
           <Avatar size={isMobile ? 'sm' : 'md'}>

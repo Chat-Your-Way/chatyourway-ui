@@ -20,30 +20,48 @@ export const useWebSocketConnection = (isLoggedIn) => {
         `${BASE_URL}/chat?Authorization=Bearer ${accessTokenInStore}`,
       );
 
-      socket.onmessage = function () {
-        // I think this gunction does not work.
-      };
+      // console.log('socket in useEffect', socket);
+      // socket.onopen = function (message) { // This thinf is working!
+      //   console.log('message in onopen', message);
+      // };
+
+      // socket.onclose = function (message) {
+      //   console.log('message from onclose SockJS', message);
+      //   // I think this function does not work.
+      // };
+
+      // socket.onerror = function (error) {
+      //   console.log('This is error func in SockJS', error);
+      // };
 
       client.configure({
         onConnect: (frame) => {
+          // console.log('Lets look at the frame', frame);
           if (frame.command === 'CONNECTED') {
+            // console.log('onConnect with frame.command = connected', frame);
             dispatch(setConnected(true));
           }
         },
         onDisconnect: () => {
-          dispatch(setConnected(false));
+          // dispatch(setConnected(false));
+          // console.log('This is onDisconnect CLG', event);
           localLogOutUtil(dispatch);
         },
         onWebSocketError: () => {
+          // console.log('This is onWSError CLG');
           localLogOutUtil(dispatch);
         },
+        // onStompError: errorFrame => {
+        //   console.log('StompErrorFrame', errorFrame);
+        // },
         webSocketFactory: function () {
           return socket;
+          // return new SockJS(`${BASE_URL}/chat?Authorization=Bearer ${accessTokenInStore}`);
         },
       });
 
       client.activate();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isLoggedIn, connected]);
 };

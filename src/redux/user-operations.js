@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { BASE_URL, Referer, ajwt } from './apiParams';
+import { BASE_URL, Referer } from './apiParams';
 
 const userApi = createApi({
   reducerPath: 'userApi',
@@ -7,13 +7,13 @@ const userApi = createApi({
   tagTypes: ['User'],
   endpoints: (builder) => ({
     editUserInfo: builder.mutation({
-      query: (body) => ({
+      query: ({ body, accessTokenInStore }) => ({
         url: '/contacts/profile',
         method: 'PATCH',
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${ajwt}`,
+          Authorization: `Bearer ${accessTokenInStore}`,
         },
         body: JSON.stringify(body),
       }),
@@ -32,25 +32,25 @@ const userApi = createApi({
       providesTags: ['User'],
     }),
     prohibitPrivateMessage: builder.mutation({
-      query: () => ({
+      query: (accessTokenInStore) => ({
         url: '/contacts/message/send/prohibit',
         method: 'PATCH',
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${ajwt}`,
+          Authorization: `Bearer ${accessTokenInStore}`,
         },
       }),
       invalidatesTags: ['User'],
     }),
     permitPrivateMessage: builder.mutation({
-      query: () => ({
+      query: (accessTokenInStore) => ({
         url: '/contacts/message/send/permit',
         method: 'PATCH',
         headers: {
           Referer: Referer,
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${ajwt}`,
+          Authorization: `Bearer ${accessTokenInStore}`,
         },
       }),
       invalidatesTags: ['User'],
