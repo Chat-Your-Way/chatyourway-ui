@@ -18,7 +18,8 @@ function SuccessSignupPageComponent() {
 
   useEffect(() => {
     activateEmail({ activationToken });
-  }, [activateEmail, activationToken]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <WhiteLayout>
