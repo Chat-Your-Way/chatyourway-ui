@@ -34,7 +34,7 @@ function SuccessSignupPageComponent() {
         </SuccessSignupTitle>
         <LoginAccountButton
           label="Увійти в акаунт"
-          to={PATH.LOGIN}
+          to={`${PATH.MAIN}${PATH.LOGIN}`}
           isDisabled={isError}
         />
       </SuccessSignupWrapper>

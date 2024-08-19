@@ -1,5 +1,6 @@
 import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
+// import { Link } from 'react-router-dom';
 
 // export const StyledButton = styled('button', {
 //   shouldForwardProp: p => p !== 'withoutBackground' && p !== 'iconWidth' && p !== 'iconHeight',
@@ -12,6 +13,7 @@ export const StyledButton = styled(Button, {
   padding: 8px 12px;
   min-width: 110px;
   text-transform: none;
+  text-decoration: none;
   border-radius: 8px;
   border: 1px solid transparent;
   color: ${(p) => p.theme.palette.primary.dark};
