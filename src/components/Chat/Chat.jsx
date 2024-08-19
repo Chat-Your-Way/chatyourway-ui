@@ -227,7 +227,7 @@ const Chat = ({ children }) => {
   // Here we have a problem - every time in redux store writing subscriptions,
   //then open a new topic. And old subscriptions does not removes.
 
-  // useEffecto for pagination values
+  // useEffect for pagination values
   // useEffect(() => {
   //   // This is first render, so I need the values for pagination in useState;
   //   if (
@@ -242,12 +242,41 @@ const Chat = ({ children }) => {
   //       totalPages: totalPagesInCurrentMessages,
   //       pageable: { pageNumber: currentPageNumber },
   //     } = currentMessagesByTopic;
-  //     setCurrentPage(currentPageNumber + 1);
+  //     setCurrentPage(currentPageNumber);
   //     setTotalPages(totalPagesInCurrentMessages);
   //   }
-  // });
 
-  // useEffect for scroll.
+  //   // Reset pagination values to default
+  //   return () => {
+  //     setCurrentPage(null);
+  //     setTotalPages(null);
+  //   };
+  // }, []);
+
+  // const scrollEventWithTO = event => {
+  //   // if (currentMessagesByTopic && !isFetchingMessagesByTopic && !messagesByTopicError) {
+
+  //   const { scrollHeight, scrollTop } = event.target;
+  //   // console.log(event);
+  //   // console.log('event.target.scrollHeight', scrollHeight);
+  //   // console.log('event.target.scrollTop', scrollTop);
+  //   // console.log('window.innerHeight', window.innerHeight);
+  //   // console.log('currentPage', currentPage);
+
+  //   if (scrollHeight - scrollTop > scrollHeight - 200 && currentPage <= totalPages) {
+  //     // console.log('scrollHeight - 200', scrollHeight - 200);
+  //     // refetchMessagesByTopicId({ topicId, accessTokenInStore, totalPages, sizeOfMessages });
+  //     setCurrentPage(prevState => prevState + 1);
+  //     setSizeOfMessages(30);
+  //   } else {
+  //     return;
+  //   }
+  //   // if (window.innerHeight - scrollHeight <= 15) {
+  //   //   event.target.scrollTo(0, scrollHeight);
+  //   // }
+  // };
+
+  // // useEffect for scroll.
   // useEffect(() => {
   //   setTimeout(() => {
   //     if (
@@ -279,29 +308,6 @@ const Chat = ({ children }) => {
   //   messagesByTopicError,
   //   scrollEventWithTO,
   // ]);
-
-  // const scrollEventWithTO = event => {
-  //   // if (currentMessagesByTopic && !isFetchingMessagesByTopic && !messagesByTopicError) {
-
-  //   const { scrollHeight, scrollTop } = event.target;
-  //   // console.log(event);
-  //   // console.log('event.target.scrollHeight', scrollHeight);
-  //   // console.log('event.target.scrollTop', scrollTop);
-  //   // console.log('window.innerHeight', window.innerHeight);
-  //   // console.log('currentPage', currentPage);
-
-  //   if (scrollHeight - scrollTop > scrollHeight - 200 && currentPage <= totalPages) {
-  //     // console.log('scrollHeight - 200', scrollHeight - 200);
-  //     // refetchMessagesByTopicId({ topicId, accessTokenInStore, totalPages, sizeOfMessages });
-  //     // setCurrentPage(prevState => prevState + 1);
-  //     // setSizeOfMessages(30);
-  //   } else {
-  //     return;
-  //   }
-  //   // if (window.innerHeight - scrollHeight <= 15) {
-  //   //   event.target.scrollTo(0, scrollHeight);
-  //   // }
-  // };
 
   // Function for searching name of user in private topics array
   const getUserName = () => {
