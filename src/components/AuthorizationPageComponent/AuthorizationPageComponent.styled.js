@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
 // import TextNavLinkButton from '../../ui-kit/components/TextNavLinkButton';
 // eslint-disable-next-line max-len
-import TextNavLinkButtonWithoutProps from '../../ui-kit/components/TextNavLinkButtonWithoutProps/TextNavLinkButtonWithoutProps';
 import { ICONS } from '../../ui-kit/icons';
+import TextNavLinkButtonWithoutProps from '../../ui-kit/components/TextNavLinkButtonWithoutProps';
 
 export const AuthorizationWrapper = styled(Box)`
   display: flex;

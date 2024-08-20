@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { TextNavLinkButtonStyledWithoutProps } from './TextNavLinkButtonWithoutPropsStyled';
 
-function TextNavLinkButton({
+function TextNavLinkButtonWithoutProps({
   to,
   label = 'Button',
   isDisabled = false,
@@ -26,4 +26,4 @@ function TextNavLinkButton({
     </TextNavLinkButtonStyledWithoutProps>
   );
 }
-export default memo(TextNavLinkButton);
+export default memo(TextNavLinkButtonWithoutProps);

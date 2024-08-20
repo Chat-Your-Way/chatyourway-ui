@@ -1,8 +1,8 @@
 // export const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 // export const BASE_URL = 'http://chat.eu-central-1.elasticbeanstalk.com';
 // export const BASE_URL = 'http://85.235.140.66:8080/';
-export const BASE_URL = 'https://chat.imperiaholoda.com.ua';
-// export const BASE_URL = 'https://service-max.it:8080';
+// export const BASE_URL = 'https://chat.imperiaholoda.com.ua';
+export const BASE_URL = 'https://service-max.it:8080';
 export const Referer = document.referrer;
 // export const ajwt = JSON.parse(localStorage.getItem('accessToken'));
 // export const rjwt = JSON.parse(localStorage.getItem('refreshToken'));
