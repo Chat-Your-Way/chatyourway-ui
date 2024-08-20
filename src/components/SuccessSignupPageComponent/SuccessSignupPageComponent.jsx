@@ -9,6 +9,7 @@ import {
 } from './SuccessSignupPageComponent.styled';
 import { useActivateMutation } from '../../redux/auth-operations';
 import { useEffect } from 'react';
+import TextNavLinkButtonWithoutProps from '../../ui-kit/components/TextNavLinkButtonWithoutProps';
 
 function SuccessSignupPageComponent() {
   const [searchParams] = useSearchParams();
@@ -32,11 +33,17 @@ function SuccessSignupPageComponent() {
             ? 'Щось пішло не так під час активації email'
             : 'Ви успішно зареєструвались у ChatYourWay'}
         </SuccessSignupTitle>
-        <LoginAccountButton
-          label="Увійти в акаунт"
-          to={`${PATH.MAIN}${PATH.LOGIN}`}
-          isDisabled={isError}
-        />
+        {isError ? (
+          <LoginAccountButton
+            label="Увійти в акаунт"
+            to={`${PATH.MAIN}${PATH.LOGIN}`}
+            isDisabled={isError}
+          />
+        ) : (
+          <TextNavLinkButtonWithoutProps to={`${PATH.MAIN}${PATH.LOGIN}`}>
+            Увійти в акаунт
+          </TextNavLinkButtonWithoutProps>
+        )}
       </SuccessSignupWrapper>
     </WhiteLayout>
   );

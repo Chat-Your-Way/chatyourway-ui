@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-export const TextNavLinkButtonStyledWithoutProps = styled(NavLink, {
+export const TextNavLinkButtonStyledWithoutProps = styled(Link, {
   shouldForwardProp: (p) =>
     p !== 'withoutBackground' && p !== 'iconWidth' && p !== 'iconHeight',
 })`
