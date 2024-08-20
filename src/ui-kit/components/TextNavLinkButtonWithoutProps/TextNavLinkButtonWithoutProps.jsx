@@ -3,7 +3,7 @@ import { TextNavLinkButtonStyledWithoutProps } from './TextNavLinkButtonWithoutP
 
 function TextNavLinkButtonWithoutProps({
   to,
-  label = 'Button',
+  // label = 'Button',
   isDisabled = false,
   withoutBackground = false,
 
@@ -22,7 +22,7 @@ function TextNavLinkButtonWithoutProps({
       iconHeight={iconHeight}
       {...props}
     >
-      {label}
+      {/* {label} */}
     </TextNavLinkButtonStyledWithoutProps>
   );
 }
