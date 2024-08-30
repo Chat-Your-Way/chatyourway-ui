@@ -13,7 +13,7 @@ export const getTime = (timestamp) => {
 };
 
 export const processMessageData = ({
-  currentMessagesByTopic,
+  sortedCurrentMessageByTopic,
   historyMessages,
   newMessages,
   notifications,
@@ -21,7 +21,7 @@ export const processMessageData = ({
   const messagesData = [
     ...historyMessages,
     ...newMessages,
-    ...currentMessagesByTopic.content,
+    ...sortedCurrentMessageByTopic,
   ];
 
   const messages = messagesData.map((messageData) => {

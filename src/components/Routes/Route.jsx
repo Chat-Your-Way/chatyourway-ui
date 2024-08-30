@@ -19,6 +19,7 @@ import VerificationEmailPage from '../../pages/VerificationEmailPage';
 import FaqPage from '../../pages/FaqPage';
 import Chat from '../Chat/Chat';
 import LoaderTemplate from '../LoaderTemplate';
+// import ChatThunk from '../Chat/ChatThunk';
 
 const Router = () => {
   return (
@@ -49,9 +50,11 @@ const Router = () => {
           <Route path={PATH.HOMEPAGE} element={<SharedLayout />}>
             <Route path={PATH.TOPICS} element={<TopicsPage />}>
               <Route path={PATH.CHAT} element={<Chat />} />
+              {/* <Route path={PATH.CHAT} element={<ChatThunk />} /> */}
             </Route>
             <Route path={PATH.NOTIFICATION} element={<NotificationPage />}>
               <Route path={PATH.CHAT} element={<Chat />} />
+              {/* <Route path={PATH.CHAT} element={<ChatThunk />} /> */}
             </Route>
             <Route path={PATH.SETTINGS} element={<SettingsPage />} />
             <Route path={PATH.INFO} element={<FaqPage />} />

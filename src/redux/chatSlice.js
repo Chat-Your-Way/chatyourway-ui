@@ -162,3 +162,18 @@ export const selectContactsOpened = createSelector(
   selectChatState,
   (chat) => chat.contactsOpened,
 );
+
+export const selectTotalPagesInStore = createSelector(
+  selectChatState,
+  (chat) => chat.totalPagesInStore,
+);
+
+export const selectCurrentPageInStore = createSelector(
+  selectChatState,
+  (chat) => chat.currentPageInStore,
+);
+
+export const selectSizeOfMessagesInStore = createSelector(
+  selectChatState,
+  (chat) => chat.sizeOfMessagesInStore,
+);

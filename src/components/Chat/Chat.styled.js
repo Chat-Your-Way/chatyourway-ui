@@ -19,6 +19,7 @@ export const ChatWrap = styled(Box)`
   border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
   overflow-y: auto;
+  scroll-behavior: smooth;
 
   /* @media screen and (min-width: calc(834px - 0.02px)) { */
   @media screen and (min-width: 768px) {
