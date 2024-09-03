@@ -23,6 +23,8 @@ import {
   toggleChatOpened,
   selectChatOpened,
   setChatOpened,
+  setNewMessages,
+  setHistoryMessages,
 } from '../../redux/chatSlice';
 import {
   subscribeToMessages,
@@ -194,31 +196,24 @@ const Chat = ({ children }) => {
     // if (historyMessages.length === 0 || notifications.length === 0) return;
     if (!currentMessagesByTopic) return;
 
-    // Find user with privateTopicId, and throw this array of messages to component for render
-    // if (privateTopics) {
-    //   // console.log('privateTopics', privateTopics);
-    //   const userWithPrivateTopicId = privateTopics?.find(el => el?.contact?.id === userId);
-    //   // console.log('userWithPrivateTopicId', userWithPrivateTopicId);
-    //   if (userWithPrivateTopicId) {
-    //     refetchMessagesByTopicId({ topicId: userWithPrivateTopicId.id, accessTokenInStore });
-    //   } else {
-    //     dispatch(setMessages([]));
-    //     return;
-    //   }
-    // }
-
-    // if (topicId.includes('@')) {
-    //   return dispatch(setMessages([]));
-    // }
-    const sortedCurrentMessageByTopic = [
+    const sortedCurrentMessagesByTopic = [
       ...currentMessagesByTopic.content,
     ].sort((a, b) => a.timestamp.localeCompare(b.timestamp));
 
+    // const newMessagesData = processMessageData({
+    //   sortedCurrentMessageByTopic,
+    //   email,
+    //   historyMessages,
+    //   newMessages,
+    //   notifications,
+    // });
+
+    dispatch(setHistoryMessages(currentMessagesByTopic.content));
+
     const newMessagesData = processMessageData({
-      sortedCurrentMessageByTopic,
+      sortedCurrentMessagesByTopic,
+
       email,
-      historyMessages,
-      newMessages,
       notifications,
     });
 
@@ -227,25 +222,17 @@ const Chat = ({ children }) => {
     dispatch(setMessages(newMessagesData));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    dispatch,
-    historyMessages,
-    newMessages,
-    notifications,
-    email,
-    currentMessagesByTopic,
-  ]);
+    // }, [dispatch, historyMessages, newMessages, notifications, email, currentMessagesByTopic]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, notifications, email, currentMessagesByTopic]);
   // Here we have a problem - every time in redux store writing subscriptions,
   // then open a new topic. And old subscriptions does not removes.
 
   // useEffect for pagination values
   useEffect(() => {
     if (currentMessagesByTopic) {
-      const {
-        totalPages: totalPagesInCurrentMessages,
-        numberOfElements,
-        pageable: { pageNumber: currentPageNumber },
-      } = currentMessagesByTopic;
+      const { totalPages: totalPagesInCurrentMessages } =
+        currentMessagesByTopic;
 
       setTotalPages(totalPagesInCurrentMessages);
       totalPagesRef.current = totalPagesInCurrentMessages;

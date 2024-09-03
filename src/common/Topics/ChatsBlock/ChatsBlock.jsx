@@ -79,10 +79,10 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
   const notificationsAllTopics = useSelector(selectAllTopicsNotifications);
 
   const filteredAllTopicsData = allTopicsData?.filter((item) =>
-    item.name.includes(searchInputValue),
+    item.name.toLowerCase().includes(searchInputValue.toLowerCase().trim()),
   );
   const filteredCurrentPrivateTopics = currentPrivateTopics?.filter((item) =>
-    item.name.includes(searchInputValue),
+    item.name.toLowerCase().includes(searchInputValue.toLowerCase().trim()),
   );
 
   if (error) {

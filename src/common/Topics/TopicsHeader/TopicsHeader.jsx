@@ -30,7 +30,7 @@ const TopicsHeader = ({
         <StyledSearchInput
           value={searchInputValue}
           handleInputValue={(event) =>
-            setSearchInputValue(event.currentTarget.value.trim())
+            setSearchInputValue(event.currentTarget.value)
           }
           $chatOpened={chatOpened}
           $contactsOpened={contactsOpened}
