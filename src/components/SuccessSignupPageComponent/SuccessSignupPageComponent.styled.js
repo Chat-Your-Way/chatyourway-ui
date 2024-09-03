@@ -32,6 +32,7 @@ export const SuccessSignupTitle = styled(Typography)`
   color: ${(p) => p.theme.palette.primary.dark};
   ${(p) => p.theme.typography.h3}
   min-width: 300px;
+  margin-bottom: 24px;
   @media screen and (min-width: calc(845px - 0.02px)) {
     min-width: 486px;
   }

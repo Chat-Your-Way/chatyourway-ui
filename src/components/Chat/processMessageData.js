@@ -4,27 +4,34 @@ export const getTime = (timestamp) => {
   const dateObject = new Date(timestamp);
   const hours = dateObject.getHours();
   const minutes = dateObject.getMinutes();
+  const seconds = dateObject.getSeconds();
 
   const time = `${hours.toString().padStart(2, '0')}:${minutes
     .toString()
-    .padStart(2, '0')}`;
+    .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
   return time;
 };
 
+// export const processMessageData = ({
+//   sortedCurrentMessageByTopic,
+//   historyMessages,
+//   newMessages,
+//   notifications,
+// }) => {
+//   const messagesData = [
+//     ...historyMessages,
+//     ...newMessages,
+//     ...sortedCurrentMessageByTopic,
+//   ];
+
 export const processMessageData = ({
-  currentMessagesByTopic,
-  historyMessages,
-  newMessages,
+  sortedCurrentMessagesByTopic,
   notifications,
 }) => {
-  const messagesData = [
-    ...historyMessages,
-    ...newMessages,
-    ...currentMessagesByTopic.content,
-  ];
+  // const messagesData = [...sortedCurrentMessagesByTopic];
 
-  const messages = messagesData.map((messageData) => {
+  const messages = sortedCurrentMessagesByTopic.map((messageData) => {
     const {
       content: messageContent,
       timestamp,

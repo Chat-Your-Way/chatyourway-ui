@@ -1,5 +1,5 @@
 export const PATH = {
-  CHAT: 'chat/:title/:userId',
+  CHAT: 'chat/:topicId/:userId',
   // CHAT: 'chat/:title',
   FORGOT_PASSWORD: '/forgot-password',
   HOMEPAGE: 'home',

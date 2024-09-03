@@ -40,9 +40,10 @@ function SuccessSignupPageComponent() {
             isDisabled={isError}
           />
         ) : (
-          <TextNavLinkButtonWithoutProps to={`${PATH.MAIN}${PATH.LOGIN}`}>
-            Увійти в акаунт
-          </TextNavLinkButtonWithoutProps>
+          <TextNavLinkButtonWithoutProps
+            to={`${PATH.MAIN}${PATH.LOGIN}`}
+            label="Увійти в акаунт"
+          ></TextNavLinkButtonWithoutProps>
         )}
       </SuccessSignupWrapper>
     </WhiteLayout>
