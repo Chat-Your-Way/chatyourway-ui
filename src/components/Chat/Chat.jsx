@@ -138,8 +138,10 @@ const Chat = ({ children }) => {
     useMediaQuery({ query: '(max-width: 767px)' });
   const isMobile = useMobileMediaQuery();
 
-  const [sendMessageToTopic, { error: sendMessageError }] =
-    useSendMessageToTopicMutation();
+  const [
+    sendMessageToTopic,
+    { error: sendMessageError, isSuccess: isSuccessSendMessage },
+  ] = useSendMessageToTopicMutation();
   const [sendFirstMessageToUser, { error: sendFirstMessageError }] =
     useSendMessageToNewTopicMutation();
 
@@ -147,8 +149,6 @@ const Chat = ({ children }) => {
 
   useEffect(() => {
     if (!connected) {
-      // console.log('Client in Chat useEffect, then !connected', client);
-      // dispatch(connectWebSocket());
       client.activate();
     }
 
@@ -158,11 +158,11 @@ const Chat = ({ children }) => {
     return () => {
       dispatch(unsubscribeFromMessages());
       // dispatch(disconnectWebSocket()); //!
+      dispatch(clearNotifications());
+      dispatch(clearNewMessages());
       dispatch(clearMessages());
       dispatch(clearHistoryMessages());
-      dispatch(clearNewMessages());
-      dispatch(clearNotifications());
-      setTotalPages(0);
+
       // dispatch(toggleChatOpened());
       dispatch(setChatOpened(false));
       currentPageRef.current = 1;
@@ -174,59 +174,108 @@ const Chat = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   if (!connected) return;
+  // This useEffecr to handle topicIc change - when topicId changes,
+  // the component doesn't unmount, so the messages array doesn't clean.
+  useEffect(() => {
+    if (!connected) return;
 
-  //   if (subscribed) {
-  //     dispatch(unsubscribeFromMessages());
-  //   }
+    dispatch(subscribeToMessages(topicId));
+    setCurrentPage(1);
+    currentPageRef.current = 1;
+    // dispatch(getTopicHistory(topicId));
 
-  //   dispatch(clearMessages());
-  //   dispatch(clearHistoryMessages());
-  //   dispatch(clearNewMessages());
-  //   dispatch(clearNotifications());
+    return () => {
+      dispatch(unsubscribeFromMessages());
+      dispatch(clearHistoryMessages());
+      dispatch(clearMessages());
+      dispatch(clearNewMessages());
+      dispatch(clearNotifications());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, connected, topicId]);
 
-  //   dispatch(subscribeToMessages(topicId));
-  //   dispatch(getTopicHistory(topicId));
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [dispatch, connected, topicId]);
-
+  // This useEffect for processing the array of messages.
   useEffect(() => {
     // if (historyMessages.length === 0 || notifications.length === 0) return;
     if (!currentMessagesByTopic) return;
 
-    const sortedCurrentMessagesByTopic = [
-      ...currentMessagesByTopic.content,
-    ].sort((a, b) => a.timestamp.localeCompare(b.timestamp));
+    if (historyMessages.length === 0) {
+      const newMessagesData = processMessageData({
+        arrayOfMessages: [...currentMessagesByTopic.content].sort((a, b) =>
+          a.timestamp.localeCompare(b.timestamp),
+        ),
+        email,
+        notifications,
+      });
 
-    // const newMessagesData = processMessageData({
-    //   sortedCurrentMessageByTopic,
-    //   email,
-    //   historyMessages,
-    //   newMessages,
-    //   notifications,
-    // });
+      // dispatch(subscribeToMessages(topicId)); // This operation processed in previous useEffect
 
-    dispatch(setHistoryMessages(currentMessagesByTopic.content));
+      dispatch(setMessages(newMessagesData));
 
-    const newMessagesData = processMessageData({
-      sortedCurrentMessagesByTopic,
+      dispatch(
+        setHistoryMessages(
+          [...historyMessages, ...currentMessagesByTopic.content].sort((a, b) =>
+            a.timestamp.localeCompare(b.timestamp),
+          ),
+        ),
+      );
+    } else {
+      // Thi is the filter for messages when they are exist in historyMessages
+      // eslint-disable-next-line max-len
+      // and comes from the response at the same time. But I still need filter for double messages in historyMessages
 
-      email,
-      notifications,
-    });
+      // Filter by topicId.
+      const filteredCurrentMessagesByTopicId = historyMessages.filter(
+        (el) => el.topicId === topicId,
+      );
 
-    dispatch(subscribeToMessages(topicId));
+      // eslint-disable-next-line prettier/prettier
+      const filteredHistoryMessagesByResponse = filteredCurrentMessagesByTopicId.filter(currEl => {
+          if (
+            currentMessagesByTopic.content.find((el) => el.id === currEl.id)
+          ) {
+            return false;
+          } else {
+            return historyMessages.find((el) => el.id === currEl.id);
+          }
+        });
 
-    dispatch(setMessages(newMessagesData));
+      // This filter only for historyMessages - delete the double messages
+      const filteredHistoryMessages = filteredCurrentMessagesByTopicId.filter(
+        (currEl) => {
+          if (historyMessages.find((el) => el.id === currEl.id)) {
+            return false;
+          } else {
+            return historyMessages.find((el) => el.id === currEl.id);
+          }
+        },
+      );
 
+      const newMessagesData = processMessageData({
+        arrayOfMessages: [
+          ...filteredHistoryMessages,
+          ...filteredHistoryMessagesByResponse,
+          ...currentMessagesByTopic.content,
+        ].sort((a, b) => a.timestamp.localeCompare(b.timestamp)),
+
+        email,
+        notifications,
+      });
+
+      dispatch(setMessages(newMessagesData));
+
+      dispatch(
+        setHistoryMessages(
+          [
+            ...filteredHistoryMessages,
+            ...filteredHistoryMessagesByResponse,
+            ...currentMessagesByTopic.content,
+          ].sort((a, b) => a.timestamp.localeCompare(b.timestamp)),
+        ),
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [dispatch, historyMessages, newMessages, notifications, email, currentMessagesByTopic]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, notifications, email, currentMessagesByTopic]);
-  // Here we have a problem - every time in redux store writing subscriptions,
-  // then open a new topic. And old subscriptions does not removes.
+  }, [dispatch, currentMessagesByTopic]);
 
   // useEffect for pagination values
   useEffect(() => {
@@ -247,10 +296,11 @@ const Chat = ({ children }) => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const scrollEventWithTO = (event) => {
+    // If I don't change refs when send new message - pagination stops working.
     const { scrollHeight, scrollTop } = event.target;
 
     if (
-      scrollHeight - scrollTop > scrollHeight - 200 &&
+      scrollHeight - scrollTop > scrollHeight - 100 &&
       currentPageRef.current < totalPagesRef.current
     ) {
       setCurrentPage((prevState) => prevState + 1);
@@ -266,17 +316,26 @@ const Chat = ({ children }) => {
 
     chatwrapId.addEventListener('scroll', debounce(scrollEventWithTO, 1000));
 
-    chatwrapId.scrollTo(0, chatwrapId.scrollHeight);
-
-    if (!isLoadingCurrentMessagesByTopicId) {
+    // Automatically scroll down when it's first request
+    if (isLoadingCurrentMessagesByTopicId) {
       // eslint-disable-next-line max-len
-      setTimeout(() => chatwrapId.scrollTo(0, chatwrapId.scrollHeight), 500); // This worksm but it is not the most correct way
+      setTimeout(() => chatwrapId.scrollTo(0, chatwrapId.scrollHeight), 500); // This works but it is not the most correct way
+    }
+
+    // Automatically scroll down after sending a message and change the message array
+    if (isSuccessSendMessage) {
+      chatwrapId.scrollTo(0, chatwrapId.scrollHeight);
+    }
+    // Scroll down if topicId change
+    if (messages && messages[0]?.topicId !== topicId) {
+      chatwrapId.scrollTo(0, chatwrapId.scrollHeight);
     }
 
     return () => {
       chatwrapId.removeEventListener('scroll', scrollEventWithTO);
     };
-  }, [isLoadingCurrentMessagesByTopicId, scrollEventWithTO]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [topicId, scrollEventWithTO]);
 
   // Function for searching name of user in private topics array
   const getUserName = () => {
@@ -287,7 +346,7 @@ const Chat = ({ children }) => {
     if (existingUser) {
       return existingUser.contact.nickname;
     } else {
-      return false;
+      return null;
     }
   };
 
@@ -305,6 +364,7 @@ const Chat = ({ children }) => {
       // dispatch(sendMessageByWs({ topicId, inputMessage }));
       sendMessageToTopic({ topicId, inputMessage, accessTokenInStore });
       inputRef.current.value = '';
+      setCurrentPage(1);
     } else if (
       pathname.includes('notification') &&
       connected &&
@@ -312,6 +372,7 @@ const Chat = ({ children }) => {
     ) {
       sendMessageToTopic({ topicId, inputMessage, accessTokenInStore });
       inputRef.current.value = '';
+      setCurrentPage(1);
     } else if (!getUserName() && topicId.includes('@') && connected) {
       sendFirstMessageToUser({
         userEmail: topicId,
@@ -371,7 +432,9 @@ const Chat = ({ children }) => {
               <InfoBox>
                 <ChatUserName variant={isMobile ? 'h6' : 'h5'}>
                   {pathname.includes('notification')
-                    ? `Приватний чат з ${getUserName()}`
+                    ? getUserName()
+                      ? `Приватний чат з ${getUserName()}`
+                      : null
                     : null}
                   {topicIdData ? topicIdData.name : getUserName()}
                 </ChatUserName>
@@ -418,14 +481,14 @@ const Chat = ({ children }) => {
     }
 
     if (sendMessageError?.data?.message?.includes('subscribed to the topic')) {
-      return alert(
-        'Потрібно підписатись на цю тему, щоб відправляти повідомлення',
-      );
+      alert('Потрібно підписатись на цю тему, щоб відправляти повідомлення');
+      return;
     }
 
     alert('Виникла помилка під час отримання теми (ChatComponent)');
 
     localLogOutUtil(dispatch);
+
     // dispatch(setIsLoggedIn(false));
     // dispatch(setAccessToken(null));
     // dispatch(setRefreshToken(null));
@@ -564,30 +627,40 @@ const Chat = ({ children }) => {
                           {!item.isMyMessage && <DropDownMenu />}
                         </TextMessageBlock>
                       </UserMassageWrap>
-                      {avatarsArray.map(
-                        (Logo, index) =>
-                          item.avatarId - 1 === index && (
-                            <Link
-                              key={item.id}
-                              to={
-                                privateTopics.some(
-                                  (el) => el?.contact?.id === item.senderId,
-                                )
-                                  ? `/home/notification/chat/${getPrivateTopicId(
-                                      {
-                                        userId: item.senderId,
-                                        privateTopics,
-                                      },
-                                    )}/${item.senderId}`
-                                  : `/home/notification/chat/${item.senderEmail}/${item.senderId}`
-                              }
-                            >
-                              <Avatar key={index}>
-                                <Logo />
-                              </Avatar>
-                            </Link>
-                          ),
-                      )}
+                      {item.permittedSendingPrivateMessage
+                        ? avatarsArray.map(
+                            (Logo, index) =>
+                              item.avatarId - 1 === index && (
+                                <Link
+                                  key={item.id}
+                                  to={
+                                    privateTopics.some(
+                                      (el) => el?.contact?.id === item.senderId,
+                                    )
+                                      ? `/home/notification/chat/${getPrivateTopicId(
+                                          {
+                                            userId: item.senderId,
+                                            privateTopics,
+                                          },
+                                        )}/${item.senderId}`
+                                      : // eslint-disable-next-line max-len
+                                        `/home/notification/chat/${item.senderEmail}/${item.senderId}`
+                                  }
+                                >
+                                  <Avatar key={index}>
+                                    <Logo />
+                                  </Avatar>
+                                </Link>
+                              ),
+                          )
+                        : avatarsArray.map(
+                            (Logo, index) =>
+                              item.avatarId - 1 === index && (
+                                <Avatar key={index}>
+                                  <Logo />
+                                </Avatar>
+                              ),
+                          )}
                     </MessageContainer>
                   </ChatSection>
                 ))}
