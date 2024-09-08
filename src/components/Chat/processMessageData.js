@@ -1,4 +1,4 @@
-import { nanoid } from 'nanoid';
+// import { nanoid } from 'nanoid';
 
 export const getTime = (timestamp) => {
   const dateObject = new Date(timestamp);
@@ -25,27 +25,21 @@ export const getTime = (timestamp) => {
 //     ...sortedCurrentMessageByTopic,
 //   ];
 
-export const processMessageData = ({
-  sortedCurrentMessagesByTopic,
-  notifications,
-}) => {
+export const processMessageData = ({ arrayOfMessages, notifications }) => {
   // const messagesData = [...sortedCurrentMessagesByTopic];
 
-  const messages = sortedCurrentMessagesByTopic.map((messageData) => {
-    const {
-      content: messageContent,
-      timestamp,
-      sender,
-      my: isMyMessage,
-    } = messageData;
+  const messages = arrayOfMessages.map((messageData) => {
+    // eslint-disable-next-line prettier/prettier
+    const { content: messageContent, timestamp, sender, my: isMyMessage, topicId } = messageData;
 
     const notification = notifications.find(
       (notification) => notification.email === sender.email,
     );
 
     const message = {
-      id: nanoid(),
-      topicId: notification?.topicId, //?! not used
+      // id: nanoid(),
+      id: messageData.id,
+      // topicId: notification?.topicId, //?! not used
       avatarId: sender.avatarId,
       name: sender.nickname,
       time: getTime(timestamp),
@@ -54,6 +48,8 @@ export const processMessageData = ({
       isOnline: notification?.status !== 'OFFLINE', // isOnline does not exists in array 'content'
       senderId: sender.id,
       senderEmail: sender.email,
+      permittedSendingPrivateMessage: sender.permittedSendingPrivateMessage,
+      topicId,
     };
 
     return message;
