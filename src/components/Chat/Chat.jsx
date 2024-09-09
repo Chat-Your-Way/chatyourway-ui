@@ -83,6 +83,7 @@ import { useMediaQuery } from 'react-responsive';
 import getPrivateTopicId from '../../utils/getPrivateTopicId';
 import { current } from '@reduxjs/toolkit';
 import debounce from 'lodash.debounce';
+import { fireEvent } from '@testing-library/react';
 
 const Chat = ({ children }) => {
   const { topicId, userId } = useParams();
@@ -146,6 +147,8 @@ const Chat = ({ children }) => {
     useSendMessageToNewTopicMutation();
 
   const inputRef = useRef(null);
+
+  const chatWrapIdRef = useRef(null);
 
   useEffect(() => {
     if (!connected) {
@@ -274,6 +277,7 @@ const Chat = ({ children }) => {
         ),
       );
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, currentMessagesByTopic]);
 
@@ -292,11 +296,13 @@ const Chat = ({ children }) => {
       setTotalPages(0);
       totalPagesRef.current = 0;
     };
-  }, [currentMessagesByTopic]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [topicId]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const scrollEventWithTO = (event) => {
     // If I don't change refs when send new message - pagination stops working.
+
     const { scrollHeight, scrollTop } = event.target;
 
     if (
@@ -312,30 +318,33 @@ const Chat = ({ children }) => {
 
   // // useEffect for scroll.
   useEffect(() => {
-    const chatwrapId = document.getElementById('#chatwrap');
-
-    chatwrapId.addEventListener('scroll', debounce(scrollEventWithTO, 1000));
+    // const chatwrapId = document.getElementById('#chatwrap');
 
     // Automatically scroll down when it's first request
     if (isLoadingCurrentMessagesByTopicId) {
       // eslint-disable-next-line max-len
-      setTimeout(() => chatwrapId.scrollTo(0, chatwrapId.scrollHeight), 500); // This works but it is not the most correct way
+      // setTimeout(() => chatwrapId.scrollTo(0, chatwrapId.scrollHeight), 500); // This works but it is not the most correct way chatWrapIdRef
+      setTimeout(
+        () =>
+          chatWrapIdRef.current.scrollTo(0, chatWrapIdRef.current.scrollHeight),
+        500,
+      );
     }
 
     // Automatically scroll down after sending a message and change the message array
     if (isSuccessSendMessage) {
-      chatwrapId.scrollTo(0, chatwrapId.scrollHeight);
-    }
-    // Scroll down if topicId change
-    if (messages && messages[0]?.topicId !== topicId) {
-      chatwrapId.scrollTo(0, chatwrapId.scrollHeight);
+      // chatwrapId.scrollTo(0, chatwrapId.scrollHeight);
+      chatWrapIdRef.current.scrollTo(0, chatWrapIdRef.current.scrollHeight);
     }
 
-    return () => {
-      chatwrapId.removeEventListener('scroll', scrollEventWithTO);
-    };
+    // Scroll down if topicId change
+    if (messages[0]?.topicId !== topicId) {
+      // chatwrapId.scrollTo(0, chatwrapId.scrollHeight);
+      chatWrapIdRef.current.scrollTo(0, chatWrapIdRef.current.scrollHeight);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topicId, scrollEventWithTO]);
+  }, [topicId, messages]);
 
   // Function for searching name of user in private topics array
   const getUserName = () => {
@@ -497,7 +506,11 @@ const Chat = ({ children }) => {
   }
 
   return (
-    <ChatWrap id="#chatwrap">
+    <ChatWrap
+      id="#chatwrap"
+      onScroll={debounce(scrollEventWithTO, 1000)}
+      ref={chatWrapIdRef}
+    >
       {isLoading ? (
         <Loader />
       ) : // isChatOpened && (
