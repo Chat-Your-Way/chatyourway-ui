@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 import { memo, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -84,6 +85,9 @@ import getPrivateTopicId from '../../utils/getPrivateTopicId';
 import { current } from '@reduxjs/toolkit';
 import debounce from 'lodash.debounce';
 import { fireEvent } from '@testing-library/react';
+import { useInView } from 'react-intersection-observer';
+import MessageContainerObserver from './MessageContainerObserver/MessageContainerObserver';
+import setUnreadMessageFlag from '../../utils/setUnreadMessagesFlag';
 
 const Chat = ({ children }) => {
   const { topicId, userId } = useParams();
@@ -101,7 +105,10 @@ const Chat = ({ children }) => {
     isLoading,
     error: topicIdDataError,
     isFetching: isFetchingTopicIdData,
-  } = useGetByIdQuery({ topicId, accessTokenInStore });
+  } = useGetByIdQuery(
+    { topicId, accessTokenInStore },
+    { refetchOnMountOrArgChange: true, refetchOnFocus: true },
+  );
 
   const {
     isLoading: isLoadingCurrentMessagesByTopicId,
@@ -113,7 +120,7 @@ const Chat = ({ children }) => {
   } = useGetMessagesByTopicQuery(
     { topicId, accessTokenInStore, currentPage, sizeOfMessages },
     {
-      refetchOnMountOrArgChange: 10, // Not really sure that i understand how this is work!
+      refetchOnMountOrArgChange: true, // Not really sure that i understand how this is work!
       refetchOnFocus: true,
       refetchOnReconnect: true,
       // pollingInterval: 10000, // This works perfect!
@@ -147,7 +154,6 @@ const Chat = ({ children }) => {
     useSendMessageToNewTopicMutation();
 
   const inputRef = useRef(null);
-
   const chatWrapIdRef = useRef(null);
 
   useEffect(() => {
@@ -200,11 +206,18 @@ const Chat = ({ children }) => {
   // This useEffect for processing the array of messages.
   useEffect(() => {
     // if (historyMessages.length === 0 || notifications.length === 0) return;
-    if (!currentMessagesByTopic) return;
+    if (!currentMessagesByTopic || !topicIdData) return;
+
+    // Here I add a unread message status
+    const { unreadMessageCount } = topicIdData;
+    const arrayWithUnreadMessagesFlag = setUnreadMessageFlag({
+      arrayOfMessages: currentMessagesByTopic.content,
+      unreadMessageCount,
+    });
 
     if (historyMessages.length === 0) {
       const newMessagesData = processMessageData({
-        arrayOfMessages: [...currentMessagesByTopic.content].sort((a, b) =>
+        arrayOfMessages: [...arrayWithUnreadMessagesFlag].sort((a, b) =>
           a.timestamp.localeCompare(b.timestamp),
         ),
         email,
@@ -217,13 +230,13 @@ const Chat = ({ children }) => {
 
       dispatch(
         setHistoryMessages(
-          [...historyMessages, ...currentMessagesByTopic.content].sort((a, b) =>
+          [...historyMessages, ...arrayWithUnreadMessagesFlag].sort((a, b) =>
             a.timestamp.localeCompare(b.timestamp),
           ),
         ),
       );
     } else {
-      // Thi is the filter for messages when they are exist in historyMessages
+      // This is the filter for messages when they are exist in historyMessages
       // eslint-disable-next-line max-len
       // and comes from the response at the same time. But I still need filter for double messages in historyMessages
 
@@ -232,11 +245,11 @@ const Chat = ({ children }) => {
         (el) => el.topicId === topicId,
       );
 
+      // Filter for double messages
       // eslint-disable-next-line prettier/prettier
       const filteredHistoryMessagesByResponse = filteredCurrentMessagesByTopicId.filter(currEl => {
-          if (
-            currentMessagesByTopic.content.find((el) => el.id === currEl.id)
-          ) {
+          // if (currentMessagesByTopic.content.find(el => el.id === currEl.id)) {
+          if (arrayWithUnreadMessagesFlag.find((el) => el.id === currEl.id)) {
             return false;
           } else {
             return historyMessages.find((el) => el.id === currEl.id);
@@ -258,7 +271,8 @@ const Chat = ({ children }) => {
         arrayOfMessages: [
           ...filteredHistoryMessages,
           ...filteredHistoryMessagesByResponse,
-          ...currentMessagesByTopic.content,
+          // ...currentMessagesByTopic.content,
+          ...arrayWithUnreadMessagesFlag,
         ].sort((a, b) => a.timestamp.localeCompare(b.timestamp)),
 
         email,
@@ -279,7 +293,7 @@ const Chat = ({ children }) => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, currentMessagesByTopic]);
+  }, [dispatch, currentMessagesByTopic, topicIdData]);
 
   // useEffect for pagination values
   useEffect(() => {
@@ -506,200 +520,272 @@ const Chat = ({ children }) => {
   }
 
   return (
-    <ChatWrap
-      id="#chatwrap"
-      onScroll={debounce(scrollEventWithTO, 1000)}
-      ref={chatWrapIdRef}
-    >
-      {isLoading ? (
-        <Loader />
-      ) : // isChatOpened && (
-      //   // topicIdData && (
-      //   <ChatWrap>
-      //     <ChatHeader>
-      //       <UserBox>
-      //         <Avatar>{getAvatar(isTopics, topicIdData)}</Avatar>
-      //         <InfoBox>
-      //           <ChatUserName variant="h5">
-      //             {topicIdData ? topicIdData.name : 'імя користувача'}
-      //           </ChatUserName>
-      //           <TypingIndicator variant="h5">Ти/Пишеш...</TypingIndicator>
-      //         </InfoBox>
-      //       </UserBox>
-      //       <InfoMoreBox>
-      //         {children}
-      //         <TopicSettingsMenu topicId={topicId} subscribeStatus={subscribeStatus()} />
-      //       </InfoMoreBox>
-      //     </ChatHeader>
-      //     <ChatSectionWrap>
-      //       <ChatSection>
-      //         {messages &&
-      //           messages.map(item => (
-      //             <ChatSection key={item.id} isMyMessage={item.isMyMessage}>
-      //               <MessageContainer isMyMessage={item.isMyMessage}>
-      //                 <UserMassageWrap>
-      //                   <IndicatorBox isMyMessage={item.isMyMessage}>
-      // eslint-disable-next-line max-len
-      //                     <TimeIndicator isMyMessage={item.isMyMessage}>{item.time}</TimeIndicator>
-      //                     <IconActivity isMyMessage={item.isMyMessage}>
-      //                       {item.isOnline ? <ICONS.PROPERTY_ACTIVITY /> : <ICONS.NO_ACTIVITY />}
-      //                     </IconActivity>
-      //                     <UserName variant="h5">{item.name}</UserName>
-      //                   </IndicatorBox>
-      //                   <TextMessageBlock>
-      //                     <TextMessage isMyMessage={item.isMyMessage}>{item.text}</TextMessage>
-      //                     {!item.isMyMessage && <DropDownMenu />}
-      //                   </TextMessageBlock>
-      //                 </UserMassageWrap>
-      //                 {avatarsArray.map(
-      //                   (Logo, index) =>
-      //                     item.avatarId - 1 === index && (
-      //                       <Avatar key={index}>
-      //                         <Logo />
-      //                       </Avatar>
-      //                     )
-      //                 )}
-      //               </MessageContainer>
-      //             </ChatSection>
-      //           ))}
-      //       </ChatSection>
-      //       <InputBox>
-      //         <ChatInputStyled
-      //           ref={inputRef} //!
-      //           type="text" //!
-      //           maxRows={3}
-      //           placeholder="Введіть повідомлення..."
-      //           onKeyDown={event => {
-      //             if (event.key === 'Enter' && !event.shiftKey) {
-      //               event.preventDefault();
-      //               handleMessageSend();
-      //             }
-      //           }}
-      //         />
-      //         <ChatInputIconBox>
-      //           {/* <IconButton icon={<IconSmile />} /> //! CHAT-220--smile-disable */}
-      //           <IconButton icon={<IconSend />} onClick={handleMessageSend} />
-      //         </ChatInputIconBox>
-      //       </InputBox>
-      //     </ChatSectionWrap>
-      //   </ChatWrap>
-      // )
-      isChatOpened && topicIdData && messages ? (
-        // topicIdData && (
-        <>
-          <ChatHeader>
-            <UserBox>
-              <Avatar size={isMobile ? 'sm' : 'md'}>
-                {topicIdData ? getAvatar(isTopics, topicIdData) : null}
-              </Avatar>
-              <InfoBox>
-                <ChatUserName variant={isMobile ? 'h6' : 'h5'}>
-                  {pathname.includes('notification')
-                    ? `Приватний чат з ${getUserName()} `
-                    : null}
-                  {topicIdData ? topicIdData.name : 'імя користувача'}
-                </ChatUserName>
-                <TypingIndicator variant={isMobile ? 'h6' : 'h5'}>
-                  Ти/Пишеш...
-                </TypingIndicator>
-              </InfoBox>
-            </UserBox>
-            <UsersAvatar topicId={topicId} />
-            <InfoMoreBox>
-              {children}
-              <TopicSettingsMenu
-                topicId={topicId}
-                subscribeStatus={subscribeStatus()}
-              />
-            </InfoMoreBox>
-          </ChatHeader>
-          <ChatSectionWrap>
-            <ChatSection>
-              {messages &&
-                messages.map((item) => (
-                  <ChatSection key={item.id} isMyMessage={item.isMyMessage}>
-                    <MessageContainer isMyMessage={item.isMyMessage}>
-                      <UserMassageWrap>
-                        <IndicatorBox isMyMessage={item.isMyMessage}>
-                          <TimeIndicator isMyMessage={item.isMyMessage}>
-                            {item.time}
-                          </TimeIndicator>
-                          <IconActivity isMyMessage={item.isMyMessage}>
-                            {item.isOnline ? (
-                              <ICONS.PROPERTY_ACTIVITY />
-                            ) : (
-                              <ICONS.NO_ACTIVITY />
-                            )}
-                          </IconActivity>
-                          <UserName variant="h5">{item.name}</UserName>
-                        </IndicatorBox>
-                        <TextMessageBlock>
-                          <TextMessage isMyMessage={item.isMyMessage}>
-                            {item.text}
-                          </TextMessage>
-                          {!item.isMyMessage && <DropDownMenu />}
-                        </TextMessageBlock>
-                      </UserMassageWrap>
-                      {item.permittedSendingPrivateMessage
-                        ? avatarsArray.map(
-                            (Logo, index) =>
-                              item.avatarId - 1 === index && (
-                                <Link
-                                  key={item.id}
-                                  to={
-                                    privateTopics.some(
-                                      (el) => el?.contact?.id === item.senderId,
-                                    )
-                                      ? `/home/notification/chat/${getPrivateTopicId(
-                                          {
-                                            userId: item.senderId,
-                                            privateTopics,
-                                          },
-                                        )}/${item.senderId}`
-                                      : // eslint-disable-next-line max-len
-                                        `/home/notification/chat/${item.senderEmail}/${item.senderId}`
-                                  }
-                                >
+    <div>
+      <ChatWrap
+        id="#chatwrap"
+        onScroll={debounce(scrollEventWithTO, 1000)}
+        ref={chatWrapIdRef}
+      >
+        {isLoading ? (
+          <Loader />
+        ) : // isChatOpened && (
+        //   // topicIdData && (
+        //   <ChatWrap>
+        //     <ChatHeader>
+        //       <UserBox>
+        //         <Avatar>{getAvatar(isTopics, topicIdData)}</Avatar>
+        //         <InfoBox>
+        //           <ChatUserName variant="h5">
+        //             {topicIdData ? topicIdData.name : 'імя користувача'}
+        //           </ChatUserName>
+        //           <TypingIndicator variant="h5">Ти/Пишеш...</TypingIndicator>
+        //         </InfoBox>
+        //       </UserBox>
+        //       <InfoMoreBox>
+        //         {children}
+        //         <TopicSettingsMenu topicId={topicId} subscribeStatus={subscribeStatus()} />
+        //       </InfoMoreBox>
+        //     </ChatHeader>
+        //     <ChatSectionWrap>
+        //       <ChatSection>
+        //         {messages &&
+        //           messages.map(item => (
+        //             <ChatSection key={item.id} isMyMessage={item.isMyMessage}>
+        //               <MessageContainer isMyMessage={item.isMyMessage}>
+        //                 <UserMassageWrap>
+        //                   <IndicatorBox isMyMessage={item.isMyMessage}>
+        // eslint-disable-next-line max-len
+        //                     <TimeIndicator isMyMessage={item.isMyMessage}>{item.time}</TimeIndicator>
+        //                     <IconActivity isMyMessage={item.isMyMessage}>
+        // eslint-disable-next-line max-len
+        //                       {item.isOnline ? <ICONS.PROPERTY_ACTIVITY /> : <ICONS.NO_ACTIVITY />}
+        //                     </IconActivity>
+        //                     <UserName variant="h5">{item.name}</UserName>
+        //                   </IndicatorBox>
+        //                   <TextMessageBlock>
+        //                     <TextMessage isMyMessage={item.isMyMessage}>{item.text}</TextMessage>
+        //                     {!item.isMyMessage && <DropDownMenu />}
+        //                   </TextMessageBlock>
+        //                 </UserMassageWrap>
+        //                 {avatarsArray.map(
+        //                   (Logo, index) =>
+        //                     item.avatarId - 1 === index && (
+        //                       <Avatar key={index}>
+        //                         <Logo />
+        //                       </Avatar>
+        //                     )
+        //                 )}
+        //               </MessageContainer>
+        //             </ChatSection>
+        //           ))}
+        //       </ChatSection>
+        //       <InputBox>
+        //         <ChatInputStyled
+        //           ref={inputRef} //!
+        //           type="text" //!
+        //           maxRows={3}
+        //           placeholder="Введіть повідомлення..."
+        //           onKeyDown={event => {
+        //             if (event.key === 'Enter' && !event.shiftKey) {
+        //               event.preventDefault();
+        //               handleMessageSend();
+        //             }
+        //           }}
+        //         />
+        //         <ChatInputIconBox>
+        //           {/* <IconButton icon={<IconSmile />} /> //! CHAT-220--smile-disable */}
+        //           <IconButton icon={<IconSend />} onClick={handleMessageSend} />
+        //         </ChatInputIconBox>
+        //       </InputBox>
+        //     </ChatSectionWrap>
+        //   </ChatWrap>
+        // )
+        isChatOpened && topicIdData && messages ? (
+          // topicIdData && (
+          <>
+            <ChatHeader>
+              {/* <div ref={observerRef}> */}
+              <UserBox>
+                <Avatar size={isMobile ? 'sm' : 'md'}>
+                  {topicIdData ? getAvatar(isTopics, topicIdData) : null}
+                </Avatar>
+                <InfoBox>
+                  <ChatUserName variant={isMobile ? 'h6' : 'h5'}>
+                    {pathname.includes('notification')
+                      ? `Приватний чат з ${getUserName()} `
+                      : null}
+                    {topicIdData ? topicIdData.name : 'імя користувача'}
+                  </ChatUserName>
+                  <TypingIndicator variant={isMobile ? 'h6' : 'h5'}>
+                    Ти/Пишеш...
+                  </TypingIndicator>
+                </InfoBox>
+              </UserBox>
+              <UsersAvatar topicId={topicId} />
+              <InfoMoreBox>
+                {children}
+                <TopicSettingsMenu
+                  topicId={topicId}
+                  subscribeStatus={subscribeStatus()}
+                />
+              </InfoMoreBox>
+            </ChatHeader>
+            {/* </div> */}
+            <ChatSectionWrap>
+              <ChatSection>
+                {messages &&
+                  messages.map((item) => (
+                    <ChatSection key={item.id} isMyMessage={item.isMyMessage}>
+                      <MessageContainerObserver
+                        isMyMessage={item.isMyMessage}
+                        chatWrapIdRef={chatWrapIdRef}
+                        dataId={item.id}
+                        messageStatus={item.messageStatus}
+                      >
+                        <UserMassageWrap>
+                          <IndicatorBox isMyMessage={item.isMyMessage}>
+                            <TimeIndicator
+                              isMyMessage={item.isMyMessage}
+                              messageStatus={item.messageStatus}
+                            >
+                              {item.time}
+                            </TimeIndicator>
+                            <IconActivity isMyMessage={item.isMyMessage}>
+                              {item.isOnline ? (
+                                <ICONS.PROPERTY_ACTIVITY />
+                              ) : (
+                                <ICONS.NO_ACTIVITY />
+                              )}
+                            </IconActivity>
+                            <UserName variant="h5">{item.name}</UserName>
+                          </IndicatorBox>
+                          <TextMessageBlock>
+                            <TextMessage isMyMessage={item.isMyMessage}>
+                              {item.text}
+                            </TextMessage>
+                            {!item.isMyMessage && <DropDownMenu />}
+                          </TextMessageBlock>
+                        </UserMassageWrap>
+                        {item.permittedSendingPrivateMessage
+                          ? avatarsArray.map(
+                              (Logo, index) =>
+                                item.avatarId - 1 === index && (
+                                  <Link
+                                    key={item.id}
+                                    to={
+                                      privateTopics.some(
+                                        (el) =>
+                                          el?.contact?.id === item.senderId,
+                                      )
+                                        ? `/home/notification/chat/${getPrivateTopicId(
+                                            {
+                                              userId: item.senderId,
+                                              privateTopics,
+                                            },
+                                          )}/${item.senderId}`
+                                        : // eslint-disable-next-line max-len
+                                          `/home/notification/chat/${item.senderEmail}/${item.senderId}`
+                                    }
+                                  >
+                                    <Avatar key={index}>
+                                      <Logo />
+                                    </Avatar>
+                                  </Link>
+                                ),
+                            )
+                          : avatarsArray.map(
+                              (Logo, index) =>
+                                item.avatarId - 1 === index && (
                                   <Avatar key={index}>
                                     <Logo />
                                   </Avatar>
-                                </Link>
-                              ),
-                          )
-                        : avatarsArray.map(
-                            (Logo, index) =>
-                              item.avatarId - 1 === index && (
-                                <Avatar key={index}>
-                                  <Logo />
-                                </Avatar>
-                              ),
-                          )}
-                    </MessageContainer>
-                  </ChatSection>
-                ))}
-            </ChatSection>
-            <InputBox>
-              <ChatInputStyled
-                ref={inputRef} //!
-                type="text" //!
-                maxRows={3}
-                placeholder="Введіть повідомлення..."
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter' && !event.shiftKey) {
-                    event.preventDefault();
-                    handleMessageSend();
-                  }
-                }}
-              />
-              <ChatInputIconBox>
-                {/* <IconButton icon={<IconSmile />} /> //! CHAT-220--smile-disable */}
-                <IconButton icon={<IconSend />} onClick={handleMessageSend} />
-              </ChatInputIconBox>
-            </InputBox>
-          </ChatSectionWrap>
-        </>
-      ) : null}
-    </ChatWrap>
+                                ),
+                            )}
+                      </MessageContainerObserver>
+                    </ChatSection>
+                  ))}
+                {/* This is the old code without Observer for unread messages */}
+                {/* {messages &&
+                  messages.map(item => (
+                    <ChatSection key={item.id} isMyMessage={item.isMyMessage}>
+                      <MessageContainer
+                        isMyMessage={item.isMyMessage}
+                        ref={observerRef}
+                        data-id={item.id}
+                      >
+                        <UserMassageWrap>
+                          <IndicatorBox isMyMessage={item.isMyMessage}>
+                            <TimeIndicator isMyMessage={item.isMyMessage}>
+                              {item.time}
+                            </TimeIndicator>
+                            <IconActivity isMyMessage={item.isMyMessage}>
+                              {item.isOnline ? <ICONS.PROPERTY_ACTIVITY /> : <ICONS.NO_ACTIVITY />}
+                            </IconActivity>
+                            <UserName variant="h5">{item.name}</UserName>
+                          </IndicatorBox>
+                          <TextMessageBlock>
+                            <TextMessage isMyMessage={item.isMyMessage}>{item.text}</TextMessage>
+                            {!item.isMyMessage && <DropDownMenu />}
+                          </TextMessageBlock>
+                        </UserMassageWrap>
+                        {item.permittedSendingPrivateMessage
+                          ? avatarsArray.map(
+                              (Logo, index) =>
+                                item.avatarId - 1 === index && (
+                                  <Link
+                                    key={item.id}
+                                    to={
+                                      privateTopics.some(el => el?.contact?.id === item.senderId)
+                                        ? `/home/notification/chat/${getPrivateTopicId({
+                                            userId: item.senderId,
+                                            privateTopics,
+                                          })}/${item.senderId}`
+                                        : 
+                                        
+                                          `/home/notification/chat/${item.senderEmail}/${item.senderId}`
+                                    }
+                                  >
+                                    <Avatar key={index}>
+                                      <Logo />
+                                    </Avatar>
+                                  </Link>
+                                )
+                            )
+                          : avatarsArray.map(
+                              (Logo, index) =>
+                                item.avatarId - 1 === index && (
+                                  <Avatar key={index}>
+                                    <Logo />
+                                  </Avatar>
+                                )
+                            )}
+                      </MessageContainer>
+                    </ChatSection>
+                  ))} */}
+              </ChatSection>
+              <InputBox>
+                <ChatInputStyled
+                  ref={inputRef} //!
+                  type="text" //!
+                  maxRows={3}
+                  placeholder="Введіть повідомлення..."
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' && !event.shiftKey) {
+                      event.preventDefault();
+                      handleMessageSend();
+                    }
+                  }}
+                />
+                <ChatInputIconBox>
+                  {/* <IconButton icon={<IconSmile />} /> //! CHAT-220--smile-disable */}
+                  <IconButton icon={<IconSend />} onClick={handleMessageSend} />
+                </ChatInputIconBox>
+              </InputBox>
+            </ChatSectionWrap>
+          </>
+        ) : null}
+      </ChatWrap>
+    </div>
   );
 };
 

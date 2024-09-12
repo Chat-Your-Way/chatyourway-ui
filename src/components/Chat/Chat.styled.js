@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 import { Box, TextareaAutosize, Typography } from '@mui/material';
 import { ICONS } from '../../ui-kit/icons';
 
-export const ChatWrap = styled(Box)`
+// export const ChatWrap = styled(Box)`
+export const ChatWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -103,6 +104,9 @@ export const MessageContainer = styled.div`
   justify-content: flex-end;
   flex-direction: ${({ isMyMessage }) =>
     isMyMessage ? 'row ' : 'row-reverse'};
+  background-color: ${(props) =>
+    props.messageStatus ? props.theme.palette.primary.main : 'inherit'};
+  border-radius: 16px;
 `;
 
 export const IndicatorBox = styled.div`
@@ -114,7 +118,8 @@ export const IndicatorBox = styled.div`
 `;
 
 export const TimeIndicator = styled(Typography)`
-  color: #999;
+  color: ${(props) =>
+    props.messageStatus ? props.theme.palette.primary.white : '#999'};
   font-size: 12px;
   ${({ isMyMessage }) =>
     isMyMessage ? 'margin-right: 8px;' : 'margin-left: 8px;'}

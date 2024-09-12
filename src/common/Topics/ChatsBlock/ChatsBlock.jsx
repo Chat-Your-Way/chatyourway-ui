@@ -46,7 +46,7 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
       accessTokenInStore,
     },
     {
-      refetchOnMountOrArgChange: 5,
+      refetchOnMountOrArgChange: true,
       refetchOnFocus: true,
       refetchOnReconnect: true,
     },
@@ -59,7 +59,7 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
     isFetching: isFetchingPrivateTopics,
     error: privateTopicsError,
   } = useGetAllPrivateTopicsQuery(accessTokenInStore, {
-    refetchOnMountOrArgChange: 10,
+    refetchOnMountOrArgChange: true,
     refetchOnFocus: true,
     refetchOnReconnect: true,
   });
