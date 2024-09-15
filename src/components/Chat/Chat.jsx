@@ -93,7 +93,6 @@ const Chat = ({ children }) => {
   const { topicId, userId } = useParams();
 
   const [currentPage, setCurrentPage] = useState(1);
-
   const [sizeOfMessages, setSizeOfMessages] = useState(30);
 
   const currentPageRef = useRef(1);
@@ -114,7 +113,7 @@ const Chat = ({ children }) => {
     isLoading: isLoadingCurrentMessagesByTopicId,
     data: messagesByTopic,
     currentData: currentMessagesByTopic,
-    isFetching: isFetchingMessagesByTopic,
+    isFetching: isFetchingCurrentMessagesByTopic,
     error: messagesByTopicError,
     refetch: refetchMessagesByTopicId,
   } = useGetMessagesByTopicQuery(
@@ -150,8 +149,9 @@ const Chat = ({ children }) => {
     sendMessageToTopic,
     { error: sendMessageError, isSuccess: isSuccessSendMessage },
   ] = useSendMessageToTopicMutation();
-  const [sendFirstMessageToUser, { error: sendFirstMessageError }] =
-    useSendMessageToNewTopicMutation();
+
+
+  const [sendFirstMessageToUser] = useSendMessageToNewTopicMutation();
 
   const inputRef = useRef(null);
   const chatWrapIdRef = useRef(null);
@@ -298,7 +298,7 @@ const Chat = ({ children }) => {
 
   // useEffect for pagination values
   useEffect(() => {
-    if (currentMessagesByTopic) {
+    if (!isFetchingCurrentMessagesByTopic) {
       const { totalPages: totalPagesInCurrentMessages } =
         currentMessagesByTopic;
 
@@ -310,7 +310,7 @@ const Chat = ({ children }) => {
       totalPagesRef.current = 0;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topicId]);
+  }, [topicId, isFetchingCurrentMessagesByTopic]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const scrollEventWithTO = (event) => {
@@ -331,9 +331,9 @@ const Chat = ({ children }) => {
 
   // // useEffect for scroll.
   useEffect(() => {
+
     isFirstUnreadMessageRef.current = messages.find((el) =>
       el.messageStatus ? el : false,
-    );
 
     // Automatically scroll down when it's first request
     if (isLoadingCurrentMessagesByTopicId) {
@@ -345,13 +345,14 @@ const Chat = ({ children }) => {
       );
     }
 
-    // Automatically scroll down after sending a message and change the message array
+    // Automatically scroll down after sending a message and changing the message array
     if (isSuccessSendMessage) {
       chatWrapIdRef.current.scrollTo(0, chatWrapIdRef.current.scrollHeight);
     }
 
     // Scroll down if topicId change
     if (messages[0]?.topicId !== topicId) {
+
       chatWrapIdRef.current.scrollTo(0, chatWrapIdRef.current.scrollHeight);
     }
 
