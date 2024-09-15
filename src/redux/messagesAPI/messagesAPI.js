@@ -54,6 +54,17 @@ export const messagesAPI = createApi({
       }),
       invalidatesTags: ['messages'],
     }),
+    setMessageStatus: builder.mutation({
+      query: ({ messageId, accessTokenInStore }) => ({
+        url: `/messages/${messageId}/read`,
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${accessTokenInStore}`,
+        },
+      }),
+      invalidatesTags: ['messages'],
+    }),
   }),
 });
 
@@ -61,4 +72,5 @@ export const {
   useGetMessagesByTopicQuery,
   useSendMessageToTopicMutation,
   useSendMessageToNewTopicMutation,
+  useSetMessageStatusMutation,
 } = messagesAPI;

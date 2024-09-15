@@ -19,7 +19,6 @@ import { useMediaQuery } from 'react-responsive';
 
 const Header = () => {
   const { showMenu, setShowMenu } = useSidebarContext();
-  // const { isAuthenticated } = useUser();
   const { setShowTopics } = useTopicsContext();
   const { pathname } = useLocation();
   const path = pathname.includes('chat') ? 'chat' : 'notifications';

@@ -1,5 +1,7 @@
+// eslint-disable-next-line no-unused-vars
 const setUnreadMessageFlag = ({ arrayOfMessages, unreadMessageCount }) => {
   let tempValue = unreadMessageCount;
+  // let tempValue = 5;
 
   if (tempValue === 0) {
     return arrayOfMessages;

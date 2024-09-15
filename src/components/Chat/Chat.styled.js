@@ -97,6 +97,7 @@ export const ChatSectionWrap = styled(Box)`
 export const ChatSection = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 2 px;
 `;
 
 export const MessageContainer = styled.div`
@@ -104,8 +105,14 @@ export const MessageContainer = styled.div`
   justify-content: flex-end;
   flex-direction: ${({ isMyMessage }) =>
     isMyMessage ? 'row ' : 'row-reverse'};
+
+  padding: 5px;
   background-color: ${(props) =>
-    props.messageStatus ? props.theme.palette.primary.main : 'inherit'};
+    props.messageStatus ? `${props.theme.palette.primary.light}` : 'inherit'};
+  border: ${(props) =>
+    props.messageStatus
+      ? `${props.theme.palette.primary.main} 1px solid`
+      : 'none'};
   border-radius: 16px;
 `;
 
@@ -132,7 +139,11 @@ export const TimeIndicator = styled(Typography)`
 
 export const UserName = styled(Typography)`
   ${(p) => p.theme.typography.h6};
-  color: ${(p) => p.theme.palette.primary.dark};
+  /* color: ${(p) => p.theme.palette.primary.dark}; */
+  color: ${(p) =>
+    p.messageStatus
+      ? p.theme.palette.primary.white
+      : p.theme.palette.primary.dark};
 
   @media screen and (min-width: calc(845px - 0.02px)) {
     ${(p) => p.theme.typography.h5};

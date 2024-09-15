@@ -55,7 +55,7 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
   const {
     isLoading: isLoadingPrivateTopics,
     data: privateTopics,
-    currentData: currentPrivateTopics,
+    currentData: currentPrivateTopicsData,
     isFetching: isFetchingPrivateTopics,
     error: privateTopicsError,
   } = useGetAllPrivateTopicsQuery(accessTokenInStore, {
@@ -65,12 +65,26 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
   });
 
   useEffect(() => {
-    if (currentPrivateTopics) {
-      setPrivateTopics(currentPrivateTopics);
+    if (currentPrivateTopicsData) {
+      setPrivateTopics(currentPrivateTopicsData);
     } else {
       setPrivateTopics([]);
     }
-  }, [currentPrivateTopics, setPrivateTopics]);
+  }, [currentPrivateTopicsData, setPrivateTopics]);
+
+  // useEffect for notification array filling
+  useEffect(() => {
+    if (!allTopicsData || !currentPrivateTopicsData) {
+      return;
+    }
+
+    dispatch(
+      setAllTopicsNotifications([
+        ...allTopicsData.filter((el) => el.unreadMessageCount !== 0),
+        ...currentPrivateTopicsData.filter((el) => el.unreadMessageCount !== 0),
+      ]),
+    );
+  }, [allTopicsData, currentPrivateTopicsData, dispatch]);
 
   const { localLogOut } = useUser();
   const navigate = useNavigate();
@@ -81,8 +95,9 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
   const filteredAllTopicsData = allTopicsData?.filter((item) =>
     item.name.toLowerCase().includes(searchInputValue.toLowerCase().trim()),
   );
-  const filteredCurrentPrivateTopics = currentPrivateTopics?.filter((item) =>
-    item.name.toLowerCase().includes(searchInputValue.toLowerCase().trim()),
+  const filteredCurrentPrivateTopics = currentPrivateTopicsData?.filter(
+    (item) =>
+      item.name.toLowerCase().includes(searchInputValue.toLowerCase().trim()),
   );
 
   if (error) {

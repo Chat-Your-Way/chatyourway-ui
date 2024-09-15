@@ -3,8 +3,8 @@ export const calculateTotalUnreadMessages = (notifications) => {
   let totalUnreadedMessages = 0;
 
   notifications.map((notification) => {
-    totalUnreadedMessages += notification.unreadMessages;
+    totalUnreadedMessages += notification.unreadMessageCount;
   });
 
-  return totalUnreadedMessages;
+  return `${totalUnreadedMessages}`;
 };
