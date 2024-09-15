@@ -30,7 +30,14 @@ export const processMessageData = ({ arrayOfMessages, notifications }) => {
 
   const messages = arrayOfMessages.map((messageData) => {
     // eslint-disable-next-line prettier/prettier
-    const { content: messageContent, timestamp, sender, my: isMyMessage, topicId } = messageData;
+    const {
+      content: messageContent,
+      timestamp,
+      sender,
+      my: isMyMessage,
+      topicId,
+      messageStatus,
+    } = messageData;
 
     const notification = notifications.find(
       (notification) => notification.email === sender.email,
@@ -50,6 +57,7 @@ export const processMessageData = ({ arrayOfMessages, notifications }) => {
       senderEmail: sender.email,
       permittedSendingPrivateMessage: sender.permittedSendingPrivateMessage,
       topicId,
+      messageStatus,
     };
 
     return message;
