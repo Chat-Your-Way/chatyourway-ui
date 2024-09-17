@@ -35,6 +35,10 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
   const { pathname } = useLocation();
   const path = pathname.includes('topics') ? 'topics' : 'notification';
   const accessTokenInStore = useSelector(selectAccessToken);
+  const { localLogOut } = useUser();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const {
     currentData: allTopicsData,
     isLoading,
@@ -85,10 +89,6 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
       ]),
     );
   }, [allTopicsData, currentPrivateTopicsData, dispatch]);
-
-  const { localLogOut } = useUser();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const notificationsAllTopics = useSelector(selectAllTopicsNotifications);
 

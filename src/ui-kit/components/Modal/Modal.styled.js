@@ -19,6 +19,6 @@ export const StyledBackdropBox = styled(Box, {
       ? 'end'
       : 'center'};
   align-items: center;
-
-  z-index: 999;
+  overflow-y: scroll;
+  // z-index: 999;
 `;
