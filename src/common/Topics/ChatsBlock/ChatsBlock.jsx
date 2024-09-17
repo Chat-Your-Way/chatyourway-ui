@@ -64,6 +64,12 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
     refetchOnReconnect: true,
   });
 
+  const { localLogOut } = useUser();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const notificationsAllTopics = useSelector(selectAllTopicsNotifications);
+
   useEffect(() => {
     if (currentPrivateTopicsData) {
       setPrivateTopics(currentPrivateTopicsData);
@@ -85,12 +91,6 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
       ]),
     );
   }, [allTopicsData, currentPrivateTopicsData, dispatch]);
-
-  const { localLogOut } = useUser();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const notificationsAllTopics = useSelector(selectAllTopicsNotifications);
 
   const filteredAllTopicsData = allTopicsData?.filter((item) =>
     item.name.toLowerCase().includes(searchInputValue.toLowerCase().trim()),
