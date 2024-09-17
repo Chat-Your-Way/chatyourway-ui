@@ -150,7 +150,6 @@ const Chat = ({ children }) => {
     { error: sendMessageError, isSuccess: isSuccessSendMessage },
   ] = useSendMessageToTopicMutation();
 
-
   const [sendFirstMessageToUser] = useSendMessageToNewTopicMutation();
 
   const inputRef = useRef(null);
@@ -331,9 +330,9 @@ const Chat = ({ children }) => {
 
   // // useEffect for scroll.
   useEffect(() => {
-
     isFirstUnreadMessageRef.current = messages.find((el) =>
       el.messageStatus ? el : false,
+    );
 
     // Automatically scroll down when it's first request
     if (isLoadingCurrentMessagesByTopicId) {
@@ -352,7 +351,6 @@ const Chat = ({ children }) => {
 
     // Scroll down if topicId change
     if (messages[0]?.topicId !== topicId) {
-
       chatWrapIdRef.current.scrollTo(0, chatWrapIdRef.current.scrollHeight);
     }
 
