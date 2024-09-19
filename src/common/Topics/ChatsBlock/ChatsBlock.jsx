@@ -38,6 +38,7 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
   const { localLogOut } = useUser();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const notificationsAllTopics = useSelector(selectAllTopicsNotifications);
 
   const {
     currentData: allTopicsData,
@@ -89,8 +90,6 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
       ]),
     );
   }, [allTopicsData, currentPrivateTopicsData, dispatch]);
-
-  const notificationsAllTopics = useSelector(selectAllTopicsNotifications);
 
   const filteredAllTopicsData = allTopicsData?.filter((item) =>
     item.name.toLowerCase().includes(searchInputValue.toLowerCase().trim()),
