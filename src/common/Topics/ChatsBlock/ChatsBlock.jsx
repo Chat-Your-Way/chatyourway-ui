@@ -19,12 +19,6 @@ import {
   setAllTopicsNotifications,
 } from '../../../redux/chatSlice';
 import { useUser } from '../../../hooks/useUser';
-import { PATH } from '../../../constans/routes';
-import {
-  setAccessToken,
-  setIsLoggedIn,
-  setRefreshToken,
-} from '../../../redux/authOperatonsToolkit/authOperationsThunkSlice';
 // eslint-disable-next-line max-len
 import { selectAccessToken } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
 import localLogOutUtil from '../../../utils/localLogOutUtil';

@@ -43,7 +43,7 @@ export const messagesAPI = createApi({
       invalidatesTags: ['messages'],
     }),
     sendMessageToNewTopic: builder.mutation({
-      query: ({ userEmail, accessTokenInStore, inputMessage }) => ({
+      query: ({ userEmail, accessTokenInStore, inputMessage = '' }) => ({
         url: `/messages/private/${userEmail}`,
         method: 'POST',
         body: JSON.stringify({ content: inputMessage }),
