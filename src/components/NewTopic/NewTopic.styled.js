@@ -19,7 +19,7 @@ export const StyledModalBox = styled(Box)`
   justify-content: center;
   border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
-  z-index: 999; // Does must to be here?
+  z-index: 999;
   @media screen and (min-width: 768px) {
     max-height: 800px;
     max-width: 624px;
