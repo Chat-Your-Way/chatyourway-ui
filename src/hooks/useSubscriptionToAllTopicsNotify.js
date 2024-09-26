@@ -12,10 +12,6 @@ export const useSubscriptionToAllTopicsNotify = (isLoggedIn) => {
   const subscribedAllTopicsNotify = useSelector(
     selectSubscribedAllTopicsNotify,
   );
-  // console.log('isLoggedIn', isLoggedIn);
-  // console.log('connect', connected);
-  // console.log('subscribedAllTopicsNotify', subscribedAllTopicsNotify);
-  // console.log(!isLoggedIn || !connected || subscribedAllTopicsNotify);
 
   useEffect(() => {
     if (!isLoggedIn || !connected || subscribedAllTopicsNotify) {

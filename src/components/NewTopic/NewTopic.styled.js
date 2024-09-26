@@ -9,8 +9,10 @@ export const StyledModalBox = styled(Box)`
   padding: 24px;
   position: relative;
   box-sizing: border-box;
-  width: min(87%, 800px);
-  height: min(71%, 600px);
+  width: 85vw;
+  height: 70vh;
+  /* width: min(87%, 800px);
+  height: min(71%, 600px); */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,6 +20,15 @@ export const StyledModalBox = styled(Box)`
   border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
   z-index: 999;
+  @media screen and (min-width: 768px) {
+    max-height: 800px;
+    max-width: 624px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    max-width: 800px;
+    max-height: 600px;
+  }
 `;
 
 export const StyledForm = styled.form`

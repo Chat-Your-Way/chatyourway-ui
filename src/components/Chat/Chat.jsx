@@ -183,7 +183,7 @@ const Chat = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // This useEffecr to handle topicIc change - when topicId changes,
+  // This useEffecr to handle topicId change - when topicId changes,
   // the component doesn't unmount, so the messages array doesn't clean.
   useEffect(() => {
     if (!connected) return;
@@ -517,11 +517,11 @@ const Chat = ({ children }) => {
         </ChatWrap>
       );
     }
-
-    if (sendMessageError?.data?.message?.includes('subscribed to the topic')) {
-      alert('Потрібно підписатись на цю тему, щоб відправляти повідомлення');
-      return;
-    }
+    // Hide this code because change an approach to the enter message input
+    // if (sendMessageError?.data?.message?.includes('subscribed to the topic')) {
+    //   alert('Потрібно підписатись на цю тему, щоб відправляти повідомлення');
+    //   return;
+    // }
 
     alert('Виникла помилка під час отримання теми (ChatComponent)');
 
@@ -785,18 +785,37 @@ const Chat = ({ children }) => {
                   ))} */}
             </ChatSection>
             <InputBox>
-              <ChatInputStyled
-                ref={inputRef} //!
-                type="text" //!
-                maxRows={3}
-                placeholder="Введіть повідомлення..."
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter' && !event.shiftKey) {
-                    event.preventDefault();
-                    handleMessageSend();
+              {/* If user not subscribed to topic - return readOnly message input */}
+              {subscribeStatus() ? (
+                <ChatInputStyled
+                  ref={inputRef} //!
+                  type="text" //!
+                  maxRows={3}
+                  placeholder={'Введіть повідомлення...'}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' && !event.shiftKey) {
+                      event.preventDefault();
+                      handleMessageSend();
+                    }
+                  }}
+                />
+              ) : (
+                <ChatInputStyled
+                  ref={inputRef} //!
+                  type="text" //!
+                  maxRows={3}
+                  placeholder={
+                    'Потрібно бути підписаним на цей топік щоб відправляти повідомлення - це можна зробити через меню '
                   }
-                }}
-              />
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' && !event.shiftKey) {
+                      event.preventDefault();
+                      handleMessageSend();
+                    }
+                  }}
+                  readOnly
+                />
+              )}
               <ChatInputIconBox>
                 {/* <IconButton icon={<IconSmile />} /> //! CHAT-220--smile-disable */}
                 <IconButton icon={<IconSend />} onClick={handleMessageSend} />

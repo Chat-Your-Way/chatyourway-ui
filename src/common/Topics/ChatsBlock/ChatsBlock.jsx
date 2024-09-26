@@ -35,6 +35,11 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
   const { pathname } = useLocation();
   const path = pathname.includes('topics') ? 'topics' : 'notification';
   const accessTokenInStore = useSelector(selectAccessToken);
+  const { localLogOut } = useUser();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const notificationsAllTopics = useSelector(selectAllTopicsNotifications);
+
   const {
     currentData: allTopicsData,
     isLoading,
@@ -63,12 +68,6 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
     refetchOnFocus: true,
     refetchOnReconnect: true,
   });
-
-  const { localLogOut } = useUser();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const notificationsAllTopics = useSelector(selectAllTopicsNotifications);
 
   useEffect(() => {
     if (currentPrivateTopicsData) {

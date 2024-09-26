@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
-import { Box } from '@mui/material';
+// import { Box } from '@mui/material';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
-export const StyledBox = styled(Box, {
-  shouldForwardProp: (p) => p !== '$chatOpened' && p !== '$contactsOpened',
-})`
-  //width: 330px;
+// export const StyledBox = styled(Box, {
+//   shouldForwardProp: (p) => p !== '$chatOpened' && p !== '$contactsOpened',
+// })`
+export const StyledBox = styled.div`
+  width: 330px;
   height: 43px;
   margin-bottom: 4px;
   display: flex;
@@ -58,7 +59,9 @@ export const StyledTab = styled(Tab, {
     p !== 'isActive' &&
     p !== 'borderRight' &&
     p !== 'borderLeft' &&
-    p !== 'tabNumber',
+    p !== 'tabNumber' &&
+    p !== '$chatOpened' &&
+    p !== '$contactsOpened',
 })`
   ${(p) => p.theme.typography.h5};
   text-transform: lowercase;
