@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import { memo, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { getUserInfo } from '../../redux/userSlice';
 import {
@@ -130,6 +130,7 @@ const Chat = ({ children }) => {
   const { isTopics, privateTopics, setPrivateTopics } = useTopicsContext();
   const { contactsOpen, setContactsOpen } = useTopicsPageContext(); //?!
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const historyMessages = useSelector(selectHistoryMessages);
@@ -150,7 +151,10 @@ const Chat = ({ children }) => {
     { error: sendMessageError, isSuccess: isSuccessSendMessage },
   ] = useSendMessageToTopicMutation();
 
-  const [sendFirstMessageToUser] = useSendMessageToNewTopicMutation();
+  const [
+    sendFirstMessageToUser,
+    { data: sendFirstMessageData, isSuccess: isSendFirstMessagesSuccess },
+  ] = useSendMessageToNewTopicMutation();
 
   const inputRef = useRef(null);
   const chatWrapIdRef = useRef(null);
@@ -298,6 +302,10 @@ const Chat = ({ children }) => {
   // useEffect for pagination values
   useEffect(() => {
     if (!isFetchingCurrentMessagesByTopic) {
+      if (!currentMessagesByTopic) {
+        return;
+      }
+
       const { totalPages: totalPagesInCurrentMessages } =
         currentMessagesByTopic;
 
@@ -374,6 +382,35 @@ const Chat = ({ children }) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topicId, messages]);
+
+  // Try to process the situation when user doesn't has a private dialog
+  useEffect(() => {
+    if (
+      topicIdDataError?.data?.detail?.includes(
+        "Failed to convert 'id' with value",
+      ) ||
+      messagesByTopicError?.data?.detail?.includes(
+        "Failed to convert 'id' with value",
+      ) ||
+      topicIdDataError?.data?.detail?.includes(
+        "Failed to convert 'topicId' with value",
+      ) ||
+      messagesByTopicError?.data?.detail?.includes(
+        "Failed to convert 'topicId' with value",
+      )
+    ) {
+      sendFirstMessageToUser({
+        userEmail: topicId,
+        accessTokenInStore,
+        inputMessage: 'Hello! I want to chat with you!',
+      });
+    }
+    if (isSendFirstMessagesSuccess) {
+      navigate(`/home/notification/chat/${sendFirstMessageData.id}`);
+    }
+    // sendFirstMessageData.id
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [topicIdDataError, isSendFirstMessagesSuccess]);
 
   // Function for searching name of user in private topics array
   const getUserName = () => {
@@ -492,7 +529,7 @@ const Chat = ({ children }) => {
           </ChatHeader>
           <ChatSectionWrap>
             <ChatSection>
-              We are ssory, but you can`t write messages to yourself!
+              You dont have a dialog with this user yet!
             </ChatSection>
             <InputBox>
               <ChatInputStyled
@@ -628,7 +665,11 @@ const Chat = ({ children }) => {
                   {pathname.includes('notification')
                     ? `Приватний чат з ${getUserName()} `
                     : null}
-                  {topicIdData ? topicIdData.name : 'імя користувача'}
+                  {pathname.includes('topics')
+                    ? topicIdData
+                      ? topicIdData.name
+                      : 'імя користувача'
+                    : null}
                 </ChatUserName>
                 <TypingIndicator variant={isMobile ? 'h6' : 'h5'}>
                   Ти/Пишеш...

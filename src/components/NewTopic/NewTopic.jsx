@@ -32,7 +32,7 @@ function NewTopic({ closeModal }) {
   const [topicName, setTopicName] = useState();
   const [tags, setTags] = useState();
 
-  const isErrorsInForm = Object.keys(errors).length != 0;
+  const isErrorsInForm = Object.keys(errors).length !== 0;
 
   const onChangeInputTopicNameHandler = (event) => {
     setTopicName(event.target.value);
@@ -53,7 +53,7 @@ function NewTopic({ closeModal }) {
       const { data } = await create({ newTopic, accessTokenInStore });
       if (data) {
         closeModal();
-        alert(`Тема "${data.topicName}" успішно створена`);
+        alert(`Тема "${data.name}" успішно створена`);
       } else {
         alert('Виникла помилка під час створення теми');
         localLogOutUtil(dispatch);
@@ -132,7 +132,7 @@ function NewTopic({ closeModal }) {
           }}
           render={({ field, fieldState: { error } }) => (
             <NewTopicInput
-              label=" Ключеві теги"
+              label="Ключеві теги"
               placeholder="#подорожі #з_улюбленцем"
               value={tags}
               onChangeHandler={onChangeInputTopicTagHandler}

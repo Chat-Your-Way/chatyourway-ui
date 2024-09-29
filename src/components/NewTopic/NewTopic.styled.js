@@ -20,6 +20,7 @@ export const StyledModalBox = styled(Box)`
   border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
   z-index: 999;
+  overflow-y: scroll;
   @media screen and (min-width: 768px) {
     max-height: 800px;
     max-width: 624px;
