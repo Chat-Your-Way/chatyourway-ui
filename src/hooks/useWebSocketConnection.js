@@ -21,7 +21,7 @@ export const useWebSocketConnection = (isLoggedIn) => {
       );
 
       // console.log('socket in useEffect', socket);
-      // socket.onopen = function (message) { // This thinf is working!
+      // socket.onopen = function (message) { // This thing is working!
       //   console.log('message in onopen', message);
       // };
 
