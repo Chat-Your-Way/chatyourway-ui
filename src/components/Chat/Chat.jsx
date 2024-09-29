@@ -399,8 +399,8 @@ const Chat = ({ children }) => {
       return alert('This message is empty');
 
     if (pathname.includes('topics') && connected) {
-      // dispatch(sendMessageByWs({ topicId, inputMessage }));
-      sendMessageToTopic({ topicId, inputMessage, accessTokenInStore });
+      dispatch(sendMessageByWs({ topicId, inputMessage }));
+      // sendMessageToTopic({ topicId, inputMessage, accessTokenInStore });
       inputRef.current.value = '';
       setCurrentPage(1);
     } else if (
