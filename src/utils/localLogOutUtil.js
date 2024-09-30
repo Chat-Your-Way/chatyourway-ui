@@ -6,6 +6,7 @@ import {
 // import { disconnectWebSocket } from '../redux/chat-operations';
 import { client } from '../redux/chat-operations';
 import {
+  clearAllTopicsNotifications,
   clearSubscriptionAllTopicsNotify,
   clearSubscriptions,
   setConnected,
@@ -21,6 +22,7 @@ const localLogOutUtil = (dispatch) => {
   dispatch(setSubscribed(false));
   dispatch(clearSubscriptionAllTopicsNotify());
   dispatch(setConnected(false));
+  dispatch(clearAllTopicsNotifications());
   if (client.active) {
     // console.log('Client is active, deactivating');
     client.deactivate();

@@ -16,6 +16,7 @@ const chatSlice = createSlice({
     subscribed: false,
     chatOpened: false,
     contactsOpened: false,
+    usersStatusOnlineTyping: [],
   },
   reducers: {
     setSubscribedAllTopicsNotify: (state, action) => {
@@ -28,7 +29,8 @@ const chatSlice = createSlice({
       state.subscriptionAllTopicsNotify = [];
     },
     setAllTopicsNotifications: (state, action) => {
-      state.notificationsAllTopics = [...action.payload];
+      // state.notificationsAllTopics = [...action.payload];
+      state.notificationsAllTopics.push(action.payload);
     },
     clearAllTopicsNotifications: (state) => {
       state.notificationsAllTopics = [];
@@ -78,6 +80,15 @@ const chatSlice = createSlice({
     setChatOpened: (state, action) => {
       state.chatOpened = action.payload;
     },
+    setUsersStatusOnlineTyping: (state, action) => {
+      state.usersStatusOnlineTyping = [
+        ...state.usersStatusOnlineTyping,
+        ...action.payload,
+      ];
+    },
+    clearUsersStatusOnlineTyping: (state) => {
+      state.usersStatusOnlineTyping = [];
+    },
   },
 });
 
@@ -102,6 +113,7 @@ export const {
   toggleChatOpened,
   toggleContactsOpened,
   setChatOpened,
+  setUsersStatusOnlineTyping,
 } = chatSlice.actions;
 
 export default chatSlice;

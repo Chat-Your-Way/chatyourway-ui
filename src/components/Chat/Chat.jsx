@@ -34,6 +34,7 @@ import {
   // connectWebSocket,
   sendMessageByWs,
   client,
+  subscribeOnlineOrTypingStatus,
 } from '../../redux/chat-operations';
 
 import { Avatars } from '../../ui-kit/images/avatars';
@@ -166,6 +167,7 @@ const Chat = ({ children }) => {
       client.activate();
     }
 
+    dispatch(subscribeOnlineOrTypingStatus());
     // dispatch(toggleChatOpened());
     dispatch(setChatOpened(true));
 
@@ -352,6 +354,11 @@ const Chat = ({ children }) => {
       );
     }
 
+    // Try to scroll when isFetching is false (when new messages has arrived)
+    if (!isFetchingCurrentMessagesByTopic && currentPageRef.current === 1) {
+      chatWrapIdRef.current.scrollTo(0, chatWrapIdRef.current.scrollHeight);
+    }
+
     // Automatically scroll down after sending a message and changing the message array
     if (isSuccessSendMessage) {
       chatWrapIdRef.current.scrollTo(0, chatWrapIdRef.current.scrollHeight);
@@ -362,7 +369,7 @@ const Chat = ({ children }) => {
       chatWrapIdRef.current.scrollTo(0, chatWrapIdRef.current.scrollHeight);
     }
 
-    // Here proccesing situation with message conatiner
+    // Here proccesing situation with message container
     if (!isFirstUnreadMessageRef.current) {
       return;
     } else {
@@ -381,7 +388,7 @@ const Chat = ({ children }) => {
       unreadMessageContainerRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topicId, messages]);
+  }, [topicId, messages, isFetchingCurrentMessagesByTopic]);
 
   // Try to process the situation when user doesn't has a private dialog
   useEffect(() => {
@@ -437,6 +444,7 @@ const Chat = ({ children }) => {
 
     if (pathname.includes('topics') && connected) {
       // dispatch(sendMessageByWs({ topicId, inputMessage }));
+      // sendMessageByWs({ topicId, inputMessage });
       sendMessageToTopic({ topicId, inputMessage, accessTokenInStore });
       inputRef.current.value = '';
       setCurrentPage(1);
@@ -676,7 +684,11 @@ const Chat = ({ children }) => {
                 </TypingIndicator>
               </InfoBox>
             </UserBox>
-            <UsersAvatar topicId={topicId} />
+            {/* <UsersAvatar topicId={topicId} /> */}
+            <UsersAvatar
+              currentTopicSubscribers={topicIdData.topicSubscribers}
+              topicId={topicId}
+            />
             <InfoMoreBox>
               {children}
               <TopicSettingsMenu
