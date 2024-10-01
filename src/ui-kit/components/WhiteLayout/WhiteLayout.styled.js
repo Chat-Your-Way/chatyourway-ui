@@ -30,7 +30,7 @@ export const WhiteLayoutStyled = styled(Box, {
     justify-content: center;
     align-items: center;
     // width: ${(p) => (p.width ? p.width : '75vw')};
-    max-width: 624px;
+    // max-width: 624px;
     // height: ${(p) => (p.height ? p.height : '70vh')};
     // max-height: 800px;
     width: ${(p) => (p.width ? p.width : '624px')};

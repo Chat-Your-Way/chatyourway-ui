@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import WhiteLayout from '../../ui-kit/components/WhiteLayout/WhiteLayout';
 import {
   TextBox,
@@ -11,6 +12,41 @@ import {
 } from './VerificationEmailPageComponent.styled';
 
 function VerificationEmailPageComponent() {
+  const timerIdRef = useRef(null);
+  // const sendEmailCount = useRef(1);
+  const timerValue = useRef(30);
+  const [isTimerActive, setIsTimerActive] = useState(false);
+
+  useEffect(() => {
+    if (!timerIdRef.current) {
+      return;
+    }
+
+    return () => {
+      if (isTimerActive) {
+        timerValue.current = 30;
+        clearInterval(timerIdRef.current);
+        timerIdRef.current = null;
+      }
+    };
+  }, [isTimerActive]);
+
+  const sendEmailAgain = () => {
+    if (isTimerActive) {
+      return;
+    } else {
+      setIsTimerActive(true);
+      timerIdRef.current = setInterval(() => {
+        if (timerValue.current === 0) {
+          setIsTimerActive(false);
+          return;
+        } else {
+          timerValue.current -= 1;
+        }
+      }, 1000);
+    }
+  };
+
   return (
     <WhiteLayout>
       <VerificationEmailWrapper>
@@ -31,7 +67,10 @@ function VerificationEmailPageComponent() {
             Не прийшов лист? Перевірте, будь ласка, спам.
           </VerificationEmailSubParagraph>
         </TextBox>
-        <LoginAccountButton label="Відправити ще раз" />
+        <LoginAccountButton
+          label="Відправити ще раз"
+          handleClick={sendEmailAgain}
+        />
       </VerificationEmailWrapper>
     </WhiteLayout>
   );
