@@ -4,12 +4,12 @@ import {
   useProhibitPrivateMessageMutation,
 } from '../../../redux/user-operations';
 import { useSelector } from 'react-redux';
-import { getUserInfo } from '../../../redux/userSlice';
+import { selectUserInfo } from '../../../redux/userSlice';
 // eslint-disable-next-line max-len
 import { selectAccessToken } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
 
 export const PermissionPrivateMessage = () => {
-  const { hasPermissionSendingPrivateMessage } = useSelector(getUserInfo);
+  const { hasPermissionSendingPrivateMessage } = useSelector(selectUserInfo);
   const [isPermission, setIsPermission] = useState(
     hasPermissionSendingPrivateMessage || 'true',
   );

@@ -4,7 +4,10 @@ import {
   setRefreshToken,
 } from '../redux/authOperatonsToolkit/authOperationsThunkSlice';
 // import { disconnectWebSocket } from '../redux/chat-operations';
-import { client } from '../redux/chat-operations';
+import {
+  client,
+  unsubscribeFromAllTopicsNotify,
+} from '../redux/chat-operations';
 import {
   clearAllTopicsNotifications,
   clearSubscriptionAllTopicsNotify,
@@ -23,6 +26,7 @@ const localLogOutUtil = (dispatch) => {
   dispatch(clearSubscriptionAllTopicsNotify());
   dispatch(setConnected(false));
   dispatch(clearAllTopicsNotifications());
+  dispatch(unsubscribeFromAllTopicsNotify());
   if (client.active) {
     // console.log('Client is active, deactivating');
     client.deactivate();

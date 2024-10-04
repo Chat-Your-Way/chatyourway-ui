@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { getUserInfo } from '../../../redux/userSlice';
+import { selectUserInfo } from '../../../redux/userSlice';
 import { useEditUserInfoMutation } from '../../../redux/user-operations';
 import { NewSettingsWrap, SaveChangeButton } from './ChangeNameInput.styled';
 import { FieldText } from '../../RegistrationPageComponent/FieldText/FieldText';
@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { SettingsLabel } from '../SettingsPageComponent.styled';
 
 const ChangeNameInput = () => {
-  const { nickname, avatarId } = useSelector(getUserInfo);
+  const { nickname, avatarId } = useSelector(selectUserInfo);
 
   const [editUserInfo] = useEditUserInfoMutation();
 

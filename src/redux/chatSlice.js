@@ -29,11 +29,26 @@ const chatSlice = createSlice({
       state.subscriptionAllTopicsNotify = [];
     },
     setAllTopicsNotifications: (state, action) => {
-      // state.notificationsAllTopics = [...action.payload];
-      state.notificationsAllTopics.push(action.payload);
+      if (!state.notificationsAllTopics.length) {
+        state.notificationsAllTopics.push(action.payload);
+      } else {
+        state.notificationsAllTopics = state.notificationsAllTopics.map(
+          (el) => {
+            if (el.id === action.payload.id) {
+              return action.payload;
+            } else return el;
+          },
+        );
+      }
     },
     clearAllTopicsNotifications: (state) => {
       state.notificationsAllTopics = [];
+    },
+
+    deletReadedAllTopicsNotification: (state, action) => {
+      state.notificationsAllTopics = state.notificationsAllTopics.filter(
+        (el) => el.id !== action.payload,
+      );
     },
     setMessages: (state, action) => {
       state.messages = [...action.payload];
@@ -54,7 +69,7 @@ const chatSlice = createSlice({
       state.newMessages = [];
     },
     setNotifications: (state, action) => {
-      state.notifications = [...action.payload];
+      state.notifications.push(action.payload);
     },
     clearNotifications: (state) => {
       state.notifications = [];
@@ -81,10 +96,20 @@ const chatSlice = createSlice({
       state.chatOpened = action.payload;
     },
     setUsersStatusOnlineTyping: (state, action) => {
-      state.usersStatusOnlineTyping = [
-        ...state.usersStatusOnlineTyping,
-        ...action.payload,
-      ];
+      if (!state.usersStatusOnlineTyping.length) {
+        state.usersStatusOnlineTyping = [
+          ...state.usersStatusOnlineTyping,
+          action.payload,
+        ];
+      } else {
+        state.usersStatusOnlineTyping = state.usersStatusOnlineTyping.map(
+          (el) => {
+            if (el.id === action.payload.id) {
+              return action.payload;
+            } else return el;
+          },
+        );
+      }
     },
     clearUsersStatusOnlineTyping: (state) => {
       state.usersStatusOnlineTyping = [];
@@ -98,6 +123,7 @@ export const {
   clearSubscriptionAllTopicsNotify,
   setAllTopicsNotifications,
   clearAllTopicsNotifications,
+  deletReadedAllTopicsNotification,
   setMessages,
   clearMessages,
   setHistoryMessages,
@@ -114,6 +140,7 @@ export const {
   toggleContactsOpened,
   setChatOpened,
   setUsersStatusOnlineTyping,
+  clearUsersStatusOnlineTyping,
 } = chatSlice.actions;
 
 export default chatSlice;
@@ -188,4 +215,9 @@ export const selectCurrentPageInStore = createSelector(
 export const selectSizeOfMessagesInStore = createSelector(
   selectChatState,
   (chat) => chat.sizeOfMessagesInStore,
+);
+
+export const selectUsersStatusOnlineTyping = createSelector(
+  selectChatState,
+  (chat) => chat.usersStatusOnlineTyping,
 );

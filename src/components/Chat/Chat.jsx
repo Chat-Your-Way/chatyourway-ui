@@ -4,7 +4,7 @@ import { memo, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 
-import { getUserInfo } from '../../redux/userSlice';
+import { selectUserInfo } from '../../redux/userSlice';
 import {
   useGetAllPrivateTopicsQuery,
   useGetByIdQuery,
@@ -34,7 +34,6 @@ import {
   // connectWebSocket,
   sendMessageByWs,
   client,
-  subscribeOnlineOrTypingStatus,
 } from '../../redux/chat-operations';
 
 import { Avatars } from '../../ui-kit/images/avatars';
@@ -127,7 +126,7 @@ const Chat = ({ children }) => {
     },
   );
 
-  const { email } = useSelector(getUserInfo);
+  const { email } = useSelector(selectUserInfo);
   const { isTopics, privateTopics, setPrivateTopics } = useTopicsContext();
   const { contactsOpen, setContactsOpen } = useTopicsPageContext(); //?!
   const { pathname } = useLocation();
@@ -167,7 +166,6 @@ const Chat = ({ children }) => {
       client.activate();
     }
 
-    dispatch(subscribeOnlineOrTypingStatus());
     // dispatch(toggleChatOpened());
     dispatch(setChatOpened(true));
 
@@ -680,7 +678,10 @@ const Chat = ({ children }) => {
                     : null}
                 </ChatUserName>
                 <TypingIndicator variant={isMobile ? 'h6' : 'h5'}>
-                  Ти/Пишеш...
+                  {topicIdData.lastMessage
+                    ? topicIdData.lastMessage.sentFrom
+                    : null}{' '}
+                  / Пишеш...
                 </TypingIndicator>
               </InfoBox>
             </UserBox>

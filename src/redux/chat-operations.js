@@ -19,6 +19,7 @@ import {
   setSubscriptionAllTopicsNotify,
   clearSubscriptionAllTopicsNotify,
   setUsersStatusOnlineTyping,
+  clearUsersStatusOnlineTyping,
 } from './chatSlice';
 import SockJS from 'sockjs-client';
 import { BASE_URL } from './apiParams';
@@ -331,7 +332,7 @@ export const subscribeOnlineOrTypingStatus = () => {
   return async (dispatch) => {
     try {
       const subscribeOnlineStatus = await client.subscribe(
-        `${getInformationAboutUserOnlineOrTyping}`,
+        getInformationAboutUserOnlineOrTyping,
         (message) => {
           if (message.body) {
             dispatch(setUsersStatusOnlineTyping(JSON.parse(message.body)));
@@ -353,7 +354,22 @@ export const subscribeOnlineOrTypingStatus = () => {
 };
 
 export const unSubscribeOnlineOrTypingStatus = () => {
-  return async (dispatch, subscriptionOnlineStatusId) => {
-    client.unsubscribe(subscriptionOnlineStatusId);
+  return async (dispatch, getState) => {
+    const { subscriptions } = getState().chat;
+
+    if (subscriptions.length === 0) return;
+
+    const subscriptionInstance = subscriptions.find(
+      (el) => el.type === 'onlineStatus',
+    );
+
+    try {
+      client.unsubscribe(subscriptionInstance.subscriptionId);
+      dispatch(clearSubscriptions());
+      dispatch(clearUsersStatusOnlineTyping());
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log('Error in unSubscribeOnlineStatus', error);
+    }
   };
 };

@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserInfo, setUserInfo } from '../../../../redux/userSlice';
+import { selectUserInfo, setUserInfo } from '../../../../redux/userSlice';
 // import { useContext } from 'react';
 // import { useSelector } from 'react-redux';
 // import { getUserInfo } from '../../../../redux/userSlice';
@@ -41,7 +41,7 @@ const HeaderUserInfo = () => {
   // const { localLogOut } = useUser();
   // const navigate = useNavigate();
 
-  const { avatarId } = useSelector(getUserInfo);
+  const { avatarId } = useSelector(selectUserInfo);
   // const { nickname: userNickname, avatarId } = useSelector(selectUserThunk);
 
   const notificationsAllTopics = useSelector(selectAllTopicsNotifications);

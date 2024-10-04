@@ -108,7 +108,10 @@ export const MessageContainer = styled.div`
 
   padding: 5px;
   background-color: ${(props) =>
-    props.messageStatus ? `${props.theme.palette.primary.light}` : 'inherit'};
+    props.messageStatus
+      ? `${props.theme.palette.primary.light}`
+      : 'none'}; //light: '#ACADFF', light: '#6261AF',
+
   border: ${(props) =>
     props.messageStatus
       ? `${props.theme.palette.primary.main} 1px solid`
@@ -125,8 +128,7 @@ export const IndicatorBox = styled.div`
 `;
 
 export const TimeIndicator = styled(Typography)`
-  color: ${(props) =>
-    props.messageStatus ? props.theme.palette.primary.white : '#999'};
+  color: ${(p) => p.theme.palette.primary.dark};
   font-size: 12px;
   ${({ isMyMessage }) =>
     isMyMessage ? 'margin-right: 8px;' : 'margin-left: 8px;'}
@@ -139,11 +141,7 @@ export const TimeIndicator = styled(Typography)`
 
 export const UserName = styled(Typography)`
   ${(p) => p.theme.typography.h6};
-  /* color: ${(p) => p.theme.palette.primary.dark}; */
-  color: ${(p) =>
-    p.messageStatus
-      ? p.theme.palette.primary.white
-      : p.theme.palette.primary.dark};
+  color: ${(p) => p.theme.palette.primary.dark};
 
   @media screen and (min-width: calc(845px - 0.02px)) {
     ${(p) => p.theme.typography.h5};

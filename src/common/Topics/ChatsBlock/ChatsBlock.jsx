@@ -15,13 +15,20 @@ import Loader from '../../../components/Loader';
 import { StyledNavLink } from './ChatsBlock.styled';
 
 import {
+  clearSubscriptions,
   selectAllTopicsNotifications,
+  selectSubscriptions,
+  selectUsersStatusOnlineTyping,
   setAllTopicsNotifications,
 } from '../../../redux/chatSlice';
 import { useUser } from '../../../hooks/useUser';
 // eslint-disable-next-line max-len
 import { selectAccessToken } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
 import localLogOutUtil from '../../../utils/localLogOutUtil';
+import {
+  subscribeOnlineOrTypingStatus,
+  unSubscribeOnlineOrTypingStatus,
+} from '../../../redux/chat-operations';
 
 const ChatsBlock = ({ filter, searchInputValue }) => {
   const { isTopics, showTopics, setPrivateTopics } = useTopicsContext();
@@ -33,6 +40,7 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const notificationsAllTopics = useSelector(selectAllTopicsNotifications);
+  const subscriptions = useSelector(selectSubscriptions);
 
   const {
     currentData: allTopicsData,
@@ -63,6 +71,16 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
     refetchOnReconnect: true,
   });
 
+  // eslint-disable-next-line max-len
+  // Useeffect for subscribing to a userOnlineStatus endpoint, and get information about online users
+  useEffect(() => {
+    dispatch(subscribeOnlineOrTypingStatus());
+
+    return () => {
+      dispatch(unSubscribeOnlineOrTypingStatus());
+    };
+  }, [dispatch]);
+
   useEffect(() => {
     if (currentPrivateTopicsData) {
       setPrivateTopics(currentPrivateTopicsData);
@@ -77,12 +95,12 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
       return;
     }
 
-    dispatch(
-      setAllTopicsNotifications([
-        ...allTopicsData.filter((el) => el.unreadMessageCount !== 0),
-        ...currentPrivateTopicsData.filter((el) => el.unreadMessageCount !== 0),
-      ]),
-    );
+    // dispatch(
+    //   setAllTopicsNotifications(
+    //     ...allTopicsData.filter(el => el.unreadMessageCount !== 0),
+    //     ...currentPrivateTopicsData.filter(el => el.unreadMessageCount !== 0)
+    //   )
+    // );
   }, [allTopicsData, currentPrivateTopicsData, dispatch]);
 
   const filteredAllTopicsData = allTopicsData?.filter((item) =>

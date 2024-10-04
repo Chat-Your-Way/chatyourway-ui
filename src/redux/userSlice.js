@@ -21,4 +21,4 @@ export const { setUserInfo, setAccessToken, setRefreshToken, setIsLoggedIn } =
 
 export default userInfoSlice;
 
-export const getUserInfo = (state) => state.currentUser;
+export const selectUserInfo = (state) => state.currentUser;

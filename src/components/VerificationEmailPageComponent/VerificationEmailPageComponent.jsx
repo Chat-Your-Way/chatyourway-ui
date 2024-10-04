@@ -10,12 +10,14 @@ import {
   VerificationEmailParagraph,
   VerificationEmailSubParagraph,
 } from './VerificationEmailPageComponent.styled';
+// import { useSelector } from 'react-redux';
+// import { selectUserInfo } from '../../redux/userSlice';
 
 function VerificationEmailPageComponent() {
   const timerIdRef = useRef(null);
-  // const sendEmailCount = useRef(1);
   const timerValue = useRef(30);
   const [isTimerActive, setIsTimerActive] = useState(false);
+  // const notActivatedUser = useSelector(selectUserInfo); // 10.03 Needs to be realized in backend
 
   useEffect(() => {
     if (!timerIdRef.current) {
@@ -33,7 +35,7 @@ function VerificationEmailPageComponent() {
 
   const sendEmailAgain = () => {
     if (isTimerActive) {
-      return;
+      return; // Need notification
     } else {
       setIsTimerActive(true);
       timerIdRef.current = setInterval(() => {
