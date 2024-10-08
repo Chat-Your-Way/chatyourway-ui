@@ -95,12 +95,12 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
       return;
     }
 
-    // dispatch(
-    //   setAllTopicsNotifications(
-    //     ...allTopicsData.filter(el => el.unreadMessageCount !== 0),
-    //     ...currentPrivateTopicsData.filter(el => el.unreadMessageCount !== 0)
-    //   )
-    // );
+    dispatch(
+      setAllTopicsNotifications([
+        ...allTopicsData.filter((el) => el.unreadMessageCount !== 0),
+        ...currentPrivateTopicsData.filter((el) => el.unreadMessageCount !== 0),
+      ]),
+    );
   }, [allTopicsData, currentPrivateTopicsData, dispatch]);
 
   const filteredAllTopicsData = allTopicsData?.filter((item) =>

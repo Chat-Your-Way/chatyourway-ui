@@ -194,7 +194,7 @@ export const subscribeToAllTopicsNotify = () => {
         (message) => {
           const parsedAllTopicsNotifications = JSON.parse(message.body);
 
-          dispatch(setAllTopicsNotifications(parsedAllTopicsNotifications));
+          dispatch(setAllTopicsNotifications([parsedAllTopicsNotifications]));
         },
       );
       dispatch(setSubscribedAllTopicsNotify(true));
@@ -319,13 +319,6 @@ export const sendMessageByWs = async ({ topicId, inputMessage, dispatch }) => {
     destination: `${sendToPublicTopicDest}${topicId}`,
     body: JSON.stringify({ content: inputMessage }),
   });
-
-  // return async () => {
-  //   await client.publish({
-  //     destination: `${sendToPublicTopicDest}${topicId}`,
-  //     body: JSON.stringify({ content: inputMessage }),
-  //   });
-  // };
 };
 
 export const subscribeOnlineOrTypingStatus = () => {

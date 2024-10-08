@@ -30,14 +30,20 @@ const chatSlice = createSlice({
     },
     setAllTopicsNotifications: (state, action) => {
       if (!state.notificationsAllTopics.length) {
-        state.notificationsAllTopics.push(action.payload);
+        state.notificationsAllTopics = [...action.payload];
       } else {
-        state.notificationsAllTopics = state.notificationsAllTopics.map(
-          (el) => {
-            if (el.id === action.payload.id) {
-              return action.payload;
-            } else return el;
+        state.notificationsAllTopics = state.notificationsAllTopics.reduce(
+          (acuum, el) => {
+            if (action.payload.find((payloadEl) => payloadEl.id === el.id)) {
+              return [
+                ...acuum,
+                action.payload.find((payloadEl) => payloadEl.id === el.id),
+              ];
+            } else {
+              return [...acuum, el];
+            }
           },
+          [],
         );
       }
     },
