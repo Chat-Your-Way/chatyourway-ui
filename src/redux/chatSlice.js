@@ -1,6 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 
+const whenStateArrLengthMore = (stateArr, actionPayload) => {
+  return stateArr.reduce((acuum, el) => {
+    if (actionPayload.find((payloadEl) => payloadEl.id === el.id)) {
+      return [
+        ...acuum,
+        actionPayload.find((payloadEl) => payloadEl.id === el.id),
+      ];
+    } else {
+      return [...acuum, el];
+    }
+  }, []);
+};
+
 const chatSlice = createSlice({
   name: 'chat',
   initialState: {
@@ -31,8 +44,13 @@ const chatSlice = createSlice({
     setAllTopicsNotifications: (state, action) => {
       if (!state.notificationsAllTopics.length) {
         state.notificationsAllTopics = [...action.payload];
+      } else if (state.notificationsAllTopics.length >= action.payload.length) {
+        state.notificationsAllTopics = whenStateArrLengthMore(
+          state.notificationsAllTopics,
+          action.payload,
+        );
       } else {
-        state.notificationsAllTopics = state.notificationsAllTopics.reduce(
+        state.notificationsAllTopics = state.action.payload.reduce(
           (acuum, el) => {
             if (action.payload.find((payloadEl) => payloadEl.id === el.id)) {
               return [
@@ -47,13 +65,23 @@ const chatSlice = createSlice({
         );
       }
     },
+    setAllTopicsNotificationsWS: (state, action) => {
+      if (!state.notificationsAllTopics.length) {
+        state.notificationsAllTopics = [...action.payload];
+      } else {
+        state.notificationsAllTopics = whenStateArrLengthMore(
+          state.notificationsAllTopics,
+          action.payload,
+        );
+      }
+    },
     clearAllTopicsNotifications: (state) => {
       state.notificationsAllTopics = [];
     },
 
     deletReadedAllTopicsNotification: (state, action) => {
       state.notificationsAllTopics = state.notificationsAllTopics.filter(
-        (el) => el.id !== action.payload,
+        (el) => el.lastMessage.id !== action.payload,
       );
     },
     setMessages: (state, action) => {
@@ -129,6 +157,7 @@ export const {
   clearSubscriptionAllTopicsNotify,
   setAllTopicsNotifications,
   clearAllTopicsNotifications,
+  setAllTopicsNotificationsWS,
   deletReadedAllTopicsNotification,
   setMessages,
   clearMessages,
