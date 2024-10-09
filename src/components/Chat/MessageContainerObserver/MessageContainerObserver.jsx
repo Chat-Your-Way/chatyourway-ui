@@ -51,7 +51,7 @@ const MessageContainerObserver = ({
     <MessageContainer
       id={`#${messageId}`}
       ref={messageStatus ? observerRef : null}
-      data-messageId={messageId}
+      // data-messageId={messageId}
       isMyMessage={isMyMessage}
       messageStatus={messageStatus ? changedMessageStatus : null}
       data-isFirstUnreadMessage={

@@ -385,22 +385,39 @@ const Chat = ({ children }) => {
       isFirstUnreadMessageRef.current = null;
       unreadMessageContainerRef.current = null;
     };
+    // }, [topicId, messages, isFetchingCurrentMessagesByTopic]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topicId, messages, isFetchingCurrentMessagesByTopic]);
+  }, [topicId, messages]);
 
   // Try to process the situation when user doesn't has a private dialog
   useEffect(() => {
+    // To much requests send to the server - so we have to much messages in private dialog
+    // if (
+    //   topicIdDataError?.data?.detail?.includes(
+    //     "Failed to convert 'id' with value",
+    //   ) ||
+    //   messagesByTopicError?.data?.detail?.includes(
+    //     "Failed to convert 'id' with value",
+    //   ) ||
+    //   topicIdDataError?.data?.detail?.includes(
+    //     "Failed to convert 'topicId' with value",
+    //   ) ||
+    //   messagesByTopicError?.data?.detail?.includes(
+    //     "Failed to convert 'topicId' with value",
+    //   )
+    // ) {
+    //   sendFirstMessageToUser({
+    //     userEmail: topicId,
+    //     accessTokenInStore,
+    //     inputMessage: 'Hello! I want to chat with you!',
+    //   });
+    // }
+
     if (
       topicIdDataError?.data?.detail?.includes(
         "Failed to convert 'id' with value",
       ) ||
-      messagesByTopicError?.data?.detail?.includes(
-        "Failed to convert 'id' with value",
-      ) ||
       topicIdDataError?.data?.detail?.includes(
-        "Failed to convert 'topicId' with value",
-      ) ||
-      messagesByTopicError?.data?.detail?.includes(
         "Failed to convert 'topicId' with value",
       )
     ) {
@@ -410,6 +427,7 @@ const Chat = ({ children }) => {
         inputMessage: 'Hello! I want to chat with you!',
       });
     }
+
     if (isSendFirstMessagesSuccess) {
       navigate(`/home/notification/chat/${sendFirstMessageData.id}`);
     }
@@ -569,12 +587,6 @@ const Chat = ({ children }) => {
     alert('Виникла помилка під час отримання теми (ChatComponent)');
 
     localLogOutUtil(dispatch);
-
-    // dispatch(setIsLoggedIn(false));
-    // dispatch(setAccessToken(null));
-    // dispatch(setRefreshToken(null));
-    // localStorage.removeItem('accessToken');
-    // localStorage.removeItem('refreshToken');
   }
 
   return (
@@ -710,7 +722,9 @@ const Chat = ({ children }) => {
                       messageId={item.id}
                       messageStatus={item.messageStatus}
                       isFirstUnreadMessage={
-                        isFirstUnreadMessageRef.current ? false : item
+                        isFirstUnreadMessageRef?.current?.id === item.id
+                          ? item
+                          : false
                       }
                     >
                       <UserMassageWrap>

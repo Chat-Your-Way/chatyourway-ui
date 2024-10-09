@@ -20,6 +20,7 @@ import {
   clearSubscriptionAllTopicsNotify,
   setUsersStatusOnlineTyping,
   clearUsersStatusOnlineTyping,
+  setAllTopicsNotificationsWS,
 } from './chatSlice';
 import SockJS from 'sockjs-client';
 import { BASE_URL } from './apiParams';
@@ -194,7 +195,7 @@ export const subscribeToAllTopicsNotify = () => {
         (message) => {
           const parsedAllTopicsNotifications = JSON.parse(message.body);
 
-          dispatch(setAllTopicsNotifications([parsedAllTopicsNotifications]));
+          dispatch(setAllTopicsNotificationsWS([parsedAllTopicsNotifications]));
         },
       );
       dispatch(setSubscribedAllTopicsNotify(true));
