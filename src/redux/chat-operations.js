@@ -18,6 +18,8 @@ import {
   setSubscribed,
   setSubscriptionAllTopicsNotify,
   clearSubscriptionAllTopicsNotify,
+  setUsersStatusOnlineTyping,
+  clearUsersStatusOnlineTyping,
 } from './chatSlice';
 import SockJS from 'sockjs-client';
 import { BASE_URL } from './apiParams';
@@ -28,6 +30,7 @@ const subToTopicDest = '/topic/';
 const subToNotificationDest = '/user/specific/notify/';
 const subToErrorDest = '/user/specific/error';
 const sendToPublicTopicDest = '/app/topic/public/';
+const getInformationAboutUserOnlineOrTyping = '/user/specific/notify/contacts';
 // const sendToPrivateTopicDest = '/app/topic/private/'; //!TODO: sendToPrivateTopicDest
 
 // let client = null;
@@ -41,7 +44,7 @@ const sendToPublicTopicDest = '/app/topic/public/';
 const stompConfig = {
   heartbeatIncoming: 7000,
   heartbeatOutgoing: 7000,
-  reconnectDelay: 10000,
+  reconnectDelay: 0,
   // webSocketFactory: function () {
   // return new SockJS(
   //   `${BASE_URL}/chat?Authorization=Bearer ${localStorage.getItem(
@@ -191,7 +194,7 @@ export const subscribeToAllTopicsNotify = () => {
         (message) => {
           const parsedAllTopicsNotifications = JSON.parse(message.body);
 
-          dispatch(setAllTopicsNotifications(parsedAllTopicsNotifications));
+          dispatch(setAllTopicsNotifications([parsedAllTopicsNotifications]));
         },
       );
       dispatch(setSubscribedAllTopicsNotify(true));
@@ -307,11 +310,59 @@ export const getTopicHistory = (topicId) => {
   };
 };
 
-export const sendMessageByWs = ({ topicId, inputMessage }) => {
-  return async () => {
-    await client.publish({
-      destination: `${sendToPublicTopicDest}${topicId}`,
-      body: JSON.stringify({ content: inputMessage }),
-    });
+export const sendMessageByWs = async ({ topicId, inputMessage, dispatch }) => {
+  if (!client.connected) {
+    client.activate();
+  }
+
+  await client.publish({
+    destination: `${sendToPublicTopicDest}${topicId}`,
+    body: JSON.stringify({ content: inputMessage }),
+  });
+};
+
+export const subscribeOnlineOrTypingStatus = () => {
+  return async (dispatch) => {
+    try {
+      const subscribeOnlineStatus = await client.subscribe(
+        getInformationAboutUserOnlineOrTyping,
+        (message) => {
+          if (message.body) {
+            dispatch(setUsersStatusOnlineTyping(JSON.parse(message.body)));
+          }
+        },
+      );
+
+      dispatch(
+        setSubscriptions({
+          type: 'onlineStatus',
+          subscriptionId: subscribeOnlineStatus.id,
+        }),
+      );
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    }
+  };
+};
+
+export const unSubscribeOnlineOrTypingStatus = () => {
+  return async (dispatch, getState) => {
+    const { subscriptions } = getState().chat;
+
+    if (subscriptions.length === 0) return;
+
+    const subscriptionInstance = subscriptions.find(
+      (el) => el.type === 'onlineStatus',
+    );
+
+    try {
+      client.unsubscribe(subscriptionInstance.subscriptionId);
+      dispatch(clearSubscriptions());
+      dispatch(clearUsersStatusOnlineTyping());
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log('Error in unSubscribeOnlineStatus', error);
+    }
   };
 };

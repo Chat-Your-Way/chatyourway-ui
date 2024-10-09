@@ -5,11 +5,11 @@ import {
   UserAvatarForm,
 } from './ChangeUserAvatar.styled';
 import { useSelector } from 'react-redux';
-import { getUserInfo } from '../../../redux/userSlice';
+import { selectUserInfo } from '../../../redux/userSlice';
 import { useEditUserInfoMutation } from '../../../redux/user-operations';
 
 const ChangeUserAvatar = () => {
-  const { nickname, avatarId } = useSelector(getUserInfo);
+  const { nickname, avatarId } = useSelector(selectUserInfo);
   const [editUserInfo] = useEditUserInfoMutation();
 
   const defaultValues = {

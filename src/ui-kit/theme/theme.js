@@ -12,27 +12,27 @@ export const createCommonTheme = (theme) =>
           },
           h1: {
             fontSize: '48px',
-            fontWeight: 'regular',
+            fontWeight: 'normal', // the value was 'regular'
           },
           h2: {
             fontSize: '40px',
-            fontWeight: 'regular',
+            fontWeight: 'normal', // the value was 'regular'
           },
           h3: {
             fontSize: '32px',
-            fontWeight: 'regular',
+            fontWeight: 'normal', // the value was 'regular'
           },
           h4: {
             fontSize: '24px',
-            fontWeight: 'regular',
+            fontWeight: 'normal', // the value was 'regular'
           },
           h5: {
             fontSize: '16px',
-            fontWeight: 'regular',
+            fontWeight: 'normal', // the value was 'regular'
           },
           h6: {
             fontSize: '14px',
-            fontWeight: 'regular',
+            fontWeight: 'normal', // the value was 'regular'
           },
           myCustomVariant: {
             fontSize: '100px',
@@ -114,6 +114,7 @@ export const palette = (mode) => ({
           primary: {
             white: '#FFFFFF',
             light: '#ACADFF',
+
             green: '#48A87A',
             main: '#8686DC',
             dark: '#353535',

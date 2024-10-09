@@ -3,8 +3,10 @@
 import { useInView } from 'react-intersection-observer';
 import { MessageContainer } from '../Chat.styled';
 import { useSetMessageStatusMutation } from '../../../redux/messagesAPI/messagesAPI';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectAccessToken } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import { useEffect, useState } from 'react';
+import { deletReadedAllTopicsNotification } from '../../../redux/chatSlice';
 
 const MessageContainerObserver = ({
   chatWrapIdRef,
@@ -14,9 +16,22 @@ const MessageContainerObserver = ({
   children,
   isFirstUnreadMessage,
 }) => {
+  const dispatch = useDispatch();
   const accessTokenInStore = useSelector(selectAccessToken);
-  const [setMessageStatus, { isLoading: isLoadingMessageStatus }] =
-    useSetMessageStatusMutation();
+  const [
+    setMessageStatus,
+    { isSuccess: isLoadingMessageStatus, data: setMessageStatusData },
+  ] = useSetMessageStatusMutation();
+  const [changedMessageStatus, setChangedMessageStatus] =
+    useState(messageStatus);
+
+  // Useeffect for change background of not unread message
+  useEffect(() => {
+    if (isLoadingMessageStatus && changedMessageStatus) {
+      setChangedMessageStatus(false);
+      dispatch(deletReadedAllTopicsNotification(messageId));
+    }
+  }, [isLoadingMessageStatus, changedMessageStatus, dispatch, messageId]);
 
   const {
     ref: observerRef,
@@ -24,7 +39,7 @@ const MessageContainerObserver = ({
     observerEntries,
   } = useInView({
     root: chatWrapIdRef.current,
-    threshold: 0.8,
+    threshold: 0.9,
     onChange: (inView, entry) => {
       if (inView) {
         setMessageStatus({ messageId, accessTokenInStore });
@@ -38,7 +53,7 @@ const MessageContainerObserver = ({
       ref={messageStatus ? observerRef : null}
       data-messageId={messageId}
       isMyMessage={isMyMessage}
-      messageStatus={messageStatus ? messageStatus : null}
+      messageStatus={messageStatus ? changedMessageStatus : null}
       data-isFirstUnreadMessage={
         isFirstUnreadMessage.messageStatus
           ? isFirstUnreadMessage.messageStatus

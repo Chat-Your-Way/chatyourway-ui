@@ -79,8 +79,8 @@ export const validationRules = {
       message: 'Мінімум - 4 символи',
     },
     maxLength: {
-      value: 12,
-      message: 'Максимум - 12 символів',
+      value: 20,
+      message: 'Максимум - 20 символів',
     },
     validate: { validatePassword },
   },

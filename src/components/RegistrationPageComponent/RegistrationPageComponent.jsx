@@ -12,6 +12,8 @@ import {
 import { useRegistrationMutation } from '../../redux/auth-operations';
 import { PATH } from '../../constans/routes';
 import { useNavigate } from 'react-router-dom';
+import { setUserInfo } from '../../redux/userSlice';
+import { useDispatch } from 'react-redux';
 
 const defaultValues = {
   nickname: '',
@@ -25,6 +27,7 @@ const defaultValues = {
 function RegistrationPageComponent() {
   const [registration] = useRegistrationMutation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const {
     formState: { errors, isValid },
@@ -60,6 +63,7 @@ function RegistrationPageComponent() {
       }
       localStorage.setItem('accessToken', registrationData.accessToken);
       localStorage.setItem('refreshToken', registrationData.refreshToken);
+      dispatch(setUserInfo(userData));
       navigate(PATH.VERIFICATION_EMAIL);
     } catch (error) {
       console.error('Виникла помилка під час заповнення форми:', error);

@@ -7,7 +7,6 @@ import { selectAccessToken } from '../../../redux/authOperatonsToolkit/authOpera
 import { Avatars } from '../../../ui-kit/images/avatars';
 import Avatar from '../../../ui-kit/components/Avatar';
 
-import { getUserInfo } from '../../../redux/userSlice';
 import { useMediaQuery } from 'react-responsive';
 import {
   UsersAvatarStyledList,
@@ -19,27 +18,31 @@ import { Link } from 'react-router-dom';
 import { useTopicsContext } from '../../../common/Topics/TopicsContext';
 import getPrivateTopicId from '../../../utils/getPrivateTopicId';
 
-const UsersAvatar = ({ topicId }) => {
+const UsersAvatar = ({ topicId, currentTopicSubscribers }) => {
   const accessTokenInStore = useSelector(selectAccessToken);
   const isTablet = useMediaQuery({ query: '(min-width: 768px' });
   const isDesktop = useMediaQuery({ query: '(mint-width: 1200px)' });
   const { privateTopics, setPrivateTopics } = useTopicsContext();
 
-  const {
-    isLoading,
-    isError,
-    error,
-    data: usersSubscribers,
-  } = useGetSubscribersQuery(
-    { topicId, accessTokenInStore },
-    { refetchOnFocus: true, refetchOnReconnect: true, refetchOnMountOrArgChange: 10 }
-  );
+  // It was additional request for the topic subscribers infromation, but this
+  // information already exist in topicIdData request.
+
+  // const {
+  //   isLoading,
+  //   isError,
+  //   error,
+  //   data: usersSubscribers,
+  // } = useGetSubscribersQuery(
+  //   { topicId, accessTokenInStore },
+  //   { refetchOnFocus: true, refetchOnReconnect: true, refetchOnMountOrArgChange: 10 }
+  // );
 
   // console.log('privateTopics', privateTopics);
   return (
     <UsersAvatarStyledWrapper>
       <UsersAvatarStyledList>
-        {usersSubscribers
+        {/* {usersSubscribers */}
+        {currentTopicSubscribers
           ? // ? usersSubscribers.map(user => (
             //     <UsersAvatarStyledLi key={user.id}>
             //       {Object.values(Avatars).map(
@@ -52,7 +55,7 @@ const UsersAvatar = ({ topicId }) => {
             //       )}
             //     </UsersAvatarStyledLi>
             // ))
-            usersSubscribers.reduce((acuum, user, index) => {
+            currentTopicSubscribers.reduce((acuum, user, index) => {
               if (index === 4) {
                 return [
                   ...acuum,
@@ -75,7 +78,7 @@ const UsersAvatar = ({ topicId }) => {
                       // to={`/home/notification/chat/${topicId}`}
                     >
                       <Avatar size={isTablet ? 'md' : 'sm'} key={index} isCurrent={'true'}>
-                        {usersSubscribers.length}
+                        {currentTopicSubscribers.length}
                       </Avatar>
                     </Link>
                   </UsersAvatarStyledLi>,

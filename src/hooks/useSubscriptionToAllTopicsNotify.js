@@ -17,6 +17,7 @@ export const useSubscriptionToAllTopicsNotify = (isLoggedIn) => {
     if (!isLoggedIn || !connected || subscribedAllTopicsNotify) {
       return;
     }
+
     dispatch(subscribeToAllTopicsNotify());
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
