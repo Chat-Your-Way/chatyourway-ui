@@ -7,7 +7,6 @@ import { selectAccessToken } from '../../../redux/authOperatonsToolkit/authOpera
 import { Avatars } from '../../../ui-kit/images/avatars';
 import Avatar from '../../../ui-kit/components/Avatar';
 
-import { getUserInfo } from '../../../redux/userSlice';
 import { useMediaQuery } from 'react-responsive';
 import {
   UsersAvatarStyledList,
