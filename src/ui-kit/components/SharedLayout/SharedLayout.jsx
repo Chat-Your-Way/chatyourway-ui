@@ -9,6 +9,7 @@ import { useSubscriptionToAllTopicsNotify } from '../../../hooks/useSubscription
 import { MainWrapper } from './SharedLayout.styled';
 import { useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import { useAllTopicsNotificationInfo } from '../../../hooks/useAllTopicsNotificationInfo';
 // import { useGetUserInfoQuery } from '../../../redux/user-operations';
 // import { useEffect } from 'react';
 // import { setIsLoggedIn } from '../../../redux/authOperatonsToolkit/authOperationsThunkSlice';
@@ -25,6 +26,7 @@ const SharedLayout = () => {
 
   useWebSocketConnection(isLoggedIn);
   useSubscriptionToAllTopicsNotify(isLoggedIn);
+  useAllTopicsNotificationInfo(isLoggedIn);
 
   return (
     <MainBackground>

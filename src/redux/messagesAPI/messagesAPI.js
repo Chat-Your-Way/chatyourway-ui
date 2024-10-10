@@ -40,7 +40,7 @@ export const messagesAPI = createApi({
           'Content-Type': 'application/json',
         },
       }),
-      invalidatesTags: ['messages'],
+      invalidatesTags: ['messages', 'Topics'],
     }),
     sendMessageToNewTopic: builder.mutation({
       query: ({ userEmail, accessTokenInStore, inputMessage = '' }) => ({
@@ -63,7 +63,7 @@ export const messagesAPI = createApi({
           Authorization: `Bearer ${accessTokenInStore}`,
         },
       }),
-      invalidatesTags: ['messages'],
+      // invalidatesTags: ['messages'],
     }),
   }),
 });

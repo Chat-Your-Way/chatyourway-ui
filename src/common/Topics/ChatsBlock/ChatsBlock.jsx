@@ -89,20 +89,6 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
     }
   }, [currentPrivateTopicsData, setPrivateTopics]);
 
-  // useEffect for notification array filling
-  useEffect(() => {
-    if (!allTopicsData || !currentPrivateTopicsData) {
-      return;
-    }
-
-    dispatch(
-      setAllTopicsNotifications([
-        ...allTopicsData.filter((el) => el.unreadMessageCount !== 0),
-        ...currentPrivateTopicsData.filter((el) => el.unreadMessageCount !== 0),
-      ]),
-    );
-  }, [allTopicsData, currentPrivateTopicsData, dispatch]);
-
   const filteredAllTopicsData = allTopicsData?.filter((item) =>
     item.name.toLowerCase().includes(searchInputValue.toLowerCase().trim()),
   );
