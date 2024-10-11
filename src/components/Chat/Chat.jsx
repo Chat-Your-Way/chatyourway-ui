@@ -99,6 +99,7 @@ const Chat = ({ children }) => {
   const totalPagesRef = useRef(0);
 
   const accessTokenInStore = useSelector(selectAccessToken);
+
   const {
     currentData: topicIdData,
     isLoading,
@@ -126,6 +127,16 @@ const Chat = ({ children }) => {
     },
   );
 
+  const [
+    sendMessageToTopic,
+    { error: sendMessageError, isSuccess: isSuccessSendMessage },
+  ] = useSendMessageToTopicMutation();
+
+  const [
+    sendFirstMessageToUser,
+    { data: sendFirstMessageData, isSuccess: isSendFirstMessagesSuccess },
+  ] = useSendMessageToNewTopicMutation();
+
   const { email } = useSelector(selectUserInfo);
   const { isTopics, privateTopics, setPrivateTopics } = useTopicsContext();
   const { contactsOpen, setContactsOpen } = useTopicsPageContext(); //?!
@@ -145,16 +156,6 @@ const Chat = ({ children }) => {
     // useMediaQuery({ query: '(max-width: 769px)' });
     useMediaQuery({ query: '(max-width: 767px)' });
   const isMobile = useMobileMediaQuery();
-
-  const [
-    sendMessageToTopic,
-    { error: sendMessageError, isSuccess: isSuccessSendMessage },
-  ] = useSendMessageToTopicMutation();
-
-  const [
-    sendFirstMessageToUser,
-    { data: sendFirstMessageData, isSuccess: isSendFirstMessagesSuccess },
-  ] = useSendMessageToNewTopicMutation();
 
   const inputRef = useRef(null);
   const chatWrapIdRef = useRef(null);
@@ -297,7 +298,7 @@ const Chat = ({ children }) => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, currentMessagesByTopic, topicIdData]);
+  }, [dispatch, currentMessagesByTopic, topicIdData]); // Why I need here topicIdData?
 
   // useEffect for pagination values
   useEffect(() => {
@@ -345,11 +346,12 @@ const Chat = ({ children }) => {
     // Automatically scroll down when it's first request
     if (isLoadingCurrentMessagesByTopicId && !isFirstUnreadMessageRef.current) {
       // eslint-disable-next-line max-len
-      setTimeout(
-        () =>
-          chatWrapIdRef.current.scrollTo(0, chatWrapIdRef.current.scrollHeight),
-        500,
-      );
+      // setTimeout(
+      //   () =>
+      //     chatWrapIdRef.current.scrollTo(0, chatWrapIdRef.current.scrollHeight),
+      //   500,
+      // );
+      chatWrapIdRef.current.scrollTo(0, chatWrapIdRef.current.scrollHeight);
     }
 
     // Try to scroll when isFetching is false (when new messages has arrived)
@@ -455,8 +457,8 @@ const Chat = ({ children }) => {
   const handleMessageSend = () => {
     const inputMessage = inputRef.current.value.trim();
 
-    if (!inputMessage || inputMessage.length === 0)
-      return alert('This message is empty');
+    if (!inputMessage || inputMessage.length <= 1)
+      return alert('This message is empty or not enough length (min 2 symbols');
 
     if (pathname.includes('topics') && connected) {
       // dispatch(sendMessageByWs({ topicId, inputMessage }));

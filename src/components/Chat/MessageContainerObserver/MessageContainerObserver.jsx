@@ -20,18 +20,18 @@ const MessageContainerObserver = ({
   const accessTokenInStore = useSelector(selectAccessToken);
   const [
     setMessageStatus,
-    { isSuccess: isLoadingMessageStatus, data: setMessageStatusData },
+    { isSuccess: isSuccessMessageStatus, data: setMessageStatusData },
   ] = useSetMessageStatusMutation();
   const [changedMessageStatus, setChangedMessageStatus] =
     useState(messageStatus);
 
   // Useeffect for change background of not unread message
   useEffect(() => {
-    if (isLoadingMessageStatus && changedMessageStatus) {
+    if (isSuccessMessageStatus && changedMessageStatus) {
       setChangedMessageStatus(false);
       dispatch(deletReadedAllTopicsNotification(messageId));
     }
-  }, [isLoadingMessageStatus, changedMessageStatus, dispatch, messageId]);
+  }, [isSuccessMessageStatus, changedMessageStatus, dispatch, messageId]);
 
   const {
     ref: observerRef,
@@ -41,7 +41,7 @@ const MessageContainerObserver = ({
     root: chatWrapIdRef.current,
     threshold: 0.9,
     onChange: (inView, entry) => {
-      if (inView) {
+      if (inView && changedMessageStatus) {
         setMessageStatus({ messageId, accessTokenInStore });
       }
     },

@@ -55,7 +55,7 @@ export const refreshTokenThunk = createAsyncThunk(
     })
       .then((response) => response.json())
       .then((data) => data);
-    // console.log(result);
+
     return result;
   },
 );
