@@ -343,7 +343,7 @@ const Chat = ({ children }) => {
     );
 
     // Automatically scroll down when it's first request
-    if (isLoadingCurrentMessagesByTopicId) {
+    if (isLoadingCurrentMessagesByTopicId && !isFirstUnreadMessageRef.current) {
       // eslint-disable-next-line max-len
       setTimeout(
         () =>
