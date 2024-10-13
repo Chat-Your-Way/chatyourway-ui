@@ -1,12 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
+import { BASE_URL } from './apiParams';
 
-const whenStateArrLengthMore = (stateArr, actionPayload) => {
+const whenStateArrLengthMore = (stateArr, actionPayloadArray) => {
   return stateArr.reduce((acuum, el) => {
-    if (actionPayload.find((payloadEl) => payloadEl.id === el.id)) {
+    if (actionPayloadArray.find((payloadEl) => payloadEl.id === el.id)) {
       return [
         ...acuum,
-        actionPayload.find((payloadEl) => payloadEl.id === el.id),
+        actionPayloadArray.find((payloadEl) => payloadEl.id === el.id),
       ];
     } else {
       return [...acuum, el];
@@ -14,10 +15,35 @@ const whenStateArrLengthMore = (stateArr, actionPayload) => {
   }, []);
 };
 
+const handleAllNotificationsArray = (stateArr, actionPayloadArray) => {
+  if (!stateArr.length) {
+    return [...actionPayloadArray.filter((el) => el.unreadMessageCount !== 0)];
+  } else if (stateArr.length >= actionPayloadArray.length) {
+    return whenStateArrLengthMore(
+      stateArr,
+      actionPayloadArray.filter((el) => el.unreadMessageCount !== 0),
+    );
+  } else {
+    return actionPayloadArray
+      .filter((el) => el.unreadMessageCount !== 0)
+      .reduce((acuum, el) => {
+        if (stateArr.find((stateEl) => stateEl.id === el.id)) {
+          return [
+            ...acuum,
+            actionPayloadArray.find((payloadEl) => payloadEl.id === el.id),
+          ];
+        } else {
+          return [...acuum, el];
+        }
+      }, []);
+  }
+};
+
 const chatSlice = createSlice({
   name: 'chat',
   initialState: {
     notificationsAllTopics: [],
+    notificationsAllTopicsStatus: '',
     subscribedAllTopicsNotify: false,
     subscriptionAllTopicsNotify: [],
     messages: [],
@@ -50,19 +76,16 @@ const chatSlice = createSlice({
           action.payload,
         );
       } else {
-        state.notificationsAllTopics = state.action.payload.reduce(
-          (acuum, el) => {
-            if (action.payload.find((payloadEl) => payloadEl.id === el.id)) {
-              return [
-                ...acuum,
-                action.payload.find((payloadEl) => payloadEl.id === el.id),
-              ];
-            } else {
-              return [...acuum, el];
-            }
-          },
-          [],
-        );
+        state.notificationsAllTopics = action.payload.reduce((acuum, el) => {
+          if (action.payload.find((payloadEl) => payloadEl.id === el.id)) {
+            return [
+              ...acuum,
+              action.payload.find((payloadEl) => payloadEl.id === el.id),
+            ];
+          } else {
+            return [...acuum, el];
+          }
+        }, []);
       }
     },
     setAllTopicsNotificationsWS: (state, action) => {
@@ -148,6 +171,106 @@ const chatSlice = createSlice({
     clearUsersStatusOnlineTyping: (state) => {
       state.usersStatusOnlineTyping = [];
     },
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchNotificationsAllTopics.pending, (state) => {
+        state.notificationsAllTopicsStatus = 'pending';
+      })
+      .addCase(fetchNotificationsAllTopics.fulfilled, (state, action) => {
+        // if (action.payload.httpStatus === 'UNAUTHORIZED') {
+        //   return {
+        //     ...state,
+        //     notificationsAllTopics: [],
+        //     notificationsAllTopicsStatus: 'UNAUTHORIZED',
+        //   };
+        // }
+
+        // state.notificationsAllTopics = [
+        //   ...state.notificationsAllTopics,
+        //   ...action.payload.filter(el => el.unreadMessageCount !== 0),
+        // ];
+        state.notificationsAllTopics = handleAllNotificationsArray(
+          state.notificationsAllTopics,
+          action.payload,
+        );
+
+        // if (!state.notificationsAllTopics.length) {
+        //   state.notificationsAllTopics = [
+        //     ...action.payload.filter(el => el.unreadMessageCount !== 0),
+        //   ];
+        // } else if (state.notificationsAllTopics.length >= action.payload.length) {
+        //   state.notificationsAllTopics = whenStateArrLengthMore(
+        //     state.notificationsAllTopics,
+        //     action.payload.filter(el => el.unreadMessageCount !== 0)
+        //   );
+        // } else {
+        //   state.notificationsAllTopics = action.payload
+        //     .filter(el => el.unreadMessageCount !== 0)
+        //     .reduce((acuum, el) => {
+        //       if (action.payload.find(payloadEl => payloadEl.id === el.id)) {
+        //         return [...acuum, action.payload.find(payloadEl => payloadEl.id === el.id)];
+        //       } else {
+        //         return [...acuum, el];
+        //       }
+        //     }, []);
+        // }
+
+        state.notificationsAllTopicsStatus = 'successfull';
+      })
+      .addCase(fetchNotificationsAllTopics.rejected, (state, action) => {
+        state.notificationsAllTopics = [];
+        state.notificationsAllTopicsStatus = action.error;
+      })
+      .addCase(fetchNotificationsPrivateTopics.pending, (state) => {
+        state.notificationsAllTopicsStatus = 'pending';
+      })
+      .addCase(fetchNotificationsPrivateTopics.fulfilled, (state, action) => {
+        // if (action.payload.httpStatus === 'UNAUTHORIZED') {
+        //   return {
+        //     ...state,
+        //     notificationsAllTopics: [],
+        //     notificationsAllTopicsStatus: 'UNAUTHORIZED',
+        //   };
+        // }
+
+        // state.notificationsAllTopics = [
+        //   ...state.notificationsAllTopics,
+        //   ...action.payload.filter(el => el.unreadMessageCount !== 0),
+        // ];
+
+        state.notificationsAllTopics = handleAllNotificationsArray(
+          state.notificationsAllTopics,
+          action.payload,
+        );
+
+        // if (!state.notificationsAllTopics.length) {
+        //   state.notificationsAllTopics = [
+        //     ...action.payload.filter(el => el.unreadMessageCount !== 0),
+        //   ];
+        // } else if (state.notificationsAllTopics.length >= action.payload.length) {
+        //   state.notificationsAllTopics = whenStateArrLengthMore(
+        //     state.notificationsAllTopics,
+        //     action.payload.filter(el => el.unreadMessageCount !== 0)
+        //   );
+        // } else {
+        //   state.notificationsAllTopics = action.payload
+        //     .filter(el => el.unreadMessageCount !== 0)
+        //     .reduce((acuum, el) => {
+        //       if (action.payload.find(payloadEl => payloadEl.id === el.id)) {
+        //         return [...acuum, action.payload.find(payloadEl => payloadEl.id === el.id)];
+        //       } else {
+        //         return [...acuum, el];
+        //       }
+        //     }, []);
+        // }
+
+        state.notificationsAllTopicsStatus = 'successfull';
+      })
+      .addCase(fetchNotificationsPrivateTopics.rejected, (state, action) => {
+        state.notificationsAllTopics = [];
+        state.notificationsAllTopicsStatus = action.error;
+      });
   },
 });
 
@@ -255,4 +378,36 @@ export const selectSizeOfMessagesInStore = createSelector(
 export const selectUsersStatusOnlineTyping = createSelector(
   selectChatState,
   (chat) => chat.usersStatusOnlineTyping,
+);
+
+export const fetchNotificationsAllTopics = createAsyncThunk(
+  'fetchNotificationsAll',
+  async (accessTokenInStore) => {
+    const response = await fetch(`${BASE_URL}/topics/all`, {
+      headers: {
+        Authorization: `Bearer ${accessTokenInStore}`,
+        'Content-type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => result);
+
+    return response;
+  },
+);
+
+export const fetchNotificationsPrivateTopics = createAsyncThunk(
+  'fetchNotificationsPrivate',
+  async (accessTokenInStore) => {
+    const response = await fetch(`${BASE_URL}/topics/private`, {
+      headers: {
+        Authorization: `Bearer ${accessTokenInStore}`,
+        'Content-type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => result);
+
+    return response;
+  },
 );

@@ -6,13 +6,14 @@ import topicsApi from './topics-operations';
 import userApi from './user-operations';
 import userInfoSlice from './userSlice';
 import chatSlice from './chatSlice';
-import authOperationsThunk from './authOperatonsToolkit/authOperationsThunkSlice';
-import { messagesAPI } from './messagesAPI/messagesAPI';
+import authOperationsThunk from './authOperationsToolkit/authOperationsThunkSlice';
+import messagesAPI from './messagesAPI/messagesAPI';
 
 const store = configureStore({
   reducer: {
     [authenticationApi.reducerPath]: authenticationApi.reducer,
     [topicsApi.reducerPath]: topicsApi.reducer,
+
     [userApi.reducerPath]: userApi.reducer,
     [userInfoSlice.name]: userInfoSlice.reducer,
     [chatSlice.name]: chatSlice.reducer,

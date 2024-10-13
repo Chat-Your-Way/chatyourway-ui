@@ -22,7 +22,7 @@ import {
   UserName,
 } from './HeaderUserInfo.styled';
 // eslint-disable-next-line max-len
-import { selectAccessToken } from '../../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import { selectAccessToken } from '../../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 import localLogOutUtil from '../../../../utils/localLogOutUtil';
 // import { selectUserThunk } from '../../../../redux/userApiThunk/userApiThunkSelectors';
 // import { useUser } from '../../../../hooks/useUser';

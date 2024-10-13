@@ -6,7 +6,7 @@ import {
 import { useSelector } from 'react-redux';
 import { selectUserInfo } from '../../../redux/userSlice';
 // eslint-disable-next-line max-len
-import { selectAccessToken } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import { selectAccessToken } from '../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 
 export const PermissionPrivateMessage = () => {
   const { hasPermissionSendingPrivateMessage } = useSelector(selectUserInfo);

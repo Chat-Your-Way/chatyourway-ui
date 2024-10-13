@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   selectAccessToken,
   selectIsLoggedIn,
-} from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+} from '../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 // import {
 //   setAccessToken,
 //   setIsLoggedIn,

@@ -22,12 +22,12 @@ import {
 } from '../../../redux/topics-operations';
 import { useDispatch, useSelector } from 'react-redux';
 // eslint-disable-next-line max-len
-import { selectAccessToken } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import { selectAccessToken } from '../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 import {
   setAccessToken,
   setIsLoggedIn,
   setRefreshToken,
-} from '../../../redux/authOperatonsToolkit/authOperationsThunkSlice';
+} from '../../../redux/authOperationsToolkit/authOperationsThunkSlice';
 import localLogOutUtil from '../../../utils/localLogOutUtil';
 
 const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {

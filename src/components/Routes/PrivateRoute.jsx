@@ -2,7 +2,8 @@ import { Navigate, Outlet } from 'react-router-dom';
 // import { useUser } from '../../hooks/useUser';
 // import { PATH } from '../../constans/routes';
 import { useSelector } from 'react-redux';
-import { selectIsLoggedIn } from '../../redux/authOperatonsToolkit/authOperationsThunkSelectors.js';
+// eslint-disable-next-line max-len
+import { selectIsLoggedIn } from '../../redux/authOperationsToolkit/authOperationsThunkSelectors.js';
 
 export const PrivateRoute = ({ redirectTo }) => {
   // const { isAuthenticated } = useUser();

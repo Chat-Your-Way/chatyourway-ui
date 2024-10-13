@@ -6,7 +6,7 @@ import createClientInstance from '../utils/stompClient';
 // import { connectWebSocket } from '../redux/chat-operations';
 // import SockJS from 'sockjs-client';
 // import { BASE_URL } from '../redux/apiParams';
-import { selectAccessToken } from '../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import { selectAccessToken } from '../redux/authOperationsToolkit/authOperationsThunkSelectors';
 // import localLogOutUtil from '../utils/localLogOutUtil';
 
 export const useWebSocketConnection = (isLoggedIn) => {

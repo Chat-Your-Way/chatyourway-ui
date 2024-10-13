@@ -77,7 +77,7 @@ import {
   useSendMessageToNewTopicMutation,
   useSendMessageToTopicMutation,
 } from '../../redux/messagesAPI/messagesAPI';
-import { selectAccessToken } from '../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import { selectAccessToken } from '../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 import localLogOutUtil from '../../utils/localLogOutUtil';
 import UsersAvatar from './UsersAvatar/';
 import { useMediaQuery } from 'react-responsive';

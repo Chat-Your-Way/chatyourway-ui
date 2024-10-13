@@ -23,7 +23,7 @@ import {
 } from '../../../redux/chatSlice';
 import { useUser } from '../../../hooks/useUser';
 // eslint-disable-next-line max-len
-import { selectAccessToken } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import { selectAccessToken } from '../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 import localLogOutUtil from '../../../utils/localLogOutUtil';
 import {
   subscribeOnlineOrTypingStatus,

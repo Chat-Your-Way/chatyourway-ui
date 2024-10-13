@@ -2,7 +2,7 @@ import {
   setAccessToken,
   setIsLoggedIn,
   setRefreshToken,
-} from '../redux/authOperatonsToolkit/authOperationsThunkSlice';
+} from '../redux/authOperationsToolkit/authOperationsThunkSlice';
 // import { disconnectWebSocket } from '../redux/chat-operations';
 import {
   client,
