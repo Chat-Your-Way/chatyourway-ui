@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
-import { selectIsLoggedIn } from '../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import { selectIsLoggedIn } from '../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 // import { useUser } from '../../hooks/useUser';
 // import { PATH } from '../../constans/routes';
 // import { useSelector } from 'react-redux';

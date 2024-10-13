@@ -4,7 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import { MessageContainer } from '../Chat.styled';
 import { useSetMessageStatusMutation } from '../../../redux/messagesAPI/messagesAPI';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAccessToken } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import { selectAccessToken } from '../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 import { useEffect, useState } from 'react';
 import { deletReadedAllTopicsNotification } from '../../../redux/chatSlice';
 

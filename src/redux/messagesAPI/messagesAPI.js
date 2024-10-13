@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BASE_URL, Referer } from '../apiParams';
 
-export const messagesAPI = createApi({
+const messagesAPI = createApi({
   reducerPath: 'messagesSlice',
   baseQuery: fetchBaseQuery({ baseUrl: `${BASE_URL}` }),
   tagTypes: ['messages'],
@@ -74,3 +74,5 @@ export const {
   useSendMessageToNewTopicMutation,
   useSetMessageStatusMutation,
 } = messagesAPI;
+
+export default messagesAPI;

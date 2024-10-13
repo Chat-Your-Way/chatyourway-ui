@@ -10,7 +10,7 @@ import {
 import NewTopicInput from './NewTopicInput';
 import { useCreateMutation } from '../../redux/topics-operations';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAccessToken } from '../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import { selectAccessToken } from '../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 import localLogOutUtil from '../../utils/localLogOutUtil';
 
 const defaultValues = {

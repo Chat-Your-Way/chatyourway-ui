@@ -8,7 +8,8 @@ import { useWebSocketConnection } from '../../../hooks/useWebSocketConnection';
 import { useSubscriptionToAllTopicsNotify } from '../../../hooks/useSubscriptionToAllTopicsNotify';
 import { MainWrapper } from './SharedLayout.styled';
 import { useSelector } from 'react-redux';
-import { selectIsLoggedIn } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+// eslint-disable-next-line max-len
+import { selectIsLoggedIn } from '../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 import { useAllTopicsNotificationInfo } from '../../../hooks/useAllTopicsNotificationInfo';
 // import { useGetUserInfoQuery } from '../../../redux/user-operations';
 // import { useEffect } from 'react';

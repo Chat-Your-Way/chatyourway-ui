@@ -13,7 +13,8 @@ import { NavLink, useLocation } from 'react-router-dom';
 import HeaderUserInfo from './HeaderUserInfo';
 import { useTopicsContext } from '../../../common/Topics/TopicsContext';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIsLoggedIn } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+// eslint-disable-next-line max-len
+import { selectIsLoggedIn } from '../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 import { setChatOpened } from '../../../redux/chatSlice';
 import { useMediaQuery } from 'react-responsive';
 

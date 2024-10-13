@@ -3,7 +3,7 @@
 import { useSelector } from 'react-redux';
 import { useGetSubscribersQuery } from '../../../redux/topics-operations';
 // eslint-disable-next-line max-len
-import { selectAccessToken } from '../../../redux/authOperatonsToolkit/authOperationsThunkSelectors';
+import { selectAccessToken } from '../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 import { Avatars } from '../../../ui-kit/images/avatars';
 import Avatar from '../../../ui-kit/components/Avatar';
 

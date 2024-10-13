@@ -22,7 +22,7 @@ import {
   setAccessToken,
   setIsLoggedIn,
   setRefreshToken,
-} from '../../redux/authOperatonsToolkit/authOperationsThunkSlice.js';
+} from '../../redux/authOperationsToolkit/authOperationsThunkSlice.js';
 
 function LoginPageComponent() {
   const [login] = useLoginMutation();
