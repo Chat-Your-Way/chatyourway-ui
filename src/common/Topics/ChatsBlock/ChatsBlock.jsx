@@ -16,6 +16,7 @@ import { StyledNavLink } from './ChatsBlock.styled';
 
 import {
   clearSubscriptions,
+  fetchOnlineContacts,
   selectAllTopicsNotifications,
   selectSubscriptions,
   selectUsersStatusOnlineTyping,
@@ -75,11 +76,12 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
   // Useeffect for subscribing to a userOnlineStatus endpoint, and get information about online users
   useEffect(() => {
     dispatch(subscribeOnlineOrTypingStatus());
+    dispatch(fetchOnlineContacts(accessTokenInStore));
 
     return () => {
       dispatch(unSubscribeOnlineOrTypingStatus());
     };
-  }, [dispatch]);
+  }, [dispatch, accessTokenInStore]);
 
   useEffect(() => {
     if (currentPrivateTopicsData) {

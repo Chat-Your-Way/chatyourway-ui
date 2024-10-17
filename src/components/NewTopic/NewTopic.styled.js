@@ -22,14 +22,14 @@ export const StyledModalBox = styled(Box)`
   z-index: 999;
   overflow-y: scroll;
   @media screen and (min-width: 768px) {
-    max-height: 800px;
-    max-width: 624px;
+    max-width: 800px;
+    max-height: 624px;
   }
 
-  @media screen and (min-width: 1200px) {
+  /* @media screen and (min-width: 1200px) {
     max-width: 800px;
     max-height: 600px;
-  }
+  } */
 `;
 
 export const StyledForm = styled.form`

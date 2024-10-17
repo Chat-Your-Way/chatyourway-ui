@@ -49,7 +49,11 @@ function RegistrationPageComponent() {
     };
 
     try {
-      const { error, data: registrationData } = await registration(userData);
+      const {
+        error,
+        data: registrationData,
+        isSuccess,
+      } = await registration(userData);
 
       if (error) {
         if (
@@ -61,10 +65,15 @@ function RegistrationPageComponent() {
         }
         return;
       }
-      localStorage.setItem('accessToken', registrationData.accessToken);
-      localStorage.setItem('refreshToken', registrationData.refreshToken);
-      dispatch(setUserInfo(userData));
-      navigate(PATH.VERIFICATION_EMAIL);
+      // It was needed when registration proccess used the tokens
+      // localStorage.setItem('accessToken', registrationData.accessToken);
+      // localStorage.setItem('refreshToken', registrationData.refreshToken);
+      if (isSuccess) {
+        if (registrationData.registrationStatus === 'successfull') {
+          dispatch(setUserInfo(userData));
+          navigate(PATH.VERIFICATION_EMAIL);
+        }
+      }
     } catch (error) {
       console.error('Виникла помилка під час заповнення форми:', error);
     }

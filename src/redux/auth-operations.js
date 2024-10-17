@@ -28,10 +28,6 @@ const authenticationApi = createApi({
         url: '/auth/login',
         method: 'POST',
         body: body,
-        // headers: {
-        //   'Content-type': 'application/json',
-        //   Referer: 'https://splendid-quokka-41776c.netlify.app/',
-        // },
       }),
     }),
 
@@ -39,6 +35,7 @@ const authenticationApi = createApi({
       query: ({ activationToken }) => ({
         url: `/auth/activate?Email%20token=${activationToken}`,
         method: 'POST',
+        // This headers was used for previous version of registration process.
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },

@@ -34,6 +34,7 @@ import {
   // connectWebSocket,
   sendMessageByWs,
   client,
+  changeTypingStatus,
 } from '../../redux/chat-operations';
 
 import { Avatars } from '../../ui-kit/images/avatars';
@@ -88,12 +89,15 @@ import { fireEvent } from '@testing-library/react';
 import { useInView } from 'react-intersection-observer';
 import MessageContainerObserver from './MessageContainerObserver/MessageContainerObserver';
 import setUnreadMessageFlag from '../../utils/setUnreadMessagesFlag';
+import throttle from 'lodash.throttle';
+import IconActivityComponent from './IconActivityComponent';
 
 const Chat = ({ children }) => {
   const { topicId, userId } = useParams();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [sizeOfMessages, setSizeOfMessages] = useState(30);
+  const [isTyping, setIsTyping] = useState(false);
 
   const currentPageRef = useRef(1);
   const totalPagesRef = useRef(0);
@@ -171,12 +175,13 @@ const Chat = ({ children }) => {
     dispatch(setChatOpened(true));
 
     return () => {
-      dispatch(unsubscribeFromMessages());
+      // All of this actions is fired when next useEffect is unmounting. Do I really need the current useEffect?..
+      // dispatch(unsubscribeFromMessages());
       // dispatch(disconnectWebSocket()); //!
-      dispatch(clearNotifications());
-      dispatch(clearNewMessages());
-      dispatch(clearMessages());
-      dispatch(clearHistoryMessages());
+      // dispatch(clearNotifications());
+      // dispatch(clearNewMessages());
+      // dispatch(clearMessages());
+      // dispatch(clearHistoryMessages());
 
       // dispatch(toggleChatOpened());
       dispatch(setChatOpened(false));
@@ -214,10 +219,10 @@ const Chat = ({ children }) => {
     if (!currentMessagesByTopic || !topicIdData) return;
 
     // Here I add a unread message status
-    const { unreadMessageCount } = topicIdData;
+    const { unreadMessages } = topicIdData;
     const arrayWithUnreadMessagesFlag = setUnreadMessageFlag({
       arrayOfMessages: currentMessagesByTopic.content,
-      unreadMessageCount,
+      unreadMessages,
     });
 
     if (historyMessages.length === 0) {
@@ -226,7 +231,6 @@ const Chat = ({ children }) => {
           a.timestamp.localeCompare(b.timestamp),
         ),
         email,
-        notifications,
       });
 
       // dispatch(subscribeToMessages(topicId)); // This operation processed in previous useEffect
@@ -281,7 +285,6 @@ const Chat = ({ children }) => {
         ].sort((a, b) => a.timestamp.localeCompare(b.timestamp)),
 
         email,
-        notifications,
       });
 
       dispatch(setMessages(newMessagesData));
@@ -342,6 +345,7 @@ const Chat = ({ children }) => {
     isFirstUnreadMessageRef.current = messages.find((el) =>
       el.messageStatus ? el : false,
     );
+    // isFirstUnreadMessageRef.current = messages.find(el => el.unreadMessages.length !== 0);
 
     // Automatically scroll down when it's first request
     if (isLoadingCurrentMessagesByTopicId && !isFirstUnreadMessageRef.current) {
@@ -492,6 +496,11 @@ const Chat = ({ children }) => {
     // } else {
     //   alert('Зʼєднання не встановлено');
     // }
+  };
+
+  const onChangeInput = (event) => {
+    setIsTyping(true);
+    changeTypingStatus({ isTyping: false, topicId: topicId });
   };
 
   const subscribeStatus = () => {
@@ -737,13 +746,13 @@ const Chat = ({ children }) => {
                           >
                             {item.time}
                           </TimeIndicator>
-                          <IconActivity isMyMessage={item.isMyMessage}>
-                            {item.isOnline ? (
-                              <ICONS.PROPERTY_ACTIVITY />
-                            ) : (
-                              <ICONS.NO_ACTIVITY />
-                            )}
-                          </IconActivity>
+                          <IconActivityComponent
+                            isMyMessage={item.isMyMessage}
+                            senderId={item.senderId}
+                          />
+                          {/* <IconActivity isMyMessage={item.isMyMessage}>
+                            {item.isOnline ? <ICONS.PROPERTY_ACTIVITY /> : <ICONS.NO_ACTIVITY />}
+                          </IconActivity> */}
                           <UserName
                             variant="h5"
                             messageStatus={item.messageStatus}
@@ -862,6 +871,7 @@ const Chat = ({ children }) => {
                   type="text" //!
                   maxRows={3}
                   placeholder={'Введіть повідомлення...'}
+                  onChange={throttle(onChangeInput, 1000)}
                   onKeyDown={(event) => {
                     if (event.key === 'Enter' && !event.shiftKey) {
                       event.preventDefault();
