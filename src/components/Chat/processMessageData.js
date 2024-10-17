@@ -25,7 +25,7 @@ export const getTime = (timestamp) => {
 //     ...sortedCurrentMessageByTopic,
 //   ];
 
-export const processMessageData = ({ arrayOfMessages, notifications }) => {
+export const processMessageData = ({ arrayOfMessages }) => {
   // const messagesData = [...sortedCurrentMessagesByTopic];
 
   const messages = arrayOfMessages.map((messageData) => {
@@ -39,10 +39,6 @@ export const processMessageData = ({ arrayOfMessages, notifications }) => {
       messageStatus,
     } = messageData;
 
-    const notification = notifications.find(
-      (notification) => notification.email === sender.email,
-    );
-
     const message = {
       // id: nanoid(),
       id: messageData.id,
@@ -52,7 +48,6 @@ export const processMessageData = ({ arrayOfMessages, notifications }) => {
       time: getTime(timestamp),
       text: messageContent,
       isMyMessage: isMyMessage,
-      isOnline: notification?.status !== 'OFFLINE', // isOnline does not exists in array 'content'
       senderId: sender.id,
       senderEmail: sender.email,
       permittedSendingPrivateMessage: sender.permittedSendingPrivateMessage,

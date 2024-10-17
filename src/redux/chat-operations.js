@@ -18,9 +18,9 @@ import {
   setSubscribed,
   setSubscriptionAllTopicsNotify,
   clearSubscriptionAllTopicsNotify,
-  setUsersStatusOnlineTyping,
-  clearUsersStatusOnlineTyping,
-  setAllTopicsNotificationsWS,
+  setTypingStatus,
+  clearOnlineContacts,
+  setOnlineContacts,
 } from './chatSlice';
 import SockJS from 'sockjs-client';
 import { BASE_URL } from './apiParams';
@@ -32,6 +32,7 @@ const subToNotificationDest = '/user/specific/notify/';
 const subToErrorDest = '/user/specific/error';
 const sendToPublicTopicDest = '/app/topic/public/';
 const getInformationAboutUserOnlineOrTyping = '/user/specific/notify/contacts';
+const sendIsTypingDest = '/app/typing';
 // const sendToPrivateTopicDest = '/app/topic/private/'; //!TODO: sendToPrivateTopicDest
 
 // let client = null;
@@ -195,7 +196,7 @@ export const subscribeToAllTopicsNotify = () => {
         (message) => {
           const parsedAllTopicsNotifications = JSON.parse(message.body);
 
-          dispatch(setAllTopicsNotificationsWS([parsedAllTopicsNotifications]));
+          dispatch(setAllTopicsNotifications([parsedAllTopicsNotifications]));
         },
       );
       dispatch(setSubscribedAllTopicsNotify(true));
@@ -329,7 +330,7 @@ export const subscribeOnlineOrTypingStatus = () => {
         getInformationAboutUserOnlineOrTyping,
         (message) => {
           if (message.body) {
-            dispatch(setUsersStatusOnlineTyping(JSON.parse(message.body)));
+            dispatch(setOnlineContacts([JSON.parse(message.body)]));
           }
         },
       );
@@ -360,10 +361,17 @@ export const unSubscribeOnlineOrTypingStatus = () => {
     try {
       client.unsubscribe(subscriptionInstance.subscriptionId);
       dispatch(clearSubscriptions());
-      dispatch(clearUsersStatusOnlineTyping());
+      dispatch(clearOnlineContacts());
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log('Error in unSubscribeOnlineStatus', error);
     }
   };
+};
+
+export const changeTypingStatus = ({ isTyping = false, topicId }) => {
+  client.publish({
+    destination: `${sendIsTypingDest}/${isTyping}`,
+    body: JSON.stringify({ topicId }),
+  });
 };

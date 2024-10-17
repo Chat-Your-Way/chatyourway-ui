@@ -16,16 +16,18 @@ const whenStateArrLengthMore = (stateArr, actionPayloadArray) => {
 };
 
 const handleAllNotificationsArray = (stateArr, actionPayloadArray) => {
-  if (!stateArr.length) {
-    return [...actionPayloadArray.filter((el) => el.unreadMessageCount !== 0)];
+  if (stateArr.length === 0) {
+    return [
+      ...actionPayloadArray.filter((el) => el.unreadMessages.length !== 0),
+    ];
   } else if (stateArr.length >= actionPayloadArray.length) {
     return whenStateArrLengthMore(
       stateArr,
-      actionPayloadArray.filter((el) => el.unreadMessageCount !== 0),
+      actionPayloadArray.filter((el) => el.unreadMessages.length !== 0),
     );
   } else {
     return actionPayloadArray
-      .filter((el) => el.unreadMessageCount !== 0)
+      .filter((el) => el.unreadMessages.length !== 0)
       .reduce((acuum, el) => {
         if (stateArr.find((stateEl) => stateEl.id === el.id)) {
           return [
@@ -39,9 +41,46 @@ const handleAllNotificationsArray = (stateArr, actionPayloadArray) => {
   }
 };
 
+const handleOnlineContactsArray = (stateArr, actionPayloadArray) => {
+  if (stateArr.length === 0) {
+    return [...actionPayloadArray];
+  } else if (stateArr.length >= actionPayloadArray.length) {
+    return stateArr.reduce((acuum, el) => {
+      if (actionPayloadArray.find((payloadEl) => payloadEl.id === el.id)) {
+        return [
+          ...acuum,
+          {
+            ...el,
+            ...actionPayloadArray.find((payloadEl) => payloadEl.id === el.id),
+          },
+        ];
+      } else {
+        return [...acuum, el];
+      }
+    }, []);
+  } else {
+    return actionPayloadArray.reduce((acuum, payloadEl) => {
+      if (stateArr.find((storeEl) => storeEl.id === payloadEl.id)) {
+        return [
+          ...acuum,
+          {
+            ...actionPayloadArray.find(
+              (storeEl) => storeEl.id === payloadEl.id,
+            ),
+            ...stateArr.find((storeEl) => storeEl.id === payloadEl.id),
+          },
+        ];
+      } else {
+        return [...acuum, payloadEl];
+      }
+    }, []);
+  }
+};
+
 const chatSlice = createSlice({
   name: 'chat',
   initialState: {
+    typingStatus: '',
     notificationsAllTopics: [],
     notificationsAllTopicsStatus: '',
     subscribedAllTopicsNotify: false,
@@ -55,9 +94,16 @@ const chatSlice = createSlice({
     subscribed: false,
     chatOpened: false,
     contactsOpened: false,
-    usersStatusOnlineTyping: [],
+    onlineContacts: [],
+    onlineContactsStatus: '',
   },
   reducers: {
+    setTypingStatus: (state, action) => {
+      state.typingStatus = action.payload;
+    },
+    clearTypingStatus: (state) => {
+      state.typingStatus = '';
+    },
     setSubscribedAllTopicsNotify: (state, action) => {
       state.subscribedAllTopicsNotify = action.payload;
     },
@@ -68,7 +114,7 @@ const chatSlice = createSlice({
       state.subscriptionAllTopicsNotify = [];
     },
     setAllTopicsNotifications: (state, action) => {
-      if (!state.notificationsAllTopics.length) {
+      if (state.notificationsAllTopics.length === 0) {
         state.notificationsAllTopics = [...action.payload];
       } else if (state.notificationsAllTopics.length >= action.payload.length) {
         state.notificationsAllTopics = whenStateArrLengthMore(
@@ -76,28 +122,35 @@ const chatSlice = createSlice({
           action.payload,
         );
       } else {
-        state.notificationsAllTopics = action.payload.reduce((acuum, el) => {
-          if (action.payload.find((payloadEl) => payloadEl.id === el.id)) {
-            return [
-              ...acuum,
-              action.payload.find((payloadEl) => payloadEl.id === el.id),
-            ];
-          } else {
-            return [...acuum, el];
-          }
-        }, []);
-      }
-    },
-    setAllTopicsNotificationsWS: (state, action) => {
-      if (!state.notificationsAllTopics.length) {
-        state.notificationsAllTopics = [...action.payload];
-      } else {
-        state.notificationsAllTopics = whenStateArrLengthMore(
-          state.notificationsAllTopics,
-          action.payload,
+        state.notificationsAllTopics = action.payload.reduce(
+          (acuum, payloadEl) => {
+            if (
+              state.notificationsAllTopics.find(
+                (storeEl) => storeEl.id === payloadEl.id,
+              )
+            ) {
+              return [
+                ...acuum,
+                action.payload.find((storeEl) => storeEl.id === payloadEl.id),
+              ];
+            } else {
+              return [...acuum, payloadEl];
+            }
+          },
+          [],
         );
       }
     },
+    // setAllTopicsNotificationsWS: (state, action) => {
+    //   if (!state.notificationsAllTopics.length) {
+    //     state.notificationsAllTopics = [...action.payload];
+    //   } else {
+    //     state.notificationsAllTopics = whenStateArrLengthMore(
+    //       state.notificationsAllTopics,
+    //       action.payload
+    //     );
+    //   }
+    // },
     clearAllTopicsNotifications: (state) => {
       state.notificationsAllTopics = [];
     },
@@ -152,24 +205,14 @@ const chatSlice = createSlice({
     setChatOpened: (state, action) => {
       state.chatOpened = action.payload;
     },
-    setUsersStatusOnlineTyping: (state, action) => {
-      if (!state.usersStatusOnlineTyping.length) {
-        state.usersStatusOnlineTyping = [
-          ...state.usersStatusOnlineTyping,
-          action.payload,
-        ];
-      } else {
-        state.usersStatusOnlineTyping = state.usersStatusOnlineTyping.map(
-          (el) => {
-            if (el.id === action.payload.id) {
-              return action.payload;
-            } else return el;
-          },
-        );
-      }
+    setOnlineContacts: (state, action) => {
+      state.onlineContacts = handleOnlineContactsArray(
+        state.onlineContacts,
+        action.payload,
+      );
     },
-    clearUsersStatusOnlineTyping: (state) => {
-      state.usersStatusOnlineTyping = [];
+    clearOnlineContacts: (state) => {
+      state.onlineContacts = [];
     },
   },
   extraReducers(builder) {
@@ -270,17 +313,33 @@ const chatSlice = createSlice({
       .addCase(fetchNotificationsPrivateTopics.rejected, (state, action) => {
         state.notificationsAllTopics = [];
         state.notificationsAllTopicsStatus = action.error;
+      })
+      .addCase(fetchOnlineContacts.pending, (state) => {
+        state.onlineContactsStatus = 'pending';
+      })
+      .addCase(fetchOnlineContacts.fulfilled, (state, action) => {
+        state.onlineContacts = handleOnlineContactsArray(
+          state.onlineContacts,
+          action.payload,
+        );
+        state.onlineContactsStatus = 'fulfilled';
+      })
+      .addCase(fetchOnlineContacts.rejected, (state, action) => {
+        state.onlineContacts = [];
+        state.onlineContactsStatus = action.error;
       });
   },
 });
 
 export const {
+  setTypingStatus,
+  clearTypingStatus,
   setSubscribedAllTopicsNotify,
   setSubscriptionAllTopicsNotify,
   clearSubscriptionAllTopicsNotify,
   setAllTopicsNotifications,
   clearAllTopicsNotifications,
-  setAllTopicsNotificationsWS,
+  // setAllTopicsNotificationsWS,
   deletReadedAllTopicsNotification,
   setMessages,
   clearMessages,
@@ -297,8 +356,8 @@ export const {
   toggleChatOpened,
   toggleContactsOpened,
   setChatOpened,
-  setUsersStatusOnlineTyping,
-  clearUsersStatusOnlineTyping,
+  setOnlineContacts,
+  clearOnlineContacts,
 } = chatSlice.actions;
 
 export default chatSlice;
@@ -380,6 +439,11 @@ export const selectUsersStatusOnlineTyping = createSelector(
   (chat) => chat.usersStatusOnlineTyping,
 );
 
+export const selectOnlineContacts = createSelector(
+  selectChatState,
+  (chat) => chat.onlineContacts,
+);
+
 export const fetchNotificationsAllTopics = createAsyncThunk(
   'fetchNotificationsAll',
   async (accessTokenInStore) => {
@@ -399,7 +463,7 @@ export const fetchNotificationsAllTopics = createAsyncThunk(
 export const fetchNotificationsPrivateTopics = createAsyncThunk(
   'fetchNotificationsPrivate',
   async (accessTokenInStore) => {
-    const response = await fetch(`${BASE_URL}/topics/private`, {
+    const result = await fetch(`${BASE_URL}/topics/private`, {
       headers: {
         Authorization: `Bearer ${accessTokenInStore}`,
         'Content-type': 'application/json',
@@ -408,6 +472,22 @@ export const fetchNotificationsPrivateTopics = createAsyncThunk(
       .then((response) => response.json())
       .then((result) => result);
 
-    return response;
+    return result;
+  },
+);
+
+export const fetchOnlineContacts = createAsyncThunk(
+  'fetchOnlineContacts',
+  async (accessTokenInStore) => {
+    const result = await fetch(`${BASE_URL}/contacts/online`, {
+      headers: {
+        Authorization: `Bearer ${accessTokenInStore}`,
+        'Content-type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => result);
+
+    return result;
   },
 );
