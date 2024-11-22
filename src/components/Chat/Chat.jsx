@@ -101,6 +101,7 @@ const Chat = ({ children }) => {
 
   const currentPageRef = useRef(1);
   const totalPagesRef = useRef(0);
+  const typingTimerId = useRef(null);
 
   const accessTokenInStore = useSelector(selectAccessToken);
 
@@ -498,9 +499,13 @@ const Chat = ({ children }) => {
     // }
   };
 
-  const onChangeInput = (event) => {
-    setIsTyping(true);
-    changeTypingStatus({ isTyping: false, topicId: topicId });
+  const onChangeInput = () => {
+    dispatch(changeTypingStatus({ isTyping: true, topicId: topicId }));
+
+    clearTimeout(typingTimerId.current);
+    typingTimerId.current = setTimeout(() => {
+      dispatch(changeTypingStatus({ isTyping: false, topicId: topicId }));
+    }, 2000);
   };
 
   const subscribeStatus = () => {
@@ -871,7 +876,7 @@ const Chat = ({ children }) => {
                   type="text" //!
                   maxRows={3}
                   placeholder={'Введіть повідомлення...'}
-                  onChange={throttle(onChangeInput, 1000)}
+                  onChange={throttle(onChangeInput, 2000)}
                   onKeyDown={(event) => {
                     if (event.key === 'Enter' && !event.shiftKey) {
                       event.preventDefault();
