@@ -22,6 +22,7 @@ export const useCreateSidebarContext = function (props) {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+  const isTabletAndHigher = useMediaQuery({ query: '(min-width: 768px)' });
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -41,5 +42,6 @@ export const useCreateSidebarContext = function (props) {
     selectedCategory,
     setSelectedCategory,
     isMobile,
+    isTabletAndHigher,
   };
 };

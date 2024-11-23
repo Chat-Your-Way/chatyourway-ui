@@ -141,8 +141,10 @@ export const unsubscribeFromMessages = () => {
     if (subscriptions.length === 0) return;
 
     await Promise.all(
-      subscriptions.map(async ({ subscriptionId }) => {
+      subscriptions.map(async ({ subscriptionId, type }) => {
         if (!subscriptionId) return;
+
+        if (type === 'onlineStatus') return;
 
         try {
           await client.unsubscribe(subscriptionId);
@@ -343,7 +345,9 @@ export const subscribeOnlineOrTypingStatus = () => {
       );
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
+      console.log('Error while subscribing to online status:', error);
+      // eslint-disable-next-line no-console
+      console.log('client', client);
     }
   };
 };
