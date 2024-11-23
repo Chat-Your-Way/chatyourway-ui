@@ -370,8 +370,17 @@ export const unSubscribeOnlineOrTypingStatus = () => {
 };
 
 export const changeTypingStatus = ({ isTyping = false, topicId }) => {
-  client.publish({
-    destination: `${sendIsTypingDest}/${isTyping}`,
-    body: JSON.stringify({ topicId }),
-  });
+  return async (dispatch) => {
+    try {
+      client.publish({
+        destination: `${sendIsTypingDest}/${isTyping}`,
+        body: JSON.stringify({ topicId }),
+      });
+
+      dispatch(setTypingStatus(isTyping));
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log('error in change typingStatus', error);
+    }
+  };
 };

@@ -78,9 +78,11 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
     dispatch(subscribeOnlineOrTypingStatus());
     dispatch(fetchOnlineContacts(accessTokenInStore));
 
-    return () => {
-      dispatch(unSubscribeOnlineOrTypingStatus());
-    };
+    // I'm not sure that I need to unsubscribe from online and typing user status, but
+    // this code will be here for some time.
+    // return () => {
+    //   dispatch(unSubscribeOnlineOrTypingStatus());
+    // };
   }, [dispatch, accessTokenInStore]);
 
   useEffect(() => {
