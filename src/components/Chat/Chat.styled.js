@@ -71,9 +71,9 @@ export const InfoBox = styled(Box)`
   display: flex;
   flex-direction: column;
   padding: 8px;
-  @media screen and (min-width: calc(845px - 0.02px)) {
-    /* padding: 8px 12px 4px 12px; */
-  }
+  /* @media screen and (min-width: calc(845px - 0.02px)) {
+    padding: 8px 12px 4px 12px;
+  } */
 `;
 
 export const ChatUserName = styled(Typography)`
