@@ -76,11 +76,16 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
   });
 
   // eslint-disable-next-line max-len
-  // Useeffect for subscribing to a userOnlineStatus endpoint, and get information about online users
+  // Useeffect for subscribing to a userOnlineStatus endpoint, and get information
+  // about online users. Also there is an information about typingStatus
   useEffect(() => {
-    dispatch(subscribeOnlineOrTypingStatus());
     dispatch(fetchOnlineContacts(accessTokenInStore));
-  }, [dispatch, accessTokenInStore]);
+    if (subscriptions.find((el) => el.type === 'onlineStatus')) {
+      return;
+    } else {
+      dispatch(subscribeOnlineOrTypingStatus());
+    }
+  }, [dispatch, accessTokenInStore, subscriptions]);
 
   useEffect(() => {
     if (currentPrivateTopicsData) {

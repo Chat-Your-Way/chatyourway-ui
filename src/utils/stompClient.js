@@ -30,7 +30,7 @@ function createClientInstance({ dispatch, accessTokenInStore }) {
       }
     },
     onDisconnect: () => {
-      // dispatch(setConnected(false));
+      dispatch(setConnected(false));
       // console.log('This is onDisconnect CLG', event);
       localLogOutUtil(dispatch);
     },
@@ -38,9 +38,9 @@ function createClientInstance({ dispatch, accessTokenInStore }) {
       // console.log('This is onWSError CLG');
       localLogOutUtil(dispatch);
     },
-    // onStompError: errorFrame => {
-    //   console.log('StompErrorFrame', errorFrame);
-    // },
+    onStompError: () => {
+      // console.log('StompErrorFrame', errorFrame);
+    },
     webSocketFactory: function () {
       //   return socket;
       return new SockJS(

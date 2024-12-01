@@ -10,6 +10,7 @@ const sizePicker = {
 };
 
 export const AvatarStyled = styled(Avatar)`
+  position: static;
   ${(p) => sizePicker[p.size]};
   padding: 0;
   border: ${(p) => (p.current === 'true' ? '1px solid #353535' : 'none')};

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useForm } from 'react-hook-form';
 import { FieldText } from './FieldText/FieldText';
 import { FieldPassword } from './FieldPassword/FieldPassword';
@@ -69,10 +70,13 @@ function RegistrationPageComponent() {
       // localStorage.setItem('accessToken', registrationData.accessToken);
       // localStorage.setItem('refreshToken', registrationData.refreshToken);
       if (isSuccess) {
-        if (registrationData.registrationStatus === 'successfull') {
-          dispatch(setUserInfo(userData));
-          navigate(PATH.VERIFICATION_EMAIL);
-        }
+        dispatch(setUserInfo(userData));
+        navigate(PATH.VERIFICATION_EMAIL);
+        // This is an old code below - it was time when two tokens was used.
+        // if (registrationData.registrationStatus === 'successfull') {
+        // dispatch(setUserInfo(userData));
+        // navigate(PATH.VERIFICATION_EMAIL);
+        // }
       }
     } catch (error) {
       console.error('Виникла помилка під час заповнення форми:', error);

@@ -141,8 +141,10 @@ export const unsubscribeFromMessages = () => {
     if (subscriptions.length === 0) return;
 
     await Promise.all(
-      subscriptions.map(async ({ subscriptionId }) => {
+      subscriptions.map(async ({ subscriptionId, type }) => {
         if (!subscriptionId) return;
+
+        if (type === 'onlineStatus') return;
 
         try {
           await client.unsubscribe(subscriptionId);
@@ -343,7 +345,9 @@ export const subscribeOnlineOrTypingStatus = () => {
       );
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
+      console.log('Error while subscribing to online status:', error);
+      // eslint-disable-next-line no-console
+      console.log('client', client);
     }
   };
 };
@@ -370,8 +374,17 @@ export const unSubscribeOnlineOrTypingStatus = () => {
 };
 
 export const changeTypingStatus = ({ isTyping = false, topicId }) => {
-  client.publish({
-    destination: `${sendIsTypingDest}/${isTyping}`,
-    body: JSON.stringify({ topicId }),
-  });
+  return async (dispatch) => {
+    try {
+      client.publish({
+        destination: `${sendIsTypingDest}/${isTyping}`,
+        body: JSON.stringify({ topicId }),
+      });
+
+      dispatch(setTypingStatus(isTyping));
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log('error in change typingStatus', error);
+    }
+  };
 };

@@ -26,6 +26,7 @@ import {
   setChatOpened,
   setNewMessages,
   setHistoryMessages,
+  selectOnlineContacts,
 } from '../../redux/chatSlice';
 import {
   subscribeToMessages,
@@ -99,10 +100,10 @@ const Chat = ({ children }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [sizeOfMessages, setSizeOfMessages] = useState(30);
-  const [isTyping, setIsTyping] = useState(false);
 
   const currentPageRef = useRef(1);
   const totalPagesRef = useRef(0);
+  const typingTimerId = useRef(null);
 
   const accessTokenInStore = useSelector(selectAccessToken);
 
@@ -158,6 +159,7 @@ const Chat = ({ children }) => {
   const connected = useSelector(selectConnected);
   const subscribed = useSelector(selectSubscribed);
   // const isChatOpened = useSelector(selectChatOpened);
+  const onlineContacts = useSelector(selectOnlineContacts);
 
   const useMobileMediaQuery = () =>
     // useMediaQuery({ query: '(max-width: 769px)' });
@@ -195,6 +197,10 @@ const Chat = ({ children }) => {
       currentPageRef.current = 1;
       setCurrentPage(1);
       totalPagesRef.current = 1;
+      // The typing status has the value which was setted at the last update - when user
+      // is typing. And typing status can be true - but user has closed the tab with chat
+      // Reset typing status always to false.
+      dispatch(changeTypingStatus({ isTyping: false, topicId: topicId }));
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -506,9 +512,13 @@ const Chat = ({ children }) => {
     // }
   };
 
-  const onChangeInput = (event) => {
-    setIsTyping(true);
-    changeTypingStatus({ isTyping: false, topicId: topicId });
+  const onChangeInput = () => {
+    dispatch(changeTypingStatus({ isTyping: true, topicId: topicId }));
+
+    clearTimeout(typingTimerId.current);
+    typingTimerId.current = setTimeout(() => {
+      dispatch(changeTypingStatus({ isTyping: false, topicId: topicId }));
+    }, 2000);
   };
 
   const subscribeStatus = () => {
@@ -557,7 +567,12 @@ const Chat = ({ children }) => {
                   {topicIdData ? topicIdData.name : getUserName()}
                 </ChatUserName>
                 <TypingIndicator variant={isMobile ? 'h6' : 'h5'}>
-                  Ти/Пишеш...
+                  {onlineContacts.find((el) => el.typingStatus === true)
+                    ? `${
+                        onlineContacts.find((el) => el.typingStatus === true)
+                          .nickname
+                      } is typing`
+                    : 'Nobody is typing'}
                 </TypingIndicator>
               </InfoBox>
             </UserBox>
@@ -711,10 +726,13 @@ const Chat = ({ children }) => {
                     : null}
                 </ChatUserName>
                 <TypingIndicator variant={isMobile ? 'h6' : 'h5'}>
-                  {topicIdData.lastMessage
-                    ? topicIdData.lastMessage.sentFrom
-                    : null}{' '}
-                  / Пишеш...
+                  {/* {topicIdData.lastMessage ? topicIdData.lastMessage.sentFrom : null} / */}
+                  {onlineContacts.find((el) => el.typingStatus === true)
+                    ? `${
+                        onlineContacts.find((el) => el.typingStatus === true)
+                          .nickname
+                      } is typing`
+                    : 'Nobody is typing'}
                 </TypingIndicator>
               </InfoBox>
             </UserBox>
@@ -881,7 +899,7 @@ const Chat = ({ children }) => {
                   type="text" //!
                   maxRows={3}
                   placeholder={'Введіть повідомлення...'}
-                  onChange={throttle(onChangeInput, 1000)}
+                  onChange={throttle(onChangeInput, 1500)}
                   onKeyDown={(event) => {
                     if (event.key === 'Enter' && !event.shiftKey) {
                       event.preventDefault();

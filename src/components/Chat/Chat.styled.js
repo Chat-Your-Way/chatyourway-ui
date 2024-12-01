@@ -4,6 +4,7 @@ import { ICONS } from '../../ui-kit/icons';
 
 // export const ChatWrap = styled(Box)`
 export const ChatWrap = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -16,7 +17,7 @@ export const ChatWrap = styled.div`
   overflow-y: auto;
 
   /* padding: 6px 6px 21px; */ // Old rule
-  padding: ${(p) => (p.isChatOpened ? '6px' : '0')};
+  /* padding: 0 6px 6px 6px; */
   border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
 
@@ -24,10 +25,9 @@ export const ChatWrap = styled.div`
 
   /* @media screen and (min-width: calc(834px - 0.02px)) { */
   @media screen and (min-width: 768px) {
-    /* max-width: 648px; */
-    width: ${(p) => (p.isChatOpened ? '77vw' : '0')};
-    height: ${(p) => (p.isChatOpened ? '75vh' : '0')};
-    padding: 8px 8px 16px;
+    max-width: 648px;
+    height: 74vh;
+    /* padding: 0 8px 16px; */
   }
 
   @media screen and (min-width: calc(834px - 0.02px)) and (max-width: calc(1200px - 0.03px)) {
@@ -39,18 +39,27 @@ export const ChatWrap = styled.div`
     width: ${(p) => (p.isChatOpened ? '51vw' : '0')};
     max-width: 730px;
     /* height: calc(100vh - 297px); */
-    height: ${(p) => (p.isChatOpened ? '75vh' : '0')};
-    padding: 8px 10px 16px;
+    height: 75vh;
+    /* padding: 0 10px 16px; */
   }
 `;
 
 export const ChatHeader = styled(Box)`
+  position: sticky;
+  top: 0;
   /* display: flex;
   justify-content: space-between; */
   display: grid;
   grid-template-columns: 2fr 2fr 50px;
-
   margin-bottom: 16px;
+  padding: 6px 6px 0;
+  background-color: ${(p) => p.theme.palette.primary.white};
+  @media screen and (min-width: 768px) {
+    padding: 8px 8px 0;
+  }
+  @media screen and (min-width: 1200px) {
+    padding: 8px 10px 0;
+  }
 `;
 
 export const UserBox = styled(Box)`
@@ -62,9 +71,9 @@ export const InfoBox = styled(Box)`
   display: flex;
   flex-direction: column;
   padding: 8px;
-  @media screen and (min-width: calc(845px - 0.02px)) {
-    /* padding: 8px 12px 4px 12px; */
-  }
+  /* @media screen and (min-width: calc(845px - 0.02px)) {
+    padding: 8px 12px 4px 12px;
+  } */
 `;
 
 export const ChatUserName = styled(Typography)`
@@ -98,7 +107,7 @@ export const ChatSectionWrap = styled(Box)`
 export const ChatSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2 px;
+  gap: 2px;
 `;
 
 export const MessageContainer = styled.div`
@@ -179,9 +188,19 @@ export const TextMessage = styled(Box)`
 `;
 
 export const InputBox = styled(Box)`
+  position: sticky;
+  bottom: 0;
   display: flex;
-  position: relative;
+  /* position: relative; */
   align-items: center;
+  padding: 0px 0px 6px;
+  background-color: ${(p) => p.theme.palette.primary.white};
+  @media screen and (min-width: 768px) {
+    padding: 0px 8px 10px;
+  }
+  @media screen and (min-width: 1200px) {
+    padding: 0px 10px 16px;
+  }
 `;
 
 export const ChatInputStyled = styled(TextareaAutosize)`
@@ -200,7 +219,7 @@ export const ChatInputStyled = styled(TextareaAutosize)`
 export const ChatInputIconBox = styled(Box)`
   display: flex;
   position: absolute;
-  bottom: 8px;
+  bottom: 25px;
   right: 20px;
   gap: 10px;
 `;
