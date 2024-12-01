@@ -9,7 +9,7 @@ export const SearchInputStyled = styled(InputBase, {
   padding: 8px 0 8px 12px;
   opacity: 1;
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     width: 400px;
   }
 `;

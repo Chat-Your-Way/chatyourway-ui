@@ -7,7 +7,7 @@ const userApi = createApi({
   tagTypes: ['User'],
   endpoints: (builder) => ({
     editUserInfo: builder.mutation({
-      query: ({ body, accessTokenInStore }) => ({
+      query: ({ value, accessTokenInStore }) => ({
         url: '/contacts/profile',
         method: 'PATCH',
         headers: {
@@ -15,7 +15,7 @@ const userApi = createApi({
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessTokenInStore}`,
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(value),
       }),
       invalidatesTags: ['User'],
     }),

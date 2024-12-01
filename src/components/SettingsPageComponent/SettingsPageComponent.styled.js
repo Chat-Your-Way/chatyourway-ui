@@ -3,34 +3,43 @@ import { Box, InputBase, List, Typography, ListItem } from '@mui/material';
 import { ICONS } from '../../ui-kit/icons';
 import IconButton from '../../ui-kit/components/IconButton/IconButton';
 
-export const SettingsPageWarp = styled(Box)`
-  display: flex;
+export const SettingsPageWrap = styled(Box)`
+  /* display: flex;
   flex-direction: column;
-  gap: 16px;
-  background-color: ${(p) => p.theme.palette.primary.white};
-  width: 100%;
-  max-width: 342px;
-  height: 100vh;
+  gap: 16px; */
+  height: 71vh;
+  width: 87vw;
   padding: 12px 6px;
+  background-color: ${(p) => p.theme.palette.primary.white};
+  /* max-height: 70vh; */
+  /* overflow-y: auto; */
+  /* max-width: 342px; */
   border-radius: 16px;
 
-  @media screen and (min-width: calc(845px - 0.02px)) {
-    height: 840px;
-    max-width: 648px;
-    margin-left: 30px;
+  @media screen and (min-width: 768px) {
+    /* height: 840px; */
+    width: 75vw;
+    height: 75vh;
+    /* margin-left: 30px; */ // If this value for correct render text in SideBar?
     padding: 40px 24px;
   }
 
-  @media screen and (min-width: calc(1200px - 0.02px)) {
-    height: 760px;
-    max-width: 840px;
-    margin-left: 40px;
+  @media screen and (min-width: 1200px) {
+    /* height: 760px; */
+    width: 60vw;
+    /* margin-left: 40px; */
     padding: 40px;
   }
 `;
 
+export const SettingsPageWrapAdd = styled.div`
+  height: 85%;
+  overflow-y: auto;
+`;
+
 export const SettingsPageMainTitle = styled(Typography)`
-  @media screen and (max-width: calc(845px - 0.02px)) {
+  margin-bottom: 16px;
+  @media screen and (min-width: calc(845px - 0.02px)) {
     ${(p) => p.theme.typography.h2};
   }
   color: ${(p) => p.theme.palette.primary.dark};
@@ -43,9 +52,9 @@ export const SettingsWrap = styled.form`
 `;
 
 export const SettingsLabel = styled(Typography)`
-  @media screen and (max-width: calc(845px - 0.02px)) {
-    ${(p) => p.theme.typography.h5};
-  }
+  /* @media screen and (min-width: 767px) {
+    ${(p) => p.theme.typography.h4};
+  } */
   color: ${(p) => p.theme.palette.primary.dark};
 `;
 

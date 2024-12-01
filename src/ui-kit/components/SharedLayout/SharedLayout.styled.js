@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
 import { Box } from '@mui/material';
 
-export const MainWrapper = styled(Box)`
+export const MainWrapper = styled(Box, {
+  shouldForwardProp: (p) => p !== 'isCenterOrStart',
+})`
   display: flex;
   justify-content: center;
   /* */
@@ -11,6 +13,9 @@ export const MainWrapper = styled(Box)`
   @media screen and (min-width: 768px) {
     gap: 24px;
     padding: 0 40px;
+    /* justify-content: start; */
+    justify-content: ${(p) => (p.isCenterOrStart ? 'start' : 'center')};
+    // justify-content: start;
   }
   @media screen and (min-width: 1200px) {
     /* display: flex;

@@ -11,16 +11,17 @@ export const StyledBox = styled(Box)`
         : p.theme.palette.primary.contrastText};
   }
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     margin-bottom: 16px;
+    width: 100%;
   }
 `;
 
 export const StyledSearchInput = styled(SearchInput, {
   shouldForwardProp: (p) => p !== 'inputWidth' && p !== 'inputHeight',
 })`
-  @media screen and (min-width: 769px) {
-    width: 400px;
+  @media screen and (min-width: 768px) {
+    width: 100%;
   }
 
   @media screen and (min-width: 1200px) {

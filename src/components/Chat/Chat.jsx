@@ -91,6 +91,8 @@ import MessageContainerObserver from './MessageContainerObserver/MessageContaine
 import setUnreadMessageFlag from '../../utils/setUnreadMessagesFlag';
 import throttle from 'lodash.throttle';
 import IconActivityComponent from './IconActivityComponent';
+import { useSidebarContext } from '../../common/Sidebar/SidebarContext';
+import { useLocalLogoutUtil } from '../../hooks/useLocalLogOutUtil';
 
 const Chat = ({ children }) => {
   const { topicId, userId } = useParams();
@@ -142,6 +144,7 @@ const Chat = ({ children }) => {
   ] = useSendMessageToNewTopicMutation();
 
   const { email } = useSelector(selectUserInfo);
+  const { showChat, setShowChat } = useSidebarContext();
   const { isTopics, privateTopics, setPrivateTopics } = useTopicsContext();
   const { contactsOpen, setContactsOpen } = useTopicsPageContext(); //?!
   const { pathname } = useLocation();
@@ -154,7 +157,7 @@ const Chat = ({ children }) => {
   const messages = useSelector(selectMessages);
   const connected = useSelector(selectConnected);
   const subscribed = useSelector(selectSubscribed);
-  const isChatOpened = useSelector(selectChatOpened);
+  // const isChatOpened = useSelector(selectChatOpened);
 
   const useMobileMediaQuery = () =>
     // useMediaQuery({ query: '(max-width: 769px)' });
@@ -166,13 +169,16 @@ const Chat = ({ children }) => {
   const isFirstUnreadMessageRef = useRef(null);
   const unreadMessageContainerRef = useRef(null);
 
+  const { logoutUtilFN } = useLocalLogoutUtil();
+
   useEffect(() => {
     if (!connected) {
       client.activate();
     }
 
     // dispatch(toggleChatOpened());
-    dispatch(setChatOpened(true));
+    // dispatch(setChatOpened(true));
+    setShowChat(true);
 
     return () => {
       // All of this actions is fired when next useEffect is unmounting. Do I really need the current useEffect?..
@@ -184,7 +190,8 @@ const Chat = ({ children }) => {
       // dispatch(clearHistoryMessages());
 
       // dispatch(toggleChatOpened());
-      dispatch(setChatOpened(false));
+      // dispatch(setChatOpened(false));
+      setShowChat(false);
       currentPageRef.current = 1;
       setCurrentPage(1);
       totalPagesRef.current = 1;
@@ -487,7 +494,8 @@ const Chat = ({ children }) => {
       inputRef.current.value = '';
     } else {
       alert('Not connected');
-      localLogOutUtil(dispatch);
+      logoutUtilFN();
+      // localLogOutUtil(dispatch);
     }
     // if (connected) {
     //   // dispatch(sendMessageByWs({ topicId, inputMessage }));
@@ -597,7 +605,8 @@ const Chat = ({ children }) => {
 
     alert('Виникла помилка під час отримання теми (ChatComponent)');
 
-    localLogOutUtil(dispatch);
+    // localLogOutUtil(dispatch);
+    logoutUtilFN();
   }
 
   return (
@@ -605,6 +614,7 @@ const Chat = ({ children }) => {
       id="#chatwrap"
       onScroll={debounce(scrollEventWithTO, 1000)}
       ref={chatWrapIdRef}
+      isChatOpened={showChat}
     >
       {isLoading ? (
         <Loader />
@@ -680,7 +690,7 @@ const Chat = ({ children }) => {
       //     </ChatSectionWrap>
       //   </ChatWrap>
       // )
-      isChatOpened && topicIdData && messages ? (
+      showChat && topicIdData && messages ? (
         // topicIdData && (
         <>
           <ChatHeader>

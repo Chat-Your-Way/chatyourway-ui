@@ -48,7 +48,7 @@ export const SharedLayoutWrapper = styled.div`
     })};
   background-color: ${(p) => p.theme.palette.primary.disabled};
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     background: ${(p) =>
       generateBackground(p.theme.palette.mode, {
         first: p.theme.palette.mode === 'light' ? '88%' : '50%',
@@ -58,7 +58,7 @@ export const SharedLayoutWrapper = styled.div`
     background-color: ${(p) => p.theme.palette.primary.disabled};
   }
 
-  @media screen and (min-width: 1195px) {
+  @media screen and (min-width: 1200px) {
     background: ${(p) =>
       generateBackground(p.theme.palette.mode, {
         first: p.theme.palette.mode === 'light' ? '63%' : '50%',

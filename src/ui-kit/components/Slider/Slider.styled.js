@@ -13,7 +13,7 @@ export const StyledStack = styled(Stack)`
 
 export const StyledStartDiv = styled(Box)`
   width: 24px;
-  box-sizing: border-box;
+
   padding-left: 3px;
   padding-right: 3.94px;
   padding-top: 5px;
@@ -22,7 +22,7 @@ export const StyledStartDiv = styled(Box)`
 
 export const StyledEndDiv = styled(Box)`
   width: 24px;
-  box-sizing: border-box;
+
   padding-left: 2px;
   padding-right: 1.52px;
   padding-top: 5px;

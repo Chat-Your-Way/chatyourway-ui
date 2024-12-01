@@ -56,7 +56,7 @@ export const ForgotPasswordWrapper = styled(Box)`
   width: 100%;
   display: flex;
   flex-direction: column;
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     max-width: 400px;
   }
 `;
@@ -67,7 +67,7 @@ export const LogoIcon = styled(ICONS.LOGO)`
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.dark};
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     display: none;
   }
 `;

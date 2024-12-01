@@ -7,10 +7,13 @@ import {
 import { useSelector } from 'react-redux';
 import { selectUserInfo } from '../../../redux/userSlice';
 import { useEditUserInfoMutation } from '../../../redux/user-operations';
+// eslint-disable-next-line max-len
+import { selectAccessToken } from '../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 
-const ChangeUserAvatar = () => {
+const ChangeUserAvatar = ({ setIsChangeAvatarVisible }) => {
   const { nickname, avatarId } = useSelector(selectUserInfo);
   const [editUserInfo] = useEditUserInfoMutation();
+  const accessTokenInStore = useSelector(selectAccessToken);
 
   const defaultValues = {
     nickname: nickname,
@@ -28,12 +31,13 @@ const ChangeUserAvatar = () => {
       avatarId: event.avatar,
     };
     try {
-      const { isError } = await editUserInfo(value);
+      const { isError } = await editUserInfo({ value, accessTokenInStore });
 
       if (isError) {
         alert('Виникла помилка, спробуйте пізніше...');
       } else {
         alert('Аватар було успішно змінено');
+        setIsChangeAvatarVisible(false);
       }
     } catch (error) {
       console.error(error);

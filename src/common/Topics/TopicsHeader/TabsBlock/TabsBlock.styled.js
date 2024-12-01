@@ -15,8 +15,8 @@ export const StyledBox = styled.div`
   border: 1px solid ${(p) => p.theme.palette.primary.contrastText};
   border-radius: 8px;
 
-  @media screen and (min-width: 769px) {
-    width: 400px;
+  @media screen and (min-width: 768px) {
+    width: 100%;
   }
 
   @media screen and (min-width: 1200px) {
@@ -42,9 +42,9 @@ export const StyledTabs = styled(Tabs, {
   button {
     width: 33%;
   }
-  @media screen and (min-width: 769px) {
-    width: 400px;
-  }
+  // @media screen and (min-width: 768px) {
+  //   width: 100%;
+  // }
 
   @media screen and (min-width: 1200px) {
     width: ${(p) =>
@@ -74,13 +74,13 @@ export const StyledTab = styled(Tab, {
     p.tabNumber == 1 ? '81px' : p.tabNumber == 2 ? '113px' : '127px'};
   min-height: 41px;
   padding: ${(p) => (p.firstTabPaddingX ? '10px 16px' : '10px')};
-  box-sizing: border-box;
+  // box-sizing: border-box;
   background: ${(p) =>
     p.isActive ? p.theme.palette.primary.disabled : 'transparent'};
   border-radius: ${(p) =>
     p.borderRight ? '8px 0 0 8px' : p.borderLeft ? '0 8px 8px 0' : 'none'};
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     width: ${(p) => p.tabWidth};
   }
 

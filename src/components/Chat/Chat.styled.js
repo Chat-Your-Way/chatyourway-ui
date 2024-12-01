@@ -7,25 +7,26 @@ export const ChatWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 100%;
+  /* width: 100%; */
   /* max-width: 342px; */ // Old rule
-  max-width: 85vw;
+  width: ${(p) => (p.isChatOpened ? '85vw' : '0')};
+
   //height: calc(100vh - 145px); // Old rule
-  height: 84vh;
+  height: ${(p) => (p.isChatOpened ? '85vh' : '0')};
   overflow-y: auto;
-  box-sizing: border-box;
 
   /* padding: 6px 6px 21px; */ // Old rule
-  padding: 6px;
+  padding: ${(p) => (p.isChatOpened ? '6px' : '0')};
   border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
-  overflow-y: auto;
+
   scroll-behavior: smooth;
 
   /* @media screen and (min-width: calc(834px - 0.02px)) { */
   @media screen and (min-width: 768px) {
-    max-width: 648px;
-    height: 74vh;
+    /* max-width: 648px; */
+    width: ${(p) => (p.isChatOpened ? '77vw' : '0')};
+    height: ${(p) => (p.isChatOpened ? '75vh' : '0')};
     padding: 8px 8px 16px;
   }
 
@@ -35,10 +36,10 @@ export const ChatWrap = styled.div`
 
   /* @media screen and (min-width: calc(1200px - 0.02px)) { */
   @media screen and (min-width: 1200px) {
-    width: 51vw;
+    width: ${(p) => (p.isChatOpened ? '51vw' : '0')};
     max-width: 730px;
     /* height: calc(100vh - 297px); */
-    height: 75vh;
+    height: ${(p) => (p.isChatOpened ? '75vh' : '0')};
     padding: 8px 10px 16px;
   }
 `;

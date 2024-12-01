@@ -8,33 +8,40 @@ import {
 } from '@mui/material';
 
 export const FaqPageWrapper = styled(Box)`
-  max-width: 342px;
-  height: 600px;
-  padding: 0 6px;
-  margin: 0 auto;
+  position: relative;
+  width: 87vw;
+  height: 71vh;
+  padding: 10px 6px;
+
+  /* margin: 0 auto; */
   border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
 
-  @media screen and (min-width: 769px) {
-    padding: 40px 20px;
-    max-width: 648px;
-    height: 840px;
+  scrollbar-width: thin;
+  scrollbar-color: ${(p) =>
+    /* eslint-disable */
+    `${p.theme.palette.primary.main} ${p.theme.palette.primary.light}`};
+
+  @media screen and (min-width: 768px) {
+    width: 75vw;
+    height: 75vh;
+    padding: 40px 24px;
   }
 
-  @media screen and (min-width: 1194px) {
-    width: 840px;
-    height: 761px;
-    padding: 40px 70px 262px 40px;
+  @media screen and (min-width: 1200px) {
+    width: 60vw;
+    /* height: 761px; */
+    padding: 40px;
   }
 `;
 
 export const FaqPageTitle = styled(Typography)`
-  ${(p) => p.theme.typography.h3};
+  ${p => p.theme.typography.h3};
   margin-bottom: 20px;
-  color: ${(p) => p.theme.palette.primary.dark};
+  color: ${p => p.theme.palette.primary.dark};
 
   @media screen and (min-width: 769px) {
-    ${(p) => p.theme.typography.h1};
+    ${p => p.theme.typography.h1};
     justify-content: start;
   }
 `;
@@ -43,15 +50,20 @@ export const AccordionList = styled(Box)`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  height: 80%;
   margin: auto;
-  max-width: 330px;
-  max-height: 490px;
-  background: ${(p) => p.theme.palette.primary.darkPurple};
+  /* max-width: 85vw; */
+  /* max-width: 330px; */
+  /* height: 75vh; */
+
+  /* max-height: 490px; */
+  background: ${p => p.theme.palette.primary.darkPurple};
+  /* overflow-y: auto; */
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: ${(p) =>
+  scrollbar-color: ${p =>
     /* eslint-disable */
-    `${p.theme.palette.primary.lightPurple} ${p.theme.palette.primary.darkPurple}`};
+    `${p.theme.palette.primary.main} ${p.theme.palette.primary.light}`};
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -59,20 +71,20 @@ export const AccordionList = styled(Box)`
 
   &::-webkit-scrollbar-thumb,
   &::-webkit-scrollbar-track {
-    background-color: ${(p) => p.theme.palette.primary.darkPurple};
+    background-color: ${p => p.theme.palette.primary.darkPurple};
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: ${(p) => p.theme.palette.primary.lightPurple};
+    background-color: ${p => p.theme.palette.primary.lightPurple};
   }
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     max-width: 600px;
-    max-height: 700px;
+    /* max-height: 700px; */
   }
 
-  @media screen and (min-width: 1194px) {
+  @media screen and (min-width: 1200px) {
     max-width: 730px;
-    max-height: 861px;
+    /* max-height: 861px; */
   }
 `;
 
@@ -81,11 +93,11 @@ export const FaqAccordion = styled(Accordion)`
     content: none;
   }
   box-shadow: none;
-  ${(p) => p.theme.typography.h5};
-  border: 1px solid ${(p) => p.theme.palette.primary.contrastText};
+  ${p => p.theme.typography.h5};
+  border: 1px solid ${p => p.theme.palette.primary.contrastText};
   border-radius: 16px !important;
-  color: ${(p) => p.theme.palette.primary.dark};
-  background: ${(p) => p.theme.palette.primary.darkPurple};
+  color: ${p => p.theme.palette.primary.dark};
+  background: ${p => p.theme.palette.primary.darkPurple};
   word-wrap: break-word;
   padding: 10px 16px;
 
@@ -105,7 +117,7 @@ export const FaqAccordion = styled(Accordion)`
   }
 
   &.Mui-expanded {
-    color: ${(p) => p.theme.palette.primary.contrastText};
+    color: ${p => p.theme.palette.primary.contrastText};
     font-weight: 600;
     margin: 0 !important;
   }
@@ -118,9 +130,9 @@ export const FaqAccordionSummary = styled(AccordionSummary)`
 `;
 
 export const FaqAccordionTitle = styled(Typography)`
-  color: ${(p) => p.theme.palette.primary.dark};
+  color: ${p => p.theme.palette.primary.dark};
   .Mui-expanded & {
-    color: ${(p) => p.theme.palette.primary.contrastText};
+    color: ${p => p.theme.palette.primary.contrastText};
     font-weight: 700;
   }
 `;
@@ -131,5 +143,5 @@ export const FaqAccordionDetails = styled(AccordionDetails)`
 `;
 
 export const FaqAccordionText = styled(Typography)`
-  color: ${(p) => p.theme.palette.primary.dark};
+  color: ${p => p.theme.palette.primary.dark};
 `;

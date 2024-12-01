@@ -23,19 +23,18 @@ export const StyledBox = styled(Box, {
 })`
   display: flex;
   flex-direction: column;
-
-  gap: ${(p) => (p.showText === true ? '8px' : '24px')};
-  box-sizing: border-box;
-  background: ${(p) => p.theme.palette.primary.white};
-  border: 1px solid transparent;
-  border-radius: 16px;
-  padding: 5px 5px;
-  // width: calc(100vw - 50px);
   width: 85vw;
   max-width: 342px;
   height: 75vh;
   max-height: 600px;
+  // padding: 5px 5px; // ?? I dont know for which display size it's needed?
   overflow-y: auto;
+
+  gap: ${(p) => (p.showText === true ? '8px' : '24px')};
+  background: ${(p) => p.theme.palette.primary.white};
+  border: 1px solid transparent;
+  border-radius: 16px;
+  // width: calc(100vw - 50px);
 
   @media screen and (max-width: 320px) {
     width: 300px;
@@ -47,23 +46,24 @@ export const StyledBox = styled(Box, {
   //   margin-left: 0;
   // }
 
-  @media screen and (min-width: 580px) {
-    padding: 35px 15px 10px 15px;
-    height: auto;
-  }
+  // @media screen and (min-width: 580px) {
+  //   padding: 35px 15px 10px 15px;
+  //   height: auto;
+  // }
 
   @media screen and (min-width: 768px) {
     width: ${(p) => (p.showText ? '30vw' : '75px')};
     background: transparent;
     border: none;
     margin-left: 0;
+    overflow-y: clip;
   }
 `;
 
 export const StyledContentBox = styled(Box, {
   shouldForwardProp: (p) => p !== 'showText',
 })`
-  padding-bottom: 83px;
+  // padding-bottom: 83px; // I don't know for which display size it's needed?
   display: flex;
   flex-direction: column;
   gap: 25px;
@@ -119,7 +119,6 @@ export const StyledNavlist = styled('ul', {
   display: flex;
   flex-direction: column;
   gap: 9px;
-  box-sizing: border-box;
   background: transparent;
 `;
 
@@ -130,7 +129,7 @@ export const StyledNavlistItem = styled('li', {
 export const StyledItem = styled(Box, {
   shouldForwardProp: (p) => p !== 'showText' && p !== 'isActive',
 })`
-  padding: ${(p) => (p.showText ? '16px' : '0')};
+  padding: ${(p) => (p.showText ? '16px 0 16px 16px' : '0')};
   cursor: ${(p) => (p.isActive ? 'default' : 'pointer')};
   display: flex;
   align-items: center;
@@ -156,11 +155,12 @@ export const StyledItem = styled(Box, {
     ${(p) => p.theme.typography.h4}
   }
 
-  @media screen and (max-width: 320px) {
-    padding: 8px 16px;
-  }
+  // @media screen and (max-width: 320px) {
+  //   padding: 8px 16px;
+  // }
 
   @media screen and (min-width: 768px) {
+    width: 230px;
     max-width: 290px;
     border: 1px solid
       ${(p) =>
@@ -182,21 +182,22 @@ export const StyledItem = styled(Box, {
   }
 
   &:hover {
-    border: 1px solid
-      ${(p) => (p.showText ? p.theme.palette.primary.main : 'transparent')};
+    // border: 1px solid ${(p) =>
+      p.showText ? p.theme.palette.primary.main : 'transparent'};
     color: ${(p) => p.theme.palette.primary.main};
-    p {
-      color: ${(p) => p.theme.palette.primary.main};
-    }
+    // p {
+    //   color: ${(p) => p.theme.palette.primary.main};
+    // }
 
     svg {
       filter: drop-shadow(-2px -2px 8px rgb(134 134 220 / 0.2))
         drop-shadow(2px 2px 8px rgb(134 134 220 / 0.2));
     }
 
-    path {
-      fill: ${(p) => (p.showText ? p.theme.palette.primary.main : undefined)};
-    }
+    // path {
+    //   fill: ${(p) =>
+      p.showText ? p.theme.palette.primary.main : undefined};
+    // }
   }
 `;
 
@@ -208,7 +209,7 @@ export const LogOutButton = styled(Button)`
   display: flex;
   justify-content: start;
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     display: none;
   }
 `;
@@ -225,7 +226,7 @@ export const StyledText = styled(Typography, {
 })`
   color: ${(p) => p.theme.palette.primary.dark};
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     color: ${(p) =>
       p.isActive ? p.theme.palette.primary.main : p.theme.palette.primary.dark};
 

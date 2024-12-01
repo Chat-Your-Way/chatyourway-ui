@@ -1,7 +1,7 @@
 import WhiteLayout from '../../ui-kit/components/WhiteLayout/WhiteLayout';
 import { PATH } from '../../constans/routes.js';
 import { useForm } from 'react-hook-form';
-import { useMediaQuery } from 'react-responsive';
+
 // eslint-disable-next-line max-len
 import { FieldText } from '../RegistrationPageComponent/FieldText/FieldText.jsx';
 import {
@@ -15,6 +15,7 @@ import {
   ButtonWrapper,
   ForgotPasswordButton,
 } from './ForgotPasswordPageComponent.styled.js';
+import { useSidebarContext } from '../../common/Sidebar/SidebarContext.js';
 
 function ForgotPasswordPageComponent() {
   const {
@@ -22,7 +23,7 @@ function ForgotPasswordPageComponent() {
     handleSubmit,
     control,
   } = useForm({ defaultValues: { email: '' }, mode: 'onChange' });
-  const isTablet = useMediaQuery({ query: '(min-width: calc(845px - 0.02px)' });
+  const { isTablet } = useSidebarContext();
 
   const onSubmit = (values) => {
     const email = values.email.trim().toLowerCase();

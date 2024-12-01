@@ -16,8 +16,7 @@ const userInfoSlice = createSlice({
   },
 });
 
-export const { setUserInfo, setAccessToken, setRefreshToken, setIsLoggedIn } =
-  userInfoSlice.actions;
+export const { setUserInfo } = userInfoSlice.actions;
 
 export default userInfoSlice;
 

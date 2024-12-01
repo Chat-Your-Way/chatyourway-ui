@@ -7,6 +7,7 @@ import {
 import {
   client,
   unsubscribeFromAllTopicsNotify,
+  unSubscribeOnlineOrTypingStatus,
 } from '../redux/chat-operations';
 import {
   clearAllTopicsNotifications,
@@ -27,6 +28,7 @@ const localLogOutUtil = (dispatch) => {
   dispatch(setConnected(false));
   dispatch(clearAllTopicsNotifications());
   dispatch(unsubscribeFromAllTopicsNotify());
+  dispatch(unSubscribeOnlineOrTypingStatus());
   if (client.active) {
     // console.log('Client is active, deactivating');
     client.deactivate();

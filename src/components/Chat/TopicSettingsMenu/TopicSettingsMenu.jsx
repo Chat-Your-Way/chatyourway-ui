@@ -29,6 +29,7 @@ import {
   setRefreshToken,
 } from '../../../redux/authOperationsToolkit/authOperationsThunkSlice';
 import localLogOutUtil from '../../../utils/localLogOutUtil';
+import { useLocalLogoutUtil } from '../../../hooks/useLocalLogOutUtil';
 
 const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -43,6 +44,8 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
   const [subscribe] = useSubscribeMutation();
   const [unsubscribe] = useUnsubscribeMutation();
 
+  const { logoutUtilFN } = useLocalLogoutUtil();
+
   if (isError) {
     alert(
       'Виникла помилка під час отримання улюблених тем (TopicSettingsMenu)',
@@ -51,7 +54,8 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
       alert(
         'Виникла помилка під час отримання улюблених тем, авторизуйтесь в системмі!',
       );
-      localLogOutUtil(dispatch);
+      logoutUtilFN();
+      // localLogOutUtil(dispatch);
       // dispatch(setIsLoggedIn(false));
       // dispatch(setAccessToken(null));
       // return dispatch(setRefreshToken(null));

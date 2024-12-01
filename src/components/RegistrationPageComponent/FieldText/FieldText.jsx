@@ -8,7 +8,15 @@ import {
   RegistrationInputError,
 } from '../RegistrationPageComponent.styled';
 
-export const FieldText = ({ title, id, control, errors, placeholder }) => {
+export const FieldText = ({
+  title,
+  id,
+  control,
+  errors,
+  placeholder,
+  inputWidth,
+  label,
+}) => {
   const getRules = () => {
     return id === 'nickname' ? validationRules.nickname : validationRules.email;
   };
@@ -20,15 +28,19 @@ export const FieldText = ({ title, id, control, errors, placeholder }) => {
         control={control}
         name={id}
         rules={getRules()}
-        render={({ field: { onChange, value } }) => (
-          <RegistrationInput
-            errors={errors ? 'true' : 'false'}
-            type="text"
-            onChange={onChange}
-            value={value}
-            endAdornment={<TextInputIcon />}
-            placeholder={placeholder}
-          />
+        render={({ field: { onChange } }) => (
+          <>
+            <RegistrationInput
+              errors={errors ? 'true' : 'false'}
+              type="text"
+              onChange={onChange}
+              // value={value}
+              endAdornment={<TextInputIcon />}
+              placeholder={placeholder}
+              inputWidth={inputWidth}
+              label={label}
+            />
+          </>
         )}
       />
       {errors && (

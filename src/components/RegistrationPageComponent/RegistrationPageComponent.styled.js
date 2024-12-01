@@ -54,7 +54,7 @@ export const RegistrationForm = styled.form`
 // ===== COMMON STYLES
 export const RegistrationInputWrapper = styled(Box)`
   position: relative;
-  margin: 3px 0 20px 0;
+  margin: 3px 0 35px 0;
 `;
 
 export const RegistrationLabel = styled(Typography)`
@@ -62,9 +62,9 @@ export const RegistrationLabel = styled(Typography)`
   align-items: center;
   justify-content: space-between;
   font-size: ${(p) => p.theme.typography.h6};
-  margin-top: -10px;
+  /* margin-top: -10px; */
 
-  @media screen and (min-width: 560px) {
+  @media screen and (min-width: 768px) {
     ${(p) => p.theme.typography.h5};
     margin-top: 0;
   }
@@ -73,26 +73,28 @@ export const RegistrationLabel = styled(Typography)`
 
 export const RegistrationInput = styled(InputBase, {
   shouldForwardProp: (p) =>
-    p !== 'inputWidth' && p !== 'inputHeight' && p !== 'errors',
+    p !== 'inputWidth' &&
+    p !== 'inputHeight' &&
+    p !== 'errors' &&
+    p !== 'helperText' &&
+    p !== 'label',
 })`
-  padding: 12px;
+  // padding: 12px;
   width: ${(p) => (p.inputWidth ? p.inputWidth : '300px')};
   height: ${(p) => (p.inputHeight ? p.inputHeight : '40px')};
   border: 1px solid ${(p) => (p.errors === 'true' ? '#DA4444' : '#6261AF')};
   background-color: ${(p) => p.theme.palette.primary.white};
 
-  @media screen and (min-width: 560px) {
-    height: 46px;
-  }
-
   @media screen and (min-width: 768px) {
     width: ${(p) => (p.inputWidth ? p.inputWidth : '400px')};
+    height: 46px;
   }
 `;
 
 export const RegistrationInputError = styled.span`
   position: absolute;
-  left: 0;
+  right: 0;
+  bottom: -32%;
   font-size: 13px;
   color: ${(p) => p.theme.palette.primary.errorColor};
 

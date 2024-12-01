@@ -10,7 +10,7 @@ export const TopicsWrapper = styled('div', {
   // height: calc(100vh - 145px); // Old rule
   height: 85vh;
   // width: calc(100vw - 40px); // Old rule
-  width: 90vw;
+  width: 85vw;
   overflow-y: scroll;
 
   // display: flex; // Old rule
