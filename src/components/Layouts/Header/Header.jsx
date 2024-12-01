@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   HeaderWrap,
   Logo,
@@ -15,41 +16,148 @@ import { useTopicsContext } from '../../../common/Topics/TopicsContext';
 import { useDispatch, useSelector } from 'react-redux';
 // eslint-disable-next-line max-len
 import { selectIsLoggedIn } from '../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
-import { setChatOpened } from '../../../redux/chatSlice';
+import { selectChatOpened, setChatOpened } from '../../../redux/chatSlice';
 import { useMediaQuery } from 'react-responsive';
 
 const Header = () => {
-  const { showMenu, setShowMenu } = useSidebarContext();
-  const { setShowTopics } = useTopicsContext();
+  const {
+    showMenu,
+    setShowMenu,
+    setShowText,
+    showAdvancedMenu,
+    setShowAdvancedMenu,
+    showChat,
+    setShowChat,
+    isMobile,
+    isTablet,
+    isTabletAndHigher,
+    isDesktop,
+    selectedCategory,
+  } = useSidebarContext();
+  const { showTopics, setShowTopics } = useTopicsContext();
   const { pathname } = useLocation();
   const path = pathname.includes('chat') ? 'chat' : 'notifications';
 
-  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+  // const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  // const chatOpened = useSelector(selectChatOpened);
 
   const dispatch = useDispatch();
 
   const onIconMenuClick = () => {
-    if (!showMenu && path === 'chat') {
-      dispatch(setChatOpened(false));
+    // This code for truthy values of showTopics and showAdvancedMenu
+    if (
+      showTopics &&
+      (pathname === '/home/topics' || pathname === '/home/notification') &&
+      isMobile
+    ) {
+      setShowMenu(true);
+      setShowText(true);
+      setShowTopics(false);
+    } else if (
+      !showTopics &&
+      (pathname === '/home/topics' || pathname === '/home/notification') &&
+      isMobile
+    ) {
+      setShowMenu(false);
+      setShowText(false);
+      setShowTopics(true);
     } else {
-      dispatch(setChatOpened(true));
+      setShowTopics(false);
     }
+
+    // dispatch(setChatOpened(true));
 
     if (
-      !showMenu &&
-      isMobile &&
-      (pathname.includes('topics') || pathname.includes('notification'))
+      showAdvancedMenu &&
+      (pathname.includes('settings') || pathname.includes('info')) &&
+      isMobile
     ) {
-      setShowTopics(false);
+      setShowMenu(true);
+      setShowText(true);
+      setShowAdvancedMenu(false);
+    } else if (
+      !showAdvancedMenu &&
+      (pathname.includes('settings') || pathname.includes('info')) &&
+      isMobile
+    ) {
+      setShowMenu(false);
+      setShowText(false);
+      setShowAdvancedMenu(true);
     } else {
-      setShowTopics(true);
+      setShowAdvancedMenu(false);
     }
 
-    if (showMenu && isMobile && pathname.includes('chat')) {
-      setShowTopics(false);
+    // dispatch(setChatOpened(true));
+
+    //
+    // else if (
+    // //   !showAdvancedMenu &&
+    // //   (pathname.includes('settings') || pathname.includes('info')) &&
+    // //   isTabletAndHigher
+    // // ) {
+    // //   setShowMenu(true);
+    // //   setShowText(false);
+    // //   setShowAdvancedMenu(true);
+    // // } else if (
+    // //   !showAdvancedMenu &&
+    // //   (pathname.includes('settings') || pathname.includes('info')) &&
+    // //   isDesktop
+    // // ) {
+    // //   setShowMenu(true);
+    // //   setShowText(true);
+    // //   setShowAdvancedMenu(true);
+    // // } else {
+    // //   setShowAdvancedMenu(false);
+    // // }
+    //
+
+    // Handle the ChatOpened state
+    if (showChat && pathname.includes('/chat/') && isMobile) {
+      setShowMenu(true);
+      setShowText(true);
+      // dispatch(setChatOpened(false));
+      setShowChat(false);
+    } else if (!showChat && pathname.includes('/chat/') && isMobile) {
+      setShowMenu(false);
+      setShowText(false);
+      // dispatch(setChatOpened(true));
+      setShowChat(true);
     }
+
+    // Render ChatComponent if SideBarComponent is not rendered.
+    // In all other situations - show ChatComponent
+    // if (!showMenu && path === 'chat') {
+    //   dispatch(setChatOpened(false));
+    // } else {
+    //   dispatch(setChatOpened(true));
+    // }
+
+    // Show TopicsComponent only in mobile size of screen and if only SideBar doesn't
+    // rendered. And render Topics only there this component must be rendered
+    // if (
+    //   !showMenu &&
+    //   isMobile &&
+    //   (pathname.includes('topics') || pathname.includes('notification'))
+    // ) {
+    //   setShowTopics(false);
+    // } else {
+    //   setShowTopics(true);
+    // }
+
+    // Hide ChatBlock component when SideBar rendered in mobile screen, and
+    // Chat component is shown.
+    // if (showMenu && isMobile && pathname.includes('chat')) {
+    //   setShowTopics(false);
+    // }
+
+    // This is for displaying an advanced menus for mobile adaptive.
+    // if (!showMenu && isMobile) {
+    //   setShowAdvancedMenu(false);
+    // } else {
+    //   setShowAdvancedMenu(true);
+    // }
 
     setShowMenu(!showMenu);
     // setShowTopics(false);

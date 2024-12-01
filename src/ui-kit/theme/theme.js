@@ -50,10 +50,10 @@ export const createCommonTheme = (theme) =>
       MuiInputBase: {
         styleOverrides: {
           root: {
-            boxSizing: 'border-box',
-            display: 'flex',
+            // boxSizing: 'border-box',
+            // display: 'flex',
             padding: '12px',
-            alignItems: 'center',
+            // alignItems: 'center',
             gap: '10px',
             border: '1px solid #6261AF',
             borderRadius: '8px',

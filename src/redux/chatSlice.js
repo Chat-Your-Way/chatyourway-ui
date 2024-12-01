@@ -221,44 +221,17 @@ const chatSlice = createSlice({
         state.notificationsAllTopicsStatus = 'pending';
       })
       .addCase(fetchNotificationsAllTopics.fulfilled, (state, action) => {
-        // if (action.payload.httpStatus === 'UNAUTHORIZED') {
-        //   return {
-        //     ...state,
-        //     notificationsAllTopics: [],
-        //     notificationsAllTopicsStatus: 'UNAUTHORIZED',
-        //   };
-        // }
-
-        // state.notificationsAllTopics = [
-        //   ...state.notificationsAllTopics,
-        //   ...action.payload.filter(el => el.unreadMessageCount !== 0),
-        // ];
+        if (action.payload.httpStatus === 'UNAUTHORIZED') {
+          return {
+            ...state,
+            notificationsAllTopics: [],
+            notificationsAllTopicsStatus: action.payload.error,
+          };
+        }
         state.notificationsAllTopics = handleAllNotificationsArray(
           state.notificationsAllTopics,
           action.payload,
         );
-
-        // if (!state.notificationsAllTopics.length) {
-        //   state.notificationsAllTopics = [
-        //     ...action.payload.filter(el => el.unreadMessageCount !== 0),
-        //   ];
-        // } else if (state.notificationsAllTopics.length >= action.payload.length) {
-        //   state.notificationsAllTopics = whenStateArrLengthMore(
-        //     state.notificationsAllTopics,
-        //     action.payload.filter(el => el.unreadMessageCount !== 0)
-        //   );
-        // } else {
-        //   state.notificationsAllTopics = action.payload
-        //     .filter(el => el.unreadMessageCount !== 0)
-        //     .reduce((acuum, el) => {
-        //       if (action.payload.find(payloadEl => payloadEl.id === el.id)) {
-        //         return [...acuum, action.payload.find(payloadEl => payloadEl.id === el.id)];
-        //       } else {
-        //         return [...acuum, el];
-        //       }
-        //     }, []);
-        // }
-
         state.notificationsAllTopicsStatus = 'successfull';
       })
       .addCase(fetchNotificationsAllTopics.rejected, (state, action) => {
@@ -281,7 +254,10 @@ const chatSlice = createSlice({
         //   ...state.notificationsAllTopics,
         //   ...action.payload.filter(el => el.unreadMessageCount !== 0),
         // ];
-
+        if (action.payload.httpStatus === 'UNAUTHORIZED') {
+          state.notificationsAllTopicsStatus === action.payload.message;
+          return;
+        }
         state.notificationsAllTopics = handleAllNotificationsArray(
           state.notificationsAllTopics,
           action.payload,
@@ -318,6 +294,10 @@ const chatSlice = createSlice({
         state.onlineContactsStatus = 'pending';
       })
       .addCase(fetchOnlineContacts.fulfilled, (state, action) => {
+        if (action.payload.httpStatus === 'UNAUTHORIZED') {
+          state.onlineContactsStatus === action.payload.message;
+          return;
+        }
         state.onlineContacts = handleOnlineContactsArray(
           state.onlineContacts,
           action.payload,
@@ -446,48 +426,60 @@ export const selectOnlineContacts = createSelector(
 
 export const fetchNotificationsAllTopics = createAsyncThunk(
   'fetchNotificationsAll',
-  async (accessTokenInStore) => {
-    const response = await fetch(`${BASE_URL}/topics/all`, {
-      headers: {
-        Authorization: `Bearer ${accessTokenInStore}`,
-        'Content-type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => result);
+  async (accessTokenInStore, thunkAPI) => {
+    try {
+      const response = await fetch(`${BASE_URL}/topics/all`, {
+        headers: {
+          Authorization: `Bearer ${accessTokenInStore}`,
+          'Content-type': 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then((result) => result);
 
-    return response;
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   },
 );
 
 export const fetchNotificationsPrivateTopics = createAsyncThunk(
   'fetchNotificationsPrivate',
-  async (accessTokenInStore) => {
-    const result = await fetch(`${BASE_URL}/topics/private`, {
-      headers: {
-        Authorization: `Bearer ${accessTokenInStore}`,
-        'Content-type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => result);
+  async (accessTokenInStore, thunkAPI) => {
+    try {
+      const result = await fetch(`${BASE_URL}/topics/private`, {
+        headers: {
+          Authorization: `Bearer ${accessTokenInStore}`,
+          'Content-type': 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then((result) => result);
 
-    return result;
+      return result;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   },
 );
 
 export const fetchOnlineContacts = createAsyncThunk(
   'fetchOnlineContacts',
-  async (accessTokenInStore) => {
-    const result = await fetch(`${BASE_URL}/contacts/online`, {
-      headers: {
-        Authorization: `Bearer ${accessTokenInStore}`,
-        'Content-type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => result);
+  async (accessTokenInStore, thunkAPI) => {
+    try {
+      const result = await fetch(`${BASE_URL}/contacts/online`, {
+        headers: {
+          Authorization: `Bearer ${accessTokenInStore}`,
+          'Content-type': 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then((result) => result);
 
-    return result;
+      return result;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   },
 );

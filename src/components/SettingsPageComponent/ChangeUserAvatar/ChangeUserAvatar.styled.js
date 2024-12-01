@@ -5,7 +5,7 @@ export const UserAvatarForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  @media screen and (min-width: calc(845px - 0.02px)) {
+  @media screen and (min-width: 768px) {
     gap: 20px;
   }
 `;

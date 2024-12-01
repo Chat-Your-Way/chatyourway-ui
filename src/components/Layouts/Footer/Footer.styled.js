@@ -4,18 +4,22 @@ import { ICONS } from '../../../ui-kit/icons';
 import { Box } from '@mui/material';
 
 export const FooterWrap = styled(Box)`
-  position: absolute;
+  z-index: 1;
+  max-width: 1440px;
+  width: 100%;
+  /* position: absolute; */
   bottom: 0;
   display: none;
   padding-left: 80px;
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     display: block;
-    padding-top: 77px;
+    padding: 77px 40px 40px 40px;
+    /* padding-top: 77px;
     padding-bottom: 40px;
-    padding-left: 40px;
+    padding-left: 40px; */
   }
-  @media screen and (min-width: 1194px) {
+  @media screen and (min-width: 1200px) {
     padding-top: 24px;
     padding-bottom: 40px;
     padding-left: 80px;

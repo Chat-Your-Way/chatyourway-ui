@@ -1,14 +1,14 @@
-/* html {
-  box-sizing: border-box;
+html {
+  /* box-sizing: border-box; */
   width: 100vw;
-  overflow-x: hidden;
-} 
+  /* overflow-x: hidden; */
+}
 
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
-} //! */
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;

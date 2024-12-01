@@ -17,6 +17,17 @@ const TabsBlock = ({ active, setFilter }) => {
   const chatOpened = useSelector(selectChatOpened);
   const contactsOpened = useSelector(selectContactsOpened);
 
+  // const firstTabWidth = chatOpened ? '89px' : contactsOpened ? '66px' : '115px';
+  // const secondTabWidth = chatOpened
+  //   ? '129px'
+  //   : contactsOpened
+  //   ? '97px'
+  //   : '142px';
+  // const thirdTabWidth = chatOpened
+  //   ? '144px'
+  //   : contactsOpened
+  //   ? '112px'
+  //   : '145px';
   const firstTabWidth = chatOpened ? '89px' : contactsOpened ? '66px' : '115px';
   const secondTabWidth = chatOpened
     ? '129px'

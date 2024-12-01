@@ -14,10 +14,11 @@ export const WhiteLayoutStyled = styled(Box, {
   padding: ${(p) => (p.padding ? p.padding : '40px 28px 40px 27px')};
   border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
-  max-width: 342px;
+
+  // max-width: 342px;
   // height: 70vh;
   // max-height: 600px;
-  //margin-bottom: 30px;
+  // margin-bottom: 30px;
 
   // @media screen and (min-width: 320px) {
   //   height: 70vh;

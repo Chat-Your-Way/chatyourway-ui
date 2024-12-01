@@ -4,7 +4,6 @@ import { Box } from '@mui/material';
 export const StyledBox = styled(Box, {
   shouldForwardProp: (p) => p !== 'chatOpened' && p !== 'contactsOpened',
 })`
-  font-size: 40px;
   //width: 342px;
 
   height: 54px;
@@ -12,7 +11,8 @@ export const StyledBox = styled(Box, {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-sizing: border-box;
+
+  font-size: 40px;
   color: ${(p) =>
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.dark
@@ -26,7 +26,7 @@ export const StyledBox = styled(Box, {
     fill: ${(p) => p.theme.palette.primary.dark};
   }
 
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 768px) {
     ${(p) => p.theme.typography.h1};
     //width: 400px;
     width: 100%;

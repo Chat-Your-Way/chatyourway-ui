@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 import DefaultButton from '../../../ui-kit/components/Button';
 
 export const NewSettingsWrap = styled.form`
-  margin: 0 auto;
+  padding: 0 15px 0 15px;
+  margin: 16px 0;
 `;
 
 export const SaveChangeButton = styled(DefaultButton)`

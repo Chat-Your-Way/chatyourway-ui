@@ -8,17 +8,14 @@ export const FieldRadio = ({ id, control, avatarId }) => {
   const avatarsList = Object.entries(Avatars).map((item) => {
     return { id: item[0].replace('Avatar', ''), Logo: item[1] };
   });
-  const isTablet = useMediaQuery({ query: '(min-width: 768px)' });
-  const isExtraSmallScreen = useMediaQuery({ query: '(max-width: 560px)' });
+  const isModile = useMediaQuery({ query: '(max-width: 480px)' });
   const checkedValue = avatarId ? avatarId.toString() : '3';
 
   const getSize = () => {
-    if (isTablet) {
-      return 'lg';
-    } else if (isExtraSmallScreen) {
-      return 'xs';
-    } else {
+    if (isModile) {
       return 'md';
+    } else {
+      return 'lg';
     }
   };
 

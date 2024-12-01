@@ -5,6 +5,7 @@ import { SidebarContextProvider } from './common/Sidebar/SidebarContext';
 import { TopicsContextProvider } from './common/Topics/TopicsContext';
 import { TopicsPageContextProvider } from './pages/TopicsPage/TopicsPageContext';
 import Router from './components/Routes/Route';
+import { SharedLayoutContextProvider } from './hooks/useSharedLayoutContext';
 
 function App() {
   return (
@@ -12,7 +13,9 @@ function App() {
       <SidebarContextProvider>
         <TopicsContextProvider>
           <TopicsPageContextProvider>
-            <Router />
+            <SharedLayoutContextProvider>
+              <Router />
+            </SharedLayoutContextProvider>
           </TopicsPageContextProvider>
         </TopicsContextProvider>
       </SidebarContextProvider>

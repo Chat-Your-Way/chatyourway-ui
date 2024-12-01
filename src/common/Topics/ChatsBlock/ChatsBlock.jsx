@@ -30,6 +30,7 @@ import {
   subscribeOnlineOrTypingStatus,
   unSubscribeOnlineOrTypingStatus,
 } from '../../../redux/chat-operations';
+import { useLocalLogoutUtil } from '../../../hooks/useLocalLogOutUtil';
 
 const ChatsBlock = ({ filter, searchInputValue }) => {
   const { isTopics, showTopics, setPrivateTopics } = useTopicsContext();
@@ -42,6 +43,8 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
   const dispatch = useDispatch();
   const notificationsAllTopics = useSelector(selectAllTopicsNotifications);
   const subscriptions = useSelector(selectSubscriptions);
+
+  const { logoutUtilFN } = useLocalLogoutUtil();
 
   const {
     currentData: allTopicsData,
@@ -82,12 +85,6 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
     } else {
       dispatch(subscribeOnlineOrTypingStatus());
     }
-
-    // I'm not sure that I need to unsubscribe from online and typing user status, but
-    // this code will be here for some time.
-    // return () => {
-    //   dispatch(unSubscribeOnlineOrTypingStatus());
-    // };
   }, [dispatch, accessTokenInStore, subscriptions]);
 
   useEffect(() => {
@@ -102,13 +99,22 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
     item.name.toLowerCase().includes(searchInputValue.toLowerCase().trim()),
   );
   const filteredCurrentPrivateTopics = currentPrivateTopicsData?.filter(
-    (item) =>
-      item.name.toLowerCase().includes(searchInputValue.toLowerCase().trim()),
+    (item) => {
+      if (!item) {
+        return [];
+      } else {
+        return item.name
+          .toLowerCase()
+          .includes(searchInputValue.toLowerCase().trim());
+      }
+    },
   );
 
   if (error) {
     alert('Виникла помилка під час отримання тем (ChatsBlock)');
-    localLogOutUtil(dispatch);
+    logoutUtilFN();
+    // localLogOutUtil(dispatch);
+
     // dispatch(setIsLoggedIn(false));
     // localStorage.removeItem('accessToken');
     // localStorage.removeItem('refreshToken');
@@ -136,8 +142,8 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
     })
   ) : (
     privateTopics &&
-    // notificationsAllTopics.length !== 0 &&
     filteredCurrentPrivateTopics.map((item) => {
+      if (!item) return;
       const notification = notificationsAllTopics.find(
         (notificationItem) => notificationItem.id === item.id,
       );
@@ -153,6 +159,7 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
       );
     })
   );
+  // notificationsAllTopics.length !== 0 &&
 };
 
 export default memo(ChatsBlock);

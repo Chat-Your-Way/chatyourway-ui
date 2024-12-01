@@ -9,6 +9,7 @@ import {
   FaqAccordionSummary,
 } from './FaqPageComponent.styled';
 import ExpandIcon from '../../components/ExpandIcon';
+import { useSidebarContext } from '../../common/Sidebar/SidebarContext';
 
 const titlesAndTexts = [
   {
@@ -53,22 +54,25 @@ const titlesAndTexts = [
 ];
 
 function FaqPageComponent() {
+  const { showAdvancedMenu } = useSidebarContext();
   return (
-    <FaqPageWrapper>
-      <FaqPageTitle variant="h2">Найпоширеніші питання</FaqPageTitle>
-      <AccordionList>
-        {titlesAndTexts.map(({ title, text }, index) => (
-          <FaqAccordion key={index}>
-            <FaqAccordionSummary expandIcon={<ExpandIcon />}>
-              <FaqAccordionTitle variant="h5">{title}</FaqAccordionTitle>
-            </FaqAccordionSummary>
-            <FaqAccordionDetails>
-              <FaqAccordionText variant="h5">{text}</FaqAccordionText>
-            </FaqAccordionDetails>
-          </FaqAccordion>
-        ))}
-      </AccordionList>
-    </FaqPageWrapper>
+    showAdvancedMenu && (
+      <FaqPageWrapper>
+        <FaqPageTitle variant="h2">Найпоширеніші питання</FaqPageTitle>
+        <AccordionList>
+          {titlesAndTexts.map(({ title, text }, index) => (
+            <FaqAccordion key={index}>
+              <FaqAccordionSummary expandIcon={<ExpandIcon />}>
+                <FaqAccordionTitle variant="h5">{title}</FaqAccordionTitle>
+              </FaqAccordionSummary>
+              <FaqAccordionDetails>
+                <FaqAccordionText variant="h5">{text}</FaqAccordionText>
+              </FaqAccordionDetails>
+            </FaqAccordion>
+          ))}
+        </AccordionList>
+      </FaqPageWrapper>
+    )
   );
 }
 

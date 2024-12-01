@@ -23,7 +23,8 @@ import {
 } from './HeaderUserInfo.styled';
 // eslint-disable-next-line max-len
 import { selectAccessToken } from '../../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
-import localLogOutUtil from '../../../../utils/localLogOutUtil';
+// import localLogOutUtil from '../../../../utils/localLogOutUtil';
+import { useLocalLogoutUtil } from '../../../../hooks/useLocalLogOutUtil';
 // import { selectUserThunk } from '../../../../redux/userApiThunk/userApiThunkSelectors';
 // import { useUser } from '../../../../hooks/useUser';
 // import { useNavigate } from 'react-router-dom';
@@ -37,6 +38,7 @@ const HeaderUserInfo = () => {
 
   const { data, isLoading, isError, error } =
     useGetUserInfoQuery(accessTokenInStore);
+  const { logoutUtilFN } = useLocalLogoutUtil();
 
   // const { localLogOut } = useUser();
   // const navigate = useNavigate();
@@ -53,7 +55,8 @@ const HeaderUserInfo = () => {
     alert(
       'Сталася помилка при отриманні інформації про користувача - необхідно авторизуватись',
     );
-    localLogOutUtil(dispatch);
+    // localLogOutUtil(dispatch);
+    logoutUtilFN();
   }
   // localLogOut();
   // navigate(PATH.MAIN);

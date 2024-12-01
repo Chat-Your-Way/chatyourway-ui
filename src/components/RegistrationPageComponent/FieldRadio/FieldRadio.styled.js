@@ -5,9 +5,9 @@ export const RadioGroup = styled(Box)`
   list-style: none;
   margin: 0 auto 8px auto;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 5px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 16px;
   justify-content: center;
 
   @media screen and (min-width: 560px) {
