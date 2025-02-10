@@ -25,6 +25,7 @@ import {
 import { selectAccessToken } from '../../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 // import localLogOutUtil from '../../../../utils/localLogOutUtil';
 import { useLocalLogoutUtil } from '../../../../hooks/useLocalLogOutUtil';
+import { toast } from 'react-toastify';
 // import { selectUserThunk } from '../../../../redux/userApiThunk/userApiThunkSelectors';
 // import { useUser } from '../../../../hooks/useUser';
 // import { useNavigate } from 'react-router-dom';
@@ -52,7 +53,7 @@ const HeaderUserInfo = () => {
   const isTablet = useMediaQuery({ query: '(min-width: 768px' });
 
   if (error?.data?.httpStatus === 'UNAUTHORIZED') {
-    alert(
+    toast.error(
       'Сталася помилка при отриманні інформації про користувача - необхідно авторизуватись',
     );
     // localLogOutUtil(dispatch);

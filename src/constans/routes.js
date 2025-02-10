@@ -14,4 +14,5 @@ export const PATH = {
   SUCCESS_SIGNUP: '/activate',
   TOPICS: 'topics',
   VERIFICATION_EMAIL: '/verification-email',
+  RESEND_ACTIVATION_EMAIL: '/resend-activation-email',
 };

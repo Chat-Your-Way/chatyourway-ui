@@ -15,12 +15,14 @@ function SuccessSignupPageComponent() {
   const [searchParams] = useSearchParams();
   const activationToken = searchParams.get('token');
 
-  const [activateEmail, { isError, isFetching }] = useActivateMutation();
+  const [activateEmail, { isError, isFetching, isSuccess }] =
+    useActivateMutation();
 
   useEffect(() => {
-    activateEmail({ activationToken });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (activationToken) {
+      activateEmail({ activationToken });
+    }
+  }, [activationToken, activateEmail]);
 
   return (
     <WhiteLayout>
@@ -31,7 +33,9 @@ function SuccessSignupPageComponent() {
             ? 'Отримуємо інформацію...'
             : isError
             ? 'Щось пішло не так під час активації email'
-            : 'Ви успішно зареєструвались у ChatYourWay'}
+            : isSuccess
+            ? 'Ви успішно зареєструвались у ChatYourWay'
+            : 'Чекаємо на активацію...'}
         </SuccessSignupTitle>
         {isError ? (
           <LoginAccountButton
@@ -43,7 +47,7 @@ function SuccessSignupPageComponent() {
           <TextNavLinkButtonWithoutProps
             to={`${PATH.MAIN}${PATH.LOGIN}`}
             label="Увійти в акаунт"
-          ></TextNavLinkButtonWithoutProps>
+          />
         )}
       </SuccessSignupWrapper>
     </WhiteLayout>
