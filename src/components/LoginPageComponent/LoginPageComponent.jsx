@@ -64,30 +64,11 @@ function LoginPageComponent() {
     };
 
     try {
-      const { error, data } = await login(userData);
+      const result = await login(userData).unwrap();
 
-      if (error) {
-        if (error.status === 401) {
-          handleOpenModal();
-        }
-        if (error.data) {
-          toast.error(error.data.data.message);
-        } else {
-          toast.error(
-            'Щось негаразд :-( Або ти не в сети або сервер не доступний.',
-          );
-        }
-        return;
-      }
+      const { data } = result;
 
-      // if (data) {
-      // logIn(JSON.stringify(data.accessToken), JSON.stringify(data.refreshToken));
-
-      // setUserInfo(data);
-      // navigate(PATH.MAIN / PATH.HOMEPAGE);
-      // }
-
-      const { accessToken, refreshToken } = data.data;
+      const { accessToken, refreshToken } = data;
       if (data) {
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
@@ -97,7 +78,13 @@ function LoginPageComponent() {
       }
       navigate('/');
     } catch (error) {
-      console.error('Виникла помилка під час заповнення форми:', error);
+      if (error.status === 403) {
+        handleOpenModal();
+      }
+
+      const errorDetail =
+        error?.data?.data?.message || 'Щось пішло не так. Спробуйте пізніше.';
+      toast.error(errorDetail);
     }
   };
 
