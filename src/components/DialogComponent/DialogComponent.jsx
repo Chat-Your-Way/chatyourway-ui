@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { closeModal } from '../../redux/modalSlice';
+import ReactDOM from 'react-dom';
 import {
   ModalOverlay,
   ModalContent,
@@ -23,7 +24,7 @@ const DialogModal = ({ callback }) => {
     dispatch(closeModal());
   };
 
-  return (
+  return ReactDOM.createPortal(
     <ModalOverlay onClick={() => dispatch(closeModal())}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <CloseIcon onClick={() => dispatch(closeModal())} />
@@ -35,7 +36,8 @@ const DialogModal = ({ callback }) => {
           <ConfirmButton onClick={handleConfirm}>Підтвердити</ConfirmButton>
         </ModalActions>
       </ModalContent>
-    </ModalOverlay>
+    </ModalOverlay>,
+    document.body,
   );
 };
 
