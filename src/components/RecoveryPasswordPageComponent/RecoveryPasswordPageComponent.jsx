@@ -43,7 +43,7 @@ function RecoveryPasswordPageComponent() {
   return (
     <WhiteLayout padding={isTablet ? '40px 112px' : '40px 20px'}>
       <RecoveryPasswordWrapper>
-        <LinkIcon to={PATH.FORGOT_PASSWORD}>
+        <LinkIcon to={`/${PATH.FORGOT_PASSWORD}`}>
           <CloseIcon />
         </LinkIcon>
 

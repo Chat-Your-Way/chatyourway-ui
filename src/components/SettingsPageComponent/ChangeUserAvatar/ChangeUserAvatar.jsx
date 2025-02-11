@@ -10,6 +10,8 @@ import { useEditUserInfoMutation } from '../../../redux/user-operations';
 // eslint-disable-next-line max-len
 import { selectAccessToken } from '../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 
+import { toast } from 'react-toastify';
+
 const ChangeUserAvatar = ({ setIsChangeAvatarVisible }) => {
   const { nickname, avatarId } = useSelector(selectUserInfo);
   const [editUserInfo] = useEditUserInfoMutation();
@@ -34,9 +36,11 @@ const ChangeUserAvatar = ({ setIsChangeAvatarVisible }) => {
       const { isError } = await editUserInfo({ value, accessTokenInStore });
 
       if (isError) {
-        alert('Виникла помилка, спробуйте пізніше...');
+        // alert('Виникла помилка, спробуйте пізніше...');
+        toast.error('Виникла помилка, спробуйте пізніше...');
       } else {
-        alert('Аватар було успішно змінено');
+        // alert('Аватар було успішно змінено');
+        toast.success('Аватар було успішно змінено');
         setIsChangeAvatarVisible(false);
       }
     } catch (error) {

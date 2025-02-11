@@ -9,12 +9,16 @@ import {
   RegistrationForm,
   LogoIcon,
   RegistrationButton,
+  LoginLink,
+  FieldTextWrapper,
 } from './RegistrationPageComponent.styled';
 import { useRegistrationMutation } from '../../redux/auth-operations';
 import { PATH } from '../../constans/routes';
 import { useNavigate } from 'react-router-dom';
 import { setUserInfo } from '../../redux/userSlice';
 import { useDispatch } from 'react-redux';
+
+import { toast } from 'react-toastify';
 
 const defaultValues = {
   nickname: '',
@@ -50,36 +54,30 @@ function RegistrationPageComponent() {
     };
 
     try {
-      const {
-        error,
-        data: registrationData,
-        isSuccess,
-      } = await registration(userData);
+      const result = await registration(userData);
+      const { error, data: registrationData } = result;
 
       if (error) {
-        if (
-          error.data.message.includes(`Email ${userData.email} already in use`)
-        ) {
-          alert(`Електронна пошта ${userData.email} вже використовується`);
+        if (error.data.data.message) {
+          toast.error(error.data.data.message);
         } else {
-          alert(error.data.message);
+          toast.error('Виникла помилка під час реєстрації');
         }
         return;
       }
       // It was needed when registration proccess used the tokens
       // localStorage.setItem('accessToken', registrationData.accessToken);
       // localStorage.setItem('refreshToken', registrationData.refreshToken);
-      if (isSuccess) {
-        dispatch(setUserInfo(userData));
-        navigate(PATH.VERIFICATION_EMAIL);
-        // This is an old code below - it was time when two tokens was used.
-        // if (registrationData.registrationStatus === 'successfull') {
-        // dispatch(setUserInfo(userData));
-        // navigate(PATH.VERIFICATION_EMAIL);
-        // }
-      }
+
+      dispatch(setUserInfo(userData));
+      navigate(PATH.VERIFICATION_EMAIL);
+      // This is an old code below - it was time when two tokens was used.
+      // if (registrationData.registrationStatus === 'successfull') {
+      // dispatch(setUserInfo(userData));
+      // navigate(PATH.VERIFICATION_EMAIL);
+      // }
     } catch (error) {
-      console.error('Виникла помилка під час заповнення форми:', error);
+      toast.error('Виникла помилка під час реєстрації:', error);
     }
   };
 
@@ -87,38 +85,45 @@ function RegistrationPageComponent() {
     <RegistrationWrapper>
       <LogoIcon />
       <RegistrationForm onSubmit={handleSubmit(onSubmit)}>
-        <FieldText
-          title="Ім'я"
-          id="nickname"
-          control={control}
-          errors={errors.nickname}
-          placeholder={`Кекс`}
-        />
+        <FieldTextWrapper>
+          <FieldText
+            title="Ім'я"
+            id="nickname"
+            control={control}
+            errors={errors.nickname}
+            placeholder={`Кекс`}
+          />
+        </FieldTextWrapper>
+        <FieldTextWrapper>
+          <FieldText
+            title="Email"
+            id="email"
+            control={control}
+            errors={errors.email}
+            placeholder={'example@gmail.com'}
+          />
+        </FieldTextWrapper>
 
-        <FieldText
-          title="Email"
-          id="email"
-          control={control}
-          errors={errors.email}
-          placeholder={'example@gmail.com'}
-        />
+        <FieldTextWrapper>
+          <FieldPassword
+            title="Пароль"
+            id="password"
+            control={control}
+            errors={errors.password}
+            placeholder={'Мінімум 8 символів'}
+          />
+        </FieldTextWrapper>
 
-        <FieldPassword
-          title="Пароль"
-          id="password"
-          control={control}
-          errors={errors.password}
-          placeholder={'Мінімум 8 символів'}
-        />
-
-        <FieldPassword
-          title="Підтвердити пароль"
-          id="confirm"
-          control={control}
-          errors={errors.confirm}
-          watch={passwordValue}
-          placeholder={'Мінімум 8 символів'}
-        />
+        <FieldTextWrapper>
+          <FieldPassword
+            title="Підтвердити пароль"
+            id="confirm"
+            control={control}
+            errors={errors.confirm}
+            watch={passwordValue}
+            placeholder={'Мінімум 8 символів'}
+          />
+        </FieldTextWrapper>
 
         <FieldRadio id="avatar" control={control} />
 
@@ -129,6 +134,7 @@ function RegistrationPageComponent() {
           label="Створити акаунт"
           disabled={!isValid}
         />
+        <LoginLink to={`/${PATH.LOGIN}`}>Вже зареєстрований? Увійти</LoginLink>
       </RegistrationForm>
     </RegistrationWrapper>
   );

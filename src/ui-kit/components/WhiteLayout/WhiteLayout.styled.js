@@ -10,7 +10,7 @@ export const WhiteLayoutStyled = styled(Box, {
   // justify-content: center;
   width: ${(p) => (p.width ? p.width : '90vw')};
   height: ${(p) => (p.height ? p.height : '600px')};
-  margin: 122px 24px;
+  // margin: 122px 24px;
   padding: ${(p) => (p.padding ? p.padding : '40px 28px 40px 27px')};
   border-radius: 16px;
   background-color: ${(p) => p.theme.palette.primary.white};
@@ -48,7 +48,7 @@ export const WhiteLayoutStyled = styled(Box, {
     height: ${(p) => (p.height ? p.height : '600px')};
     max-height: 600px;
     padding: ${(p) => (p.padding ? p.padding : '0')};
-    margin: 182px 0 212px;
+    // margin: 182px 0 212px;
     // margin-top: 30px;
     // margin-bottom: 30px;
   }

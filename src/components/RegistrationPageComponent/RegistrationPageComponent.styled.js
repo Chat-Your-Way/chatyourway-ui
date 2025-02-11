@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { ICONS } from '../../ui-kit/icons';
 import { Box, Typography, InputBase } from '@mui/material';
 import DefaultButton from '../../ui-kit/components/Button';
+import { NavLink } from 'react-router-dom';
 
 export const RegistrationWrapper = styled(Box)`
   display: flex;
@@ -54,7 +55,7 @@ export const RegistrationForm = styled.form`
 // ===== COMMON STYLES
 export const RegistrationInputWrapper = styled(Box)`
   position: relative;
-  margin: 3px 0 35px 0;
+  // margin: 3px 0 35px 0;
 `;
 
 export const RegistrationLabel = styled(Typography)`
@@ -117,4 +118,22 @@ export const RegistrationButton = styled(DefaultButton)`
   &:hover {
     box-shadow: 0 1px 8px 4px rgba(134, 134, 220, 0.2);
   }
+`;
+
+export const LoginLink = styled(NavLink)`
+  text-decoration: none;
+  text-align: center;
+  margin-top: 20px;
+  font-size: ${(p) => p.theme.typography.h6};
+  color: ${(p) =>
+    p.theme.palette.mode === 'light'
+      ? p.theme.palette.primary.contrastText
+      : p.theme.palette.primary.main};
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const FieldTextWrapper = styled.div`
+  margin: 3px 0 35px 0;
 `;

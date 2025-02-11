@@ -19,6 +19,7 @@ import VerificationEmailPage from '../../pages/VerificationEmailPage';
 import FaqPage from '../../pages/FaqPage';
 import Chat from '../Chat/Chat';
 import LoaderTemplate from '../LoaderTemplate';
+import SendActivationEmailPage from '../../pages/SendActivationEmailPage';
 // import ChatThunk from '../Chat/ChatThunk';
 
 const Router = () => {
@@ -42,6 +43,10 @@ const Router = () => {
             <Route
               path={PATH.VERIFICATION_EMAIL}
               element={<VerificationEmailPage />}
+            />
+            <Route
+              path={PATH.RESEND_ACTIVATION_EMAIL}
+              element={<SendActivationEmailPage />}
             />
           </Route>
         </Route>
