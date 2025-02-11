@@ -33,11 +33,11 @@ const authenticationApi = createApi({
 
     activate: builder.mutation({
       query: ({ activationToken }) => ({
-        url: `/auth/activate?Email%20token=${activationToken}`,
+        url: `/auth/activate?token=${activationToken}`,
         method: 'POST',
         // This headers was used for previous version of registration process.
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          // Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       }),
     }),
