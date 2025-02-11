@@ -6,6 +6,7 @@ import topicsApi from './topics-operations';
 import userApi from './user-operations';
 import userInfoSlice from './userSlice';
 import chatSlice from './chatSlice';
+import modalSlice from './modalSlice';
 import authOperationsThunk from './authOperationsToolkit/authOperationsThunkSlice';
 import messagesAPI from './messagesAPI/messagesAPI';
 
@@ -19,7 +20,9 @@ const store = configureStore({
     [chatSlice.name]: chatSlice.reducer,
     [authOperationsThunk.name]: authOperationsThunk.reducer,
     [messagesAPI.reducerPath]: messagesAPI.reducer,
+    [modalSlice.name]: modalSlice.reducer,
   },
+  devTools: process.env.NODE_ENV !== 'production',
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(authenticationApi.middleware)

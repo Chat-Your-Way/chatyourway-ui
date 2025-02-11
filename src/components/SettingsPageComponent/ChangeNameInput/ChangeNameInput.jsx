@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import { selectAccessToken } from '../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 import { useLocalLogoutUtil } from '../../../hooks/useLocalLogOutUtil';
 import { useSidebarContext } from '../../../common/Sidebar/SidebarContext';
+import { toast } from 'react-toastify';
 
 const ChangeNameComponent = () => {
   const { nickname, avatarId } = useSelector(selectUserInfo);
@@ -39,10 +40,12 @@ const ChangeNameComponent = () => {
       const { isError } = await editUserInfo({ value, accessTokenInStore });
 
       if (isError) {
-        alert('Виникла помилка, спробуйте пізніше...');
+        // alert('Виникла помилка, спробуйте пізніше...');
+        toast.error('Виникла помилка, спробуйте пізніше...');
         logoutUtilFN();
       } else {
-        alert('Ім`я було успішно змінено');
+        // alert('Ім`я було успішно змінено');
+        toast.success('Ім`я було успішно змінено');
       }
     } catch (error) {
       console.error(error);

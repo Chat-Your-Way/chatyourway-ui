@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectAccessToken } from '../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 import localLogOutUtil from '../../utils/localLogOutUtil';
 
+import { toast } from 'react-toastify';
+
 const defaultValues = {
   topicName: '',
   tags: '',
@@ -53,9 +55,11 @@ function NewTopic({ closeModal }) {
       const { data } = await create({ newTopic, accessTokenInStore });
       if (data) {
         closeModal();
-        alert(`Тема "${data.name}" успішно створена`);
+        // alert(`Тема "${data.name}" успішно створена`);
+        toast.success(`Тема "${data.name}" успішно створена`);
       } else {
-        alert('Виникла помилка під час створення теми');
+        // alert('Виникла помилка під час створення теми');
+        toast.error('Виникла помилка під час створення теми');
         localLogOutUtil(dispatch);
       }
     } catch (error) {

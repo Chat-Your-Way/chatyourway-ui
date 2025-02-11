@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
 import WhiteLayout from '../../ui-kit/components/WhiteLayout/WhiteLayout';
 import {
   TextBox,
@@ -10,43 +9,15 @@ import {
   VerificationEmailParagraph,
   VerificationEmailSubParagraph,
 } from './VerificationEmailPageComponent.styled';
+import { useNavigate } from 'react-router-dom';
 // import { useSelector } from 'react-redux';
 // import { selectUserInfo } from '../../redux/userSlice';
 
 function VerificationEmailPageComponent() {
-  const timerIdRef = useRef(null);
-  const timerValue = useRef(30);
-  const [isTimerActive, setIsTimerActive] = useState(false);
-  // const notActivatedUser = useSelector(selectUserInfo); // 10.03 Needs to be realized in backend
-
-  useEffect(() => {
-    if (!timerIdRef.current) {
-      return;
-    }
-
-    return () => {
-      if (isTimerActive) {
-        timerValue.current = 30;
-        clearInterval(timerIdRef.current);
-        timerIdRef.current = null;
-      }
-    };
-  }, [isTimerActive]);
+  const navigate = useNavigate();
 
   const sendEmailAgain = () => {
-    if (isTimerActive) {
-      return; // Need notification
-    } else {
-      setIsTimerActive(true);
-      timerIdRef.current = setInterval(() => {
-        if (timerValue.current === 0) {
-          setIsTimerActive(false);
-          return;
-        } else {
-          timerValue.current -= 1;
-        }
-      }, 1000);
-    }
+    navigate('/resend-activation-email');
   };
 
   return (

@@ -34,7 +34,7 @@ function ForgotPasswordPageComponent() {
   return (
     <WhiteLayout padding={isTablet ? '40px 112px' : '40px 20px'}>
       <ForgotPasswordWrapper>
-        <LinkIcon to={PATH.LOGIN}>
+        <LinkIcon to={`/${PATH.LOGIN}`}>
           <CloseIcon />
         </LinkIcon>
         <LogoIcon />

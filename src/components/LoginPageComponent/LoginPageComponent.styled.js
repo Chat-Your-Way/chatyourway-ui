@@ -67,6 +67,21 @@ export const LoginLink = styled(NavLink)`
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.main};
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+export const RegistrationLink = styled(NavLink)`
+  text-decoration: none;
+  margin-top: 20px;
+  font-size: ${(p) => p.theme.typography.h6};
+  color: ${(p) =>
+    p.theme.palette.mode === 'light'
+      ? p.theme.palette.primary.contrastText
+      : p.theme.palette.primary.main};
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export const ButtonWrapper = styled(Box)`
