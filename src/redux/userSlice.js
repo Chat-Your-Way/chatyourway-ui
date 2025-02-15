@@ -1,4 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { BASE_URL, Referer } from './apiParams';
+
+export const sendEmailRestorePassword = createAsyncThunk(
+  'user/sendEmailRestorePassword',
+  async (email, thunkAPI) => {
+    try {
+      const result = await fetch(`${BASE_URL}/change/password/email`, {
+        method: 'POST',
+        headers: {
+          Referer: Referer,
+          'Content-type': 'application/json',
+        },
+        body: email,
+      })
+        .then((response) => response.json())
+        .then((result) => result);
+
+      return result;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);
 
 const userInfoSlice = createSlice({
   name: 'currentUser',

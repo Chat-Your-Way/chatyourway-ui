@@ -8,8 +8,8 @@ const IconActivityComponent = ({ isMyMessage, senderId }) => {
   const onlineUser = onlineContacts.find((el) => el.id === senderId);
   return (
     <IconActivity isMyMessage={isMyMessage}>
-      {onlineUser.online ? (
-        onlineUser.permittedSendingPrivateMessage ? (
+      {onlineUser?.online ? (
+        onlineUser?.permittedSendingPrivateMessage ? (
           <ICONS.PROPERTY_ACTIVITY />
         ) : (
           <ICONS.BAN_NOTIFICATION />

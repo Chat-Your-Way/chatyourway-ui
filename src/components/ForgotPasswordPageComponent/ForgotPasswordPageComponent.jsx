@@ -16,8 +16,14 @@ import {
   ForgotPasswordButton,
 } from './ForgotPasswordPageComponent.styled.js';
 import { useSidebarContext } from '../../common/Sidebar/SidebarContext.js';
+import { sendEmailRestorePassword } from '../../redux/userSlice.js';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function ForgotPasswordPageComponent() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     formState: { errors, isValid },
     handleSubmit,
@@ -27,8 +33,15 @@ function ForgotPasswordPageComponent() {
 
   const onSubmit = (values) => {
     const email = values.email.trim().toLowerCase();
-    // eslint-disable-next-line no-console
-    console.log(email);
+    try {
+      dispatch(sendEmailRestorePassword(email));
+      toast.success(
+        'Лист з інструкціями з відновлення пароля відправлено на вашу пошту',
+      );
+      navigate(`/${PATH.LOGIN}`);
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   return (

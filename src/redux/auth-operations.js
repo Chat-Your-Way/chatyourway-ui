@@ -68,9 +68,10 @@ const authenticationApi = createApi({
       }),
     }),
     resetPassword: builder.mutation({
-      query: ({ newPassword, token }) => ({
-        url: `/change/password/restore?newPassword=${newPassword}&token=${token}`,
+      query: (body) => ({
+        url: `/change/password/restore`,
         method: 'PATCH',
+        body: body,
       }),
     }),
     resendActivationEmail: builder.mutation({
