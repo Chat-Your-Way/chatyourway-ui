@@ -150,7 +150,7 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
 
       return (
         <StyledNavLink
-          to={`../${path}/chat/${item.id}/${item.contact.id}`}
+          to={`../${path}/chat/${item?.id}/${item?.contact.id}`}
           key={item.id}
         >
           {/* <ChatItem data={item} notification={notification} /> */}
