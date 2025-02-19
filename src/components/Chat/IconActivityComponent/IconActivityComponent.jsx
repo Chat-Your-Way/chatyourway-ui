@@ -13,8 +13,8 @@ const IconActivityComponent = ({ isMyMessage, senderId }) => {
   }
   return (
     <IconActivity isMyMessage={isMyMessage}>
-      {onlineUser.online ? (
-        onlineUser.permittedSendingPrivateMessage ? (
+      {onlineUser?.online ? (
+        onlineUser?.permittedSendingPrivateMessage ? (
           <ICONS.PROPERTY_ACTIVITY />
         ) : (
           <ICONS.BAN_NOTIFICATION />
