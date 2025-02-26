@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import {
+  DeleteButton,
   SettingsIcon,
   SettingsIconButton,
   SettingsLabel,
@@ -14,21 +15,44 @@ import { PermissionPrivateMessage } from './UserSettings/PermissionPrivateMessag
 import ChangeNameComponent from './ChangeNameInput';
 import ChangeUserAvatar from './ChangeUserAvatar/ChangeUserAvatar';
 import { useSidebarContext } from '../../common/Sidebar/SidebarContext';
+import { useDeleteUserMutation } from '../../redux/auth-operations';
+import { useSelector } from 'react-redux';
+import { selectUserInfo } from '../../redux/userSlice';
+import { selectAccessToken } from '../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 
 const SettingsPageComponent = () => {
   const { toggleTheme, currentTheme } = useContext(ThemeContext);
   const { isPermission, togglePermission } = PermissionPrivateMessage();
   const { isMobile } = useSidebarContext();
-
+  const { contactId } = useSelector(selectUserInfo);
   const [isChangeNameVisible, setIsNameChangeVisible] = useState(false);
   const [isChangeAvatarVisible, setIsChangeAvatarVisible] = useState(false);
   const { showAdvancedMenu } = useSidebarContext();
+  const [deleteUser] = useDeleteUserMutation();
+  const accessTokenInStore = useSelector(selectAccessToken);
   const handleChangeNameClick = () => {
     setIsNameChangeVisible((prevState) => !prevState);
   };
 
   const handleChangeAvatarClick = () => {
     setIsChangeAvatarVisible((prevState) => !prevState);
+  };
+
+  const handleDeleteUser = async () => {
+    if (!contactId) {
+      alert('Ошибка: данные пользователя не загружены.');
+      return;
+    }
+
+    if (confirm('Вы уверены, что хотите удалить аккаунт?')) {
+      try {
+        await deleteUser({ contactId, accessTokenInStore }).unwrap();
+        alert('Аккаунт удален');
+        // Можно добавить редирект или очистку данных
+      } catch (error) {
+        alert('Ошибка удаления: ' + error.message);
+      }
+    }
   };
 
   return (
@@ -84,6 +108,16 @@ const SettingsPageComponent = () => {
               setIsChangeAvatarVisible={setIsChangeAvatarVisible}
             />
           )}
+          <SettingsWrap>
+            <SettingsLabel variant={isMobile ? 'h5' : 'h4'}>
+              Видалити аккаунт
+            </SettingsLabel>
+            <DeleteButton onClick={handleDeleteUser}>Видалити</DeleteButton>
+            {/*<SettingsIconButton*/}
+            {/*  icon={<SettingsIcon />}*/}
+            {/*  handleClick={handleDeleteUser}*/}
+            {/*/>*/}
+          </SettingsWrap>
         </SettingsPageWrapAdd>
       </SettingsPageWrap>
     )
