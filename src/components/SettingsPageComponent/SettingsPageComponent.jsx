@@ -19,6 +19,8 @@ import { useDeleteUserMutation } from '../../redux/auth-operations';
 import { useSelector } from 'react-redux';
 import { selectUserInfo } from '../../redux/userSlice';
 import { selectAccessToken } from '../../redux/authOperationsToolkit/authOperationsThunkSelectors';
+import { toast } from 'react-toastify';
+import { useLocalLogoutUtil } from '../../hooks/useLocalLogOutUtil';
 
 const SettingsPageComponent = () => {
   const { toggleTheme, currentTheme } = useContext(ThemeContext);
@@ -29,6 +31,7 @@ const SettingsPageComponent = () => {
   const [isChangeAvatarVisible, setIsChangeAvatarVisible] = useState(false);
   const { showAdvancedMenu } = useSidebarContext();
   const [deleteUser] = useDeleteUserMutation();
+  const { logoutUtilFN } = useLocalLogoutUtil();
   const accessTokenInStore = useSelector(selectAccessToken);
   const handleChangeNameClick = () => {
     setIsNameChangeVisible((prevState) => !prevState);
@@ -39,18 +42,25 @@ const SettingsPageComponent = () => {
   };
 
   const handleDeleteUser = async () => {
+    event.preventDefault();
     if (!contactId) {
-      alert('Ошибка: данные пользователя не загружены.');
+      toast.error('Помилка: дані користувача не завантажені.');
       return;
     }
 
-    if (confirm('Вы уверены, что хотите удалить аккаунт?')) {
+    if (confirm('Ви впевнені, що хочете видалити обліковий запис?')) {
       try {
-        await deleteUser({ contactId, accessTokenInStore }).unwrap();
-        alert('Аккаунт удален');
-        // Можно добавить редирект или очистку данных
+        // eslint-disable-next-line
+        const result = await deleteUser({ contactId, accessTokenInStore }).unwrap();
+
+        if (result.data === 'success') {
+          toast.success('Обліковий запис видалено');
+        }
+        setTimeout(() => {
+          logoutUtilFN();
+        }, 7000);
       } catch (error) {
-        alert('Ошибка удаления: ' + error.message);
+        toast.error(error?.message || 'Невідома помилка');
       }
     }
   };
