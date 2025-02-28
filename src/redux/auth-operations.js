@@ -81,6 +81,13 @@ const authenticationApi = createApi({
         body: body,
       }),
     }),
+    deleteUser: builder.mutation({
+      query: ({ contactId, accessTokenInStore }) => ({
+        url: `/contacts/${contactId}`,
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${accessTokenInStore}` },
+      }),
+    }),
   }),
 });
 
@@ -92,6 +99,7 @@ export const {
   useLogoutMutation,
   useResetPasswordMutation,
   useResendActivationEmailMutation,
+  useDeleteUserMutation,
 } = authenticationApi;
 
 export default authenticationApi;

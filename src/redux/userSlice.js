@@ -26,6 +26,7 @@ export const sendEmailRestorePassword = createAsyncThunk(
 const userInfoSlice = createSlice({
   name: 'currentUser',
   initialState: {
+    contactId: '',
     avatarId: '',
     email: '',
     hasPermissionSendingPrivateMessage: '',
@@ -34,7 +35,7 @@ const userInfoSlice = createSlice({
 
   reducers: {
     setUserInfo(state, action) {
-      return { ...state, ...action.payload };
+      return { ...state, ...action.payload, contactId: action.payload.id };
     },
   },
 });

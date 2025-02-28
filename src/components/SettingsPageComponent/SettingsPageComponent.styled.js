@@ -98,3 +98,16 @@ export const AvatarList = styled(List)`
 export const AvatarListItem = styled(ListItem)`
   padding: 0;
 `;
+
+export const DeleteButton = styled.button`
+  background-color: ${(p) => p.theme.palette.primary.contrastText};
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  &:hover {
+    background-color: ${(p) => p.theme.palette.error.dark};
+  }
+`;
