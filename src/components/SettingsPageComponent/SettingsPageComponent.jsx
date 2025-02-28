@@ -60,7 +60,7 @@ const SettingsPageComponent = () => {
           logoutUtilFN();
         }, 7000);
       } catch (error) {
-        toast.error(error?.message || 'Невідома помилка');
+        toast.error(error?.message || 'Помилка видалення!');
       }
     }
   };
