@@ -9,9 +9,10 @@ export const PATH = {
   NOTIFICATION: 'notification',
   NOT_FOUND: '*',
   REGISTER: 'register',
-  RECOVERY_PASSWORD: '/recovery-password',
+  RECOVERY_PASSWORD: '/restore/password',
   SETTINGS: 'settings',
   SUCCESS_SIGNUP: '/activate',
   TOPICS: 'topics',
   VERIFICATION_EMAIL: '/verification-email',
+  RESEND_ACTIVATION_EMAIL: '/resend-activation-email',
 };

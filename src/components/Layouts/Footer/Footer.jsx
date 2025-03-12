@@ -20,6 +20,8 @@ import {
 import localLogOutUtil from '../../../utils/localLogOutUtil';
 import { useLocalLogoutUtil } from '../../../hooks/useLocalLogOutUtil';
 
+import { toast } from 'react-toastify';
+
 const Footer = () => {
   // const { isAuthenticated, localLogOut } = useUser();
   const [logout] = useLogoutMutation();
@@ -35,7 +37,8 @@ const Footer = () => {
       const { error } = await logout({ accessTokenInStore });
 
       if (error) {
-        alert(error.data.message);
+        // alert(error.data.message);
+        toast.error(error.data.message);
         // console.log('error', error);
         // dispatch(setIsLoggedIn(false));
         // dispatch(setConnected(false));

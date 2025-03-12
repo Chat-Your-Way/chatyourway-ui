@@ -22,6 +22,8 @@ export const MainWrapper = styled(Box, {
     justify-content: center;
     align-items: center; */
     align-items: start;
-    min-height: 100vh;
+    // min-height: 100vh;
+    justify-content: center;
+    width: 100%;
   }
 `;

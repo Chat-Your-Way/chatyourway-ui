@@ -3,7 +3,31 @@ import { BASE_URL, Referer } from './apiParams';
 
 const authenticationApi = createApi({
   reducerPath: 'authenticationApi',
-  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: BASE_URL,
+    async responseHandler(response) {
+      const contentType = response.headers.get('Content-Type');
+      let data;
+      if (contentType && contentType.includes('application/json')) {
+        try {
+          data = await response.json();
+        } catch (e) {
+          console.error('Ошибка при парсинге JSON:', e);
+          throw new Error('Невозможно распарсить JSON');
+        }
+      } else if (contentType && contentType.includes('text/plain')) {
+        try {
+          data = await response.text();
+        } catch (e) {
+          console.error('Ошибка при парсинге текстового ответа:', e);
+          throw new Error('Невозможно распарсить текст');
+        }
+      }
+
+      return { data };
+    },
+  }),
+
   endpoints: (builder) => ({
     registration: builder.mutation({
       query: (body) => ({
@@ -13,7 +37,7 @@ const authenticationApi = createApi({
           Referer: Referer,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(body),
+        body: body,
       }),
     }),
     refresh: builder.mutation({
@@ -30,15 +54,10 @@ const authenticationApi = createApi({
         body: body,
       }),
     }),
-
     activate: builder.mutation({
       query: ({ activationToken }) => ({
-        url: `/auth/activate?Email%20token=${activationToken}`,
+        url: `/auth/activate?token=${activationToken}`,
         method: 'POST',
-        // This headers was used for previous version of registration process.
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        },
       }),
     }),
     logout: builder.mutation({
@@ -49,9 +68,24 @@ const authenticationApi = createApi({
       }),
     }),
     resetPassword: builder.mutation({
-      query: ({ newPassword, token }) => ({
-        url: `/change/password/restore?newPassword=${newPassword}&token=${token}`,
+      query: (body) => ({
+        url: `/change/password/restore`,
         method: 'PATCH',
+        body: body,
+      }),
+    }),
+    resendActivationEmail: builder.mutation({
+      query: (body) => ({
+        url: '/auth/resend/email',
+        method: 'POST',
+        body: body,
+      }),
+    }),
+    deleteUser: builder.mutation({
+      query: ({ contactId, accessTokenInStore }) => ({
+        url: `/contacts/${contactId}`,
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${accessTokenInStore}` },
       }),
     }),
   }),
@@ -64,6 +98,8 @@ export const {
   useActivateMutation,
   useLogoutMutation,
   useResetPasswordMutation,
+  useResendActivationEmailMutation,
+  useDeleteUserMutation,
 } = authenticationApi;
 
 export default authenticationApi;

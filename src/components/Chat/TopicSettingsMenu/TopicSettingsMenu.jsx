@@ -31,6 +31,8 @@ import {
 import localLogOutUtil from '../../../utils/localLogOutUtil';
 import { useLocalLogoutUtil } from '../../../hooks/useLocalLogOutUtil';
 
+import { toast } from 'react-toastify';
+
 const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
@@ -47,11 +49,17 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
   const { logoutUtilFN } = useLocalLogoutUtil();
 
   if (isError) {
-    alert(
+    // alert(
+    //   'Виникла помилка під час отримання улюблених тем (TopicSettingsMenu)',
+    // );
+    toast.error(
       'Виникла помилка під час отримання улюблених тем (TopicSettingsMenu)',
     );
     if (error.data?.httpStatus === 'UNAUTHORIZED') {
-      alert(
+      // alert(
+      //   'Виникла помилка під час отримання улюблених тем, авторизуйтесь в системмі!',
+      // );
+      toast.error(
         'Виникла помилка під час отримання улюблених тем, авторизуйтесь в системмі!',
       );
       logoutUtilFN();
@@ -76,9 +84,11 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
     try {
       const { error } = await addFavourite({ topicId, accessTokenInStore });
       if (error) {
-        alert('Виникла помилка під час додання теми до улюблених');
+        // alert('Виникла помилка під час додання теми до улюблених');
+        toast.error('Виникла помилка під час додання теми до улюблених');
       } else {
-        alert('Додано до улюблених тем');
+        // alert('Додано до улюблених тем');
+        toast.success('Додано до улюблених тем');
       }
       handleClose();
     } catch (error) {
@@ -90,9 +100,11 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
     try {
       const { error } = await removeFavourite({ topicId, accessTokenInStore });
       if (error) {
-        alert('Виникла помилка під час видалення теми з улюблених');
+        // alert('Виникла помилка під час видалення теми з улюблених');
+        toast.error('Виникла помилка під час видалення теми з улюблених');
       } else {
-        alert('Видалено з улюблених тем');
+        // alert('Видалено з улюблених тем');
+        toast.success('Видалено з улюблених тем');
       }
       handleClose();
     } catch (error) {
@@ -104,9 +116,11 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
     try {
       const { error } = await subscribe({ topicId, accessTokenInStore });
       if (error) {
-        alert('Виникла помилка під час підписки на тему');
+        // alert('Виникла помилка під час підписки на тему');
+        toast.error('Виникла помилка під час підписки на тему');
       } else {
-        alert('Підписка успішна');
+        // alert('Підписка успішна');
+        toast.success('Підписка успішна');
       }
       handleClose();
     } catch (error) {
@@ -118,9 +132,11 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
     try {
       const { error } = await unsubscribe({ topicId, accessTokenInStore });
       if (error) {
-        alert('Виникла помилка під час відписки від теми');
+        // alert('Виникла помилка під час відписки від теми');
+        toast.error('Виникла помилка під час відписки від теми');
       } else {
-        alert('Відписка успішна');
+        // alert('Відписка успішна');
+        toast.success('Відписка успішна');
       }
       handleClose();
     } catch (error) {

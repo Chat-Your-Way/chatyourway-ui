@@ -16,7 +16,7 @@ export const AuthorizationLogo = styled(ICONS.LOGO)`
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.dark};
-  margin-bottom: 92px;
+  // margin-bottom: 92px;
   @media screen and (min-width: 768px) {
     display: none;
   }
