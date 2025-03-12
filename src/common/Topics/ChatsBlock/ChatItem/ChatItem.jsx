@@ -53,7 +53,12 @@ const ChatItem = ({ isActive, data }) => {
 
           {lastMessageContent && (
             <LastMessages
-              userName={lastMessageContent.sentFrom}
+              userName={
+                onlineContacts.find((el) => el.typingStatus === true)
+                  ? onlineContacts.find((el) => el.typingStatus === true)
+                      .nickname
+                  : lastMessageContent.sentFrom
+              }
               message={
                 lastMessageContent.lastMessage.length > 20
                   ? `${lastMessageContent.lastMessage.slice(0, 20)}...`

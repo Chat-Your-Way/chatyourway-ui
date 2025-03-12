@@ -66,6 +66,7 @@ function RegistrationPageComponent() {
         }
         return;
       }
+
       // It was needed when registration proccess used the tokens
       // localStorage.setItem('accessToken', registrationData.accessToken);
       // localStorage.setItem('refreshToken', registrationData.refreshToken);
