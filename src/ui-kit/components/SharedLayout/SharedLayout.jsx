@@ -71,7 +71,7 @@ const SharedLayout = () => {
       !showChat &&
       isTabletAndHigher
     ) {
-      setIsCenterOrStart(true);
+      setIsCenterOrStart(false);
     } else {
       setIsCenterOrStart(false);
     }
