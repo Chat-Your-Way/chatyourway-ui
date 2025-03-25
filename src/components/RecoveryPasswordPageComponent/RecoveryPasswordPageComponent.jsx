@@ -73,7 +73,7 @@ function RecoveryPasswordPageComponent() {
         <RecoveryPasswordForm onSubmit={handleSubmit(onSubmit)}>
           <FieldTextWrapper>
             <FieldPassword
-              title="Пароль"
+              title="Новий пароль"
               id="password"
               control={control}
               errors={errors.password}
@@ -92,11 +92,7 @@ function RecoveryPasswordPageComponent() {
             />
           </FieldTextWrapper>
           <ButtonWrapper>
-            <LoginButton
-              type="submit"
-              label="Скинути пароль"
-              disabled={!isValid}
-            />
+            <LoginButton type="submit" label="Зберегти" disabled={!isValid} />
           </ButtonWrapper>
           <LoginLink to={`/${PATH.LOGIN}`}>На сторінку авторизації</LoginLink>
         </RecoveryPasswordForm>

@@ -1,9 +1,8 @@
 const validateName = (value) => {
-  const isNonWhiteSpace = /^\S*$/;
-  if (!isNonWhiteSpace.test(value)) {
+  if (/\s/.test(value)) {
     return 'Не повинно мати пробілів';
   }
-  const allowedSymbols = /^[a-zA-ZА-Яа-я0-9!@#*+=$%^&_-~?]+$/;
+  const allowedSymbols = /^[\p{L}0-9!@#*+=$%^&_\-~?]+$/u;
   if (!allowedSymbols.test(value)) {
     return 'Містить недозволені символи';
   }
