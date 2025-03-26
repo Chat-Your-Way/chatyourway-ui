@@ -4,6 +4,7 @@ import { Menu, MenuItem, ListItemText, Box } from '@mui/material';
 import IconButton from '../../../ui-kit/components/IconButton/IconButton';
 
 export const StyledButtonMore = styled(IconButton)`
+  position: static;
   &:hover {
     & > svg {
       fill: ${(p) => p.theme.palette.primary.main};
