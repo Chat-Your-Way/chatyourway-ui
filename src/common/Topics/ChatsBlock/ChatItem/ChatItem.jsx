@@ -25,7 +25,8 @@ const ChatItem = ({ isActive, data }) => {
   const chatOpened = useSelector(selectChatOpened);
   const contactsOpened = useSelector(selectContactsOpened);
 
-  const unreadedMessages = data?.unreadMessageCount ?? null;
+  // const unreadedMessages = data?.unreadMessageCount ?? null; // deprecated 27.03.25
+  const unreadedMessages = data?.unreadMessages.length ?? null;
   const lastMessageContent = data?.lastMessage ?? null;
   const onlineContacts = useSelector(selectOnlineContacts);
 
@@ -51,12 +52,11 @@ const ChatItem = ({ isActive, data }) => {
             />
           )}
 
-          {lastMessageContent && (
+          {/* {lastMessageContent && (
             <LastMessages
               userName={
-                onlineContacts.find((el) => el.typingStatus === true)
-                  ? onlineContacts.find((el) => el.typingStatus === true)
-                      .nickname
+                onlineContacts.find(el => el.typingStatus === true)
+                  ? onlineContacts.find(el => el.typingStatus === true).nickname
                   : lastMessageContent.sentFrom
               }
               message={
@@ -65,10 +65,30 @@ const ChatItem = ({ isActive, data }) => {
                   : lastMessageContent.lastMessage
               }
               unreadedMessage={unreadedMessages}
-              isTyping={onlineContacts.find((el) => el.typingStatus === true)}
+              isTyping={onlineContacts.find(el => el.typingStatus === true)}
               lastMessageTime={getTime(lastMessageContent.timestamp)}
             />
-          )}
+          )} */}
+
+          <LastMessages
+            userName={
+              onlineContacts.find((el) => el.typingStatus === true)
+                ? onlineContacts.find((el) => el.typingStatus === true).nickname
+                : lastMessageContent?.sentFrom
+            }
+            message={
+              lastMessageContent?.lastMessage.length > 20
+                ? `${lastMessageContent.lastMessage.slice(0, 20)}...`
+                : lastMessageContent?.lastMessage
+            }
+            unreadedMessage={unreadedMessages}
+            isTyping={onlineContacts.find(
+              (el) => el.typingStatus === true && el.currentTopicId === data.id,
+            )}
+            lastMessageTime={
+              lastMessageContent ? getTime(lastMessageContent.timestamp) : null
+            }
+          />
         </StyledChildrenBox>
       )}
     </StyledBox>

@@ -14,13 +14,15 @@ import { ICONS } from '../../../../../ui-kit/icons';
 
 const LastMessages = ({
   isTyping = false,
-  userName = 'user',
-  message = 'Супер',
+  // userName = 'user',
+  // message = 'Супер',
+  userName,
+  message,
   unreadedMessage,
   lastMessageTime,
 }) => {
   const typingStatus = `${userName}/Пише...`;
-  const defaultStatus = `${userName}: ${message}`;
+  const defaultStatus = userName && message ? `${userName}: ${message}` : null;
 
   const chatOpened = useSelector(selectChatOpened);
   const contactsOpened = useSelector(selectContactsOpened);
@@ -30,7 +32,7 @@ const LastMessages = ({
       <StyledAuthorBlock isTyping={isTyping} chatOpened={chatOpened}>
         {isTyping ? typingStatus : defaultStatus}
       </StyledAuthorBlock>
-      {unreadedMessage ? (
+      {unreadedMessage === 0 ? null : unreadedMessage ? (
         <MessageCount badgeContent={unreadedMessage} />
       ) : (
         <ICONS.CONFIRM />
