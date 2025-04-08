@@ -32,6 +32,7 @@ import localLogOutUtil from '../../../utils/localLogOutUtil';
 import { useLocalLogoutUtil } from '../../../hooks/useLocalLogOutUtil';
 
 import { toast } from 'react-toastify';
+import { complainTopic } from '../../../redux/complainTopicToolkit/complainTopicToolkit';
 
 const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -149,6 +150,7 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
   };
 
   const handleComplain = () => {
+    dispatch(complainTopic(topicId));
     handleClose();
   };
 
