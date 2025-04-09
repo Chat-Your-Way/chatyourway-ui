@@ -17,13 +17,11 @@ const complainTopicThunk = createSlice({
       })
       .addCase(complainTopic.fulfilled, (state) => {
         state.status = 'success';
-        // state.result = action.payload;
         state.isError = false;
         state.isLoading = false;
       })
       .addCase(complainTopic.rejected, (state) => {
         state.status = 'error';
-        // state.result = action.payload;
         state.isLoading = false;
         state.isError = true;
       });

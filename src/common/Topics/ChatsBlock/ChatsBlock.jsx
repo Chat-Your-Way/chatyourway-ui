@@ -113,11 +113,6 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
   if (error) {
     alert('Виникла помилка під час отримання тем (ChatsBlock)');
     logoutUtilFN();
-    // localLogOutUtil(dispatch);
-
-    // dispatch(setIsLoggedIn(false));
-    // localStorage.removeItem('accessToken');
-    // localStorage.removeItem('refreshToken');
   }
 
   return isLoading ? (

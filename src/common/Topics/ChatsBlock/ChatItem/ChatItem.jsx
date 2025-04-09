@@ -72,7 +72,10 @@ const ChatItem = ({ isActive, data }) => {
 
           <LastMessages
             userName={
-              onlineContacts.find((el) => el.typingStatus === true)
+              onlineContacts.find(
+                (el) =>
+                  el.typingStatus === true && el.currentTopicId === data.id,
+              )
                 ? onlineContacts.find((el) => el.typingStatus === true).nickname
                 : lastMessageContent?.sentFrom
             }
