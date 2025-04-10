@@ -97,6 +97,7 @@ import { useLocalLogoutUtil } from '../../hooks/useLocalLogOutUtil';
 
 const Chat = ({ children }) => {
   const { topicId, userId } = useParams();
+  const [searchInTopic, setSearchInTopic] = useState('');
 
   const [currentPage, setCurrentPage] = useState(1);
   const [sizeOfMessages, setSizeOfMessages] = useState(30);
@@ -756,6 +757,8 @@ const Chat = ({ children }) => {
               <TopicSettingsMenu
                 topicId={topicId}
                 subscribeStatus={subscribeStatus()}
+                searchInTopic={searchInTopic}
+                setSearchInTopic={setSearchInTopic}
               />
             </InfoMoreBox>
           </ChatHeader>
@@ -763,85 +766,92 @@ const Chat = ({ children }) => {
           <ChatSectionWrap>
             <ChatSection>
               {messages &&
-                messages.map((item) => (
-                  <ChatSection key={item.id} isMyMessage={item.isMyMessage}>
-                    <MessageContainerObserver
-                      isMyMessage={item.isMyMessage}
-                      chatWrapIdRef={chatWrapIdRef}
-                      messageId={item.id}
-                      messageStatus={item.messageStatus}
-                      isFirstUnreadMessage={
-                        isFirstUnreadMessageRef?.current?.id === item.id
-                          ? item
-                          : false
-                      }
-                    >
-                      <UserMassageWrap>
-                        <IndicatorBox isMyMessage={item.isMyMessage}>
-                          <TimeIndicator
-                            isMyMessage={item.isMyMessage}
-                            messageStatus={item.messageStatus}
-                          >
-                            {item.time}
-                          </TimeIndicator>
-                          <IconActivityComponent
-                            isMyMessage={item.isMyMessage}
-                            senderId={item.senderId}
-                          />
-                          {/* <IconActivity isMyMessage={item.isMyMessage}>
+                messages
+                  .filter((item) =>
+                    item.text
+                      .toLowerCase()
+                      .includes(searchInTopic.toLowerCase().trim()),
+                  )
+                  .map((item) => (
+                    <ChatSection key={item.id} isMyMessage={item.isMyMessage}>
+                      <MessageContainerObserver
+                        isMyMessage={item.isMyMessage}
+                        chatWrapIdRef={chatWrapIdRef}
+                        messageId={item.id}
+                        messageStatus={item.messageStatus}
+                        isFirstUnreadMessage={
+                          isFirstUnreadMessageRef?.current?.id === item.id
+                            ? item
+                            : false
+                        }
+                      >
+                        <UserMassageWrap>
+                          <IndicatorBox isMyMessage={item.isMyMessage}>
+                            <TimeIndicator
+                              isMyMessage={item.isMyMessage}
+                              messageStatus={item.messageStatus}
+                            >
+                              {item.time}
+                            </TimeIndicator>
+                            <IconActivityComponent
+                              isMyMessage={item.isMyMessage}
+                              senderId={item.senderId}
+                            />
+                            {/* <IconActivity isMyMessage={item.isMyMessage}>
                             {item.isOnline ? <ICONS.PROPERTY_ACTIVITY /> : <ICONS.NO_ACTIVITY />}
                           </IconActivity> */}
-                          <UserName
-                            variant="h5"
-                            messageStatus={item.messageStatus}
-                          >
-                            {item.name}
-                          </UserName>
-                        </IndicatorBox>
-                        <TextMessageBlock>
-                          <TextMessage isMyMessage={item.isMyMessage}>
-                            {item.text}
-                          </TextMessage>
-                          {!item.isMyMessage && <DropDownMenu />}
-                        </TextMessageBlock>
-                      </UserMassageWrap>
-                      {item.permittedSendingPrivateMessage
-                        ? avatarsArray.map(
-                            (Logo, index) =>
-                              item.avatarId - 1 === index && (
-                                <Link
-                                  key={item.id}
-                                  to={
-                                    privateTopics.some(
-                                      (el) => el?.contact?.id === item.senderId,
-                                    )
-                                      ? `/home/notification/chat/${getPrivateTopicId(
-                                          {
-                                            userId: item.senderId,
-                                            privateTopics,
-                                          },
-                                        )}/${item.senderId}`
-                                      : // eslint-disable-next-line max-len
-                                        `/home/notification/chat/${item.senderEmail}/${item.senderId}`
-                                  }
-                                >
+                            <UserName
+                              variant="h5"
+                              messageStatus={item.messageStatus}
+                            >
+                              {item.name}
+                            </UserName>
+                          </IndicatorBox>
+                          <TextMessageBlock>
+                            <TextMessage isMyMessage={item.isMyMessage}>
+                              {item.text}
+                            </TextMessage>
+                            {!item.isMyMessage && <DropDownMenu />}
+                          </TextMessageBlock>
+                        </UserMassageWrap>
+                        {item.permittedSendingPrivateMessage
+                          ? avatarsArray.map(
+                              (Logo, index) =>
+                                item.avatarId - 1 === index && (
+                                  <Link
+                                    key={item.id}
+                                    to={
+                                      privateTopics.some(
+                                        (el) =>
+                                          el?.contact?.id === item.senderId,
+                                      )
+                                        ? `/home/notification/chat/${getPrivateTopicId(
+                                            {
+                                              userId: item.senderId,
+                                              privateTopics,
+                                            },
+                                          )}/${item.senderId}`
+                                        : // eslint-disable-next-line max-len
+                                          `/home/notification/chat/${item.senderEmail}/${item.senderId}`
+                                    }
+                                  >
+                                    <Avatar key={index}>
+                                      <Logo />
+                                    </Avatar>
+                                  </Link>
+                                ),
+                            )
+                          : avatarsArray.map(
+                              (Logo, index) =>
+                                item.avatarId - 1 === index && (
                                   <Avatar key={index}>
                                     <Logo />
                                   </Avatar>
-                                </Link>
-                              ),
-                          )
-                        : avatarsArray.map(
-                            (Logo, index) =>
-                              item.avatarId - 1 === index && (
-                                <Avatar key={index}>
-                                  <Logo />
-                                </Avatar>
-                              ),
-                          )}
-                    </MessageContainerObserver>
-                  </ChatSection>
-                ))}
+                                ),
+                            )}
+                      </MessageContainerObserver>
+                    </ChatSection>
+                  ))}
               {/* This is the old code without Observer for unread messages */}
               {/* {messages &&
                   messages.map(item => (

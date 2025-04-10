@@ -34,8 +34,14 @@ import { useLocalLogoutUtil } from '../../../hooks/useLocalLogOutUtil';
 import { toast } from 'react-toastify';
 import { complainTopic } from '../../../redux/complainTopicToolkit/complainTopicToolkit';
 
-const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
+const TopicSettingsMenu = ({
+  topicId,
+  subscribeStatus,
+  searchInTopic,
+  setSearchInTopic,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isSearchActive, setIsSearchActive] = useState(false);
   const dispatch = useDispatch();
   const accessTokenInStore = useSelector(selectAccessToken);
   const { data, isError, error } = useGetAllQuery(
@@ -83,7 +89,11 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
   };
 
   const handleOpen = (e) => setAnchorEl(e.currentTarget);
-  const handleClose = () => setAnchorEl(null);
+  const handleClose = () => {
+    setIsSearchActive(false);
+    setSearchInTopic('');
+    setAnchorEl(null);
+  };
 
   const handleAddFavourite = async () => {
     try {
@@ -155,7 +165,8 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
   };
 
   const handleSearch = () => {
-    handleClose();
+    setIsSearchActive(true);
+    // handleClose();
   };
 
   return (
@@ -175,11 +186,26 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <SettingsItemStyled onClick={handleSearch} disableRipple>
+        <SettingsItemStyled disableRipple>
           <ListItemIcon>
             {<IconButton icon={<MenuIconSearch />} />}
           </ListItemIcon>
-          <SettingsTextStyled primary="Пошук" />
+          {/* <SettingsTextStyled primary="Пошук" /> */}
+          {isSearchActive ? (
+            <input
+              type="text"
+              value={searchInTopic}
+              onChange={(e) => setSearchInTopic(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  setAnchorEl(null);
+                  handleClose();
+                }
+              }}
+            />
+          ) : (
+            <SettingsTextStyled primary="Пошук" onClick={() => handleClose()} />
+          )}
           <IconButton onClick={handleClose} icon={<IconCloseStyled />} />
         </SettingsItemStyled>
 
@@ -189,7 +215,8 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
               {<IconButton icon={<MenuIconSubscribe />} />}
             </ListItemIcon>
             <SettingsTextStyled
-              primary={subscribeStatus ? 'Відписатися' : 'Підписатися'}
+              // primary={subscribeStatus ? 'Відписатися' : 'Підписатися'}
+              primary={'Підписатися'}
             />
           </SettingsItemStyled>
         ) : (
@@ -200,7 +227,6 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
             <SettingsTextStyled primary="Відписатися" />
           </SettingsItemStyled>
         )}
-
         {favouriteStatus() ? (
           <SettingsItemStyled onClick={handleRemoveFavourite} disableRipple>
             <ListItemIcon>
@@ -220,7 +246,6 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
             <SettingsTextStyled primary="Додати чат до улюбленого" />
           </SettingsItemStyled>
         )}
-
         <SettingsItemStyled onClick={handleComplain} disableRipple>
           <ListItemIcon>
             {<IconButton icon={<MenuIconComplain />} />}
