@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { ICONS } from '../../../ui-kit/icons';
-import { Menu, MenuItem, ListItemText } from '@mui/material';
+// eslint-disable-next-line no-unused-vars
+import { MenuItem, ListItemText, MenuList, Menu, Stack } from '@mui/material';
 
 export const IconOpenStyled = styled(ICONS.MORE_CIRCLE)`
   min-width: 40px;
@@ -30,16 +31,41 @@ export const IconCloseStyled = styled(ICONS.CLOSE_SQUARE)`
   }
 `;
 
-export const SettingsMenuStyled = styled(Menu)`
-  .MuiMenu-paper {
-    box-sizing: border-box;
-    display: inline-flex;
-    padding: 12px;
-    align-items: flex-start;
-    border-radius: 16px;
-    background: ${(p) => p.theme.palette.primary.disabled} !important;
-    box-shadow: 0px 2px 9px 4px rgba(102, 102, 146, 0.15);
-  }
+// export const SettingsMenuStyled = styled(Menu)`
+// .MuiMenu-paper {
+//     box-sizing: border-box;
+//     display: inline-flex;
+//     padding: 12px;
+//     align-items: flex-start;
+//     border-radius: 16px;
+//     background: ${p => p.theme.palette.primary.disabled} !important;
+//     box-shadow: 0px 2px 9px 4px rgba(102, 102, 146, 0.15);
+//   }
+//   .MuiMenuItem-root {
+//     padding: 0;
+//   }
+//   .MuiList-padding {
+//     padding: 0;
+//   }
+//   .MuiMenu-list {
+//     @media screen and (min-width: calc(845px - 0.02px)) {
+//       display: flex;
+//       flex-direction: column;
+//       gap: 7px;
+//     }
+//   }
+// `;
+export const SettingsMenuStyledList = styled(MenuList)`
+  box-sizing: border-box;
+  /* display: inline-flex; */
+  /* width: 195px; */
+  width: 290px;
+  padding: 12px;
+  /* align-items: flex-start; */
+  border-radius: 16px;
+  background: ${(p) => p.theme.palette.primary.disabled} !important;
+  box-shadow: 0px 2px 9px 4px rgba(102, 102, 146, 0.15);
+
   .MuiMenuItem-root {
     padding: 0;
   }
@@ -47,7 +73,7 @@ export const SettingsMenuStyled = styled(Menu)`
     padding: 0;
   }
   .MuiMenu-list {
-    @media screen and (min-width: calc(845px - 0.02px)) {
+    @media screen and (min-width: 768px) {
       display: flex;
       flex-direction: column;
       gap: 7px;
@@ -69,7 +95,7 @@ export const SettingsItemStyled = styled(MenuItem)`
 
 export const SettingsTextStyled = styled(ListItemText)`
   & > span {
-    width: 113px;
+    /* width: 113px; */
     white-space: wrap;
     color: inherit;
     ${(p) => p.theme.typography.h5}
@@ -77,6 +103,16 @@ export const SettingsTextStyled = styled(ListItemText)`
       width: 210px;
     }
   }
+`;
+
+export const SearchInputStack = styled(Stack)`
+  /* flex-direction: 'row';
+  justify-content: 'center';
+  align-items: 'center'; */
+  /* padding: '12px';
+  border-radius: '16px'; */
+  background: ${(p) => p.theme.palette.primary.disabled} !important;
+  box-shadow: 0px 2px 9px 4px rgba(102, 102, 146, 0.15);
 `;
 
 export const MenuIconSearch = styled(ICONS.SEARCH)`

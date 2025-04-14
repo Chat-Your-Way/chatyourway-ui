@@ -475,8 +475,8 @@ const Chat = ({ children }) => {
   const handleMessageSend = () => {
     const inputMessage = inputRef.current.value.trim();
 
-    if (!inputMessage || inputMessage.length <= 1)
-      return alert('This message is empty or not enough length (min 2 symbols');
+    if (!inputMessage || inputMessage.length < 1)
+      return alert('This message is empty or not enough length (min 1 symbols');
 
     if (pathname.includes('topics') && connected) {
       // dispatch(sendMessageByWs({ topicId, inputMessage }));

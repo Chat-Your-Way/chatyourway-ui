@@ -6,10 +6,10 @@ export const SearchInputStyled = styled(InputBase, {
 })`
   width: 100%;
   height: ${(p) => (p.inputHeight ? p.inputHeight : '42px')};
-  padding: 8px 0 8px 12px;
+  padding: ${(p) => (p.inputPadding ? p.inputPadding : '8px 0 8px 12px')};
   opacity: 1;
 
   @media screen and (min-width: 768px) {
-    width: 400px;
+    width: ${(p) => (p.inputWidth ? p.inputWidth : '400px')};
   }
 `;
