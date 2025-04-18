@@ -42,6 +42,7 @@ const TopicSettingsMenu = ({
   subscribeStatus,
   searchInTopic,
   setSearchInTopic,
+  setFoundMessageId,
 }) => {
   const [anchorElMenu, setAnchorElMenu] = useState(null);
   const [anchorElSearch, setAnchorElSearch] = useState(null);
@@ -158,27 +159,26 @@ const TopicSettingsMenu = ({
   };
 
   const handleOpen = (e) => {
-    setAnchorElMenu(e.currentTarget);
+    if (isSearchActive) {
+      setIsSearchActive(false);
+    } else if (anchorElMenu) {
+      setAnchorElMenu(null);
+    } else {
+      setAnchorElMenu(e.currentTarget);
+    }
   };
 
   const handleCloseMenu = () => {
-    // setIsSearchActive(false);
-    // setSearchInTopic('');
     setAnchorElMenu(null);
   };
 
   const handleOpenSearch = () => {
-    // console.log(e);
-    // setAnchorElSearch(e.currentTarget);
     setIsSearchActive(true);
     handleCloseMenu();
   };
 
   const handleCloseSearch = () => {
     setIsSearchActive(false);
-    // setSearchInTopic('');
-    // setAnchorElSearch(null);
-    // anchorElSearchRef.current = null;
   };
 
   const handleComplain = () => {

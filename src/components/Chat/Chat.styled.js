@@ -118,12 +118,12 @@ export const MessageContainer = styled.div`
 
   padding: 5px;
   background-color: ${(props) =>
-    props.messageStatus
+    props.messageStatus || props.foundMessage
       ? `${props.theme.palette.primary.light}`
       : 'none'}; //light: '#ACADFF', light: '#6261AF',
 
   border: ${(props) =>
-    props.messageStatus
+    props.messageStatus || props.foundMessage
       ? `${props.theme.palette.primary.main} 1px solid`
       : 'none'};
   border-radius: 16px;

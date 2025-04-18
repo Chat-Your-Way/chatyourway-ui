@@ -15,6 +15,7 @@ const MessageContainerObserver = ({
   messageStatus,
   children,
   isFirstUnreadMessage,
+  foundMessage,
 }) => {
   const dispatch = useDispatch();
   const accessTokenInStore = useSelector(selectAccessToken);
@@ -59,6 +60,7 @@ const MessageContainerObserver = ({
           ? isFirstUnreadMessage.messageStatus
           : null
       }
+      foundMessage={foundMessage}
     >
       {children}
     </MessageContainer>
