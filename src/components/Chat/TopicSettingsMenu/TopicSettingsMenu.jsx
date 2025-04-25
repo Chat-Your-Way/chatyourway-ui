@@ -13,6 +13,10 @@ import {
   MenuIconComplain,
   SettingsMenuStyledList,
   SearchInputStack,
+  SearchInputOwn,
+  IconDeleteStyled,
+  IconLeftArrowCircleStyled,
+  IconRightArrowCircleStyled,
 } from './TopicSettings.styled';
 import {
   useAddFavouriteMutation,
@@ -36,13 +40,17 @@ import { toast } from 'react-toastify';
 import { complainTopic } from '../../../redux/complainTopicToolkit/complainTopicToolkit';
 import { SearchInputStyled } from '../../../ui-kit/components/Input/SearchInput/SearchInput.styled';
 import SearchInput from '../../../ui-kit/components/Input/SearchInput';
+import debounce from 'lodash.debounce';
 
 const TopicSettingsMenu = ({
   topicId,
   subscribeStatus,
   searchInTopic,
   setSearchInTopic,
+  foundMessageId,
   setFoundMessageId,
+  foundMessages,
+  setFoundMessages,
 }) => {
   const [anchorElMenu, setAnchorElMenu] = useState(null);
   const [anchorElSearch, setAnchorElSearch] = useState(null);
@@ -186,6 +194,16 @@ const TopicSettingsMenu = ({
     handleCloseMenu();
   };
 
+  const handleSearch = (e) => {
+    if (e.key === 'Enter') {
+      // setAnchorElMenu(null);
+      handleCloseSearch();
+    }
+  };
+
+  const handleInputValue = (e) =>
+    debounce(setSearchInTopic(e.target.value), 1000);
+
   return (
     <Stack
       sx={{ justifyContent: 'center', alignItems: 'center' }}
@@ -199,8 +217,18 @@ const TopicSettingsMenu = ({
         onClose={handleCloseSearch}
         disablePortal
         placement="left"
+        sx={{ zIndex: '1' }}
       >
         <SearchInputStack
+          // sx={{
+          //   flexDirection: 'row',
+          //   justifyContent: 'center',
+          //   alignItems: 'center',
+          //   padding: '6px 6px',
+          //   borderRadius: '16px',
+          //   gap: '4px',
+          //   height: '100%',
+          // }}
           sx={{
             flexDirection: 'row',
             justifyContent: 'center',
@@ -208,28 +236,62 @@ const TopicSettingsMenu = ({
             padding: '6px 6px',
             borderRadius: '16px',
             gap: '4px',
+            height: '100%',
           }}
         >
-          <ListItemIcon>
-            <MenuIconSearch />
-          </ListItemIcon>
-          <SearchInput
-            // type="text"
-            // value={searchInTopic}
-            handleInputValue={(e) => setSearchInTopic(e.target.value)}
-            // onChange={e => setSearchInTopic(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                // setAnchorElMenu(null);
-                handleCloseSearch();
+          <MenuIconSearch />
+          <IconButton
+            icon={<IconLeftArrowCircleStyled />}
+            isDisabled={
+              foundMessages.length === 0
+                ? true
+                : foundMessages[0].id === foundMessageId
+                ? true
+                : false
+            }
+            onClick={() => {
+              const indx = foundMessages.findIndex(
+                (el) => el.id === foundMessageId,
+              );
+
+              if (indx !== -1) {
+                setFoundMessageId(foundMessages[indx - 1].id);
               }
             }}
+          />
+          <IconButton
+            icon={<IconRightArrowCircleStyled />}
+            isDisabled={
+              foundMessages.length === 0
+                ? true
+                : foundMessages[foundMessages.length - 1].id === foundMessageId
+                ? true
+                : false
+            }
+            onClick={() => {
+              const indx = foundMessages.findIndex(
+                (el) => el.id === foundMessageId,
+              );
+
+              if (indx !== -1) {
+                setFoundMessageId(foundMessages[indx + 1].id);
+              }
+            }}
+          />
+          <SearchInputOwn
+            type="text"
+            value={searchInTopic}
+            onChange={(e) => setSearchInTopic(e.target.value)}
+            onKeyDown={handleSearch}
             inputWidth="200px"
             inputHeight="25px"
             placeholderText="Пошук"
             inputPadding="1px 3px"
-            inputValue={searchInTopic}
             startAdornment={null}
+          />
+          <IconButton
+            onClick={() => setSearchInTopic('')}
+            icon={<IconDeleteStyled />}
           />
           <IconButton onClick={handleCloseSearch} icon={<IconCloseStyled />} />
         </SearchInputStack>
@@ -240,6 +302,7 @@ const TopicSettingsMenu = ({
         onClose={handleCloseMenu}
         disablePortal
         placement="bottom-start"
+        sx={{ zIndex: '1' }}
       >
         <SettingsMenuStyledList
           elevation={0}
