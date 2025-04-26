@@ -114,11 +114,6 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
   if (error) {
     toast.error('Виникла помилка під час отримання тем (ChatsBlock)');
     logoutUtilFN();
-    // localLogOutUtil(dispatch);
-
-    // dispatch(setIsLoggedIn(false));
-    // localStorage.removeItem('accessToken');
-    // localStorage.removeItem('refreshToken');
   }
 
   return isLoading ? (

@@ -32,15 +32,19 @@ import localLogOutUtil from '../../../utils/localLogOutUtil';
 import { useLocalLogoutUtil } from '../../../hooks/useLocalLogOutUtil';
 
 import { toast } from 'react-toastify';
+import { complainTopic } from '../../../redux/complainTopicToolkit/complainTopicToolkit';
 
 const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
   const accessTokenInStore = useSelector(selectAccessToken);
-  const { data, isError, error } = useGetAllQuery({
-    filter: 'favourite',
-    accessTokenInStore,
-  });
+  const { data, isError, error } = useGetAllQuery(
+    {
+      filter: 'favourite',
+      accessTokenInStore,
+    },
+    { refetchOnMountOrArgChange: true, refetchOnFocus: true },
+  );
   const [addFavourite] = useAddFavouriteMutation();
   const [removeFavourite] = useRemoveFavouriteMutation();
   const [subscribe] = useSubscribeMutation();
@@ -72,7 +76,8 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
 
   const favouriteStatus = () => {
     if (data) {
-      const result = data.find((el) => el.id === Number(topicId));
+      const result = data.find((el) => el.id === topicId);
+
       return result ? true : false;
     }
   };
@@ -145,6 +150,7 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
   };
 
   const handleComplain = () => {
+    dispatch(complainTopic(topicId));
     handleClose();
   };
 
@@ -173,7 +179,7 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
           <ListItemIcon>
             {<IconButton icon={<MenuIconSearch />} />}
           </ListItemIcon>
-          <SettingsTextStyled primary="пошук" />
+          <SettingsTextStyled primary="Пошук" />
           <IconButton onClick={handleClose} icon={<IconCloseStyled />} />
         </SettingsItemStyled>
 
@@ -191,7 +197,7 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
             <ListItemIcon>
               {<IconButton icon={<MenuIconSubscribe />} />}
             </ListItemIcon>
-            <SettingsTextStyled primary="відписатися" />
+            <SettingsTextStyled primary="Відписатися" />
           </SettingsItemStyled>
         )}
 
@@ -205,13 +211,13 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
         ) : (
           <SettingsItemStyled
             onClick={handleAddFavourite}
-            disableRipple
-            disabled={!subscribeStatus}
+            // disableRipple
+            // disabled={!subscribeStatus}
           >
             <ListItemIcon>
               {<IconButton icon={<MenuIconHeart />} />}
             </ListItemIcon>
-            <SettingsTextStyled primary="додати чат до улюбленого" />
+            <SettingsTextStyled primary="Додати чат до улюбленого" />
           </SettingsItemStyled>
         )}
 
@@ -219,7 +225,7 @@ const TopicSettingsMenu = ({ topicId, subscribeStatus }) => {
           <ListItemIcon>
             {<IconButton icon={<MenuIconComplain />} />}
           </ListItemIcon>
-          <SettingsTextStyled primary="поскаржитися" />
+          <SettingsTextStyled primary="Поскаржитися" />
         </SettingsItemStyled>
       </SettingsMenuStyled>
     </Box>

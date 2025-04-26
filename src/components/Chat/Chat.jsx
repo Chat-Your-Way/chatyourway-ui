@@ -562,6 +562,15 @@ const Chat = ({ children }) => {
     }, 2000);
   };
 
+  // const onChangeInputThrottled = throttle(() => {
+  //   dispatch(changeTypingStatus({ isTyping: true, topicId: topicId }));
+
+  //   clearTimeout(typingTimerId.current);
+  //   typingTimerId.current = setTimeout(() => {
+  //     dispatch(changeTypingStatus({ isTyping: false, topicId: topicId }));
+  //   }, 2000);
+  // }, 1500);
+
   const subscribeStatus = () => {
     if (topicIdData) {
       const status = topicIdData.topicSubscribers.find(
@@ -613,7 +622,8 @@ const Chat = ({ children }) => {
                         onlineContacts.find((el) => el.typingStatus === true)
                           .nickname
                       } is typing`
-                    : 'Nobody typing'}
+                    : // : 'Nobody is typing'}
+                      topicIdData.contact.nickname}
                 </TypingIndicator>
               </InfoBox>
             </UserBox>
@@ -775,7 +785,7 @@ const Chat = ({ children }) => {
                         onlineContacts.find((el) => el.typingStatus === true)
                           .nickname
                       } is typing`
-                    : 'Nobody typing'}
+                    : `${topicIdData.contact.nickname} is creator`}
                 </TypingIndicator>
               </InfoBox>
             </UserBox>
@@ -942,6 +952,7 @@ const Chat = ({ children }) => {
                   type="text" //!
                   maxRows={3}
                   placeholder={'Введіть повідомлення...'}
+                  // onChange={onChangeInputThrottled}
                   onChange={throttle(onChangeInput, 1500)}
                   onKeyDown={(event) => {
                     if (event.key === 'Enter' && !event.shiftKey) {

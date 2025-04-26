@@ -325,7 +325,10 @@ const chatSlice = createSlice({
         state.onlineContactsStatus = 'pending';
       })
       .addCase(fetchOnlineContacts.fulfilled, (state, action) => {
-        if (action.payload.httpStatus === 'UNAUTHORIZED') {
+        if (
+          action.payload.httpStatus === 'UNAUTHORIZED' ||
+          action.payload.status === 403
+        ) {
           state.onlineContactsStatus === action.payload.message;
           return;
         }

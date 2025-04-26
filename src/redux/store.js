@@ -12,6 +12,7 @@ import chatSlice from './chatSlice';
 import modalSlice from './modalSlice';
 import authOperationsThunk from './authOperationsToolkit/authOperationsThunkSlice';
 import messagesAPI from './messagesAPI/messagesAPI';
+import complainTopicThunk from './complainTopicToolkit/complainTopicToolkit';
 
 const authPersistConfig = {
   key: 'authOperationsThunk',
@@ -71,6 +72,7 @@ const store = configureStore({
     [authOperationsThunk.name]: persistedAuthReducer,
     [messagesAPI.reducerPath]: messagesAPI.reducer,
     [modalSlice.name]: modalSlice.reducer,
+    [complainTopicThunk.name]: complainTopicThunk.reducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
   middleware: (getDefaultMiddleware) =>
