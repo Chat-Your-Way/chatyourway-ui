@@ -28,10 +28,10 @@ function TopicsPage() {
   const [modalOpenNewTopic, setModalOpenNewTopic] = useState(false);
 
   const { contactsOpen, setContactsOpen } = useTopicsPageContext();
-  const { setІsTopics, setShowTopics, showTopics } = useTopicsContext();
+  const { setIsTopics, setShowTopics, showTopics } = useTopicsContext();
 
   useEffect(() => {
-    setІsTopics(true);
+    setIsTopics(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

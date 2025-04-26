@@ -12,10 +12,11 @@ import {
   setSubscribed,
 } from '../redux/chatSlice';
 import {
-  client,
+  // client,
   unsubscribeFromAllTopicsNotify,
   unSubscribeOnlineOrTypingStatus,
 } from '../redux/chat-operations';
+import { WebSocketManager } from '../utils/WebSocketManager';
 import { useSidebarContext } from '../common/Sidebar/SidebarContext';
 import { useTopicsContext } from '../common/Topics/TopicsContext';
 
@@ -31,8 +32,14 @@ export const useLocalLogoutUtil = () => {
   const { setShowTopics } = useTopicsContext();
 
   const logoutUtilFN = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     // setShowMenu(false);
     // setShowText(false);
+    dispatch(setIsLoggedIn(false));
+    dispatch(setAccessToken(null));
+    dispatch(setRefreshToken(null));
+    dispatch(setConnected(false));
     setShowMenu(true);
     setShowText(true);
     setShowAdvancedMenu(false);
@@ -40,24 +47,18 @@ export const useLocalLogoutUtil = () => {
     setShowTopics(false);
     setSelectedCategory(null);
 
-    dispatch(setIsLoggedIn(false));
-    dispatch(setAccessToken(null));
-    dispatch(setRefreshToken(null));
     // dispatch(disconnectWebSocket());
     dispatch(clearSubscriptions());
     dispatch(setSubscribed(false));
     dispatch(clearSubscriptionAllTopicsNotify());
-    dispatch(setConnected(false));
     dispatch(clearAllTopicsNotifications());
     dispatch(unsubscribeFromAllTopicsNotify());
     dispatch(unSubscribeOnlineOrTypingStatus());
-    if (client.active) {
+    if (WebSocketManager.client.active) {
       // console.log('Client is active, deactivating');
-      client.deactivate();
+      WebSocketManager.disconnect();
     }
     // client.deactivate();
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
   };
 
   return { logoutUtilFN };

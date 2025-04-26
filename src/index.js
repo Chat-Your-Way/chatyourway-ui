@@ -4,8 +4,9 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import { ToastContainer } from 'react-toastify';
-import store from './redux/store';
+import { store, persistor } from './redux/store';
 
 import './index.css';
 
@@ -15,8 +16,10 @@ root.render(
   // <React.StrictMode>
   <BrowserRouter basename="/">
     <Provider store={store}>
-      <App />
-      <ToastContainer />
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+        <ToastContainer />
+      </PersistGate>
     </Provider>
   </BrowserRouter>,
   // </React.StrictMode>,

@@ -42,6 +42,7 @@ import {
   selectIsLoggedIn,
 } from '../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 import { useLocalLogoutUtil } from '../../hooks/useLocalLogOutUtil';
+import { toast } from 'react-toastify';
 
 const menuRoutes = [
   {
@@ -99,7 +100,6 @@ const Sidebar = () => {
   const acccessTokenInStore = useSelector(selectAccessToken);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const { logoutUtilFN } = useLocalLogoutUtil();
-
   // const chatOpened = useSelector(selectChatOpened);
 
   useEffect(() => {
@@ -310,18 +310,17 @@ const Sidebar = () => {
   //   }
   // }, [isMobile, setShowMenu]);
 
-  const LogOut = async () => {
+  const logOut = async () => {
     try {
       const { error } = await logout();
 
       if (error) {
-        alert(error.data.message);
+        toast.error(error.data.message);
         // dispatch(setIsLoggedIn(false));
         logoutUtilFN();
         // localLogOutUtil();
         return;
       }
-
       // localLogOut();
       // navigate(PATH.MAIN);
       // dispatch(setIsLoggedIn(false));
@@ -463,7 +462,7 @@ const Sidebar = () => {
                 <LogOutButton
                   label="Вийти"
                   startIcon={<LogOutIcon />}
-                  handleClick={LogOut}
+                  handleClick={logOut}
                 />
               </StyledNavlistItem>
             </StyledNavlist>

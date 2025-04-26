@@ -8,14 +8,17 @@ import Sidebar from '../../../common/Sidebar';
 import { useWebSocketConnection } from '../../../hooks/useWebSocketConnection';
 import { useSubscriptionToAllTopicsNotify } from '../../../hooks/useSubscriptionToAllTopicsNotify';
 import { MainWrapper } from './SharedLayout.styled';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 // eslint-disable-next-line max-len
-import { selectIsLoggedIn } from '../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
+import {
+  selectIsLoggedIn,
+  selectAccessToken,
+} from '../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 import { useAllTopicsNotificationInfo } from '../../../hooks/useAllTopicsNotificationInfo';
 import { useSidebarContext } from '../../../common/Sidebar/SidebarContext';
 import { useEffect, useState } from 'react';
 import { useTopicsContext } from '../../../common/Topics/TopicsContext';
-import { selectChatOpened } from '../../../redux/chatSlice';
+import { selectChatOpened, selectConnected } from '../../../redux/chatSlice';
 import { useSharedLayoutContext } from '../../../hooks/useSharedLayoutContext';
 // import { useGetUserInfoQuery } from '../../../redux/user-operations';
 // import { useEffect } from 'react';
@@ -24,10 +27,17 @@ import { useSharedLayoutContext } from '../../../hooks/useSharedLayoutContext';
 // import { getUserInfoThunk } from '../../../redux/userApiThunk/userApiThunkSlice';
 // import { selectJwtExpired } from '../../../redux/userApiThunk/userApiThunkSelectors';
 
+import {
+  connectWebSocket,
+  disconnectWebSocket,
+} from '../../../redux/chat-operations';
+
 const SharedLayout = () => {
   // const { isAuthenticated } = useUser();
   // useWebSocketConnection(isAuthenticated);
   // useSubscriptionToAllTopicsNotify(isAuthenticated);
+  const dispatch = useDispatch();
+
   const { isCenterOrStart, setIsCenterOrStart } = useSharedLayoutContext();
   const {
     showText,
@@ -49,10 +59,25 @@ const SharedLayout = () => {
   const { showTopics } = useTopicsContext();
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const isConnected = useSelector(selectConnected);
+  const accessTokenInStore = useSelector(selectAccessToken);
   const chatOpened = useSelector(selectChatOpened);
 
-  useWebSocketConnection(isLoggedIn);
-  useSubscriptionToAllTopicsNotify(isLoggedIn);
+  useEffect(() => {
+    if (isLoggedIn && !isConnected) {
+      dispatch(connectWebSocket(accessTokenInStore));
+    }
+
+    // return () => {
+    //   if (isConnected) {
+    //     dispatch(disconnectWebSocket());
+    //   }
+    //   // console.log('useEffect in SharedLayout');
+    // };
+  }, [isLoggedIn, isConnected, accessTokenInStore, dispatch]);
+
+  // useWebSocketConnection();
+  // useSubscriptionToAllTopicsNotify(isLoggedIn);
   useAllTopicsNotificationInfo(isLoggedIn);
 
   useEffect(() => {
@@ -82,7 +107,7 @@ const SharedLayout = () => {
     showChat,
     isTabletAndHigher,
     setIsCenterOrStart,
-  ]);
+  ]); // ??????????????????????????????????????????????????????????
 
   return (
     <MainBackground>

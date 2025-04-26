@@ -39,6 +39,7 @@
     "react-router-dom": "^6.16.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^11.0.3",
+    "redux-persist": "^6.0.0",
     "sockjs-client": "^1.6.1",
     "web-vitals": "^2.1.4"
   },

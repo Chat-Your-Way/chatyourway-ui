@@ -27,7 +27,7 @@ export const StyledBox = styled.div`
 `;
 
 export const StyledTabs = styled(Tabs, {
-  shouldForwardProp: (p) => p !== '$chatOpened' && p !== '$contactsOpened',
+  shouldForwardProp: (p) => p !== 'chatOpened' && p !== 'contactsOpened',
 })`
   //width: 330px;
   min-height: 41px;
