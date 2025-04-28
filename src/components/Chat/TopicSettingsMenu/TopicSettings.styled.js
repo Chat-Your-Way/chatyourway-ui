@@ -1,11 +1,13 @@
+/* eslint-disable prettier/prettier */
 import styled from '@emotion/styled';
 import { ICONS } from '../../../ui-kit/icons';
-import { Menu, MenuItem, ListItemText } from '@mui/material';
+// eslint-disable-next-line no-unused-vars
+import { MenuItem, ListItemText, MenuList, Menu, Stack, InputBase } from '@mui/material';
 
 export const IconOpenStyled = styled(ICONS.MORE_CIRCLE)`
   min-width: 40px;
   min-height: 40px;
-  fill: ${(p) => p.theme.palette.primary.contrastText};
+  fill: ${p => p.theme.palette.primary.contrastText};
 `;
 
 export const IconCloseStyled = styled(ICONS.CLOSE_SQUARE)`
@@ -14,13 +16,13 @@ export const IconCloseStyled = styled(ICONS.CLOSE_SQUARE)`
   opacity: 0.6;
   transition: all 0.2s ease;
   path {
-    fill: ${(p) =>
+    fill: ${p =>
       p.theme.palette.mode === 'light'
         ? p.theme.palette.primary.dark
         : p.theme.palette.primary.main};
   }
   circle {
-    stroke: ${(p) =>
+    stroke: ${p =>
       p.theme.palette.mode === 'light'
         ? p.theme.palette.primary.dark
         : p.theme.palette.primary.main};
@@ -30,16 +32,107 @@ export const IconCloseStyled = styled(ICONS.CLOSE_SQUARE)`
   }
 `;
 
-export const SettingsMenuStyled = styled(Menu)`
-  .MuiMenu-paper {
-    box-sizing: border-box;
-    display: inline-flex;
-    padding: 12px;
-    align-items: flex-start;
-    border-radius: 16px;
-    background: ${(p) => p.theme.palette.primary.disabled} !important;
-    box-shadow: 0px 2px 9px 4px rgba(102, 102, 146, 0.15);
+export const IconDeleteStyled = styled(ICONS.DELETE)`
+  min-width: 20px;
+  min-height: 20px;
+  opacity: 0.6;
+  transition: all 0.2s ease;
+  path {
+    fill: ${p =>
+      p.theme.palette.mode === 'light'
+        ? p.theme.palette.primary.dark
+        : p.theme.palette.primary.main};
   }
+  circle {
+    stroke: ${p =>
+      p.theme.palette.mode === 'light'
+        ? p.theme.palette.primary.dark
+        : p.theme.palette.primary.main};
+  }
+  &:hover {
+    opacity: 1;
+  }
+`;
+
+export const IconLeftArrowCircleStyled = styled(ICONS.ARROW_LEFT_C)`
+  min-width: 20px;
+  min-height: 20px;
+  opacity: 0.6;
+  transition: all 0.2s ease;
+  path {
+    fill: ${p =>
+      p.theme.palette.mode === 'light'
+        ? p.theme.palette.primary.dark
+        : p.theme.palette.primary.main};
+  }
+  circle {
+    stroke: ${p =>
+      p.theme.palette.mode === 'light'
+        ? p.theme.palette.primary.dark
+        : p.theme.palette.primary.main};
+  }
+  &:hover {
+    opacity: 1;
+  }
+`;
+
+export const IconRightArrowCircleStyled = styled(ICONS.ARROW_RIGHT_C)`
+  min-width: 20px;
+  min-height: 20px;
+  opacity: 0.6;
+  transition: all 0.2s ease;
+  path {
+    fill: ${p =>
+      p.theme.palette.mode === 'light'
+        ? p.theme.palette.primary.dark
+        : p.theme.palette.primary.main};
+  }
+  circle {
+    stroke: ${p =>
+      p.theme.palette.mode === 'light'
+        ? p.theme.palette.primary.dark
+        : p.theme.palette.primary.main};
+  }
+  &:hover {
+    opacity: 1;
+  }
+`;
+
+// export const SettingsMenuStyled = styled(Menu)`
+// .MuiMenu-paper {
+//     box-sizing: border-box;
+//     display: inline-flex;
+//     padding: 12px;
+//     align-items: flex-start;
+//     border-radius: 16px;
+//     background: ${p => p.theme.palette.primary.disabled} !important;
+//     box-shadow: 0px 2px 9px 4px rgba(102, 102, 146, 0.15);
+//   }
+//   .MuiMenuItem-root {
+//     padding: 0;
+//   }
+//   .MuiList-padding {
+//     padding: 0;
+//   }
+//   .MuiMenu-list {
+//     @media screen and (min-width: calc(845px - 0.02px)) {
+//       display: flex;
+//       flex-direction: column;
+//       gap: 7px;
+//     }
+//   }
+// `;
+export const SettingsMenuStyledList = styled(MenuList)`
+  box-sizing: border-box;
+  /* display: inline-flex; */
+  /* width: 195px; */
+  width: 290px;
+  padding: 12px;
+  /* align-items: flex-start; */
+  border-radius: 16px;
+  background: ${p => p.theme.palette.primary.disabled} !important;
+  box-shadow: 0px 2px 9px 4px rgba(102, 102, 146, 0.15);
+
   .MuiMenuItem-root {
     padding: 0;
   }
@@ -47,20 +140,21 @@ export const SettingsMenuStyled = styled(Menu)`
     padding: 0;
   }
   .MuiMenu-list {
-    @media screen and (min-width: calc(845px - 0.02px)) {
+    @media screen and (min-width: 768px) {
       display: flex;
       flex-direction: column;
       gap: 7px;
+      z-index: 1;
     }
   }
 `;
 
 export const SettingsItemStyled = styled(MenuItem)`
-  color: ${(p) => p.theme.palette.primary.dark};
+  color: ${p => p.theme.palette.primary.dark};
   transition: all 0.2s ease;
   &:hover {
     background-color: transparent;
-    color: ${(p) =>
+    color: ${p =>
       p.theme.palette.mode === 'light'
         ? p.theme.palette.primary.contrastText
         : p.theme.palette.primary.main};
@@ -69,20 +163,43 @@ export const SettingsItemStyled = styled(MenuItem)`
 
 export const SettingsTextStyled = styled(ListItemText)`
   & > span {
-    width: 113px;
+    /* width: 113px; */
     white-space: wrap;
     color: inherit;
-    ${(p) => p.theme.typography.h5}
+    ${p => p.theme.typography.h5}
     @media screen and (min-width: calc(845px - 0.02px)) {
       width: 210px;
     }
   }
 `;
 
+export const SearchInputStack = styled(Stack)`
+  /* flex-direction: 'row';
+  justify-content: 'center';
+  align-items: 'center'; */
+  /* padding: '12px';
+  border-radius: '16px'; */
+  background: ${p => p.theme.palette.primary.disabled} !important;
+  box-shadow: 0px 2px 9px 4px rgba(102, 102, 146, 0.15);
+`;
+
+export const SearchInputOwn = styled(InputBase, {
+  shouldForwardProp: p => p !== 'inputWidth' && p !== 'inputHeight',
+})`
+  width: 100%;
+  height: ${p => (p.inputHeight ? p.inputHeight : '42px')};
+  padding: ${p => (p.inputPadding ? p.inputPadding : '8px 0 8px 12px')};
+  opacity: 1;
+
+  @media screen and (min-width: 768px) {
+    width: ${p => (p.inputWidth ? p.inputWidth : '400px')};
+  }
+`;
+
 export const MenuIconSearch = styled(ICONS.SEARCH)`
   min-width: 20px;
   min-height: 20px;
-  stroke: ${(p) =>
+  stroke: ${p =>
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.main};
@@ -91,7 +208,7 @@ export const MenuIconSearch = styled(ICONS.SEARCH)`
 export const MenuIconHeart = styled(ICONS.HEART)`
   min-width: 20px;
   min-height: 20px;
-  fill: ${(p) =>
+  fill: ${p =>
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.main};
@@ -100,7 +217,7 @@ export const MenuIconHeart = styled(ICONS.HEART)`
 export const MenuIconComplain = styled(ICONS.DANGER_CIRCLE)`
   min-width: 20px;
   min-height: 20px;
-  fill: ${(p) =>
+  fill: ${p =>
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.main};
@@ -109,7 +226,7 @@ export const MenuIconComplain = styled(ICONS.DANGER_CIRCLE)`
 export const MenuIconSubscribe = styled(ICONS.SUBSCRIBE)`
   min-width: 20px;
   min-height: 20px;
-  fill: ${(p) =>
+  fill: ${p =>
     p.theme.palette.mode === 'light'
       ? p.theme.palette.primary.contrastText
       : p.theme.palette.primary.main};

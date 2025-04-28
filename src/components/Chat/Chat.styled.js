@@ -5,6 +5,47 @@ import { ICONS } from '../../ui-kit/icons';
 // export const ChatWrap = styled(Box)`
 export const ChatWrap = styled.div`
   position: relative;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: space-between; */
+  /* width: 100%; */
+  /* max-width: 342px; */ // Old rule
+  /* width: ${(p) => (p.isChatOpened ? '85vw' : '0')}; */
+
+  //height: calc(100vh - 145px); // Old rule
+  /* height: ${(p) => (p.isChatOpened ? '85vh' : '0')}; */
+  overflow-y: auto;
+
+  /* padding: 6px 6px 21px; */ // Old rule
+  /* padding: 0 6px 6px 6px; */
+  /* border-radius: 16px; */
+  background-color: ${(p) => p.theme.palette.primary.white};
+
+  scroll-behavior: smooth;
+  z-index: 0;
+  /* @media screen and (min-width: calc(834px - 0.02px)) { */
+  /* @media screen and (min-width: 768px) { */
+  /* max-width: 648px; */
+  /* height: 74vh; */
+  /* padding: 0 8px 16px; */
+  /* } */
+
+  /* @media screen and (min-width: calc(834px - 0.02px)) and (max-width: calc(1200px - 0.03px)) { */
+  /* margin-left: 31px; */
+  /* } */
+
+  /* @media screen and (min-width: calc(1200px - 0.02px)) { */
+  /* @media screen and (min-width: 1200px) { */
+  /* width: ${(p) => (p.isChatOpened ? '51vw' : '0')}; */
+  /* max-width: 730px; */
+  /* height: calc(100vh - 297px); */
+  /* height: 75vh; */
+  /* padding: 0 10px 16px; */
+  /* } */
+`;
+
+export const ChatWrapTemporary = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -36,7 +77,8 @@ export const ChatWrap = styled.div`
 
   /* @media screen and (min-width: calc(1200px - 0.02px)) { */
   @media screen and (min-width: 1200px) {
-    width: ${(p) => (p.isChatOpened ? '51vw' : '0')};
+    // Do I really need this isChatOpened? In future the isContactListOpened will be needed
+    width: ${(p) => (p.isChatOpened ? '51vw' : '43vw')};
     max-width: 730px;
     /* height: calc(100vh - 297px); */
     height: 75vh;
@@ -45,13 +87,13 @@ export const ChatWrap = styled.div`
 `;
 
 export const ChatHeader = styled(Box)`
-  position: sticky;
-  top: 0;
+  /* position: sticky; */
+  /* top: 0; */
   /* display: flex;
   justify-content: space-between; */
   display: grid;
   grid-template-columns: 2fr 2fr 50px;
-  margin-bottom: 16px;
+  /* margin-bottom: 16px; */
   padding: 6px 6px 0;
   background-color: ${(p) => p.theme.palette.primary.white};
   @media screen and (min-width: 768px) {
@@ -118,12 +160,12 @@ export const MessageContainer = styled.div`
 
   padding: 5px;
   background-color: ${(props) =>
-    props.messageStatus
+    props.messageStatus || props.foundMessage
       ? `${props.theme.palette.primary.light}`
       : 'none'}; //light: '#ACADFF', light: '#6261AF',
 
   border: ${(props) =>
-    props.messageStatus
+    props.messageStatus || props.foundMessage
       ? `${props.theme.palette.primary.main} 1px solid`
       : 'none'};
   border-radius: 16px;
@@ -193,7 +235,7 @@ export const InputBox = styled(Box)`
   display: flex;
   /* position: relative; */
   align-items: center;
-  padding: 0px 0px 6px;
+  padding: 0px 6px 6px;
   background-color: ${(p) => p.theme.palette.primary.white};
   @media screen and (min-width: 768px) {
     padding: 0px 8px 10px;
