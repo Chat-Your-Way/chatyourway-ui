@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useRef, useState } from 'react';
-import { Box, ListItemIcon, Popper, Stack } from '@mui/material';
+import { Badge, Box, ListItemIcon, Popper, Stack } from '@mui/material';
 import IconButton from '../../../ui-kit/components/IconButton/IconButton';
 import {
   IconOpenStyled,
@@ -17,6 +17,7 @@ import {
   IconDeleteStyled,
   IconLeftArrowCircleStyled,
   IconRightArrowCircleStyled,
+  BadgeStyled,
 } from './TopicSettings.styled';
 import {
   useAddFavouriteMutation,
@@ -41,6 +42,7 @@ import { complainTopic } from '../../../redux/complainTopicToolkit/complainTopic
 import { SearchInputStyled } from '../../../ui-kit/components/Input/SearchInput/SearchInput.styled';
 import SearchInput from '../../../ui-kit/components/Input/SearchInput';
 import debounce from 'lodash.debounce';
+import { useSidebarContext } from '../../../common/Sidebar/SidebarContext';
 
 const TopicSettingsMenu = ({
   topicId,
@@ -56,6 +58,7 @@ const TopicSettingsMenu = ({
   const [anchorElSearch, setAnchorElSearch] = useState(null);
   const anchorElSearchRef = useRef(null);
   const [isSearchActive, setIsSearchActive] = useState(false);
+  const { isMobile } = useSidebarContext();
   const dispatch = useDispatch();
   const accessTokenInStore = useSelector(selectAccessToken);
   const { data, isError, error } = useGetAllQuery(
@@ -216,19 +219,10 @@ const TopicSettingsMenu = ({
         open={isSearchActive}
         onClose={handleCloseSearch}
         disablePortal
-        placement="left"
+        placement={isMobile ? 'bottom-end' : 'left'}
         sx={{ zIndex: '1' }}
       >
         <SearchInputStack
-          // sx={{
-          //   flexDirection: 'row',
-          //   justifyContent: 'center',
-          //   alignItems: 'center',
-          //   padding: '6px 6px',
-          //   borderRadius: '16px',
-          //   gap: '4px',
-          //   height: '100%',
-          // }}
           sx={{
             flexDirection: 'row',
             justifyContent: 'center',
@@ -239,45 +233,73 @@ const TopicSettingsMenu = ({
             height: '100%',
           }}
         >
-          <MenuIconSearch />
-          <IconButton
-            icon={<IconLeftArrowCircleStyled />}
-            isDisabled={
-              foundMessages.length === 0
-                ? true
-                : foundMessages[0].id === foundMessageId
-                ? true
-                : false
+          <BadgeStyled showZero badgeContent={foundMessages.length}>
+            <MenuIconSearch />
+          </BadgeStyled>
+          <BadgeStyled
+            showZero
+            badgeContent={
+              foundMessages.findIndex((el) => el.id === foundMessageId) === -1
+                ? 0
+                : foundMessages.findIndex((el) => el.id === foundMessageId)
             }
-            onClick={() => {
-              const indx = foundMessages.findIndex(
-                (el) => el.id === foundMessageId,
-              );
-
-              if (indx !== -1) {
-                setFoundMessageId(foundMessages[indx - 1].id);
+          >
+            <IconButton
+              icon={<IconLeftArrowCircleStyled />}
+              isDisabled={
+                foundMessages.length === 0
+                  ? true
+                  : foundMessages[0].id === foundMessageId
+                  ? true
+                  : false
               }
-            }}
-          />
-          <IconButton
-            icon={<IconRightArrowCircleStyled />}
-            isDisabled={
-              foundMessages.length === 0
-                ? true
-                : foundMessages[foundMessages.length - 1].id === foundMessageId
-                ? true
-                : false
+              onClick={() => {
+                const indx = foundMessages.findIndex(
+                  (el) => el.id === foundMessageId,
+                );
+
+                if (indx !== -1) {
+                  setFoundMessageId(foundMessages[indx - 1].id);
+                }
+              }}
+            />
+          </BadgeStyled>
+          <BadgeStyled
+            showZero
+            badgeContent={
+              foundMessages.findIndex((el) => el.id === foundMessageId) ===
+                -1 ||
+              foundMessages.findIndex((el) => el.id === foundMessageId) + 1 ===
+                foundMessages.length
+                ? 0
+                : Math.abs(
+                    foundMessages.findIndex((el) => el.id === foundMessageId) -
+                      foundMessages.length +
+                      1,
+                  )
             }
-            onClick={() => {
-              const indx = foundMessages.findIndex(
-                (el) => el.id === foundMessageId,
-              );
-
-              if (indx !== -1) {
-                setFoundMessageId(foundMessages[indx + 1].id);
+          >
+            <IconButton
+              icon={<IconRightArrowCircleStyled />}
+              isDisabled={
+                foundMessages.length === 0
+                  ? true
+                  : foundMessages[foundMessages.length - 1].id ===
+                    foundMessageId
+                  ? true
+                  : false
               }
-            }}
-          />
+              onClick={() => {
+                const indx = foundMessages.findIndex(
+                  (el) => el.id === foundMessageId,
+                );
+
+                if (indx !== -1) {
+                  setFoundMessageId(foundMessages[indx + 1].id);
+                }
+              }}
+            />
+          </BadgeStyled>
           <SearchInputOwn
             type="text"
             value={searchInTopic}
