@@ -58,6 +58,7 @@ import {
   ChatSectionWrap,
   ChatUserName,
   ChatWrap,
+  ChatWrapTemporary,
   IconActivity,
   IconSend,
   // IconSmile, //! CHAT-220--smile-disable
@@ -102,6 +103,11 @@ const Chat = ({ children }) => {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
   // console.log('Chat rerendered');
   const { topicId, userId } = useParams();
+  const [searchInTopic, setSearchInTopic] = useState('');
+  const [foundMessages, setFoundMessages] = useState([]);
+  const [foundMessageId, setFoundMessageId] = useState('');
+  const foundMessageContainerRef = useRef();
+  const [currentValueForSearchPagination, setVFSP] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [sizeOfMessages, setSizeOfMessages] = useState(30);
@@ -435,7 +441,7 @@ const Chat = ({ children }) => {
         `#${isFirstUnreadMessageRef.current.id}`,
       );
 
-      // Scroll to current container
+      // Scroll to the current container
       if (unreadMessageContainerRef.current) {
         unreadMessageContainerRef.current.scrollIntoView();
       }
@@ -495,6 +501,42 @@ const Chat = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topicIdDataError, isSendFirstMessagesSuccess]);
 
+  // UseEffect for the result of search
+  useEffect(() => {
+    if (searchInTopic) {
+      setFoundMessages([
+        ...messages.filter((item) =>
+          item.text.toLowerCase().includes(searchInTopic.toLowerCase()),
+        ),
+      ]);
+    } else {
+      setFoundMessages([]);
+    }
+  }, [searchInTopic, messages]);
+
+  // useEffect for scroll to the found message container
+  useEffect(() => {
+    if (foundMessageId) {
+      foundMessageContainerRef.current = document.getElementById(
+        `#${foundMessageId}`,
+      );
+    } else {
+      return;
+    }
+
+    if (foundMessageContainerRef.current) {
+      foundMessageContainerRef.current.scrollIntoView();
+    } else {
+      return setFoundMessageId(null);
+    }
+  }, [foundMessageId]);
+
+  useEffect(() => {
+    if (foundMessages[0] && searchInTopic) {
+      setFoundMessageId(foundMessages[0].id);
+    } else return;
+  }, [foundMessages, searchInTopic]);
+
   // Function for searching name of user in private topics array
   const getUserName = () => {
     const existingUser = privateTopics?.find(
@@ -515,8 +557,8 @@ const Chat = ({ children }) => {
   const handleMessageSend = () => {
     const inputMessage = inputRef.current.value.trim();
 
-    if (!inputMessage || inputMessage.length <= 1)
-      return alert('This message is empty or not enough length (min 2 symbols');
+    if (!inputMessage || inputMessage.length < 1)
+      return alert('This message is empty or not enough length (min 1 symbols');
 
     if (pathname.includes('topics') && connected) {
       // dispatch(sendMessageByWs({ topicId, inputMessage }));
@@ -617,10 +659,16 @@ const Chat = ({ children }) => {
                   {topicIdData ? topicIdData.name : getUserName()}
                 </ChatUserName>
                 <TypingIndicator variant={isMobile ? 'h6' : 'h5'}>
-                  {onlineContacts.find((el) => el.typingStatus === true)
+                  {onlineContacts.find(
+                    (el) =>
+                      el.typingStatus === true && el.currentTopicId === topicId,
+                  )
                     ? `${
-                        onlineContacts.find((el) => el.typingStatus === true)
-                          .nickname
+                        onlineContacts.find(
+                          (el) =>
+                            el.typingStatus === true &&
+                            el.currentTopicId === topicId,
+                        ).nickname
                       } is typing`
                     : // : 'Nobody is typing'}
                       topicIdData.contact.nickname}
@@ -678,234 +726,124 @@ const Chat = ({ children }) => {
   }
 
   return (
-    <ChatWrap
-      id="#chatwrap"
-      onScroll={debounce(scrollEventWithTO, 1000)}
-      ref={chatWrapIdRef}
-      isChatOpened={showChat}
-    >
-      {isLoading ? (
-        <Loader />
-      ) : // isChatOpened && (
-      //   // topicIdData && (
-      //   <ChatWrap>
-      //     <ChatHeader>
-      //       <UserBox>
-      //         <Avatar>{getAvatar(isTopics, topicIdData)}</Avatar>
-      //         <InfoBox>
-      //           <ChatUserName variant="h5">
-      //             {topicIdData ? topicIdData.name : 'імя користувача'}
-      //           </ChatUserName>
-      //           <TypingIndicator variant="h5">Ти/Пишеш...</TypingIndicator>
-      //         </InfoBox>
-      //       </UserBox>
-      //       <InfoMoreBox>
-      //         {children}
-      //         <TopicSettingsMenu topicId={topicId} subscribeStatus={subscribeStatus()} />
-      //       </InfoMoreBox>
-      //     </ChatHeader>
-      //     <ChatSectionWrap>
-      //       <ChatSection>
-      //         {messages &&
-      //           messages.map(item => (
-      //             <ChatSection key={item.id} isMyMessage={item.isMyMessage}>
-      //               <MessageContainer isMyMessage={item.isMyMessage}>
-      //                 <UserMassageWrap>
-      //                   <IndicatorBox isMyMessage={item.isMyMessage}>
-      // eslint-disable-next-line max-len
-      //                     <TimeIndicator isMyMessage={item.isMyMessage}>{item.time}</TimeIndicator>
-      //                     <IconActivity isMyMessage={item.isMyMessage}>
-      // eslint-disable-next-line max-len
-      //                       {item.isOnline ? <ICONS.PROPERTY_ACTIVITY /> : <ICONS.NO_ACTIVITY />}
-      //                     </IconActivity>
-      //                     <UserName variant="h5">{item.name}</UserName>
-      //                   </IndicatorBox>
-      //                   <TextMessageBlock>
-      //                     <TextMessage isMyMessage={item.isMyMessage}>{item.text}</TextMessage>
-      //                     {!item.isMyMessage && <DropDownMenu />}
-      //                   </TextMessageBlock>
-      //                 </UserMassageWrap>
-      //                 {avatarsArray.map(
-      //                   (Logo, index) =>
-      //                     item.avatarId - 1 === index && (
-      //                       <Avatar key={index}>
-      //                         <Logo />
-      //                       </Avatar>
-      //                     )
-      //                 )}
-      //               </MessageContainer>
-      //             </ChatSection>
-      //           ))}
-      //       </ChatSection>
-      //       <InputBox>
-      //         <ChatInputStyled
-      //           ref={inputRef} //!
-      //           type="text" //!
-      //           maxRows={3}
-      //           placeholder="Введіть повідомлення..."
-      //           onKeyDown={event => {
-      //             if (event.key === 'Enter' && !event.shiftKey) {
-      //               event.preventDefault();
-      //               handleMessageSend();
-      //             }
-      //           }}
-      //         />
-      //         <ChatInputIconBox>
-      //           {/* <IconButton icon={<IconSmile />} /> //! CHAT-220--smile-disable */}
-      //           <IconButton icon={<IconSend />} onClick={handleMessageSend} />
-      //         </ChatInputIconBox>
-      //       </InputBox>
-      //     </ChatSectionWrap>
-      //   </ChatWrap>
-      // )
-      showChat && topicIdData && messages ? (
-        // topicIdData && (
-        <>
-          <ChatHeader>
-            {/* <div ref={observerRef}> */}
-            <UserBox>
-              <Avatar size={isMobile ? 'sm' : 'md'}>
-                {topicIdData ? getAvatar(isTopics, topicIdData) : null}
-              </Avatar>
-              <InfoBox>
-                <ChatUserName variant={isMobile ? 'h6' : 'h5'}>
-                  {pathname.includes('notification')
-                    ? `Приватний чат з ${getUserName()} `
-                    : null}
-                  {pathname.includes('topics')
-                    ? topicIdData
-                      ? topicIdData.name
-                      : 'імя користувача'
-                    : null}
-                </ChatUserName>
-                <TypingIndicator variant={isMobile ? 'h6' : 'h5'}>
-                  {/* {topicIdData.lastMessage ? topicIdData.lastMessage.sentFrom : null} / */}
-                  {onlineContacts.find((el) => el.typingStatus === true)
-                    ? `${
-                        onlineContacts.find((el) => el.typingStatus === true)
-                          .nickname
-                      } is typing`
-                    : `${topicIdData.contact.nickname} is creator`}
-                </TypingIndicator>
-              </InfoBox>
-            </UserBox>
-            {/* <UsersAvatar topicId={topicId} /> */}
-            <UsersAvatar
-              currentTopicSubscribers={topicIdData.topicSubscribers}
+    <ChatWrapTemporary isChatOpened={showChat}>
+      {topicIdData ? (
+        <ChatHeader>
+          {/* <div ref={observerRef}> */}
+          <UserBox>
+            <Avatar size={isMobile ? 'sm' : 'md'}>
+              {topicIdData ? getAvatar(isTopics, topicIdData) : null}
+            </Avatar>
+            <InfoBox>
+              <ChatUserName variant={isMobile ? 'h6' : 'h5'}>
+                {pathname.includes('notification')
+                  ? `Приватний чат з ${getUserName()} `
+                  : null}
+                {pathname.includes('topics')
+                  ? topicIdData
+                    ? topicIdData.name
+                    : 'імя користувача'
+                  : null}
+              </ChatUserName>
+              <TypingIndicator variant={isMobile ? 'h6' : 'h5'}>
+                {/* {topicIdData.lastMessage ? topicIdData.lastMessage.sentFrom : null} / */}
+                {onlineContacts.find(
+                  (el) =>
+                    el.typingStatus === true && el.currentTopicId === topicId,
+                )
+                  ? `${
+                      onlineContacts.find(
+                        (el) =>
+                          el.typingStatus === true &&
+                          el.currentTopicId === topicId,
+                      ).nickname
+                    } is typing`
+                  : `${topicIdData.contact.nickname} is creator`}
+              </TypingIndicator>
+            </InfoBox>
+          </UserBox>
+          {/* <UsersAvatar topicId={topicId} /> */}
+          <UsersAvatar
+            currentTopicSubscribers={topicIdData.topicSubscribers}
+            topicId={topicId}
+          />
+          <InfoMoreBox>
+            {children}
+            <TopicSettingsMenu
               topicId={topicId}
+              subscribeStatus={subscribeStatus()}
+              searchInTopic={searchInTopic}
+              setSearchInTopic={setSearchInTopic}
+              foundMessageId={foundMessageId}
+              setFoundMessageId={setFoundMessageId}
+              foundMessages={foundMessages}
+              setFoundMessages={setFoundMessages}
+              currentValueForSearchPagination={currentValueForSearchPagination}
+              setVFSP={setVFSP}
             />
-            <InfoMoreBox>
-              {children}
-              <TopicSettingsMenu
-                topicId={topicId}
-                subscribeStatus={subscribeStatus()}
-              />
-            </InfoMoreBox>
-          </ChatHeader>
-          {/* </div> */}
-          <ChatSectionWrap>
-            <ChatSection>
-              {messages &&
-                messages.map((item) => (
-                  <ChatSection key={item.id}>
-                    <MessageContainerObserver
-                      isMyMessage={item.isMyMessage}
-                      chatWrapIdRef={chatWrapIdRef}
-                      messageId={item.id}
-                      messageStatus={item.messageStatus}
-                      isFirstUnreadMessage={
-                        isFirstUnreadMessageRef?.current?.id === item.id
-                          ? item
-                          : false
-                      }
-                    >
-                      <UserMassageWrap>
-                        <IndicatorBox isMyMessage={item.isMyMessage}>
-                          <TimeIndicator
-                            isMyMessage={item.isMyMessage}
-                            messageStatus={item.messageStatus}
-                          >
-                            {item.time}
-                          </TimeIndicator>
-                          <IconActivityComponent
-                            isMyMessage={item.isMyMessage}
-                            senderId={item.senderId}
-                          />
-                          {/* <IconActivity isMyMessage={item.isMyMessage}>
-                            {item.isOnline ? <ICONS.PROPERTY_ACTIVITY /> : <ICONS.NO_ACTIVITY />}
-                          </IconActivity> */}
-                          <UserName
-                            variant="h5"
-                            messageStatus={item.messageStatus}
-                          >
-                            {item.name}
-                          </UserName>
-                        </IndicatorBox>
-                        <TextMessageBlock>
-                          <TextMessage isMyMessage={item.isMyMessage}>
-                            {item.text}
-                          </TextMessage>
-                          {!item.isMyMessage && <DropDownMenu />}
-                        </TextMessageBlock>
-                      </UserMassageWrap>
-                      {item.permittedSendingPrivateMessage
-                        ? avatarsArray.map(
-                            (Logo, index) =>
-                              item.avatarId - 1 === index && (
-                                <Link
-                                  key={item.id}
-                                  to={
-                                    privateTopics.some(
-                                      (el) => el?.contact?.id === item.senderId,
-                                    )
-                                      ? `/home/notification/chat/${getPrivateTopicId(
-                                          {
-                                            userId: item.senderId,
-                                            privateTopics,
-                                          },
-                                        )}/${item.senderId}`
-                                      : // eslint-disable-next-line max-len
-                                        `/home/notification/chat/${item.senderEmail}/${item.senderId}`
-                                  }
-                                >
-                                  <Avatar key={index}>
-                                    <Logo />
-                                  </Avatar>
-                                </Link>
-                              ),
-                          )
-                        : avatarsArray.map(
-                            (Logo, index) =>
-                              item.avatarId - 1 === index && (
-                                <Avatar key={index}>
-                                  <Logo />
-                                </Avatar>
-                              ),
-                          )}
-                    </MessageContainerObserver>
-                  </ChatSection>
-                ))}
-              {/* This is the old code without Observer for unread messages */}
-              {/* {messages &&
-                  messages.map(item => (
+          </InfoMoreBox>
+        </ChatHeader>
+      ) : null}
+      <ChatWrap
+        id="#chatwrap"
+        onScroll={debounce(scrollEventWithTO, 1000)}
+        ref={chatWrapIdRef}
+        isChatOpened={showChat}
+      >
+        {isLoading ? (
+          <Loader />
+        ) : showChat && topicIdData && messages ? (
+          // topicIdData && (
+          <>
+            {/* </div> */}
+            <ChatSectionWrap>
+              <ChatSection>
+                {messages &&
+                  messages.map((item) => (
                     <ChatSection key={item.id} isMyMessage={item.isMyMessage}>
-                      <MessageContainer
+                      <MessageContainerObserver
+                        id={item.id}
                         isMyMessage={item.isMyMessage}
-                        ref={observerRef}
-                        data-id={item.id}
+                        chatWrapIdRef={chatWrapIdRef}
+                        messageId={item.id}
+                        messageStatus={item.messageStatus}
+                        isFirstUnreadMessage={
+                          isFirstUnreadMessageRef?.current?.id === item.id
+                            ? item
+                            : false
+                        }
+                        foundMessage={
+                          foundMessages.find((el) => el.id === item.id)
+                            ? true
+                            : false
+                        }
                       >
                         <UserMassageWrap>
                           <IndicatorBox isMyMessage={item.isMyMessage}>
-                            <TimeIndicator isMyMessage={item.isMyMessage}>
+                            <TimeIndicator
+                              isMyMessage={item.isMyMessage}
+                              messageStatus={item.messageStatus}
+                            >
                               {item.time}
                             </TimeIndicator>
-                            <IconActivity isMyMessage={item.isMyMessage}>
-                              {item.isOnline ? <ICONS.PROPERTY_ACTIVITY /> : <ICONS.NO_ACTIVITY />}
-                            </IconActivity>
-                            <UserName variant="h5">{item.name}</UserName>
+                            <IconActivityComponent
+                              isMyMessage={item.isMyMessage}
+                              senderId={item.senderId}
+                            />
+                            {/* <IconActivity isMyMessage={item.isMyMessage}>
+                            {item.isOnline ? <ICONS.PROPERTY_ACTIVITY /> : <ICONS.NO_ACTIVITY />}
+                          </IconActivity> */}
+                            <UserName
+                              variant="h5"
+                              messageStatus={item.messageStatus}
+                            >
+                              {item.name}
+                            </UserName>
                           </IndicatorBox>
                           <TextMessageBlock>
-                            <TextMessage isMyMessage={item.isMyMessage}>{item.text}</TextMessage>
+                            <TextMessage isMyMessage={item.isMyMessage}>
+                              {item.text}
+                            </TextMessage>
                             {!item.isMyMessage && <DropDownMenu />}
                           </TextMessageBlock>
                         </UserMassageWrap>
@@ -916,13 +854,17 @@ const Chat = ({ children }) => {
                                   <Link
                                     key={item.id}
                                     to={
-                                      privateTopics.some(el => el?.contact?.id === item.senderId)
-                                        ? `/home/notification/chat/${getPrivateTopicId({
-                                            userId: item.senderId,
-                                            privateTopics,
-                                          })}/${item.senderId}`
-                                        : 
-                                        
+                                      privateTopics.some(
+                                        (el) =>
+                                          el?.contact?.id === item.senderId,
+                                      )
+                                        ? `/home/notification/chat/${getPrivateTopicId(
+                                            {
+                                              userId: item.senderId,
+                                              privateTopics,
+                                            },
+                                          )}/${item.senderId}`
+                                        : // eslint-disable-next-line max-len
                                           `/home/notification/chat/${item.senderEmail}/${item.senderId}`
                                     }
                                   >
@@ -930,7 +872,7 @@ const Chat = ({ children }) => {
                                       <Logo />
                                     </Avatar>
                                   </Link>
-                                )
+                                ),
                             )
                           : avatarsArray.map(
                               (Logo, index) =>
@@ -938,55 +880,357 @@ const Chat = ({ children }) => {
                                   <Avatar key={index}>
                                     <Logo />
                                   </Avatar>
-                                )
+                                ),
                             )}
-                      </MessageContainer>
+                      </MessageContainerObserver>
                     </ChatSection>
-                  ))} */}
-            </ChatSection>
-            <InputBox>
-              {/* If user not subscribed to topic - return readOnly message input */}
-              {subscribeStatus() ? (
-                <ChatInputStyled
-                  ref={inputRef} //!
-                  type="text" //!
-                  maxRows={3}
-                  placeholder={'Введіть повідомлення...'}
-                  // onChange={onChangeInputThrottled}
-                  onChange={throttle(onChangeInput, 1500)}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter' && !event.shiftKey) {
-                      event.preventDefault();
-                      handleMessageSend();
-                    }
-                  }}
-                />
-              ) : (
-                <ChatInputStyled
-                  ref={inputRef} //!
-                  type="text" //!
-                  maxRows={3}
-                  placeholder={
-                    'Потрібно бути підписаним на цей топік щоб відправляти повідомлення - це можна зробити через меню '
-                  }
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter' && !event.shiftKey) {
-                      event.preventDefault();
-                      handleMessageSend();
-                    }
-                  }}
-                  readOnly
-                />
-              )}
-              <ChatInputIconBox>
-                {/* <IconButton icon={<IconSmile />} /> //! CHAT-220--smile-disable */}
-                <IconButton icon={<IconSend />} onClick={handleMessageSend} />
-              </ChatInputIconBox>
-            </InputBox>
-          </ChatSectionWrap>
-        </>
-      ) : null}
-    </ChatWrap>
+                  ))}
+              </ChatSection>
+            </ChatSectionWrap>
+          </>
+        ) : null}
+      </ChatWrap>
+      <InputBox>
+        {/* If user not subscribed to topic - return readOnly message input */}
+        {subscribeStatus() ? (
+          <ChatInputStyled
+            ref={inputRef} //!
+            type="text" //!
+            maxRows={3}
+            placeholder={'Введіть повідомлення...'}
+            // onChange={onChangeInputThrottled}
+            onChange={throttle(onChangeInput, 1500)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                handleMessageSend();
+              }
+            }}
+          />
+        ) : (
+          <ChatInputStyled
+            ref={inputRef} //!
+            type="text" //!
+            maxRows={3}
+            placeholder={
+              'Потрібно бути підписаним на цей топік щоб відправляти повідомлення - це можна зробити через меню '
+            }
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                handleMessageSend();
+              }
+            }}
+            readOnly
+          />
+        )}
+        <ChatInputIconBox>
+          {/* <IconButton icon={<IconSmile />} /> //! CHAT-220--smile-disable */}
+          <IconButton icon={<IconSend />} onClick={handleMessageSend} />
+        </ChatInputIconBox>
+      </InputBox>
+    </ChatWrapTemporary>
+    // <ChatWrap
+    //   id="#chatwrap"
+    //   onScroll={debounce(scrollEventWithTO, 1000)}
+    //   ref={chatWrapIdRef}
+    //   isChatOpened={showChat}
+    // >
+    //   {isLoading ? (
+    //     <Loader />
+    //   ) : // isChatOpened && (
+    //   //   // topicIdData && (
+    //   //   <ChatWrap>
+    //   //     <ChatHeader>
+    //   //       <UserBox>
+    //   //         <Avatar>{getAvatar(isTopics, topicIdData)}</Avatar>
+    //   //         <InfoBox>
+    //   //           <ChatUserName variant="h5">
+    //   //             {topicIdData ? topicIdData.name : 'імя користувача'}
+    //   //           </ChatUserName>
+    //   //           <TypingIndicator variant="h5">Ти/Пишеш...</TypingIndicator>
+    //   //         </InfoBox>
+    //   //       </UserBox>
+    //   //       <InfoMoreBox>
+    //   //         {children}
+    //   //         <TopicSettingsMenu topicId={topicId} subscribeStatus={subscribeStatus()} />
+    //   //       </InfoMoreBox>
+    //   //     </ChatHeader>
+    //   //     <ChatSectionWrap>
+    //   //       <ChatSection>
+    //   //         {messages &&
+    //   //           messages.map(item => (
+    //   //             <ChatSection key={item.id} isMyMessage={item.isMyMessage}>
+    //   //               <MessageContainer isMyMessage={item.isMyMessage}>
+    //   //                 <UserMassageWrap>
+    //   //                   <IndicatorBox isMyMessage={item.isMyMessage}>
+    //   // eslint-disable-next-line max-len
+    //   //                     <TimeIndicator isMyMessage={item.isMyMessage}>{item.time}</TimeIndicator>
+    //   //                     <IconActivity isMyMessage={item.isMyMessage}>
+    //   // eslint-disable-next-line max-len
+    //   //                       {item.isOnline ? <ICONS.PROPERTY_ACTIVITY /> : <ICONS.NO_ACTIVITY />}
+    //   //                     </IconActivity>
+    //   //                     <UserName variant="h5">{item.name}</UserName>
+    //   //                   </IndicatorBox>
+    //   //                   <TextMessageBlock>
+    //   //                     <TextMessage isMyMessage={item.isMyMessage}>{item.text}</TextMessage>
+    //   //                     {!item.isMyMessage && <DropDownMenu />}
+    //   //                   </TextMessageBlock>
+    //   //                 </UserMassageWrap>
+    //   //                 {avatarsArray.map(
+    //   //                   (Logo, index) =>
+    //   //                     item.avatarId - 1 === index && (
+    //   //                       <Avatar key={index}>
+    //   //                         <Logo />
+    //   //                       </Avatar>
+    //   //                     )
+    //   //                 )}
+    //   //               </MessageContainer>
+    //   //             </ChatSection>
+    //   //           ))}
+    //   //       </ChatSection>
+    //   //       <InputBox>
+    //   //         <ChatInputStyled
+    //   //           ref={inputRef} //!
+    //   //           type="text" //!
+    //   //           maxRows={3}
+    //   //           placeholder="Введіть повідомлення..."
+    //   //           onKeyDown={event => {
+    //   //             if (event.key === 'Enter' && !event.shiftKey) {
+    //   //               event.preventDefault();
+    //   //               handleMessageSend();
+    //   //             }
+    //   //           }}
+    //   //         />
+    //   //         <ChatInputIconBox>
+    //   //           {/* <IconButton icon={<IconSmile />} /> //! CHAT-220--smile-disable */}
+    //   //           <IconButton icon={<IconSend />} onClick={handleMessageSend} />
+    //   //         </ChatInputIconBox>
+    //   //       </InputBox>
+    //   //     </ChatSectionWrap>
+    //   //   </ChatWrap>
+    //   // )
+    //   showChat && topicIdData && messages ? (
+    //     // topicIdData && (
+    //     <>
+    //       <ChatHeader>
+    //         {/* <div ref={observerRef}> */}
+    //         <UserBox>
+    //           <Avatar size={isMobile ? 'sm' : 'md'}>
+    //             {topicIdData ? getAvatar(isTopics, topicIdData) : null}
+    //           </Avatar>
+    //           <InfoBox>
+    //             <ChatUserName variant={isMobile ? 'h6' : 'h5'}>
+    //               {pathname.includes('notification') ? `Приватний чат з ${getUserName()} ` : null}
+    //               {pathname.includes('topics')
+    //                 ? topicIdData
+    //                   ? topicIdData.name
+    //                   : 'імя користувача'
+    //                 : null}
+    //             </ChatUserName>
+    //             <TypingIndicator variant={isMobile ? 'h6' : 'h5'}>
+    //               {/* {topicIdData.lastMessage ? topicIdData.lastMessage.sentFrom : null} / */}
+    //               {onlineContacts.find(
+    //                 el => el.typingStatus === true && el.currentTopicId === topicId
+    //               )
+    //                 ? `${
+    //                     onlineContacts.find(
+    //                       el => el.typingStatus === true && el.currentTopicId === topicId
+    //                     ).nickname
+    //                   } is typing`
+    //                 : `${topicIdData.contact.nickname} is creator`}
+    //             </TypingIndicator>
+    //           </InfoBox>
+    //         </UserBox>
+    //         {/* <UsersAvatar topicId={topicId} /> */}
+    //         <UsersAvatar currentTopicSubscribers={topicIdData.topicSubscribers} topicId={topicId} />
+    //         <InfoMoreBox>
+    //           {children}
+    //           <TopicSettingsMenu
+    //             topicId={topicId}
+    //             subscribeStatus={subscribeStatus()}
+    //             searchInTopic={searchInTopic}
+    //             setSearchInTopic={setSearchInTopic}
+    //             setFoundMessageId={setFoundMessageId}
+    //           />
+    //         </InfoMoreBox>
+    //       </ChatHeader>
+    //       {/* </div> */}
+    //       <ChatSectionWrap>
+    //         <ChatSection>
+    //           {messages &&
+    //             messages.map(item => (
+    //               <ChatSection key={item.id} isMyMessage={item.isMyMessage}>
+    //                 <MessageContainerObserver
+    //                   id={item.id}
+    //                   isMyMessage={item.isMyMessage}
+    //                   chatWrapIdRef={chatWrapIdRef}
+    //                   messageId={item.id}
+    //                   messageStatus={item.messageStatus}
+    //                   isFirstUnreadMessage={
+    //                     isFirstUnreadMessageRef?.current?.id === item.id ? item : false
+    //                   }
+    //                   foundMessage={foundMessages.find(el => el.id === item.id) ? true : false}
+    //                 >
+    //                   <UserMassageWrap>
+    //                     <IndicatorBox isMyMessage={item.isMyMessage}>
+    //                       <TimeIndicator
+    //                         isMyMessage={item.isMyMessage}
+    //                         messageStatus={item.messageStatus}
+    //                       >
+    //                         {item.time}
+    //                       </TimeIndicator>
+    //                       <IconActivityComponent
+    //                         isMyMessage={item.isMyMessage}
+    //                         senderId={item.senderId}
+    //                       />
+    //                       {/* <IconActivity isMyMessage={item.isMyMessage}>
+    //                         {item.isOnline ? <ICONS.PROPERTY_ACTIVITY /> : <ICONS.NO_ACTIVITY />}
+    //                       </IconActivity> */}
+    //                       <UserName variant="h5" messageStatus={item.messageStatus}>
+    //                         {item.name}
+    //                       </UserName>
+    //                     </IndicatorBox>
+    //                     <TextMessageBlock>
+    //                       <TextMessage isMyMessage={item.isMyMessage}>{item.text}</TextMessage>
+    //                       {!item.isMyMessage && <DropDownMenu />}
+    //                     </TextMessageBlock>
+    //                   </UserMassageWrap>
+    //                   {item.permittedSendingPrivateMessage
+    //                     ? avatarsArray.map(
+    //                         (Logo, index) =>
+    //                           item.avatarId - 1 === index && (
+    //                             <Link
+    //                               key={item.id}
+    //                               to={
+    //                                 privateTopics.some(el => el?.contact?.id === item.senderId)
+    //                                   ? `/home/notification/chat/${getPrivateTopicId({
+    //                                       userId: item.senderId,
+    //                                       privateTopics,
+    //                                     })}/${item.senderId}`
+    //                                   : // eslint-disable-next-line max-len
+    //                                     `/home/notification/chat/${item.senderEmail}/${item.senderId}`
+    //                               }
+    //                             >
+    //                               <Avatar key={index}>
+    //                                 <Logo />
+    //                               </Avatar>
+    //                             </Link>
+    //                           )
+    //                       )
+    //                     : avatarsArray.map(
+    //                         (Logo, index) =>
+    //                           item.avatarId - 1 === index && (
+    //                             <Avatar key={index}>
+    //                               <Logo />
+    //                             </Avatar>
+    //                           )
+    //                       )}
+    //                 </MessageContainerObserver>
+    //               </ChatSection>
+    //             ))}
+    //           {/* This is the old code without Observer for unread messages */}
+    //           {/* {messages &&
+    //               messages.map(item => (
+    //                 <ChatSection key={item.id} isMyMessage={item.isMyMessage}>
+    //                   <MessageContainer
+    //                     isMyMessage={item.isMyMessage}
+    //                     ref={observerRef}
+    //                     data-id={item.id}
+    //                   >
+    //                     <UserMassageWrap>
+    //                       <IndicatorBox isMyMessage={item.isMyMessage}>
+    //                         <TimeIndicator isMyMessage={item.isMyMessage}>
+    //                           {item.time}
+    //                         </TimeIndicator>
+    //                         <IconActivity isMyMessage={item.isMyMessage}>
+    //                           {item.isOnline ? <ICONS.PROPERTY_ACTIVITY /> : <ICONS.NO_ACTIVITY />}
+    //                         </IconActivity>
+    //                         <UserName variant="h5">{item.name}</UserName>
+    //                       </IndicatorBox>
+    //                       <TextMessageBlock>
+    //                         <TextMessage isMyMessage={item.isMyMessage}>{item.text}</TextMessage>
+    //                         {!item.isMyMessage && <DropDownMenu />}
+    //                       </TextMessageBlock>
+    //                     </UserMassageWrap>
+    //                     {item.permittedSendingPrivateMessage
+    //                       ? avatarsArray.map(
+    //                           (Logo, index) =>
+    //                             item.avatarId - 1 === index && (
+    //                               <Link
+    //                                 key={item.id}
+    //                                 to={
+    //                                   privateTopics.some(el => el?.contact?.id === item.senderId)
+    //                                     ? `/home/notification/chat/${getPrivateTopicId({
+    //                                         userId: item.senderId,
+    //                                         privateTopics,
+    //                                       })}/${item.senderId}`
+    //                                     :
+
+    //                                       `/home/notification/chat/${item.senderEmail}/${item.senderId}`
+    //                                 }
+    //                               >
+    //                                 <Avatar key={index}>
+    //                                   <Logo />
+    //                                 </Avatar>
+    //                               </Link>
+    //                             )
+    //                         )
+    //                       : avatarsArray.map(
+    //                           (Logo, index) =>
+    //                             item.avatarId - 1 === index && (
+    //                               <Avatar key={index}>
+    //                                 <Logo />
+    //                               </Avatar>
+    //                             )
+    //                         )}
+    //                   </MessageContainer>
+    //                 </ChatSection>
+    //               ))} */}
+    //         </ChatSection>
+    //         <InputBox>
+    //           {/* If user not subscribed to topic - return readOnly message input */}
+    //           {subscribeStatus() ? (
+    //             <ChatInputStyled
+    //               ref={inputRef} //!
+    //               type="text" //!
+    //               maxRows={3}
+    //               placeholder={'Введіть повідомлення...'}
+    //               // onChange={onChangeInputThrottled}
+    //               onChange={throttle(onChangeInput, 1500)}
+    //               onKeyDown={event => {
+    //                 if (event.key === 'Enter' && !event.shiftKey) {
+    //                   event.preventDefault();
+    //                   handleMessageSend();
+    //                 }
+    //               }}
+    //             />
+    //           ) : (
+    //             <ChatInputStyled
+    //               ref={inputRef} //!
+    //               type="text" //!
+    //               maxRows={3}
+    //               placeholder={
+    //                 'Потрібно бути підписаним на цей топік щоб відправляти повідомлення - це можна зробити через меню '
+    //               }
+    //               onKeyDown={event => {
+    //                 if (event.key === 'Enter' && !event.shiftKey) {
+    //                   event.preventDefault();
+    //                   handleMessageSend();
+    //                 }
+    //               }}
+    //               readOnly
+    //             />
+    //           )}
+    //           <ChatInputIconBox>
+    //             {/* <IconButton icon={<IconSmile />} /> //! CHAT-220--smile-disable */}
+    //             <IconButton icon={<IconSend />} onClick={handleMessageSend} />
+    //           </ChatInputIconBox>
+    //         </InputBox>
+    //       </ChatSectionWrap>
+    //     </>
+    //   ) : null}
+    // </ChatWrap>
   );
 };
 
