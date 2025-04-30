@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useRef, useState } from 'react';
-import { Badge, Box, ListItemIcon, Popper, Stack } from '@mui/material';
+import { ListItemIcon, Popper, Stack } from '@mui/material';
 import IconButton from '../../../ui-kit/components/IconButton/IconButton';
 import {
   IconOpenStyled,
