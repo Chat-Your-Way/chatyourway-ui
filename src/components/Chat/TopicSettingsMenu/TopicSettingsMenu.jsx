@@ -172,6 +172,7 @@ const TopicSettingsMenu = ({
   const handleOpen = (e) => {
     if (isSearchActive) {
       setIsSearchActive(false);
+      setSearchInTopic('');
     } else if (anchorElMenu) {
       setAnchorElMenu(null);
     } else {
