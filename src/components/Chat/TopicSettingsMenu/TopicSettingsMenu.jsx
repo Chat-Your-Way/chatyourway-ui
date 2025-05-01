@@ -198,14 +198,11 @@ const TopicSettingsMenu = ({
   };
 
   const handleSearch = (e) => {
-    if (e.key === 'Enter') {
-      // setAnchorElMenu(null);
+    if (e.key === 'Escape' || e.keyCode === 27) {
+      setSearchInTopic('');
       handleCloseSearch();
     }
   };
-
-  const handleInputValue = (e) =>
-    debounce(setSearchInTopic(e.target.value), 1000);
 
   return (
     <Stack
@@ -233,11 +230,14 @@ const TopicSettingsMenu = ({
             height: '100%',
           }}
         >
-          <BadgeStyled showZero badgeContent={foundMessages.length}>
+          <BadgeStyled
+            showZero={searchInTopic ? true : false}
+            badgeContent={foundMessages.length}
+          >
             <MenuIconSearch />
           </BadgeStyled>
           <BadgeStyled
-            showZero
+            showZero={searchInTopic ? true : false}
             badgeContent={
               foundMessages.findIndex((el) => el.id === foundMessageId) === -1
                 ? 0
@@ -262,10 +262,14 @@ const TopicSettingsMenu = ({
                   setFoundMessageId(foundMessages[indx - 1].id);
                 }
               }}
+              pLeft="0"
+              pRight="0"
+              pTop="0"
+              pBottom="0"
             />
           </BadgeStyled>
           <BadgeStyled
-            showZero
+            showZero={searchInTopic ? true : false}
             badgeContent={
               foundMessages.findIndex((el) => el.id === foundMessageId) ===
                 -1 ||
@@ -298,12 +302,17 @@ const TopicSettingsMenu = ({
                   setFoundMessageId(foundMessages[indx + 1].id);
                 }
               }}
+              pLeft="0"
+              pRight="0"
+              pTop="0"
+              pBottom="0"
             />
           </BadgeStyled>
           <SearchInputOwn
             type="text"
             value={searchInTopic}
-            onChange={(e) => setSearchInTopic(e.target.value)}
+            // onChange={e => setSearchInTopic(e.target.value)}
+
             onKeyDown={handleSearch}
             inputWidth="200px"
             inputHeight="25px"
