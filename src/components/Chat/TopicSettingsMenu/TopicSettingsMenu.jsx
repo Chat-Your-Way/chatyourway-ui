@@ -29,20 +29,16 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 // eslint-disable-next-line max-len
 import { selectAccessToken } from '../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
-import {
-  setAccessToken,
-  setIsLoggedIn,
-  setRefreshToken,
-} from '../../../redux/authOperationsToolkit/authOperationsThunkSlice';
-import localLogOutUtil from '../../../utils/localLogOutUtil';
 import { useLocalLogoutUtil } from '../../../hooks/useLocalLogOutUtil';
-
 import { toast } from 'react-toastify';
 import { complainTopic } from '../../../redux/complainTopicToolkit/complainTopicToolkit';
-import { SearchInputStyled } from '../../../ui-kit/components/Input/SearchInput/SearchInput.styled';
-import SearchInput from '../../../ui-kit/components/Input/SearchInput';
-import debounce from 'lodash.debounce';
 import { useSidebarContext } from '../../../common/Sidebar/SidebarContext';
+import {
+  selectComplainTopicIsError,
+  selectComplainTopicIsLoading,
+  selectComplainTopicResult,
+  selectComplainTopicStatus,
+} from '../../../redux/complainTopicToolkit/complainTopicSelectors';
 
 const TopicSettingsMenu = ({
   topicId,
@@ -52,10 +48,8 @@ const TopicSettingsMenu = ({
   foundMessageId,
   setFoundMessageId,
   foundMessages,
-  setFoundMessages,
 }) => {
   const [anchorElMenu, setAnchorElMenu] = useState(null);
-  const [anchorElSearch, setAnchorElSearch] = useState(null);
   const anchorElSearchRef = useRef(null);
   const [isSearchActive, setIsSearchActive] = useState(false);
   const { isMobile } = useSidebarContext();
@@ -72,6 +66,11 @@ const TopicSettingsMenu = ({
   const [removeFavourite] = useRemoveFavouriteMutation();
   const [subscribe] = useSubscribeMutation();
   const [unsubscribe] = useUnsubscribeMutation();
+
+  const complainStatus = useSelector(selectComplainTopicStatus);
+  const complainIsLoading = useSelector(selectComplainTopicIsLoading);
+  const complainIsError = useSelector(selectComplainTopicIsError);
+  const complainResult = useSelector(selectComplainTopicResult);
 
   const { logoutUtilFN } = useLocalLogoutUtil();
 
@@ -195,7 +194,7 @@ const TopicSettingsMenu = ({
 
   const handleComplain = () => {
     dispatch(complainTopic(topicId));
-    handleCloseMenu();
+    // handleCloseMenu();
   };
 
   const handleSearch = (e) => {
@@ -341,23 +340,26 @@ const TopicSettingsMenu = ({
         placement="bottom-start"
         sx={{ zIndex: '1' }}
       >
-        <SettingsMenuStyledList
-          elevation={0}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-        >
-          <SettingsItemStyled disableRipple>
-            <ListItemIcon>
-              {<IconButton icon={<MenuIconSearch />} />}
-            </ListItemIcon>
-            {/* <SettingsTextStyled primary="Пошук" /> */}
-            {/* {isSearchActive ? (
+        {complainIsLoading ? (
+          <p>Loading</p>
+        ) : (
+          <SettingsMenuStyledList
+            elevation={0}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+          >
+            <SettingsItemStyled disableRipple>
+              <ListItemIcon>
+                {<IconButton icon={<MenuIconSearch />} />}
+              </ListItemIcon>
+              {/* <SettingsTextStyled primary="Пошук" /> */}
+              {/* {isSearchActive ? (
               <SearchInput
                 // type="text"
                 // value={searchInTopic}
@@ -379,54 +381,58 @@ const TopicSettingsMenu = ({
             ) : (
               <SettingsTextStyled primary="Пошук" onClick={() => handleSearch()} />
             )} */}
-            <SettingsTextStyled primary="Пошук" onClick={handleOpenSearch} />
-            <IconButton onClick={handleCloseMenu} icon={<IconCloseStyled />} />
-          </SettingsItemStyled>
-
-          {!subscribeStatus ? (
-            <SettingsItemStyled onClick={handleSubscribe} disableRipple>
-              <ListItemIcon>
-                {<IconButton icon={<MenuIconSubscribe />} />}
-              </ListItemIcon>
-              <SettingsTextStyled
-                // primary={subscribeStatus ? 'Відписатися' : 'Підписатися'}
-                primary={'Підписатися'}
+              <SettingsTextStyled primary="Пошук" onClick={handleOpenSearch} />
+              <IconButton
+                onClick={handleCloseMenu}
+                icon={<IconCloseStyled />}
               />
             </SettingsItemStyled>
-          ) : (
-            <SettingsItemStyled onClick={handleUnsubscribe} disableRipple>
+
+            {!subscribeStatus ? (
+              <SettingsItemStyled onClick={handleSubscribe} disableRipple>
+                <ListItemIcon>
+                  {<IconButton icon={<MenuIconSubscribe />} />}
+                </ListItemIcon>
+                <SettingsTextStyled
+                  // primary={subscribeStatus ? 'Відписатися' : 'Підписатися'}
+                  primary={'Підписатися'}
+                />
+              </SettingsItemStyled>
+            ) : (
+              <SettingsItemStyled onClick={handleUnsubscribe} disableRipple>
+                <ListItemIcon>
+                  {<IconButton icon={<MenuIconSubscribe />} />}
+                </ListItemIcon>
+                <SettingsTextStyled primary="Відписатися" />
+              </SettingsItemStyled>
+            )}
+            {favouriteStatus() ? (
+              <SettingsItemStyled onClick={handleRemoveFavourite} disableRipple>
+                <ListItemIcon>
+                  {<IconButton icon={<MenuIconHeart />} />}
+                </ListItemIcon>
+                <SettingsTextStyled primary="Забрати із улюбленого" />
+              </SettingsItemStyled>
+            ) : (
+              <SettingsItemStyled
+                onClick={handleAddFavourite}
+                // disableRipple
+                // disabled={!subscribeStatus}
+              >
+                <ListItemIcon>
+                  {<IconButton icon={<MenuIconHeart />} />}
+                </ListItemIcon>
+                <SettingsTextStyled primary="Додати чат до улюбленого" />
+              </SettingsItemStyled>
+            )}
+            <SettingsItemStyled onClick={handleComplain} disableRipple>
               <ListItemIcon>
-                {<IconButton icon={<MenuIconSubscribe />} />}
+                {<IconButton icon={<MenuIconComplain />} />}
               </ListItemIcon>
-              <SettingsTextStyled primary="Відписатися" />
+              <SettingsTextStyled primary="Поскаржитися" />
             </SettingsItemStyled>
-          )}
-          {favouriteStatus() ? (
-            <SettingsItemStyled onClick={handleRemoveFavourite} disableRipple>
-              <ListItemIcon>
-                {<IconButton icon={<MenuIconHeart />} />}
-              </ListItemIcon>
-              <SettingsTextStyled primary="Забрати із улюбленого" />
-            </SettingsItemStyled>
-          ) : (
-            <SettingsItemStyled
-              onClick={handleAddFavourite}
-              // disableRipple
-              // disabled={!subscribeStatus}
-            >
-              <ListItemIcon>
-                {<IconButton icon={<MenuIconHeart />} />}
-              </ListItemIcon>
-              <SettingsTextStyled primary="Додати чат до улюбленого" />
-            </SettingsItemStyled>
-          )}
-          <SettingsItemStyled onClick={handleComplain} disableRipple>
-            <ListItemIcon>
-              {<IconButton icon={<MenuIconComplain />} />}
-            </ListItemIcon>
-            <SettingsTextStyled primary="Поскаржитися" />
-          </SettingsItemStyled>
-        </SettingsMenuStyledList>
+          </SettingsMenuStyledList>
+        )}
       </Popper>
     </Stack>
     // The old code - it uses a modal window, with blocking scroll of all page,

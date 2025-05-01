@@ -8,10 +8,10 @@ import { useMediaQuery } from 'react-responsive';
 import { useLocation } from 'react-router-dom';
 
 const NotificationPage = () => {
-  const { showTopics, setІsTopics } = useTopicsContext();
+  const { showTopics, setIsTopics } = useTopicsContext();
 
   useEffect(() => {
-    setІsTopics(false);
+    setIsTopics(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
