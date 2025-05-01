@@ -311,8 +311,7 @@ const TopicSettingsMenu = ({
           <SearchInputOwn
             type="text"
             value={searchInTopic}
-            // onChange={e => setSearchInTopic(e.target.value)}
-
+            onChange={(e) => setSearchInTopic(e.target.value)}
             onKeyDown={handleSearch}
             inputWidth="200px"
             inputHeight="25px"
@@ -324,7 +323,13 @@ const TopicSettingsMenu = ({
             onClick={() => setSearchInTopic('')}
             icon={<IconDeleteStyled />}
           />
-          <IconButton onClick={handleCloseSearch} icon={<IconCloseStyled />} />
+          <IconButton
+            onClick={() => {
+              handleCloseSearch();
+              setSearchInTopic('');
+            }}
+            icon={<IconCloseStyled />}
+          />
         </SearchInputStack>
       </Popper>
       <Popper
