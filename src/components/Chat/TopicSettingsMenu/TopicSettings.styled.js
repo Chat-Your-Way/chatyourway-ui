@@ -2,7 +2,7 @@
 import styled from '@emotion/styled';
 import { ICONS } from '../../../ui-kit/icons';
 // eslint-disable-next-line no-unused-vars
-import { MenuItem, ListItemText, MenuList, Menu, Stack, InputBase } from '@mui/material';
+import { MenuItem, ListItemText, MenuList, Menu, Stack, InputBase, Badge } from '@mui/material';
 
 export const IconOpenStyled = styled(ICONS.MORE_CIRCLE)`
   min-width: 40px;
@@ -52,6 +52,11 @@ export const IconDeleteStyled = styled(ICONS.DELETE)`
   &:hover {
     opacity: 1;
   }
+`;
+
+export const BadgeStyled = styled(Badge)`
+  color: ${p =>
+    p.theme.palette.mode === 'light' ? p.theme.palette.primary.dark : p.theme.palette.primary.main};
 `;
 
 export const IconLeftArrowCircleStyled = styled(ICONS.ARROW_LEFT_C)`
