@@ -1,5 +1,7 @@
 import SockJS from 'sockjs-client';
-import { client } from '../redux/chat-operations';
+// eslint-disable-next-line import/no-cycle
+// import { client } from '../redux/chat-operations';
+import { WebSocketManager } from './WebSocketManager';
 import { setConnected } from '../redux/chatSlice';
 import localLogOutUtil from './localLogOutUtil';
 import { BASE_URL } from '../redux/apiParams';
@@ -22,7 +24,7 @@ function createClientInstance({ dispatch, accessTokenInStore }) {
   //   console.log('This is error func in SockJS', error);
   // };
 
-  client.configure({
+  WebSocketManager.client.configure({
     onConnect: (frame) => {
       // console.log('Lets look at the frame', frame);
       if (frame.command === 'CONNECTED') {
@@ -49,7 +51,7 @@ function createClientInstance({ dispatch, accessTokenInStore }) {
     },
   });
 
-  client.activate();
+  WebSocketManager.client.activate();
 
   //   if (client.connected) {
   //     dispatch(setConnected(true));

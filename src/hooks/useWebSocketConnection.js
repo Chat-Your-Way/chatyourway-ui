@@ -1,24 +1,25 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 // import { client } from '../redux/chat-operations';
 import { selectConnected } from '../redux/chatSlice';
-import createClientInstance from '../utils/stompClient';
-// import { connectWebSocket } from '../redux/chat-operations';
+// import createClientInstance from '../utils/stompClient';
+import { connectWebSocket } from '../redux/chat-operations';
 // import SockJS from 'sockjs-client';
 // import { BASE_URL } from '../redux/apiParams';
 import { selectAccessToken } from '../redux/authOperationsToolkit/authOperationsThunkSelectors';
 // import localLogOutUtil from '../utils/localLogOutUtil';
 
-export const useWebSocketConnection = (isLoggedIn) => {
+export const useWebSocketConnection = () => {
   const dispatch = useDispatch();
-  const connected = useSelector(selectConnected);
+  const isConnected = useSelector(selectConnected);
   const accessTokenInStore = useSelector(selectAccessToken);
+  // localStorage.setItem('accessToken', accessTokenInStore);
 
   useEffect(() => {
-    if (isLoggedIn && !connected) {
-      // dispatch(connectWebSocket());
-      createClientInstance({ dispatch, accessTokenInStore });
+    // console.log('useEffect in useWebSocketConnection');
+    if (accessTokenInStore && !isConnected) {
+      dispatch(connectWebSocket(accessTokenInStore));
+      // createClientInstance({ dispatch, accessTokenInStore });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoggedIn, connected]);
+  }, [accessTokenInStore, dispatch, isConnected]);
 };

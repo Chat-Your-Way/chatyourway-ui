@@ -31,6 +31,7 @@ import {
   unSubscribeOnlineOrTypingStatus,
 } from '../../../redux/chat-operations';
 import { useLocalLogoutUtil } from '../../../hooks/useLocalLogOutUtil';
+import { toast } from 'react-toastify';
 
 const ChatsBlock = ({ filter, searchInputValue }) => {
   const { isTopics, showTopics, setPrivateTopics } = useTopicsContext();
@@ -70,9 +71,9 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
     isFetching: isFetchingPrivateTopics,
     error: privateTopicsError,
   } = useGetAllPrivateTopicsQuery(accessTokenInStore, {
-    refetchOnMountOrArgChange: true,
-    refetchOnFocus: true,
-    refetchOnReconnect: true,
+    // refetchOnMountOrArgChange: true,
+    // refetchOnFocus: true,
+    // refetchOnReconnect: true,
   });
 
   // eslint-disable-next-line max-len
@@ -111,7 +112,7 @@ const ChatsBlock = ({ filter, searchInputValue }) => {
   );
 
   if (error) {
-    alert('Виникла помилка під час отримання тем (ChatsBlock)');
+    toast.error('Виникла помилка під час отримання тем (ChatsBlock)');
     logoutUtilFN();
   }
 

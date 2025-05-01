@@ -29,3 +29,4 @@ yarn-error.log*
 *.iml
 *.ipr
 .vscode/*
+.qodo

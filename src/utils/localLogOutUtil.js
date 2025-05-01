@@ -5,10 +5,11 @@ import {
 } from '../redux/authOperationsToolkit/authOperationsThunkSlice';
 // import { disconnectWebSocket } from '../redux/chat-operations';
 import {
-  client,
+  // client,
   unsubscribeFromAllTopicsNotify,
   unSubscribeOnlineOrTypingStatus,
 } from '../redux/chat-operations';
+import { WebSocketManager } from '../utils/WebSocketManager';
 import {
   clearAllTopicsNotifications,
   clearSubscriptionAllTopicsNotify,
@@ -29,9 +30,9 @@ const localLogOutUtil = (dispatch) => {
   dispatch(clearAllTopicsNotifications());
   dispatch(unsubscribeFromAllTopicsNotify());
   dispatch(unSubscribeOnlineOrTypingStatus());
-  if (client.active) {
+  if (WebSocketManager.client.active) {
     // console.log('Client is active, deactivating');
-    client.deactivate();
+    WebSocketManager.client.disconnect();
   }
   // client.deactivate();
   localStorage.removeItem('accessToken');

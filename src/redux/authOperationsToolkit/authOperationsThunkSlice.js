@@ -1,13 +1,23 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { BASE_URL } from '../apiParams';
 
+const loadTokensFromStorage = () => {
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
+  return {
+    accessToken: accessToken || null,
+    refreshToken: refreshToken || null,
+    isLoggedIn: !!accessToken,
+  };
+};
+
 const authOperationsThunk = createSlice({
   name: 'authenticationApiToolkit',
   initialState: {
     status: 'idle',
-    isLoggedIn: null,
-    accessToken: null,
-    refreshToken: null,
+    isLoggedIn: loadTokensFromStorage().isLoggedIn,
+    accessToken: loadTokensFromStorage().accessToken,
+    refreshToken: loadTokensFromStorage().refreshToken,
   },
   reducers: {
     setIsLoggedIn(state, action) {

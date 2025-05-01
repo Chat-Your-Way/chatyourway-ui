@@ -8,7 +8,7 @@ import { selectIsLoggedIn } from '../../redux/authOperationsToolkit/authOperatio
 export const PrivateRoute = ({ redirectTo }) => {
   // const { isAuthenticated } = useUser();
   const isLoggedIn = useSelector(selectIsLoggedIn);
-
+  // console.log('isLoggedIn', isLoggedIn);
   // return isAuthenticated ? <Outlet /> : <Navigate to={PATH.MAIN} replace />;
   return isLoggedIn ? <Outlet /> : <Navigate to={redirectTo} replace />;
 };

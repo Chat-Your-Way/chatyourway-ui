@@ -12,14 +12,12 @@ const authenticationApi = createApi({
         try {
           data = await response.json();
         } catch (e) {
-          console.error('Ошибка при парсинге JSON:', e);
           throw new Error('Невозможно распарсить JSON');
         }
       } else if (contentType && contentType.includes('text/plain')) {
         try {
           data = await response.text();
         } catch (e) {
-          console.error('Ошибка при парсинге текстового ответа:', e);
           throw new Error('Невозможно распарсить текст');
         }
       }

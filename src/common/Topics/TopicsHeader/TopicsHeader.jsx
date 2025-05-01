@@ -32,8 +32,8 @@ const TopicsHeader = ({
           handleInputValue={(event) =>
             setSearchInputValue(event.currentTarget.value)
           }
-          $chatOpened={chatOpened}
-          $contactsOpened={contactsOpened}
+          chatOpened={chatOpened}
+          contactsOpened={contactsOpened}
         />
       </StyledBox>
     </>

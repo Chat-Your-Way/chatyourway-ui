@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import './App.css';
 import { CombinedThemeProvider } from './ui-kit/theme/ThemeProvider';
 import { SidebarContextProvider } from './common/Sidebar/SidebarContext';

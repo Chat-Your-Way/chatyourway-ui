@@ -42,39 +42,17 @@ const handleAllNotificationsArray = (stateArr, actionPayloadArray) => {
 };
 
 const handleOnlineContactsArray = (stateArr, actionPayloadArray) => {
-  if (stateArr.length === 0) {
-    return [...actionPayloadArray];
-  } else if (stateArr.length >= actionPayloadArray.length) {
-    return stateArr.reduce((acuum, el) => {
-      if (actionPayloadArray.find((payloadEl) => payloadEl.id === el.id)) {
-        return [
-          ...acuum,
-          {
-            ...el,
-            ...actionPayloadArray.find((payloadEl) => payloadEl.id === el.id),
-          },
-        ];
-      } else {
-        return [...acuum, el];
-      }
-    }, []);
-  } else {
-    return actionPayloadArray.reduce((acuum, payloadEl) => {
-      if (stateArr.find((storeEl) => storeEl.id === payloadEl.id)) {
-        return [
-          ...acuum,
-          {
-            ...actionPayloadArray.find(
-              (storeEl) => storeEl.id === payloadEl.id,
-            ),
-            ...stateArr.find((storeEl) => storeEl.id === payloadEl.id),
-          },
-        ];
-      } else {
-        return [...acuum, payloadEl];
-      }
-    }, []);
-  }
+  const payloadMap = new Map(actionPayloadArray.map((el) => [el.id, el]));
+  const stateMap = new Map(stateArr.map((el) => [el.id, el]));
+
+  const merged = [...new Set([...stateMap.keys(), ...payloadMap.keys()])].map(
+    (id) => ({
+      ...stateMap.get(id),
+      ...payloadMap.get(id),
+    }),
+  );
+
+  return merged;
 };
 
 const chatSlice = createSlice({
@@ -163,6 +141,31 @@ const chatSlice = createSlice({
     setMessages: (state, action) => {
       state.messages = [...action.payload];
     },
+    addNewMessage: (state, action) => {
+      const { lastMessageData, senderData, currentUserEmail } = action.payload;
+
+      // console.log('addNewMessage action.payload', action.payload);
+      // console.log('lastMessageData', lastMessageData);
+      // console.log('senderData', senderData);
+      const messagesLength = state.messages.length;
+      const lastMessageInState = state.messages[messagesLength - 1];
+      if (lastMessageData.messagesId !== lastMessageInState.id) {
+        const newMessage = {
+          id: lastMessageData.messagesId,
+          senderId: senderData.id,
+          senderEmail: senderData.email,
+          permittedSendingPrivateMessage:
+            senderData.permittedSendingPrivateMessage,
+          topicId: lastMessageData.topicId,
+          avatarId: senderData.avatarId,
+          name: lastMessageData.sentFrom,
+          time: lastMessageData.timestamp.split(' ')[1],
+          text: lastMessageData.lastMessage,
+          isMyMessage: senderData.email === currentUserEmail,
+        };
+        state.messages = [...state.messages, newMessage];
+      }
+    },
     clearMessages: (state) => {
       state.messages = [];
     },
@@ -187,12 +190,30 @@ const chatSlice = createSlice({
     setConnected: (state, action) => {
       state.connected = action.payload;
     },
+    resetConnection(state) {
+      state.connected = false;
+      state.subscriptions = [];
+    },
     setSubscribed: (state, action) => {
       state.subscribed = action.payload;
     },
     setSubscriptions: (state, action) => {
       state.subscriptions = [...state.subscriptions, action.payload];
     },
+    addSubscription: (state, action) => {
+      const exists = state.subscriptions.find(
+        (sub) => sub.id === action.payload.id,
+      );
+      if (!exists) {
+        state.subscriptions.push(action.payload);
+      }
+    },
+    removeSubscription: (state, action) => {
+      state.subscriptions = state.subscriptions.filter(
+        (sub) => sub.id !== action.payload,
+      );
+    },
+
     clearSubscriptions: (state) => {
       state.subscriptions = [];
     },
@@ -206,10 +227,20 @@ const chatSlice = createSlice({
       state.chatOpened = action.payload;
     },
     setOnlineContacts: (state, action) => {
-      state.onlineContacts = handleOnlineContactsArray(
+      // console.log('setOnlineContacts state', state);
+      // console.log('setOnlineContacts action.payload', action.payload);
+
+      const merged = handleOnlineContactsArray(
         state.onlineContacts,
         action.payload,
       );
+      // console.log(
+      //   'state.onlineContacts === merged:',
+      //   state.onlineContacts === merged,
+      // );
+      // console.log('merged:', merged);
+
+      state.onlineContacts = merged;
     },
     clearOnlineContacts: (state) => {
       state.onlineContacts = [];
@@ -325,6 +356,7 @@ export const {
   // setAllTopicsNotificationsWS,
   deletReadedAllTopicsNotification,
   setMessages,
+  addNewMessage,
   clearMessages,
   setHistoryMessages,
   clearHistoryMessages,
@@ -333,8 +365,11 @@ export const {
   setNotifications,
   clearNotifications,
   setConnected,
+  resetConnection,
   setSubscribed,
   setSubscriptions,
+  addSubscription,
+  removeSubscription,
   clearSubscriptions,
   toggleChatOpened,
   toggleContactsOpened,

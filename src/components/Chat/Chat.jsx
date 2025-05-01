@@ -34,9 +34,11 @@ import {
   getTopicHistory,
   // connectWebSocket,
   sendMessageByWs,
-  client,
+  // client,
   changeTypingStatus,
+  subscribeOnlineOrTypingStatus,
 } from '../../redux/chat-operations';
+import { WebSocketManager } from '../../utils/WebSocketManager';
 
 import { Avatars } from '../../ui-kit/images/avatars';
 import Avatar from '../../ui-kit/components/Avatar';
@@ -95,8 +97,11 @@ import throttle from 'lodash.throttle';
 import IconActivityComponent from './IconActivityComponent';
 import { useSidebarContext } from '../../common/Sidebar/SidebarContext';
 import { useLocalLogoutUtil } from '../../hooks/useLocalLogOutUtil';
+import { toast } from 'react-toastify';
 
 const Chat = ({ children }) => {
+  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+  // console.log('Chat rerendered');
   const { topicId, userId } = useParams();
   const [searchInTopic, setSearchInTopic] = useState('');
   const [foundMessages, setFoundMessages] = useState([]);
@@ -120,7 +125,7 @@ const Chat = ({ children }) => {
     isFetching: isFetchingTopicIdData,
   } = useGetByIdQuery(
     { topicId, accessTokenInStore },
-    { refetchOnMountOrArgChange: true, refetchOnFocus: true },
+    { refetchOnMountOrArgChange: true, refetchOnFocus: false },
   );
 
   const {
@@ -134,7 +139,7 @@ const Chat = ({ children }) => {
     { topicId, accessTokenInStore, currentPage, sizeOfMessages },
     {
       refetchOnMountOrArgChange: true, // Not really sure that i understand how this is work!
-      refetchOnFocus: true,
+      refetchOnFocus: false,
       refetchOnReconnect: true,
       // pollingInterval: 10000, // This works perfect!
     },
@@ -164,13 +169,14 @@ const Chat = ({ children }) => {
   const messages = useSelector(selectMessages);
   const connected = useSelector(selectConnected);
   const subscribed = useSelector(selectSubscribed);
-  // const isChatOpened = useSelector(selectChatOpened);
+  const isChatOpened = useSelector(selectChatOpened);
   const onlineContacts = useSelector(selectOnlineContacts);
+  // console.log('onlineContacts in Chat from redux', onlineContacts);
 
-  const useMobileMediaQuery = () =>
-    // useMediaQuery({ query: '(max-width: 769px)' });
-    useMediaQuery({ query: '(max-width: 767px)' });
-  const isMobile = useMobileMediaQuery();
+  // const useMobileMediaQuery = () =>
+  //   // useMediaQuery({ query: '(max-width: 769px)' });
+  //   useMediaQuery({ query: '(max-width: 767px)' });
+  // const isMobile = useMobileMediaQuery();
 
   const inputRef = useRef(null);
   const chatWrapIdRef = useRef(null);
@@ -180,9 +186,9 @@ const Chat = ({ children }) => {
   const { logoutUtilFN } = useLocalLogoutUtil();
 
   useEffect(() => {
-    if (!connected) {
-      client.activate();
-    }
+    // if (!connected) {
+    //   client.activate();
+    // }
 
     // dispatch(toggleChatOpened());
     // dispatch(setChatOpened(true));
@@ -206,31 +212,65 @@ const Chat = ({ children }) => {
       // The typing status has the value which was setted at the last update - when user
       // is typing. And typing status can be true - but user has closed the tab with chat
       // Reset typing status always to false.
+      // dispatch(subscribeOnlineOrTypingStatus());
       dispatch(changeTypingStatus({ isTyping: false, topicId: topicId }));
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // This useEffecr to handle topicId change - when topicId changes,
-  // the component doesn't unmount, so the messages array doesn't clean.
   useEffect(() => {
     if (!connected) return;
+    // const handleTypingStatus = (message) => {
+    //   console.log('Typing status received:', message);
+    //   const typingData = JSON.parse(message.body);
+    //   dispatch(
+    //     changeTypingStatus({
+    //       isTyping: typingData.isTyping,
+    //       topicId: typingData.topicId,
+    //     }),
+    //   );
+    // };
+
+    // dispatch(subscribeOnlineOrTypingStatus());
+    // const subscription = WebSocketManager.subscribe(
+    //   `/topic/typing/${topicId}`,
+    //   handleTypingStatus,
+    // );
 
     dispatch(subscribeToMessages(topicId));
     setCurrentPage(1);
     currentPageRef.current = 1;
-    // dispatch(getTopicHistory(topicId));
 
     return () => {
+      // subscription.unsubscribe();
       dispatch(unsubscribeFromMessages());
       dispatch(clearHistoryMessages());
       dispatch(clearMessages());
       dispatch(clearNewMessages());
       dispatch(clearNotifications());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, connected, topicId]);
+  }, [connected, topicId, dispatch, accessTokenInStore]);
+
+  // This useEffecr to handle topicId change - when topicId changes,
+  // the component doesn't unmount, so the messages array doesn't clean.
+  // useEffect(() => {
+  //   if (!connected) return;
+
+  //   dispatch(subscribeToMessages(topicId, dispatch, accessTokenInStore));
+  //   setCurrentPage(1);
+  //   currentPageRef.current = 1;
+  //   // dispatch(getTopicHistory(topicId));
+
+  //   return () => {
+  //     dispatch(unsubscribeFromMessages());
+  //     dispatch(clearHistoryMessages());
+  //     dispatch(clearMessages());
+  //     dispatch(clearNewMessages());
+  //     dispatch(clearNotifications());
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [dispatch, connected, topicId]);
 
   // This useEffect for processing the array of messages.
   useEffect(() => {
@@ -275,7 +315,8 @@ const Chat = ({ children }) => {
 
       // Filter for double messages
       // eslint-disable-next-line prettier/prettier
-      const filteredHistoryMessagesByResponse = filteredCurrentMessagesByTopicId.filter(currEl => {
+      const filteredHistoryMessagesByResponse =
+        filteredCurrentMessagesByTopicId.filter((currEl) => {
           // if (currentMessagesByTopic.content.find(el => el.id === currEl.id)) {
           if (arrayWithUnreadMessagesFlag.find((el) => el.id === currEl.id)) {
             return false;
@@ -541,7 +582,7 @@ const Chat = ({ children }) => {
       });
       inputRef.current.value = '';
     } else {
-      alert('Not connected');
+      toast.warn('Not connected. Loggin out...');
       logoutUtilFN();
       // localLogOutUtil(dispatch);
     }
@@ -676,7 +717,9 @@ const Chat = ({ children }) => {
     //   return;
     // }
 
-    alert('Виникла помилка під час отримання теми (ChatComponent)');
+    toast.error(
+      'Виникла помилка під час отримання теми (ChatComponent). Logging out...',
+    );
 
     // localLogOutUtil(dispatch);
     logoutUtilFN();
