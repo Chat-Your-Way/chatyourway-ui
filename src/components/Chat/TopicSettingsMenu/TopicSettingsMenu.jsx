@@ -1,6 +1,12 @@
 /* eslint-disable no-unused-vars */
-import { useRef, useState } from 'react';
-import { ListItemIcon, Popper, Stack } from '@mui/material';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  Box,
+  LinearProgress,
+  ListItemIcon,
+  Popper,
+  Stack,
+} from '@mui/material';
 import IconButton from '../../../ui-kit/components/IconButton/IconButton';
 import {
   IconOpenStyled,
@@ -18,6 +24,7 @@ import {
   IconLeftArrowCircleStyled,
   IconRightArrowCircleStyled,
   BadgeStyled,
+  ListItemIconStyled,
 } from './TopicSettings.styled';
 import {
   useAddFavouriteMutation,
@@ -31,7 +38,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectAccessToken } from '../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
 import { useLocalLogoutUtil } from '../../../hooks/useLocalLogOutUtil';
 import { toast } from 'react-toastify';
-import { complainTopic } from '../../../redux/complainTopicToolkit/complainTopicToolkit';
+import {
+  complainStatusChange,
+  complainTopic,
+} from '../../../redux/complainTopicToolkit/complainTopicToolkit';
 import { useSidebarContext } from '../../../common/Sidebar/SidebarContext';
 import {
   selectComplainTopicIsError,
@@ -152,7 +162,7 @@ const TopicSettingsMenu = ({
     }
   };
 
-  const handleUnsubscribe = async () => {
+  const handleUnsubscribe = useCallback(async () => {
     try {
       const { error } = await unsubscribe({ topicId, accessTokenInStore });
       if (error) {
@@ -166,7 +176,7 @@ const TopicSettingsMenu = ({
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [topicId, accessTokenInStore, unsubscribe]);
 
   const handleOpen = (e) => {
     if (isSearchActive) {
@@ -203,6 +213,32 @@ const TopicSettingsMenu = ({
       handleCloseSearch();
     }
   };
+
+  useEffect(() => {
+    if (!complainIsLoading && complainStatus === 'success') {
+      toast.success(
+        'Ви успішно поскаржились на даний чат! Автоматично відписуєтесь!',
+      );
+      handleUnsubscribe();
+      dispatch(complainStatusChange('idle'));
+    } else if (
+      !complainIsLoading &&
+      complainIsError &&
+      complainStatus === 'error'
+    ) {
+      toast.error(
+        'Виникла помилка під час відправки скарги! Спробуйте пізніше',
+      );
+    } else {
+      return;
+    }
+  }, [
+    complainIsLoading,
+    complainIsError,
+    complainStatus,
+    dispatch,
+    handleUnsubscribe,
+  ]);
 
   return (
     <Stack
@@ -340,26 +376,23 @@ const TopicSettingsMenu = ({
         placement="bottom-start"
         sx={{ zIndex: '1' }}
       >
-        {complainIsLoading ? (
-          <p>Loading</p>
-        ) : (
-          <SettingsMenuStyledList
-            elevation={0}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-          >
-            <SettingsItemStyled disableRipple>
-              <ListItemIcon>
-                {<IconButton icon={<MenuIconSearch />} />}
-              </ListItemIcon>
-              {/* <SettingsTextStyled primary="Пошук" /> */}
-              {/* {isSearchActive ? (
+        <SettingsMenuStyledList
+          elevation={0}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+        >
+          <SettingsItemStyled disableRipple>
+            <ListItemIcon>
+              {<IconButton icon={<MenuIconSearch />} />}
+            </ListItemIcon>
+            {/* <SettingsTextStyled primary="Пошук" /> */}
+            {/* {isSearchActive ? (
               <SearchInput
                 // type="text"
                 // value={searchInTopic}
@@ -381,58 +414,69 @@ const TopicSettingsMenu = ({
             ) : (
               <SettingsTextStyled primary="Пошук" onClick={() => handleSearch()} />
             )} */}
-              <SettingsTextStyled primary="Пошук" onClick={handleOpenSearch} />
-              <IconButton
-                onClick={handleCloseMenu}
-                icon={<IconCloseStyled />}
+            <SettingsTextStyled primary="Пошук" onClick={handleOpenSearch} />
+            <IconButton onClick={handleCloseMenu} icon={<IconCloseStyled />} />
+          </SettingsItemStyled>
+
+          {!subscribeStatus ? (
+            <SettingsItemStyled onClick={handleSubscribe} disableRipple>
+              <ListItemIcon>
+                {<IconButton icon={<MenuIconSubscribe />} />}
+              </ListItemIcon>
+              <SettingsTextStyled
+                // primary={subscribeStatus ? 'Відписатися' : 'Підписатися'}
+                primary={'Підписатися'}
               />
             </SettingsItemStyled>
-
-            {!subscribeStatus ? (
-              <SettingsItemStyled onClick={handleSubscribe} disableRipple>
-                <ListItemIcon>
-                  {<IconButton icon={<MenuIconSubscribe />} />}
-                </ListItemIcon>
-                <SettingsTextStyled
-                  // primary={subscribeStatus ? 'Відписатися' : 'Підписатися'}
-                  primary={'Підписатися'}
-                />
-              </SettingsItemStyled>
-            ) : (
-              <SettingsItemStyled onClick={handleUnsubscribe} disableRipple>
-                <ListItemIcon>
-                  {<IconButton icon={<MenuIconSubscribe />} />}
-                </ListItemIcon>
-                <SettingsTextStyled primary="Відписатися" />
-              </SettingsItemStyled>
-            )}
-            {favouriteStatus() ? (
-              <SettingsItemStyled onClick={handleRemoveFavourite} disableRipple>
-                <ListItemIcon>
-                  {<IconButton icon={<MenuIconHeart />} />}
-                </ListItemIcon>
-                <SettingsTextStyled primary="Забрати із улюбленого" />
-              </SettingsItemStyled>
-            ) : (
-              <SettingsItemStyled
-                onClick={handleAddFavourite}
-                // disableRipple
-                // disabled={!subscribeStatus}
-              >
-                <ListItemIcon>
-                  {<IconButton icon={<MenuIconHeart />} />}
-                </ListItemIcon>
-                <SettingsTextStyled primary="Додати чат до улюбленого" />
-              </SettingsItemStyled>
-            )}
-            <SettingsItemStyled onClick={handleComplain} disableRipple>
+          ) : (
+            <SettingsItemStyled onClick={handleUnsubscribe} disableRipple>
               <ListItemIcon>
-                {<IconButton icon={<MenuIconComplain />} />}
+                {<IconButton icon={<MenuIconSubscribe />} />}
               </ListItemIcon>
-              <SettingsTextStyled primary="Поскаржитися" />
+              <SettingsTextStyled primary="Відписатися" />
             </SettingsItemStyled>
-          </SettingsMenuStyledList>
-        )}
+          )}
+          {favouriteStatus() ? (
+            <SettingsItemStyled onClick={handleRemoveFavourite} disableRipple>
+              <ListItemIcon>
+                {<IconButton icon={<MenuIconHeart />} />}
+              </ListItemIcon>
+              <SettingsTextStyled primary="Забрати із улюбленого" />
+            </SettingsItemStyled>
+          ) : (
+            <SettingsItemStyled
+              onClick={handleAddFavourite}
+              // disableRipple
+              // disabled={!subscribeStatus}
+            >
+              <ListItemIcon>
+                {<IconButton icon={<MenuIconHeart />} />}
+              </ListItemIcon>
+              <SettingsTextStyled primary="Додати чат до улюбленого" />
+            </SettingsItemStyled>
+          )}
+          <SettingsItemStyled onClick={handleComplain} disableRipple>
+            {complainIsLoading ? (
+              <Box
+                sx={{
+                  width: '100%',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '0',
+                }}
+              >
+                <LinearProgress />
+              </Box>
+            ) : null}
+            <ListItemIconStyled complainIsLoading={complainIsLoading}>
+              {<IconButton icon={<MenuIconComplain />} />}
+            </ListItemIconStyled>
+            <SettingsTextStyled
+              primary="Поскаржитися"
+              complainIsLoading={complainIsLoading}
+            />
+          </SettingsItemStyled>
+        </SettingsMenuStyledList>
       </Popper>
     </Stack>
     // The old code - it uses a modal window, with blocking scroll of all page,

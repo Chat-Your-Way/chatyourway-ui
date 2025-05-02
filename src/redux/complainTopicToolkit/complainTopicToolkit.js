@@ -9,21 +9,29 @@ const complainTopicThunk = createSlice({
     isLoading: false,
     result: null,
   },
+  reducers: {
+    complainStatusChange: (state, action) => {
+      state.status = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(complainTopic.pending, (state) => {
         state.status = 'loading';
         state.isLoading = true;
+        state.isError = null;
       })
-      .addCase(complainTopic.fulfilled, (state) => {
+      .addCase(complainTopic.fulfilled, (state, action) => {
         state.status = 'success';
         state.isError = false;
         state.isLoading = false;
+        state.result = action.payload;
       })
-      .addCase(complainTopic.rejected, (state) => {
+      .addCase(complainTopic.rejected, (state, action) => {
         state.status = 'error';
         state.isLoading = false;
         state.isError = true;
+        state.result = action.payload;
       });
   },
 });
@@ -45,7 +53,9 @@ export const complainTopic = createAsyncThunk(
           },
         },
       )
-        .then((response) => response.json())
+        .then((response) => {
+          return response;
+        })
         .then((data) => data);
 
       return complainResult;
@@ -54,3 +64,5 @@ export const complainTopic = createAsyncThunk(
     }
   },
 );
+
+export const { complainStatusChange } = complainTopicThunk.actions;

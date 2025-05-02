@@ -2,7 +2,16 @@
 import styled from '@emotion/styled';
 import { ICONS } from '../../../ui-kit/icons';
 // eslint-disable-next-line no-unused-vars
-import { MenuItem, ListItemText, MenuList, Menu, Stack, InputBase, Badge } from '@mui/material';
+import {
+  MenuItem,
+  ListItemText,
+  MenuList,
+  
+  Stack,
+  InputBase,
+  Badge,
+  ListItemIcon,
+} from '@mui/material';
 
 export const IconOpenStyled = styled(ICONS.MORE_CIRCLE)`
   min-width: 40px;
@@ -166,7 +175,12 @@ export const SettingsItemStyled = styled(MenuItem)`
   }
 `;
 
+export const ListItemIconStyled = styled(ListItemIcon)`
+  opacity: ${p => (p.complainIsLoading ? 0.5 : 1)};
+`;
+
 export const SettingsTextStyled = styled(ListItemText)`
+  opacity: ${p => (p.complainIsLoading ? 0.5 : 1)};
   & > span {
     /* width: 113px; */
     white-space: wrap;
