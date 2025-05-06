@@ -6,7 +6,6 @@ import {
   MenuItem,
   ListItemText,
   MenuList,
-  
   Stack,
   InputBase,
   Badge,
@@ -176,11 +175,25 @@ export const SettingsItemStyled = styled(MenuItem)`
 `;
 
 export const ListItemIconStyled = styled(ListItemIcon)`
-  opacity: ${p => (p.complainIsLoading ? 0.5 : 1)};
+  opacity: ${p =>
+    p.complainIsLoading ||
+    p.addFavouriteIsLoading ||
+    p.removeFavouriteIsLoading ||
+    p.unSubscribeTopicsIsLoading ||
+    p.subscribeTopicsIsLoading
+      ? 0.5
+      : 1};
 `;
 
 export const SettingsTextStyled = styled(ListItemText)`
-  opacity: ${p => (p.complainIsLoading ? 0.5 : 1)};
+  opacity: ${p =>
+    p.complainIsLoading ||
+    p.addFavouriteIsLoading ||
+    p.removeFavouriteIsLoading ||
+    p.unSubscribeTopicsIsLoading ||
+    p.subscribeTopicsIsLoading
+      ? 0.5
+      : 1};
   & > span {
     /* width: 113px; */
     white-space: wrap;
