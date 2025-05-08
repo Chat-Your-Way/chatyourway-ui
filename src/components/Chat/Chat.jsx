@@ -315,8 +315,7 @@ const Chat = ({ children }) => {
 
       // Filter for double messages
       // eslint-disable-next-line prettier/prettier
-      const filteredHistoryMessagesByResponse =
-        filteredCurrentMessagesByTopicId.filter((currEl) => {
+      const filteredHistoryMessagesByResponse = filteredCurrentMessagesByTopicId.filter(currEl => {
           // if (currentMessagesByTopic.content.find(el => el.id === currEl.id)) {
           if (arrayWithUnreadMessagesFlag.find((el) => el.id === currEl.id)) {
             return false;
@@ -402,9 +401,9 @@ const Chat = ({ children }) => {
 
   // // useEffect for scroll.
   useEffect(() => {
-    isFirstUnreadMessageRef.current = messages.find((el) =>
-      el.messageStatus ? el : false,
-    );
+    // This is part of scroll to first unread message. This scroll will not work correctly
+    // so I decide to turn it of.
+    // isFirstUnreadMessageRef.current = messages.find(el => (el.messageStatus ? el : false));
     // isFirstUnreadMessageRef.current = messages.find(el => el.unreadMessages.length !== 0);
 
     // Automatically scroll down when it's first request
@@ -433,24 +432,26 @@ const Chat = ({ children }) => {
       chatWrapIdRef.current.scrollTo(0, chatWrapIdRef.current.scrollHeight);
     }
 
-    // Here proccesing situation with message container
-    if (!isFirstUnreadMessageRef.current) {
-      return;
-    } else {
-      unreadMessageContainerRef.current = document.getElementById(
-        `#${isFirstUnreadMessageRef.current.id}`,
-      );
+    // This is part of scroll to first unread message. This scroll will not work correctly
+    // so I decide to turn it of.
+    // Here proccesing situation with the unread message container
+    // if (!isFirstUnreadMessageRef.current) {
+    //   return;
+    // } else {
+    //   unreadMessageContainerRef.current = document.getElementById(
+    //     `#${isFirstUnreadMessageRef.current.id}`
+    //   );
 
-      // Scroll to the current container
-      if (unreadMessageContainerRef.current) {
-        unreadMessageContainerRef.current.scrollIntoView();
-      }
-    }
+    //   // Scroll to the current container
+    //   if (unreadMessageContainerRef.current) {
+    //     unreadMessageContainerRef.current.scrollIntoView();
+    //   }
+    // }
 
-    return () => {
-      isFirstUnreadMessageRef.current = null;
-      unreadMessageContainerRef.current = null;
-    };
+    // return () => {
+    //   isFirstUnreadMessageRef.current = null;
+    //   unreadMessageContainerRef.current = null;
+    // };
     // }, [topicId, messages, isFetchingCurrentMessagesByTopic]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topicId, messages]);

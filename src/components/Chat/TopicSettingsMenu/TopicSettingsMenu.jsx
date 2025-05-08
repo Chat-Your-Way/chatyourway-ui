@@ -72,10 +72,14 @@ const TopicSettingsMenu = ({
     },
     { refetchOnMountOrArgChange: true, refetchOnFocus: true },
   );
-  const [addFavourite] = useAddFavouriteMutation();
-  const [removeFavourite] = useRemoveFavouriteMutation();
-  const [subscribe] = useSubscribeMutation();
-  const [unsubscribe] = useUnsubscribeMutation();
+  const [addFavourite, { isLoading: addFavouriteIsLoading }] =
+    useAddFavouriteMutation();
+  const [removeFavourite, { isLoading: removeFavouriteIsLoading }] =
+    useRemoveFavouriteMutation();
+  const [subscribe, { isLoading: subscribeTopicsIsLoading }] =
+    useSubscribeMutation();
+  const [unsubscribe, { isLoading: unSubscribeTopicsIsLoading }] =
+    useUnsubscribeMutation();
 
   const complainStatus = useSelector(selectComplainTopicStatus);
   const complainIsLoading = useSelector(selectComplainTopicIsLoading);
@@ -229,6 +233,7 @@ const TopicSettingsMenu = ({
       toast.error(
         'Виникла помилка під час відправки скарги! Спробуйте пізніше',
       );
+      dispatch(complainStatusChange('idle'));
     } else {
       return;
     }
@@ -420,28 +425,77 @@ const TopicSettingsMenu = ({
 
           {!subscribeStatus ? (
             <SettingsItemStyled onClick={handleSubscribe} disableRipple>
-              <ListItemIcon>
+              {subscribeTopicsIsLoading ? (
+                <Box
+                  sx={{
+                    width: '100%',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '0',
+                  }}
+                >
+                  <LinearProgress />
+                </Box>
+              ) : null}
+              <ListItemIconStyled
+                subscribeTopicsIsLoading={subscribeTopicsIsLoading}
+              >
                 {<IconButton icon={<MenuIconSubscribe />} />}
-              </ListItemIcon>
+              </ListItemIconStyled>
               <SettingsTextStyled
                 // primary={subscribeStatus ? 'Відписатися' : 'Підписатися'}
                 primary={'Підписатися'}
+                subscribeTopicsIsLoading={subscribeTopicsIsLoading}
               />
             </SettingsItemStyled>
           ) : (
             <SettingsItemStyled onClick={handleUnsubscribe} disableRipple>
-              <ListItemIcon>
+              {unSubscribeTopicsIsLoading ? (
+                <Box
+                  sx={{
+                    width: '100%',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '0',
+                  }}
+                >
+                  <LinearProgress />
+                </Box>
+              ) : null}
+              <ListItemIconStyled
+                unSubscribeTopicsIsLoading={unSubscribeTopicsIsLoading}
+              >
                 {<IconButton icon={<MenuIconSubscribe />} />}
-              </ListItemIcon>
-              <SettingsTextStyled primary="Відписатися" />
+              </ListItemIconStyled>
+              <SettingsTextStyled
+                primary="Відписатися"
+                unSubscribeTopicsIsLoading={unSubscribeTopicsIsLoading}
+              />
             </SettingsItemStyled>
           )}
           {favouriteStatus() ? (
             <SettingsItemStyled onClick={handleRemoveFavourite} disableRipple>
-              <ListItemIcon>
+              {removeFavouriteIsLoading ? (
+                <Box
+                  sx={{
+                    width: '100%',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '0',
+                  }}
+                >
+                  <LinearProgress />
+                </Box>
+              ) : null}
+              <ListItemIconStyled
+                removeFavouriteIsLoading={removeFavouriteIsLoading}
+              >
                 {<IconButton icon={<MenuIconHeart />} />}
-              </ListItemIcon>
-              <SettingsTextStyled primary="Забрати із улюбленого" />
+              </ListItemIconStyled>
+              <SettingsTextStyled
+                primary="Забрати із улюбленого"
+                removeFavouriteIsLoading={removeFavouriteIsLoading}
+              />
             </SettingsItemStyled>
           ) : (
             <SettingsItemStyled
@@ -449,10 +503,25 @@ const TopicSettingsMenu = ({
               // disableRipple
               // disabled={!subscribeStatus}
             >
-              <ListItemIcon>
+              {addFavouriteIsLoading ? (
+                <Box
+                  sx={{
+                    width: '100%',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '0',
+                  }}
+                >
+                  <LinearProgress />
+                </Box>
+              ) : null}
+              <ListItemIconStyled addFavouriteIsLoading={addFavouriteIsLoading}>
                 {<IconButton icon={<MenuIconHeart />} />}
-              </ListItemIcon>
-              <SettingsTextStyled primary="Додати чат до улюбленого" />
+              </ListItemIconStyled>
+              <SettingsTextStyled
+                primary="Додати чат до улюбленого"
+                addFavouriteIsLoading={addFavouriteIsLoading}
+              />
             </SettingsItemStyled>
           )}
           <SettingsItemStyled onClick={handleComplain} disableRipple>
