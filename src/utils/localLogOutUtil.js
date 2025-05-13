@@ -19,6 +19,12 @@ import {
 } from '../redux/chatSlice';
 
 const localLogOutUtil = (dispatch) => {
+  if (WebSocketManager.client.active) {
+    // console.log('Client is active, deactivating');
+    WebSocketManager.client.disconnect();
+  }
+  // localStorage.removeItem('accessToken');
+  // localStorage.removeItem('refreshToken');
   dispatch(setIsLoggedIn(false));
   dispatch(setAccessToken(null));
   dispatch(setRefreshToken(null));
@@ -30,13 +36,7 @@ const localLogOutUtil = (dispatch) => {
   dispatch(clearAllTopicsNotifications());
   dispatch(unsubscribeFromAllTopicsNotify());
   dispatch(unSubscribeOnlineOrTypingStatus());
-  if (WebSocketManager.client.active) {
-    // console.log('Client is active, deactivating');
-    WebSocketManager.client.disconnect();
-  }
   // client.deactivate();
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
 };
 
 export default localLogOutUtil;

@@ -41,13 +41,15 @@ export default complainTopicThunk;
 export const complainTopic = createAsyncThunk(
   'complainTopic',
   async (topicId, thunkApi) => {
+    const state = thunkApi.getState();
+    const accessToken = state.auth.accessToken;
     try {
       const complainResult = await fetch(
         `${BASE_URL}/topics/${topicId}/complain`,
         {
           method: 'PATCH',
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
             Referer: Referer,
           },
