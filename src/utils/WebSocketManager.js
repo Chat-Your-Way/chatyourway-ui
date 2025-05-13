@@ -10,7 +10,7 @@ import {
   resetConnection,
 } from '../redux/chatSlice';
 
-import { getSubscriptionById } from './registerSubscription';
+import { restoreCallbackById } from './registerSubscription';
 // let client = null;
 
 export const WebSocketManager = {
@@ -38,20 +38,25 @@ export const WebSocketManager = {
         console.log('🟢 WebSocket connected');
         const state = store.getState();
         const { subscriptions = [] } = state.chat;
-        subscriptions.forEach(({ subscriptionId, destination }) => {
-          const sub = getSubscriptionById(subscriptionId);
-          if (sub) {
-            this.subscribe(subscriptionId, destination, sub?.callback);
+        subscriptions.forEach(({ id, destination }) => {
+          const currCallback = restoreCallbackById(
+            id,
+            store.dispatch,
+            store.getState,
+          );
+          if (subscriptions.some((sub) => sub.id === id)) {
+            this.subscribe(id, destination, currCallback);
           } else {
-            console.warn(
-              `No callback registered for subscription id "${subscriptionId}"`,
-            );
+            console.warn(`No callback registered for subscription id "${id}"`);
           }
         });
         onConnectCallback?.();
       },
       onDisconnect: () => {
         console.log('🔴 WebSocket disconnected');
+        if (this.client) {
+          this.client.reconnectDelay = 0;
+        }
         store.dispatch(resetConnection());
       },
       onWebSocketClose: () => {
@@ -68,6 +73,13 @@ export const WebSocketManager = {
   },
 
   disconnect() {
+    if (this.client) {
+      this.client.reconnectDelay = 0;
+      if (this.client.active) {
+        this.client.deactivate();
+      }
+      this.client = null;
+    }
     Object.values(this.subscriptions).forEach((sub) => sub.unsubscribe());
     this.subscriptions.clear();
     this.client?.deactivate();

@@ -55,11 +55,13 @@ export default authOperationsThunk;
 
 export const refreshTokenThunk = createAsyncThunk(
   'refreshTokenThunk',
-  async () => {
+  async (_, thunkAPI) => {
+    const state = thunkAPI.getState();
+    const refreshToken = state.auth.refreshToken;
     const result = await fetch(`${BASE_URL}/auth/refresh`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('refreshToken')}`,
+        Authorization: `Bearer ${refreshToken}`,
         'Content-Type': 'application/json',
       },
     })
