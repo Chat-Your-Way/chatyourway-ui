@@ -26,7 +26,13 @@ const validatePassword = (value) => {
   if (!isNonWhiteSpace.test(value)) {
     return 'Не повинен мати пробілів';
   }
-  const isContainsSymbol = /[-!@#$%^&*_+=?]+/;
+  const isCyrillicSymbol =
+    /[абвгдеєжзиіїйклмнопрстуфхцчшщьюяыёъґАБВГДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯЫЁЪҐ]+/;
+
+  if (isCyrillicSymbol.test(value)) {
+    return 'Пароль не повинен містити Кирилицю';
+  }
+  const isContainsSymbol = /[-!@#$%^&*_+=?,]+/;
   if (!isContainsSymbol.test(value)) {
     return 'Повинен мати хоча б 1 символ';
   }
@@ -38,6 +44,7 @@ const validatePassword = (value) => {
   if (!isContainsNumber.test(value)) {
     return 'Повинен мати хоча б 1 цифру';
   }
+
   return true;
 };
 
