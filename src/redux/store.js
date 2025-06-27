@@ -2,7 +2,16 @@ import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
 import storage from 'redux-persist/lib/storage';
-import { persistReducer, persistStore } from 'redux-persist';
+import {
+  persistReducer,
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
 
 import authenticationApi from './auth-operations';
 import topicsApi from './topics-operations';
@@ -17,7 +26,7 @@ import complainTopicThunk from './complainTopicToolkit/complainTopicToolkit';
 const authPersistConfig = {
   key: 'authOperationsThunk',
   storage,
-  whitelist: ['accessToken', 'refreshToken'],
+  whitelist: ['accessToken', 'refreshToken', 'isLoggedIn'],
 };
 
 const chatPersistConfig = {
@@ -79,6 +88,7 @@ const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         ignoredPaths: ['/home/topics'], // add paths to ignore
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     })
       .concat(authenticationApi.middleware)

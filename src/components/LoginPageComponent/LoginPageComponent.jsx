@@ -70,8 +70,8 @@ function LoginPageComponent() {
 
       const { accessToken, refreshToken } = data;
       if (data) {
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
+        // localStorage.setItem('accessToken', accessToken);
+        // localStorage.setItem('refreshToken', refreshToken);
         dispatch(setAccessToken(accessToken));
         dispatch(setRefreshToken(refreshToken));
         dispatch(setIsLoggedIn(true));

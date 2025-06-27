@@ -32,14 +32,17 @@ export const useLocalLogoutUtil = () => {
   const { setShowTopics } = useTopicsContext();
 
   const logoutUtilFN = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    // localStorage.removeItem('accessToken');
+    // localStorage.removeItem('refreshToken');
+    if (WebSocketManager?.client?.active) {
+      WebSocketManager.disconnect();
+    }
     // setShowMenu(false);
     // setShowText(false);
+    dispatch(setConnected(false));
     dispatch(setIsLoggedIn(false));
     dispatch(setAccessToken(null));
     dispatch(setRefreshToken(null));
-    dispatch(setConnected(false));
     setShowMenu(true);
     setShowText(true);
     setShowAdvancedMenu(false);
@@ -54,10 +57,6 @@ export const useLocalLogoutUtil = () => {
     dispatch(clearAllTopicsNotifications());
     dispatch(unsubscribeFromAllTopicsNotify());
     dispatch(unSubscribeOnlineOrTypingStatus());
-    if (WebSocketManager.client.active) {
-      // console.log('Client is active, deactivating');
-      WebSocketManager.disconnect();
-    }
     // client.deactivate();
   };
 

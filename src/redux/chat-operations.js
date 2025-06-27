@@ -25,7 +25,10 @@ import {
   clearOnlineContacts,
   setOnlineContacts,
 } from './chatSlice';
-import { registerSubscription } from '../utils/registerSubscription';
+import {
+  registerSubscription,
+  restoreCallbackById,
+} from '../utils/registerSubscription';
 
 import SockJS from 'sockjs-client';
 import { BASE_URL } from './apiParams';
@@ -138,13 +141,15 @@ const RESUBSCRYBE_DELAY = 200;
 // };
 
 export const connectWebSocket = () => async (dispatch, getState) => {
-  const accessToken = localStorage.getItem('accessToken');
+  const { accessToken } = getState().authenticationApiToolkit;
 
-  WebSocketManager.connect(accessToken, () => {
-    dispatch(setConnected(true));
-    dispatch(subscribeToAllTopicsNotify());
-    dispatch(subscribeOnlineOrTypingStatus());
-  });
+  if (!WebSocketManager?.client?.connected) {
+    WebSocketManager.connect(accessToken, () => {
+      dispatch(setConnected(true));
+      dispatch(subscribeToAllTopicsNotify());
+      dispatch(subscribeOnlineOrTypingStatus());
+    });
+  }
 
   // try {
   //   client.activate();
@@ -294,24 +299,25 @@ export const subscribeToAllTopicsNotify = () => {
   return async (dispatch, getState) => {
     const subscriptionId = 'all-topics-notification';
     const destination = subToAllTopicsNotificationsDest;
-    const callback = (message) => {
-      const parsed = JSON.parse(message.body);
-      const currentUserEmail = getState().currentUser.email;
+    const callback = restoreCallbackById(subscriptionId, dispatch, getState);
+    // const callback = (message) => {
+    //   const parsed = JSON.parse(message.body);
+    //   const currentUserEmail = getState().currentUser.email;
 
-      dispatch(setAllTopicsNotifications([parsed]));
-      const senderData = parsed.topicSubscribers.find(
-        (user) => user.nickname === parsed.lastMessage.sentFrom,
-      );
-      dispatch(
-        addNewMessage({
-          lastMessageData: parsed.lastMessage,
-          senderData: senderData,
-          currentUserEmail: currentUserEmail,
-        }),
-      );
-    };
+    //   dispatch(setAllTopicsNotifications([parsed]));
+    //   const senderData = parsed.topicSubscribers.find(
+    //     (user) => user.nickname === parsed.lastMessage.sentFrom,
+    //   );
+    //   dispatch(
+    //     addNewMessage({
+    //       lastMessageData: parsed.lastMessage,
+    //       senderData: senderData,
+    //       currentUserEmail: currentUserEmail,
+    //     }),
+    //   );
+    // };
 
-    registerSubscription(subscriptionId, destination, callback);
+    registerSubscription(subscriptionId, destination);
 
     try {
       const subscriptionToAllNotify = await WebSocketManager.subscribe(
@@ -436,22 +442,18 @@ export const subscribeToMessages = (topicId) => async (dispatch) => {
   try {
     const subscriptionId = `topic-subscription-${topicId}`;
     const destination = `/topic/${topicId}`;
-    const callback = (message) => {
-      const parsed = JSON.parse(message.body);
-      dispatch(setNewMessages([parsed]));
-      // dispatch(addNewMessage(parsed));
-    };
+    const callback = restoreCallbackById(subscriptionId, dispatch);
+    // const callback = (message) => {
+    //   const parsed = JSON.parse(message.body);
+    //   dispatch(setNewMessages([parsed]));
+    // };
 
-    registerSubscription(subscriptionId, destination, callback);
+    registerSubscription(subscriptionId, destination);
 
     const subscription = WebSocketManager.subscribe(
       subscriptionId,
       destination,
       callback,
-    );
-    console.log(
-      'subscribeToMessages WebSocketManager.subscriptions',
-      WebSocketManager.subscriptions,
     );
 
     // dispatch(
@@ -504,13 +506,14 @@ export const subscribeOnlineOrTypingStatus = () => {
     try {
       const subscriptionId = 'online-and-typing';
       const destination = getInformationAboutUserOnlineOrTyping;
-      const callback = (message) => {
-        if (message.body) {
-          dispatch(setOnlineContacts([JSON.parse(message.body)]));
-        }
-      };
+      const callback = restoreCallbackById(subscriptionId);
+      // const callback = (message) => {
+      //   if (message.body) {
+      //     dispatch(setOnlineContacts([JSON.parse(message.body)]));
+      //   }
+      // };
 
-      registerSubscription(subscriptionId, destination, callback);
+      registerSubscription(subscriptionId, destination);
       const subscribeOnlineStatus = await WebSocketManager.subscribe(
         subscriptionId,
         destination,

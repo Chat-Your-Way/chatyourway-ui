@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import MainBackground from '../MainBackground';
 import Header from '../../../components/Layouts/Header';
 import Footer from '../../../components/Layouts/Footer';
@@ -14,6 +14,7 @@ import {
   selectIsLoggedIn,
   selectAccessToken,
 } from '../../../redux/authOperationsToolkit/authOperationsThunkSelectors';
+import { useLocalLogoutUtil } from '../../../hooks/useLocalLogOutUtil';
 import { useAllTopicsNotificationInfo } from '../../../hooks/useAllTopicsNotificationInfo';
 import { useSidebarContext } from '../../../common/Sidebar/SidebarContext';
 import { useEffect, useState } from 'react';
@@ -31,12 +32,15 @@ import {
   connectWebSocket,
   disconnectWebSocket,
 } from '../../../redux/chat-operations';
+import { BASE_URL } from '../../../redux/apiParams';
+import { PATH } from '../../../constans/routes';
 
 const SharedLayout = () => {
   // const { isAuthenticated } = useUser();
   // useWebSocketConnection(isAuthenticated);
   // useSubscriptionToAllTopicsNotify(isAuthenticated);
   const dispatch = useDispatch();
+  const [tokenChecked, setTokenChecked] = useState(false);
 
   const { isCenterOrStart, setIsCenterOrStart } = useSharedLayoutContext();
   const {
@@ -63,18 +67,39 @@ const SharedLayout = () => {
   const accessTokenInStore = useSelector(selectAccessToken);
   const chatOpened = useSelector(selectChatOpened);
 
+  const { logoutUtilFN } = useLocalLogoutUtil();
+  const navigate = useNavigate();
+
   useEffect(() => {
-    if (isLoggedIn && !isConnected) {
+    async function checkToken(token) {
+      const res = await fetch(`${BASE_URL}/auth/check-token`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!res.ok) {
+        logoutUtilFN();
+        navigate(`/${PATH.LOGIN}`);
+      } else {
+        setTokenChecked(true);
+      }
+    }
+    if (accessTokenInStore) {
+      checkToken(accessTokenInStore);
+    }
+  }, [logoutUtilFN, accessTokenInStore, navigate]);
+
+  useEffect(() => {
+    if (tokenChecked && accessTokenInStore && !isConnected) {
       dispatch(connectWebSocket(accessTokenInStore));
     }
 
     // return () => {
-    //   if (isConnected) {
-    //     dispatch(disconnectWebSocket());
-    //   }
+    //   dispatch(disconnectWebSocket());
     //   // console.log('useEffect in SharedLayout');
     // };
-  }, [isLoggedIn, isConnected, accessTokenInStore, dispatch]);
+  }, [tokenChecked, isConnected, accessTokenInStore, dispatch]);
 
   // useWebSocketConnection();
   // useSubscriptionToAllTopicsNotify(isLoggedIn);
