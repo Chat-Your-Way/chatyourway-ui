@@ -10,6 +10,7 @@ import {
   InputBase,
   Badge,
   ListItemIcon,
+  Button,
 } from '@mui/material';
 
 export const IconOpenStyled = styled(ICONS.MORE_CIRCLE)`
@@ -111,37 +112,10 @@ export const IconRightArrowCircleStyled = styled(ICONS.ARROW_RIGHT_C)`
   }
 `;
 
-// export const SettingsMenuStyled = styled(Menu)`
-// .MuiMenu-paper {
-//     box-sizing: border-box;
-//     display: inline-flex;
-//     padding: 12px;
-//     align-items: flex-start;
-//     border-radius: 16px;
-//     background: ${p => p.theme.palette.primary.disabled} !important;
-//     box-shadow: 0px 2px 9px 4px rgba(102, 102, 146, 0.15);
-//   }
-//   .MuiMenuItem-root {
-//     padding: 0;
-//   }
-//   .MuiList-padding {
-//     padding: 0;
-//   }
-//   .MuiMenu-list {
-//     @media screen and (min-width: calc(845px - 0.02px)) {
-//       display: flex;
-//       flex-direction: column;
-//       gap: 7px;
-//     }
-//   }
-// `;
 export const SettingsMenuStyledList = styled(MenuList)`
   box-sizing: border-box;
-  /* display: inline-flex; */
-  /* width: 195px; */
   width: 290px;
   padding: 12px;
-  /* align-items: flex-start; */
   border-radius: 16px;
   background: ${p => p.theme.palette.primary.disabled} !important;
   box-shadow: 0px 2px 9px 4px rgba(102, 102, 146, 0.15);
@@ -163,6 +137,12 @@ export const SettingsMenuStyledList = styled(MenuList)`
 `;
 
 export const SettingsItemStyled = styled(MenuItem)`
+  position: relative;
+`;
+
+export const SettingsItemButton = styled(Button)`
+  text-align: left;
+  text-transform: none;
   color: ${p => p.theme.palette.primary.dark};
   transition: all 0.2s ease;
   &:hover {
@@ -195,7 +175,6 @@ export const SettingsTextStyled = styled(ListItemText)`
       ? 0.5
       : 1};
   & > span {
-    /* width: 113px; */
     white-space: wrap;
     color: inherit;
     ${p => p.theme.typography.h5}
@@ -238,6 +217,7 @@ export const MenuIconSearch = styled(ICONS.SEARCH)`
 `;
 
 export const MenuIconHeart = styled(ICONS.HEART)`
+  opacity: ${p => (p.addFavouriteIsLoading || p.removeFavouriteIsLoading ? 0.5 : 1)};
   min-width: 20px;
   min-height: 20px;
   fill: ${p =>
@@ -247,6 +227,7 @@ export const MenuIconHeart = styled(ICONS.HEART)`
 `;
 
 export const MenuIconComplain = styled(ICONS.DANGER_CIRCLE)`
+  opacity: ${p => (p.complainIsLoading ? 0.5 : 1)};
   min-width: 20px;
   min-height: 20px;
   fill: ${p =>
@@ -256,6 +237,7 @@ export const MenuIconComplain = styled(ICONS.DANGER_CIRCLE)`
 `;
 
 export const MenuIconSubscribe = styled(ICONS.SUBSCRIBE)`
+  opacity: ${p => (p.subscribeTopicIsLoading || p.unSubscribeTopicIsLoading ? 0.5 : 1)};
   min-width: 20px;
   min-height: 20px;
   fill: ${p =>
